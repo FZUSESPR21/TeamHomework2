@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="css/layui.css" />
+    <link rel="stylesheet" type="text/css" href="css/layui.css"/>
     <!-- 新 Bootstrap 核心 CSS 文件 -->
     <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
     <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
@@ -16,7 +16,7 @@
 <body>
 
 <h1 style="font-family:verdana">参会人数</h1>
-<a href="login.html">
+<a href="html/Login.html">
     <button id="fat-btn" class="btn btn-default" data-loading-text="Loading..." type="button"> 返回
         <span class="glyphicon glyphicon-arrow-left"></span>
     </button>
@@ -96,8 +96,8 @@
             const ul = document.createElement('ul');
             for (const branchForum of meeting['branchformuList']) {
                 const li = document.createElement('li');
-                li.append('分会场名：' +branchForum['theme']);
-                li.append('     参会人数：'+branchForum['joinPaper']);
+                li.append('分会场名：' + branchForum['theme']);
+                li.append('     参会人数：' + branchForum['joinPaper']);
                 ul.append(li);
             }
 
@@ -108,9 +108,8 @@
 </script>
 <script>
 
-    function loadXMLDoc()
-    {
-        var tbody=window.document.getElementById("tbody-result");
+    function loadXMLDoc() {
+        var tbody = window.document.getElementById("tbody-result");
         //var a = JSON.parseJSON(d);
         console.log(d);
         $.ajax({
@@ -118,7 +117,7 @@
             type: 'post',
             async: true,
             data: null,
-            dataType:'json',
+            dataType: 'json',
             success: function (data) {
                 var a = JSON.parseJSON(d);
                 console.log(a.code);
