@@ -4,15 +4,18 @@
 <head>
     <meta charset="UTF-8">
     <title>注册</title>
-    <link rel="stylesheet" href="../css/register.css">
-    <script src="../js/eventhand.js" type="text/javascript" charset="utf-8"></script>
-    <script src="../js/checkform.js" type="text/javascript" charset="utf-8"></script>
+    <link rel="stylesheet" href="register.css">
+    <script src="eventhand.js" type="text/javascript" charset="utf-8"></script>
+    <script src="checkform.js" type="text/javascript" charset="utf-8"></script>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </head>
 
 <body>
 <div class="box">
     <h2>Register</h2>
-    <form class="form-box" action="/registered" method="post" onsubmit="return checkForm()">
+    <form class="form-box" action="/registered" method="post">
         <div class="inputBox">
             <input class="login-text" type="text" id="username" name = "username" placeholder="请输入账号"> <br>
             <input class="login-text" type="password" id = "password" name = "password" placeholder="请输入密码"> <br>
@@ -27,24 +30,51 @@
             <span><input type="checkbox" name="tribune" value="5" />论坛5</span>
         </div>
         <div>
-            <input type="submit" id = "register" class="register-btn" value = "注册">
+            <button type="button" id="addBtn" class="register-btn">注册</button>
             <input type="button" value="返回" class="login-btn" onclick="jumplogin()">
         </div>
 
     </form>
-    <iframe name='hidden_frame' id="hidden_frame" style='display: none'></iframe>
 </div>
 
 </body>
-<script>
-    $('#hidden_frame').load(function(){
-        var text=$(this).contents().find("body").text();
-        // 根据后台返回值处理结果
-        var j=$.parseJSON(text);
-        if(j.username.length == 0) {
-            alert("账号已存在");
+<script type="text/javascript">
+    $("#addBtn").on("click", function () {
+        var params = {
+            tribune: getTaskIds(),
+            password: getPassword(),
+            username: getUserName(),
+
         }
-    });
+        // alert(JSON.stringify(params))
+        $.ajax({
+            url: basePath + "/registered",
+            contentType: 'application/json',
+            data: JSON.stringify(params),
+            type: "POST",
+            success: function (data) {
+            }
+        });
+    })
+    //获取checkbox选中的周期时间
+    function getTaskIds() {
+        var taskIds = new Array(); //创建list集合
+        $("input[name='tribune']").each(function (i, value) {
+            if ($(this).prop("checked") == true) {
+                taskIds.push($(this).val());
+            }
+        });
+        return taskIds.join(';');
+    }
+    function getPassword() {
+        var password = document.getElementById("password")
+        return password.value;
+    }
+    function getUserName() {
+        var username = document.getElementById("username")
+        return username.value;
+    }
+
 </script>
 </html>
 
