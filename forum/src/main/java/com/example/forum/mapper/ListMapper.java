@@ -20,4 +20,7 @@ public interface ListMapper
     @Select("SELECT * FROM user WHERE id=#{id}")
     public User selUserById(User user);
 
+    @Select("select * from user where username=#{username}")
+    public User selUser(User user);
+
 }
