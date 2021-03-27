@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>left</title>
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="layui/css/layui.css">
+    <script type="text/javascript" src="js/left.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/left.css">
+    <link rel="stylesheet" type="text/css" href="public/css/normalize.css" />
+    <link rel="stylesheet" type="text/css" href="public/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="public/css/demo.css" />
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/core.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <!--必要样式-->
+    <link rel="stylesheet" type="text/css" href="public/css/set.css" />
+    </head>
+    <body>
+
+    <!--    回到顶部-->
+    <div id="backUp" style="z-index: 9999; position: fixed ! important; right: 5px; bottom: 70px;cursor: pointer">
+        <img src="image/fanhuidingbucopy.png" />
+    </div>
+
+
+        <!--    顶部导航栏-->
+    <div class="nav">
+        <ul class="fl">
+            <li><a href=""><img src="image/示例图片.png" alt="" class="logo"></a></li>
+        </ul>
+        <ul class="fr">
+            <li><a href=""><div class="eg"><img src="/image/touxiang2.jfif" alt="" class="touxiang"></div></a></li>
+            <li class="userName"><a href=""></a>用户名 </li>
+        </ul>
+    </div>
+
+    <!--侧边导航栏-->
+    <div class="content-csk">
+        <div class="open-csk" id="open"><span class="left-span-csk">🎈打开导航</span></div>
+        <div class="content-left-csk" id="left" style="height: 1500px">
+            <div class="myclose-csk" id="myclose"><span class="left-span-csk">❌收起导航</span></div>
+            <div class="left-title-csk">
+<!--                <img src="image/098zhome01.png" class="left-title-icon-csk">-->
+                <a href="/t">🍰回到主页</a>
+            </div>
+            <div class="nav-title-csk">
+                <a href="#">🌷一个页面</a>
+            </div>
+            <div class="nav-title2-csk">
+<!--                <img src="image/041preview.png" class="nav-title2-icon-csk">-->
+                <a href="/left">📖论文列表</a>
+            </div>
+        </div>
+    </div>
+
+
+
+
+        <!--论文卡片表格-->
+    <div class="mytable">
+        <div id="myblock1">
+            <span class="input input--manami" style="margin-top: 20px">
+			<input class="input__field input__field--manami" type="text" id="input-32" autocomplete="off"/>
+			<label class="input__label input__label--manami" for="input-32">
+				<span id="myinput1" class="input__label-content input__label-content--manami">输入关键词或标题搜索</span>
+			</label>
+		    </span>
+            <button id="mybutton" class="layui-btn layui-btn-radius" onclick="search()" th:text="开始搜索"></button>
+            <button id="mybuttonadd" onclick="cleartext()" data-toggle="modal" data-target="#myModal" class="layui-btn layui-btn-radius layui-btn-danger" th:text="增加论文"></button>
+        </div>
+        <table id="currentTableId"></table>
+    </div>
+
+        <!-- 模态框（Modal） -->
+    <div  class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"  style="border: none">
+    <div class="modal-dialog" style="border: none">
+        <div class="modal-content" style="border: none">
+            <div class="modal-header" style="border: none">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel" style="border: none">
+                </h4>
+                <form class="form-horizontal" method="post" action="/update" style="border: none">
+                    <fieldset style="border: none">
+                        <!-- Form Name -->
+                        <legend id="paper_id">Form Name</legend>
+                        <!-- Textarea -->
+                        <input type="text" id="paperId" name="paperId" style="display: none">
+                        <div class="control-group">
+                            <label class="control-label" for="textarea-title">PUBLICATION TITLE</label>
+                            <div class="controls">
+                                <textarea id="textarea-title" name="textarea-title" style="height: 40px;width: 500px;border-radius: 2%"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label" for="textarea-year">PUBLICATION YEAR</label>
+                            <div class="controls">
+                                <textarea id="textarea-year" name="textarea-year" style="height: 40px;width: 500px;border-radius: 2%"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <a class="control-label" for="textarea-link" id="textarea-linka" herf="" style="cursor: pointer" onclick="aclick()">PERSISTENT LINK</a>
+                            <div class="controls">
+                                <textarea id="textarea-link" name="textarea-link" style="height: 40px;width: 500px;border-radius: 2%"></textarea>
+                            </div>
+                        </div>
+
+
+
+                        <!-- Textarea -->
+                        <div class="control-group">
+                            <label class="control-label" for="textarea-key">KEYWORDS</label>
+                            <div class="controls">
+                                <textarea id="textarea-key" name="textarea-key" style="height: 120px;width: 500px;border-radius: 2%"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Textarea -->
+                        <div class="control-group">
+                            <label class="control-label" for="textarea-abstract">ABSTRACT</label>
+                            <div class="controls">
+                                <textarea id="textarea-abstract" name="textarea-abstract" style="height: 350px;width: 500px;border-radius: 2%"></textarea>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 25px">
+                            <button class="layui-btn layui-btn-radius layui-btn-normal" type="submit" th:text="确定修改" formaction="/update"></button>
+                            <button class="layui-btn layui-btn-radius" type="submit" th:text="确定删除" formaction="/delete"></button>
+                            <button class="layui-btn layui-btn-radius layui-btn-danger"  th:text="确定增加" formaction="/insert"></button>
+                            <button class="layui-btn layui-btn-radius layui-btn-warm" data-dismiss="modal" th:text="关闭窗口"></button>
+                        </div>
+
+
+                    </fieldset>
+                </form>
+            </div>
+            <div class="modal-body" style="border: none">
+            </div>
+            <div class="modal-footer" style="border: none">
+                <!--                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭-->
+                <!--                    </button>-->
+                <!--                    <button type="button" class="btn btn-primary">-->
+                <!--                        提交更改-->
+                <!--                    </button>-->
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+
+
+    <script src="layui/layui.js"></script>
+
+    <script>
+
+        function aclick(){
+            var link = document.getElementById("textarea-link").value;
+            window.open(link)
+        }
+
+        $('#backUp').click(function () { $('html,body').animate({ scrollTop: '0px' }, 850); return false; });
+        layui.config({
+            base: 'cardTable/' //配置 layui 第三方扩展组件存放的基础目录
+        })
+        layui.use(['table', 'form', 'jquery', 'cardTable'], function () {
+            let table = layui.table;
+            let form = layui.form;
+            let $ = layui.jquery;
+            let cardTable = layui.cardTable;
+
+            cardTable.render({
+                elem: '#currentTableId',
+                url: 'getLimitPaper',
+            })
+        })
+
+
+        function cleartext(){
+            document.getElementById("textarea-title").value = "";
+            document.getElementById("textarea-link").value = "";
+            document.getElementById("textarea-linka").herf = "#";
+            document.getElementById("textarea-abstract").value = "";
+            document.getElementById("textarea-key").value = "";
+            document.getElementById("textarea-year").value = "";
+            document.getElementById("paper_id").innerText = "Form Name";
+            document.getElementById("paperId").value = "";
+        }
+
+
+        function search(){
+            var keyword = document.getElementById("input-32");
+            var keys = keyword.value;
+            keyword.value = "";
+            if(keys==""){
+                document.getElementById("myinput1").innerText = "请输入关键词或标题搜索";
+            }else{
+                document.getElementById("myinput1").innerText = keys;
+            }
+
+            layui.use(['cardTable'], function () {
+                let cardTable = layui.cardTable;
+
+                cardTable.render({
+                    elem: '#currentTableId',
+                    url: '/searchByKeyWord?keywords='+keys,
+                })
+            })
+        }
+    </script>
+
+</body>
+</html>

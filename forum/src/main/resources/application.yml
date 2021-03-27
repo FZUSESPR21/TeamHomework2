@@ -1,0 +1,29 @@
+spring:
+  datasource:
+    #driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://1.15.129.32:3306/forum?serverTimezone=UTC
+    username: root
+    password: 1750340569!Xm
+
+    contentnegotiation:
+      favor-parameter: true  #开启请求参数内容协商模式
+#  mvc:
+#      hiddenmethod:
+#      filter:
+#      enabled: true   #开启页面表单的Rest功能
+
+#配置mybatis规则
+mybatis:
+  config-location: classpath:mybatis/mybatis-config.xml #全局配置文件地址
+  mapper-locations: classpath:mybatis/mapper/*.xml  #sql映射文件位置
+  logging:
+    level:
+      com:
+        example:
+          demo:
+            mapper=debug:
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: false
