@@ -22,12 +22,12 @@
     };
 
     const href = location.href;
-    const index = href.lastIndexOf('=');
+    const index = href.lastIndexOf('=') + 1;
 
-    const forumName = href.substring(index + 1, href.length);
+    const forumName = href.substring(index);
 
     $.ajax({
-        url: "", //TODO()
+        url: "/getMessage?forumName=" + forumName, //TODO()
         success: function (result) {
             // const data = JSON.parse(result);
             // TODO()
