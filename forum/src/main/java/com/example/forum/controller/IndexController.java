@@ -97,24 +97,24 @@ public class IndexController
     {
         return "redirect:secret.html?id=3";
     }
-//    @RequestMapping("/MeetingList")
-//    @ResponseBody
-//    public List<Meeting> getMeetings()
-//    {
-//        System.out.println(indexSerice.getMeeting());
-//        List<Meeting> list=indexSerice.getMeeting();
-//        for(Meeting meeting:list)
-//        {
-//            List<Branchformu> branchformuList=new ArrayList<>();
-//            String branchformuId = meeting.getBranchforumId();
-//            String[] branchfromuIds = branchformuId.split(",");
-//            for (int i = 0; i < branchfromuIds.length; i++)
-//            {
-//                Branchformu branchformu=new Branchformu();
-//                branchformuList.add(indexSerice.getBranchformu(branchfromuIds[i]));
-//            }
-//            meeting.setBranchformuList(branchformuList);
-//        }
-//        return list;
-//    }
+    @RequestMapping("/MeetingList")
+    @ResponseBody
+    public List<Meeting> getMeetings()
+    {
+        System.out.println(indexSerice.getMeeting());
+        List<Meeting> list=indexSerice.getMeeting();
+        for(Meeting meeting:list)
+        {
+            List<Branchformu> branchformuList=new ArrayList<>();
+            String branchformuId = meeting.getBranchforumId();
+            String[] branchfromuIds = branchformuId.split(",");
+            for (int i = 0; i < branchfromuIds.length; i++)
+            {
+                Branchformu branchformu=new Branchformu();
+                branchformuList.add(indexSerice.getBranchformu(branchfromuIds[i]));
+            }
+            meeting.setBranchformuList(branchformuList);
+        }
+        return list;
+    }
 }
