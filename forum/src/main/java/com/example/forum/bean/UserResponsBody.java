@@ -6,7 +6,7 @@ public class UserResponsBody
     String code;
     String msg;
     Integer count;
-    User user;
+    Object data;
 
     public String getCode()
     {
@@ -38,13 +38,13 @@ public class UserResponsBody
         this.count = count;
     }
 
-    public User getUser()
+    public Object getData()
     {
-        return user;
+        return data;
     }
 
-    public void setUser(User user)
+    public void setData(Object data)
     {
-        this.user = user;
+        this.data = data;
     }
 }
