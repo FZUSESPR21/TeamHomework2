@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>注册</title>
+    <link rel="stylesheet" href="../css/register.css">
+    <script src="../js/eventhand.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/checkform.js" type="text/javascript" charset="utf-8"></script>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+<div class="box">
+    <h2>Register</h2>
+    <form class="form-box" action="/registered" method="post">
+        <div class="inputBox">
+            <input class="login-text" type="text" id="username" name = "username" placeholder="请输入账号"> <br>
+            <input class="login-text" type="password" id = "password" name = "password" placeholder="请输入密码"> <br>
+        </div>
+
+        <div class="checkBox">
+            <span>请选择加入的论坛:</span><br>
+            <span><input type="checkbox" name="tribune" value="1" />论坛1</span>
+            <span><input type="checkbox" name="tribune" value="2" />论坛2</span>
+            <span><input type="checkbox" name="tribune" value="3" />论坛3</span>
+            <span><input type="checkbox" name="tribune" value="4" />论坛4</span>
+            <span><input type="checkbox" name="tribune" value="5" />论坛5</span>
+        </div>
+        <div>
+            <button type="button" id="addBtn" class="register-btn">注册</button>
+            <input type="button" value="返回" class="login-btn" onclick="jumplogin()">
+        </div>
+
+    </form>
+</div>
+
+</body>
+<script type="text/javascript">
+    $("#addBtn").on("click", function () {
+        var params = {
+            tribune: getTaskIds(),
+            password: getPassword(),
+            username: getUserName(),
+
+        }
+        // alert(JSON.stringify(params))
+        $.ajax({
+            url: basePath + "/registered",
+            contentType: 'application/json',
+            data: JSON.stringify(params),
+            type: "POST",
+            success: function (data) {
+            }
+        });
+    })
+    //获取checkbox选中的周期时间
+    function getTaskIds() {
+        var taskIds = new Array(); //创建list集合
+        $("input[name='tribune']").each(function (i, value) {
+            if ($(this).prop("checked") == true) {
+                taskIds.push($(this).val());
+            }
+        });
+        return taskIds.join(';');
+    }
+    function getPassword() {
+        var password = document.getElementById("password")
+        return password.value;
+    }
+    function getUserName() {
+        var username = document.getElementById("username")
+        return username.value;
+    }
+
+</script>
+</html>
+
