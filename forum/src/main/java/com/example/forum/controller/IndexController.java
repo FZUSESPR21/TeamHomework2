@@ -27,4 +27,34 @@ public class IndexController
         userResponsBody.setCode("200");
         return userResponsBody;
     }
+
+    @RequestMapping("/chairManList")
+    @ResponseBody
+    public UserResponsBody getChairManList(User user)
+    {
+        System.out.println("开始登录......");
+
+
+        UserResponsBody userResponsBody=new UserResponsBody();
+        userResponsBody.setMsg("注册成功");
+        userResponsBody.setCode("200");
+        userResponsBody.setData(indexSerice.showMeeting(user));
+        return userResponsBody;
+    }
+
+    @RequestMapping("/getmessage")
+    @ResponseBody
+    public UserResponsBody getmessage(User user)
+    {
+        System.out.println("获取Message的用户:"+user);
+
+        UserResponsBody userResponsBody=new UserResponsBody();
+        userResponsBody.setMsg("获取成功");
+        userResponsBody.setCode("200");
+        userResponsBody.setData(indexSerice.showMessage(user));
+
+        return userResponsBody;
+    }
+
+
 }

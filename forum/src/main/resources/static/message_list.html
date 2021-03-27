@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>消息列表</title>
+    <script src="js/jquery.js"></script>
+</head>
+<body>
+
+<p id="idBox"><b>分会ID：</b></p>
+<p id="themeBox"><b>分会名：</b></p>
+<p id="populationBox"><b>参会人数：</b></p>
+<p><b>消息列表：</b></p>
+<ul id="message-list-wrapper"></ul>
+
+<script>
+    const sample = {
+        "id": "1",
+        "theme": "软件工程实践",
+        "listMessage": ["1", "2", "3"],
+        "joinPaper": "1"
+    };
+
+    const href = location.href;
+    const index = href.lastIndexOf('=');
+
+    const forumName = href.substring(index + 1, href.length);
+
+    $.ajax({
+        url: "", //TODO()
+        success: function (result) {
+            // const data = JSON.parse(result);
+            // TODO()
+            const data = sample;
+            document.getElementById('idBox').append(data['id']);
+            document.getElementById('themeBox').append(data['theme']);
+            document.getElementById('populationBox').append(data['joinPaper']);
+
+            const ul = document.getElementById('message-list-wrapper');
+            for (const message of data['listMessage']) {
+                const li = document.createElement('li');
+                li.append(message);
+                ul.append(li);
+            }
+        }
+    });
+</script>
+</body>
+</html>

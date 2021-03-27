@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>分会列表</title>
+    <script src="js/jquery.js"></script>
+</head>
+<body>
+<h5>分会列表：</h5>
+<ul id="meeting-list-wrapper"></ul>
+
+<script>
+    const samples = [
+        {
+            "id": "111",
+            "name": "111",
+            "chairManId": "123456",
+            "branchforumId": [
+                "aaa",
+                "bbb",
+                "ccc"
+            ],
+            "startTime": "2000-01-01",
+            "joinPaper": "654"
+        },
+        {
+            "id": "222",
+            "name": "222",
+            "chairManId": "123456",
+            "branchforumId": [
+                "aaa",
+                "bbb",
+                "ccc"
+            ],
+            "startTime": "2000-01-01",
+            "joinPaper": "654"
+        },
+        {
+            "id": "333",
+            "name": "333",
+            "chairManId": "123456",
+            "branchforumId": [
+                "aaa",
+                "bbb",
+                "ccc"
+            ],
+            "startTime": "2000-01-01",
+            "joinPaper": "654"
+        }
+    ]
+
+    $.ajax({
+        url: '',// TODO()
+        success: function (result) {
+            const meetings = samples;
+            // const meetings = JSON.parse(result);
+            // TODO()
+            renderMeetings(meetings);
+        }
+    })
+
+
+    function renderMeetings(meetings) {
+        const meetingListWrapper = document.getElementById('meeting-list-wrapper');
+
+        for (const meeting of meetings) {
+
+            const outerLi = document.createElement('li');
+            let p = document.createElement('p');
+            p.append('会议ID：' + meeting['id']);
+
+            outerLi.append(p);
+            p = document.createElement('p');
+            p.append('会议名：' + meeting['name']);
+
+            outerLi.append(p);
+            p = document.createElement('p');
+            p.append('主席：' + meeting['chairManId']);
+
+            outerLi.append(p);
+            const ul = document.createElement('ul');
+            for (const branchForum of meeting['branchforumId']) {
+                const li = document.createElement('li');
+                li.append(branchForum);
+                li.onclick = function () {
+                    location.href = '/message_list.html?branchForum=' + branchForum;
+                };
+                ul.append(li);
+            }
+
+            outerLi.append(ul);
+            meetingListWrapper.append(outerLi);
+        }
+    }
+</script>
+</body>
+</html>
