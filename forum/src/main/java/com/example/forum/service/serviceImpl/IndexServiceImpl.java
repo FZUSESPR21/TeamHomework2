@@ -3,11 +3,9 @@ package com.example.forum.service.serviceImpl;
 
 import com.example.forum.bean.Branchformu;
 import com.example.forum.bean.Meeting;
-import com.example.forum.bean.Message;
 import com.example.forum.bean.Message2;
 import com.example.forum.bean.User;
 import com.example.forum.mapper.ListMapper;
-import com.example.forum.mapper.MessageMapper;
 import com.example.forum.mapper.UserMapper;
 import com.example.forum.service.IndexSerice;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +55,14 @@ public class IndexServiceImpl implements IndexSerice
         return list;
     }
 
+    @Override
+    public User getUser(User user)
+    {
+        User user1=listMapper.selUser(user);
+        System.out.println("***"+user1);
+        return user1;
+    }
+
     public Message2 showMessage(User user)
     {
         Message2 message2 =new Message2();
@@ -73,12 +79,5 @@ public class IndexServiceImpl implements IndexSerice
         return message2;
     }
 
-    MessageMapper messageMapper;
 
-    @Override
-    public Integer giveMessage(Message message)
-    {
-        System.out.println("发布的消息:"+message.toString());
-        return messageMapper.insMessage(message);
-    }
 }
