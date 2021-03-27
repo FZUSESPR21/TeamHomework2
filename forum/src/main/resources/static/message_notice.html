@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Layui</title>
+    <script src="js/jquery.js"></script>
+    <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
+</head>
+<body>
+
+<form class="layui-form" action="">
+
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">请输入要发布的消息“</label>
+        <div class="layui-input-block">
+            <textarea id="input" placeholder="None" class="layui-textarea"></textarea>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button id="submit-button" type="submit" class="layui-btn" lay-submit="" lay-filter="demo1">发布</button>
+        </div>
+    </div>
+</form>
+
+<script>
+    const href = location.href;
+    const index = href.lastIndexOf('=') + 1;
+    const username = href.substring(index);
+
+    const input = document.getElementById('input');
+    const submitButton = document.getElementById('submit-button');
+
+    submitButton.onclick = function () {
+        $.ajax({
+            url: '/giveMessage?message=' + input.value + '&username=' + username
+        })
+    };
+</script>
+</body>
+</html>
