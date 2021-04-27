@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>导入excel</title>
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <!-- Bootstrap 的 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+
+    <link href="/bootstrap-4.6.0-dist/css/bootstrap.css"/>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>选择Excel文件导入到数据中</h1>
+                <form th:action="@{/student/import}" method="post" enctype="multipart/form-data" class="form-inline">
+                    <div class="form-group">
+                        <input class="form-control" type="file" name="excel">
+                        <input type="submit" class="btn btn-danger" value="导入数据">
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-12">
+                <h1>显示导入数据列表</h1>
+                <table class="table table-bordered">
+                    <tr>
+                        <th>编号</th>
+                        <th>姓名</th>
+                    </tr>
+                    <tr th:each="user : ${users}">
+                        <td th:text="${user.id}"></td>
+                        <td th:text="${user.getUser_name}"></td>
+                    <tr/>
+                </table>
+
+                <hr>
+                <a th:href="@{/student/export}" class="btn btn-info">导出excel</a>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>

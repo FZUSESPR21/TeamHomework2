@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
+</head>
+<body>
+<form th:action="@{/login}">
+    <p th:text="${msg}" style="color: #ff0000"></p>
+    <hr/>
+    姓名<input name="userName" type="text"><br>
+    密码<input name="password" type="password"><br>
+    验证码<input name="verifyCode" type="text">
+    <div id="refalsh" >
+        <img id="img_ref"  src="/captcha" onclick="localRefresh()">
+    </div><br>
+    <button type="submit">提交</button>
+</form>
+<script>
+    function localRefresh() {
+        var data="/captcha?rnd="+(new Date()).getTime();
+        // 装载局部刷新返回的页面d
+        // img=document.getElementById("img_ref");
+        // $('#img_ref').load(data);
+        document.getElementById("img_ref").src = data;
+        // $.ajax({url:data,success:function(result){
+        //         $("#img_ref").attr("src",result);
+        // }});
+    }
+</script>
+</body>
+</html>
