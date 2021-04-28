@@ -7,6 +7,6 @@ spring:
   thymeleaf:
     check-template-location: true
 mybatis:
-  type-aliases-package: com.example.sblearn.bean
+  type-aliases-package: com.example.scoring_system.bean
   mapper-locations: classpath:mybatis/mapper/*.xml
 

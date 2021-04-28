@@ -4,10 +4,12 @@ import cn.afterturn.easypoi.excel.ExcelExportUtil;
 import cn.afterturn.easypoi.excel.ExcelImportUtil;
 import cn.afterturn.easypoi.excel.entity.ExportParams;
 import cn.afterturn.easypoi.excel.entity.ImportParams;
+import com.example.scoring_system.bean.Details;
 import com.example.scoring_system.bean.ResponseData;
 import com.example.scoring_system.bean.User;
 import com.example.scoring_system.service.LoginService;
 import com.example.scoring_system.service.RegisterService;
+import com.example.scoring_system.service.ScoreService;
 import com.example.scoring_system.service.UserService;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import lombok.extern.slf4j.Slf4j;
@@ -53,6 +55,8 @@ public class LoginController {
     LoginService loginService;
     @Autowired
     UserService userService;
+    @Autowired
+    ScoreService scoreService;
 
     @Autowired
     DefaultKaptcha defaultKaptcha;
@@ -126,7 +130,7 @@ public class LoginController {
      */
     @RequestMapping("/android/login")
     @ResponseBody
-    public ResponseData loginAndroid(User user, Model model, HttpSession session) {
+    public ResponseData loginAndroid(User user, Model model,String verifyCode, HttpSession session) {
         ResponseData responseData = new ResponseData();
 
         if (StringUtils.isEmpty(user.getUserName()) || StringUtils.isEmpty(user.getPassword())) {
@@ -135,15 +139,15 @@ public class LoginController {
             responseData.setCode("1002");
             return responseData;
         }
-//        String code=session.getAttribute("verificationCode").toString();
-//        System.out.println("&&"+code+"&&&"+verifyCode);
-//        if (StringUtils.isEmpty(code)||!(code.equalsIgnoreCase(verifyCode)))
-//        {
-//            model.addAttribute("msg","验证码错误!");
-//            responseData.setMsg("验证码错误!");
-//            responseData.setCode("1001");
-//            return responseData;
-//        }
+        String code=session.getAttribute("verificationCode").toString();
+        System.out.println("&&"+code+"&&&"+verifyCode);
+        if (StringUtils.isEmpty(code)||!(code.equalsIgnoreCase(verifyCode)))
+        {
+            model.addAttribute("msg","验证码错误!");
+            responseData.setMsg("验证码错误!");
+            responseData.setCode("1001");
+            return responseData;
+        }
         //获取当前用户
         Subject subject = SecurityUtils.getSubject();
         //封装用户的登录数据
@@ -283,6 +287,61 @@ public class LoginController {
         return "redirect:/login";
     }
 
+
+    @RequestMapping("/android/register")
+    @ResponseBody
+    public ResponseData androidRegister(User user, Model model) {
+        ResponseData responseData=new ResponseData();
+        if (user.getPassword() == null || user.getUserName() == null) {
+            responseData.setCode("1033");
+            responseData.setMsg("用户名,密码不能为空");
+        }
+        Integer code = registerService.register(user);
+        if (code == -1) {
+            responseData.setCode("1032");
+            responseData.setMsg("用户名已经存在");
+        } else if (code == 0) {
+            responseData.setCode("1031");
+            responseData.setMsg("注册失败");
+        }
+        else
+        {
+            responseData.setCode("200");
+            responseData.setMsg("注册成功");
+        }
+        return responseData;
+    }
+
+    @RequestMapping("/detailspage")
+    public String toDetails()
+    {
+        return "detalis";
+    }
+
+    @RequestMapping("/details/import")
+    @ResponseBody
+    public ResponseData importDetails(MultipartFile excel,Model model)
+    {
+        log.info("上传的文件名称："+excel.getOriginalFilename());
+        ResponseData responseData=new ResponseData();
+        ImportParams params = new ImportParams();
+        params.setTitleRows(1);//一级标题
+        params.setHeadRows(2);//header标题
+        try {
+            List<Details> details = ExcelImportUtil.importExcel(excel.getInputStream(), Details.class, params);
+            responseData=scoreService.importScoreDetais(details);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return responseData;
+    }
+
+    @RequestMapping("/studentimport")
+    public String toImportStudent()
+    {
+        return "showlist";
+    }
+
     /**
      * @Description: 学生批量导入(excel)
      * @Param: [excel, model]
@@ -325,6 +384,8 @@ public class LoginController {
             e.printStackTrace();
         }
     }
+
+
 
     /**
      * @Description: 实现验证码

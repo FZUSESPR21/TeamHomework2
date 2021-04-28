@@ -1,7 +1,11 @@
 package com.example.scoring_system;
 
+import com.example.scoring_system.bean.Details;
+import com.example.scoring_system.bean.DetailsData;
 import com.example.scoring_system.bean.User;
+import com.example.scoring_system.mapper.ScoreMapper;
 import com.example.scoring_system.mapper.UserMapper;
+import com.example.scoring_system.service.ScoreService;
 import com.example.scoring_system.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +21,10 @@ class ScoringSystemApplicationTests {
     UserMapper userMapper;
     @Autowired
     UserService userService;
+    @Autowired
+    ScoreService scoreService;
+    @Autowired
+    ScoreMapper scoreMapper;
     @Test
     void selRolesByUserName() {
 
@@ -41,7 +49,7 @@ class ScoringSystemApplicationTests {
         System.out.println(userMapper.insUserBatch(userList));
     }
 
-    @Test
+//    @Test
     void testInsBatcher()
     {
         List<User> userList=new ArrayList<>();
@@ -50,5 +58,20 @@ class ScoringSystemApplicationTests {
         user.setUserName("getusername2");
         userList.add(user);
         System.out.println(userService.insUserBatch(userList));
+    }
+
+
+    @Test
+    void testScoreService()
+    {
+        List<DetailsData> detailsDataList=new ArrayList<>();
+        DetailsData details1=new DetailsData();
+        details1.setCreateTime("2020/02/20");
+        details1.setTaskId("1");
+        details1.setCreateUserId("1");
+        details1.setDetailsName("test");
+        details1.setTotalScoreRatio("5");
+        detailsDataList.add(details1);
+        scoreMapper.insDetailsBatch(detailsDataList);
     }
 }
