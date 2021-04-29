@@ -1,0 +1,39 @@
+#my-message{
+    float: right;
+}
+#content-manage{
+
+}
+#user-manage{
+    display: none;
+}
+#statistical-analysis{
+    display: none;
+}
+#manage-content{
+    margin-left: 200px;
+}
+.sidebar #content-manage{
+    float: left;
+    width: 13%;
+}
+.sidebar #user-manage{
+    float: left;
+    width: 13%;
+}
+.sidebar #statistical-analysis{
+    float: left;
+    width: 13%;
+}
+.page-wrapper{
+    float: left;
+    width: 85%;
+    margin-left: 1%;
+    margin-right: 1%;
+}
+.layui-nav{
+    float: top;
+}
+.modal-content{
+    display: none;
+}

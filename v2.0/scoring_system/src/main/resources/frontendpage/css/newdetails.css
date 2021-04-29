@@ -1,0 +1,13 @@
+.input-group{
+    margin-top: 2%;
+}
+#jquery_post{
+    margin-top: 2%;
+    margin-left: 5%;
+}
+#message_form{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5% 0;
+}
