@@ -6,4 +6,7 @@ import java.util.List;
 
 public interface UserService {
     public List<User> insUserBatch(List<User> userList);
+    public String generateJwtToken(User user);
+    public User getJwtTokenInfo(User user);
+    public Integer deleteLoginInfo(User user);
 }

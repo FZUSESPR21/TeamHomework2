@@ -9,4 +9,6 @@ spring:
 mybatis:
   type-aliases-package: com.example.scoring_system.bean
   mapper-locations: classpath:mybatis/mapper/*.xml
-
+logging:
+  level:
+    root: info

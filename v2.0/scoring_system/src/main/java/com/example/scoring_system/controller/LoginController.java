@@ -6,6 +6,7 @@ import cn.afterturn.easypoi.excel.entity.ExportParams;
 import cn.afterturn.easypoi.excel.entity.ImportParams;
 import com.example.scoring_system.bean.Details;
 import com.example.scoring_system.bean.ResponseData;
+import com.example.scoring_system.bean.Task;
 import com.example.scoring_system.bean.User;
 import com.example.scoring_system.service.LoginService;
 import com.example.scoring_system.service.RegisterService;
@@ -21,6 +22,7 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.apache.shiro.authz.annotation.RequiresUser;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -42,6 +44,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -80,47 +84,47 @@ public class LoginController {
         return "showlist";
     }
 
-    /**
-     * @Description: web端登录（包含验证码）
-     * @Param: [user, verifyCode, model, session]
-     * @return: java.lang.String
-     * @Date: 2021/4/27
-     */
-    @GetMapping("/login")
-    public String login(User user, String verifyCode, Model model, HttpSession session) {
-        if (StringUtils.isEmpty(user.getUserName()) || StringUtils.isEmpty(user.getPassword()) || StringUtils.isEmpty(verifyCode) || session.getAttribute("verificationCode") == null) {
-            model.addAttribute("msg", "请输入用户名和密码,验证码");
-            return "loginpage";
-        }
-        String code = session.getAttribute("verificationCode").toString();
-        System.out.println("&&" + code + "&&&" + verifyCode);
-        if (StringUtils.isEmpty(code) || !(code.equalsIgnoreCase(verifyCode))) {
-            model.addAttribute("msg", "验证码错误!");
-            return "loginpage";
-        }
-        //获取当前用户
-        Subject subject = SecurityUtils.getSubject();
-        //封装用户的登录数据
-        UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(user.getUserName(), user.getPassword());
-        try {
-            //进行登录
-            subject.login(usernamePasswordToken);
-            model.addAttribute("msg", "登录成功");
-            return "index";
-        } catch (UnknownAccountException e) {
-            log.error("用户名不存在", e);
-            model.addAttribute("msg", "用户名不存在");
-            return "loginpage";
-        } catch (AuthenticationException e) {
-            log.error("账户或密码错误", e);
-            model.addAttribute("msg", "账户或密码错误");
-            return "loginpage";
-        } catch (AuthorizationException e) {
-            log.error("没有权限", e);
-            model.addAttribute("msg", "没有权限");
-            return "loginpage";
-        }
-    }
+//    /**
+//     * @Description: web端登录（包含验证码）
+//     * @Param: [user, verifyCode, model, session]
+//     * @return: java.lang.String
+//     * @Date: 2021/4/27
+//     */
+//    @GetMapping("/login")
+//    public String login(User user, String verifyCode, Model model, HttpSession session) {
+//        if (StringUtils.isEmpty(user.getUserName()) || StringUtils.isEmpty(user.getPassword()) || StringUtils.isEmpty(verifyCode) || session.getAttribute("verificationCode") == null) {
+//            model.addAttribute("msg", "请输入用户名和密码,验证码");
+//            return "loginpage";
+//        }
+//        String code = session.getAttribute("verificationCode").toString();
+//        System.out.println("&&" + code + "&&&" + verifyCode);
+//        if (StringUtils.isEmpty(code) || !(code.equalsIgnoreCase(verifyCode))) {
+//            model.addAttribute("msg", "验证码错误!");
+//            return "loginpage";
+//        }
+//        //获取当前用户
+//        Subject subject = SecurityUtils.getSubject();
+//        //封装用户的登录数据
+//        UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(user.getUserName(), user.getPassword());
+//        try {
+//            //进行登录
+//            subject.login(usernamePasswordToken);
+//            model.addAttribute("msg", "登录成功");
+//            return "index";
+//        } catch (UnknownAccountException e) {
+//            log.error("用户名不存在", e);
+//            model.addAttribute("msg", "用户名不存在");
+//            return "loginpage";
+//        } catch (AuthenticationException e) {
+//            log.error("账户或密码错误", e);
+//            model.addAttribute("msg", "账户或密码错误");
+//            return "loginpage";
+//        } catch (AuthorizationException e) {
+//            log.error("没有权限", e);
+//            model.addAttribute("msg", "没有权限");
+//            return "loginpage";
+//        }
+//    }
 
     /**
      * @Description: 安卓端登录，不包含验证码
@@ -128,14 +132,14 @@ public class LoginController {
      * @return: com.example.scoring_system.bean.ResponseData
      * @Date: 2021/4/27
      */
-    @RequestMapping("/android/login")
+    @RequestMapping("/login")
     @ResponseBody
-    public ResponseData loginAndroid(User user, Model model,String verifyCode, HttpSession session) {
+    public ResponseData loginAndroid(User user, Model model, HttpSession session, String verifyCode, HttpServletRequest request, HttpServletResponse response) {
         ResponseData responseData = new ResponseData();
-
-        if (StringUtils.isEmpty(user.getUserName()) || StringUtils.isEmpty(user.getPassword())) {
+        log.info("取得的user"+user.toString());
+        if (StringUtils.isEmpty(user.getAccount()) || StringUtils.isEmpty(user.getPassword())) {
             model.addAttribute("msg", "请输入用户名和密码");
-            responseData.setMsg("请输入用户名和密码,验证码");
+            responseData.setMessage("请输入用户名和密码,验证码");
             responseData.setCode("1002");
             return responseData;
         }
@@ -144,37 +148,39 @@ public class LoginController {
         if (StringUtils.isEmpty(code)||!(code.equalsIgnoreCase(verifyCode)))
         {
             model.addAttribute("msg","验证码错误!");
-            responseData.setMsg("验证码错误!");
+            responseData.setMessage("验证码错误!");
             responseData.setCode("1001");
             return responseData;
         }
         //获取当前用户
         Subject subject = SecurityUtils.getSubject();
         //封装用户的登录数据
-        UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(user.getUserName(), user.getPassword());
+        UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(user.getAccount(), user.getPassword());
         try {
             //进行登录
             subject.login(usernamePasswordToken);
-            model.addAttribute("msg", "登录成功");
-            responseData.setMsg("登录成功!");
+            log.info(user.toString());
+            String newToken=userService.generateJwtToken(user);
+            response.setHeader("x-auth-token", newToken);
+            responseData.setMessage("登录成功!");
             responseData.setCode("200");
             return responseData;
         } catch (UnknownAccountException e) {
             log.error("用户名不存在", e);
             model.addAttribute("msg", "用户名不存在");
-            responseData.setMsg("用户名不存在");
+            responseData.setMessage("用户名不存在");
             responseData.setCode("1003");
             return responseData;
         } catch (AuthenticationException e) {
             log.error("账户或密码错误", e);
             model.addAttribute("msg", "账户或密码错误");
-            responseData.setMsg("账户或密码错误");
+            responseData.setMessage("账户或密码错误");
             responseData.setCode("1004");
             return responseData;
         } catch (AuthorizationException e) {
             log.error("没有权限", e);
             model.addAttribute("msg", "没有权限");
-            responseData.setMsg("没有权限");
+            responseData.setMessage("没有权限");
             responseData.setCode("1005");
             return responseData;
         }
@@ -210,6 +216,7 @@ public class LoginController {
      * @return: java.lang.String
      * @Date: 2021/4/27
      */
+    @RequiresUser
     @GetMapping("/index")
     public String index() {
         return "index";
@@ -294,20 +301,20 @@ public class LoginController {
         ResponseData responseData=new ResponseData();
         if (user.getPassword() == null || user.getUserName() == null) {
             responseData.setCode("1033");
-            responseData.setMsg("用户名,密码不能为空");
+            responseData.setMessage("用户名,密码不能为空");
         }
         Integer code = registerService.register(user);
         if (code == -1) {
             responseData.setCode("1032");
-            responseData.setMsg("用户名已经存在");
+            responseData.setMessage("用户名已经存在");
         } else if (code == 0) {
             responseData.setCode("1031");
-            responseData.setMsg("注册失败");
+            responseData.setMessage("注册失败");
         }
         else
         {
             responseData.setCode("200");
-            responseData.setMsg("注册成功");
+            responseData.setMessage("注册成功");
         }
         return responseData;
     }
@@ -320,18 +327,27 @@ public class LoginController {
 
     @RequestMapping("/details/import")
     @ResponseBody
-    public ResponseData importDetails(MultipartFile excel,Model model)
+    public ResponseData importDetails(MultipartFile excel, Task task, Model model)
     {
-        log.info("上传的文件名称："+excel.getOriginalFilename());
+        log.info("上传的文件名称："+excel.getOriginalFilename()+"上传的作业名称"+task.toString());
+        task.setCreateTime(new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date()));
+        task.getCreateUser().setId(task.getCreteUserId());
+        task.getClassRoom().setId(Integer.parseInt(task.getClassRoomId()));
         ResponseData responseData=new ResponseData();
         ImportParams params = new ImportParams();
         params.setTitleRows(1);//一级标题
         params.setHeadRows(2);//header标题
         try {
             List<Details> details = ExcelImportUtil.importExcel(excel.getInputStream(), Details.class, params);
-            responseData=scoreService.importScoreDetais(details);
+            task.setDetailsList(details);
+            responseData=scoreService.importTask(task);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+        if (responseData.getCode()==null)
+        {
+            responseData.setCode("1041");
+            responseData.setMessage("操作错误");
         }
         return responseData;
     }

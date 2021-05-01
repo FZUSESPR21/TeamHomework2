@@ -3,6 +3,7 @@ package com.example.scoring_system.service.impl;
 import com.example.scoring_system.bean.User;
 import com.example.scoring_system.mapper.UserMapper;
 import com.example.scoring_system.service.UserService;
+import com.example.scoring_system.utils.JwtUtils;
 import com.example.scoring_system.utils.SaltUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.crypto.hash.Md5Hash;
@@ -62,5 +63,45 @@ public class UserServiceImpl implements UserService {
             userMapper.insUserBatch(userList);
         }
         return tmpList;
+    }
+
+    /**
+    * @Description: 保存user登录信息，获取token.
+    * @Param: [user]
+    * @return: java.lang.String
+    * @Date: 2021/4/29
+    */
+    public String generateJwtToken(User user)
+    {
+        log.debug("User:"+user);
+        String salt= JwtUtils.generateSalt();
+        user.setTokenSalt(salt);
+        //保存salt到数据库中
+        userMapper.updUserTokenSaltByAccount(user);
+        return JwtUtils.sign(user.getAccount(),user.getTokenSalt(),3600);
+    }
+
+    /**
+    * @Description:获取上次token生成的salt指和登录用户信息。
+    * @Param: [user]
+    * @return: com.example.scoring_system.bean.User
+    * @Date: 2021/4/30
+    */
+    public User getJwtTokenInfo(User user)
+    {
+        return userMapper.selUserByAccount(user);
+    }
+
+    /**
+    * @Description: 清除toen信息
+    * @Param: [user]
+    * @return: java.lang.Integer
+    * @Date: 2021/4/30
+    */
+    public Integer deleteLoginInfo(User user)
+    {
+        log.debug("消除token的user:"+user);
+        user.setTokenSalt("");
+        return userMapper.updUserTokenSaltByAccount(user);
     }
 }

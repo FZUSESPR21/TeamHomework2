@@ -30,6 +30,7 @@ public class User implements Serializable {
     private Set<Role> roles;
     private String salt;
     private String class_id;
+    private String tokenSalt;
 
     public User()
     {

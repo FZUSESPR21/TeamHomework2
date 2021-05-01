@@ -1,8 +1,6 @@
 package com.example.scoring_system;
 
-import com.example.scoring_system.bean.Details;
-import com.example.scoring_system.bean.DetailsData;
-import com.example.scoring_system.bean.User;
+import com.example.scoring_system.bean.*;
 import com.example.scoring_system.mapper.ScoreMapper;
 import com.example.scoring_system.mapper.UserMapper;
 import com.example.scoring_system.service.ScoreService;
@@ -61,7 +59,7 @@ class ScoringSystemApplicationTests {
     }
 
 
-    @Test
+//    @Test
     void testScoreService()
     {
         List<DetailsData> detailsDataList=new ArrayList<>();
@@ -73,5 +71,21 @@ class ScoringSystemApplicationTests {
         details1.setTotalScoreRatio("5");
         detailsDataList.add(details1);
         scoreMapper.insDetailsBatch(detailsDataList);
+    }
+
+    @Test
+    void testScoreMapper()
+    {
+        Task task=new Task();
+        task.setBegineTime("2020/02/20");
+        task.setDeadline("2020/02/20");
+        ClassRoom classRoom=new ClassRoom();
+        classRoom.setId(1);
+        task.setClassRoom(classRoom);
+        task.setCreateTime("2020/02/20");
+        User user=new User();
+        user.setId("1");
+        task.setCreateUser(user);
+        scoreMapper.insTask(task);
     }
 }

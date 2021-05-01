@@ -6,10 +6,10 @@
     <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
 </head>
 <body>
-<form th:action="@{/android/login}">
+<form th:action="@{/login}">
     <p th:text="${msg}" style="color: #ff0000"></p>
     <hr/>
-    姓名<input name="userName" type="text"><br>
+    用户名<input name="account" type="text"><br>
     密码<input name="password" type="password"><br>
     验证码<input name="verifyCode" type="text">
     <div id="refalsh" >

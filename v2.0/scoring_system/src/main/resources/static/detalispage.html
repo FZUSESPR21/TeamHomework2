@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>导入评分细则</title>
+    <title>作业及评分发布页面</title>
     <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
     <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
@@ -14,7 +14,13 @@
 <body>
 <form action="/details/import" method="post" enctype="multipart/form-data">
     <div class="form-group">
-        <input type="text" name=""
+        作业名<input type="text" name="taskName">
+        作业内容<input type="text" name="taskContent">
+        创建者<input type="text" name="creteUserId">
+        创建时间<input type="text" name="begineTime">
+        截止日期<input type="text" name="deadline">
+        补交日期<input type="text" name="makeUpTime">
+        班级号<input type="text" name="classRoomId">
         <input class="form-control" type="file" name="excel"/>
         <input type="submit" value="导入数据" class="btn btn-danger">
     </div>
