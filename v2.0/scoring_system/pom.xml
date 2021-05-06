@@ -21,6 +21,12 @@
         <jwt.auth0.version>3.2.0</jwt.auth0.version>
     </properties>
     <dependencies>
+        <!-- pagehelper -->
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper-spring-boot-starter</artifactId>
+            <version>1.2.5</version>
+        </dependency>
         <!--        excel操作相关-->
         <dependency>
             <groupId>cn.afterturn</groupId>

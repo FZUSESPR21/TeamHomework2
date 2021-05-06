@@ -82,6 +82,4 @@ public class LoginServiceImpl implements LoginService {
     public List<User> selAllUser() {
         return userMapper.selAllUser();
     }
-
-
 }

@@ -73,19 +73,4 @@ class ScoringSystemApplicationTests {
         scoreMapper.insDetailsBatch(detailsDataList);
     }
 
-    @Test
-    void testScoreMapper()
-    {
-        Task task=new Task();
-        task.setBegineTime("2020/02/20");
-        task.setDeadline("2020/02/20");
-        ClassRoom classRoom=new ClassRoom();
-        classRoom.setId(1);
-        task.setClassRoom(classRoom);
-        task.setCreateTime("2020/02/20");
-        User user=new User();
-        user.setId("1");
-        task.setCreateUser(user);
-        scoreMapper.insTask(task);
-    }
 }

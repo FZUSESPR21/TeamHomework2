@@ -142,8 +142,8 @@ public class ShiroConfig {
         //登出
         map.put("/logout", "logout");
         //对所有用户认证
-//        map.put("/**", "anon");
-        map.put("/**", "authc");
+        map.put("/**", "anon");
+//        map.put("/**", "authc");
         //不需要验证
         map.put("/tologin", "anon");
         map.put("/register", "anon");

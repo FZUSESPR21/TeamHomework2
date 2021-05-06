@@ -143,15 +143,15 @@ public class LoginController {
             responseData.setCode("1002");
             return responseData;
         }
-        String code=session.getAttribute("verificationCode").toString();
-        System.out.println("&&"+code+"&&&"+verifyCode);
-        if (StringUtils.isEmpty(code)||!(code.equalsIgnoreCase(verifyCode)))
-        {
-            model.addAttribute("msg","验证码错误!");
-            responseData.setMessage("验证码错误!");
-            responseData.setCode("1001");
-            return responseData;
-        }
+//        String code=session.getAttribute("verificationCode").toString();
+//        System.out.println("&&"+code+"&&&"+verifyCode);
+//        if (StringUtils.isEmpty(code)||!(code.equalsIgnoreCase(verifyCode)))
+//        {
+//            model.addAttribute("msg","验证码错误!");
+//            responseData.setMessage("验证码错误!");
+//            responseData.setCode("1001");
+//            return responseData;
+//        }
         //获取当前用户
         Subject subject = SecurityUtils.getSubject();
         //封装用户的登录数据
@@ -159,11 +159,13 @@ public class LoginController {
         try {
             //进行登录
             subject.login(usernamePasswordToken);
-            log.info(user.toString());
+            user=userService.getUserByAccountWithoutPrivacy(user);
+            log.info("返回的user:"+user.toString());
             String newToken=userService.generateJwtToken(user);
             response.setHeader("x-auth-token", newToken);
             responseData.setMessage("登录成功!");
             responseData.setCode("200");
+            responseData.setData(user);
             return responseData;
         } catch (UnknownAccountException e) {
             log.error("用户名不存在", e);
@@ -271,35 +273,35 @@ public class LoginController {
         return "register";
     }
 
-    /**
-     * @Description: 注册
-     * @Param: [user, model]
-     * @return: java.lang.String
-     * @Date: 2021/4/27
-     */
+//    /**
+//     * @Description: 注册
+//     * @Param: [user, model]
+//     * @return: java.lang.String
+//     * @Date: 2021/4/27
+//     */
+//    @RequestMapping("/register")
+//    public String register(User user, Model model) {
+//        if (user.getPassword() == null || user.getUserName() == null) {
+//            model.addAttribute("msg", "用户名,密码不能为空");
+//            return "register";
+//        }
+//        Integer code = registerService.register(user);
+//        if (code == -1) {
+//            model.addAttribute("msg", "用户名已经存在");
+//            return "register";
+//        } else if (code == 0) {
+//            model.addAttribute("msg", "注册失败");
+//            return "register";
+//        }
+//        return "redirect:/login";
+//    }
+
+
     @RequestMapping("/register")
-    public String register(User user, Model model) {
-        if (user.getPassword() == null || user.getUserName() == null) {
-            model.addAttribute("msg", "用户名,密码不能为空");
-            return "register";
-        }
-        Integer code = registerService.register(user);
-        if (code == -1) {
-            model.addAttribute("msg", "用户名已经存在");
-            return "register";
-        } else if (code == 0) {
-            model.addAttribute("msg", "注册失败");
-            return "register";
-        }
-        return "redirect:/login";
-    }
-
-
-    @RequestMapping("/android/register")
     @ResponseBody
     public ResponseData androidRegister(User user, Model model) {
         ResponseData responseData=new ResponseData();
-        if (user.getPassword() == null || user.getUserName() == null) {
+        if (user.getPassword() == null || user.getAccount() == null) {
             responseData.setCode("1033");
             responseData.setMessage("用户名,密码不能为空");
         }
@@ -307,14 +309,17 @@ public class LoginController {
         if (code == -1) {
             responseData.setCode("1032");
             responseData.setMessage("用户名已经存在");
+            responseData.setData("[]");
         } else if (code == 0) {
             responseData.setCode("1031");
             responseData.setMessage("注册失败");
+            responseData.setData("[]");
         }
         else
         {
             responseData.setCode("200");
             responseData.setMessage("注册成功");
+            responseData.setData("[]");
         }
         return responseData;
     }

@@ -9,4 +9,5 @@ public interface UserService {
     public String generateJwtToken(User user);
     public User getJwtTokenInfo(User user);
     public Integer deleteLoginInfo(User user);
+    public User getUserByAccountWithoutPrivacy(User user);
 }

@@ -104,4 +104,9 @@ public class UserServiceImpl implements UserService {
         user.setTokenSalt("");
         return userMapper.updUserTokenSaltByAccount(user);
     }
+
+    @Override
+    public User getUserByAccountWithoutPrivacy(User user) {
+        return userMapper.selUserByAccountWhitoutPrivacy(user);
+    }
 }

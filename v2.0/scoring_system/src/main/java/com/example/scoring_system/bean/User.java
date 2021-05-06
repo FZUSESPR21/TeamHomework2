@@ -31,7 +31,8 @@ public class User implements Serializable {
     private String salt;
     private String class_id;
     private String tokenSalt;
-
+    private String teamId;
+    private String totalScore;
     public User()
     {
 

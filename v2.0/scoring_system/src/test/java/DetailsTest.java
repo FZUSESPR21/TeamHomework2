@@ -11,7 +11,7 @@ import java.util.UUID;
 
 public class DetailsTest {
     public static void main(String[] args) throws FileNotFoundException {
-        String json="{\"msg\":\"请输入用户名和密码,验证码\",\"code\":\"1002\",\"data\":null,\"token\":null}";
-
+       String t="1";
+        System.out.println(Double.parseDouble(t));
     }
 }

@@ -1,5 +1,6 @@
 package com.example.scoring_system.mapper;
 
+import com.example.scoring_system.bean.BlogWork;
 import com.example.scoring_system.bean.User;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -15,7 +16,8 @@ public interface UserMapper {
     @Select("SELECT id,account,user_name as userName,PASSWORD,perms,salt,total_score,team_id,team_change_history,class_id FROM user WHERE user_name=#{userName}")
     public User selUserByUserName(User user);
 
-    @Select("SELECT id,account,user_name as userName,PASSWORD,perms,salt,total_score,team_id,team_change_history,class_id,token_salt tokenSalt FROM user WHERE account=#{account}")
+    @Select("SELECT id,account,user_name userName,PASSWORD,perms,salt,total_score totalScore,team_id teamId,team_change_history teamChangeHistory,class_id classRoomId,token_salt tokenSalt\n" +
+            "FROM USER WHERE account=#{account}")
     public User selUserByAccount(User user);
 
     @Insert("INSERT INTO user VALUES(DEFAULT,#{account},\n" +
@@ -32,8 +34,13 @@ public interface UserMapper {
 
     @Select("SELECT id,account,user_name userName,PASSWORD,perms,salt,total_score totalScore,team_id teamId,team_change_history teamChangeHistory,class_id classId " +
             "FROM user WHERE id=#{id}")
-    public User selUserByid(User user);
+    public User selUserById(User user);
 
     @Update("UPDATE user SET token_salt=#{tokenSalt} WHERE account=#{account}")
     public Integer updUserTokenSaltByAccount(User user);
+
+    @Select("SELECT id,account,user_name as userName,total_score,team_id,team_change_history,class_id FROM user WHERE account=#{account}")
+    public User selUserByAccountWhitoutPrivacy(User user);
+
+
 }
