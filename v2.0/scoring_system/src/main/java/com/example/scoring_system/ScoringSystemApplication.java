@@ -12,5 +12,4 @@ public class ScoringSystemApplication {
     public static void main(String[] args) {
         SpringApplication.run(ScoringSystemApplication.class, args);
     }
-
 }

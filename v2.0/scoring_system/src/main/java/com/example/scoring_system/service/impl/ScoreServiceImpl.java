@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.util.StringUtils;
 
+import java.lang.module.Configuration;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -148,7 +149,7 @@ public class ScoreServiceImpl implements ScoreService {
         List<BlogWork> blogWorklist=scoreMapper.selBlogWorkByTaskIdAndUserIdOrTeamId(team.getId(),task.getId(),user.getId());
         if (blogWorklist.size()>0)
         {
-            responseData.setMessage("作业已提交");
+            responseData.setMessage("作业已提交,请勿重复提交");
             responseData.setCode("1063");
             log.info("返回的数据："+blogWorklist.get(0));
             responseData.setData(blogWorklist.get(0));
@@ -159,7 +160,12 @@ public class ScoreServiceImpl implements ScoreService {
         log.info(team.toString());
         if ((task.getTaskType().equals("团队作业")||task.getTaskType().equals("结对作业"))&&task.getId()!=null&&team.getId()!=null)
         {
-            scoreMapper.insTeamScore(team.getId(),task.getId());
+            blogWork=checkContributions(blogWork);
+            if (blogWork==null)
+            {
+                return new ResponseData("贡献率之和不为100","1121","");
+            }
+            scoreMapper.insTeamScore(team.getId(),task.getId(),blogWork.getContributions());
             scoreMapper.insBlogWork(blogWork);
         }
         else if (task.getTaskType().equals("个人作业"))
@@ -171,6 +177,25 @@ public class ScoreServiceImpl implements ScoreService {
         responseData.setMessage("存储成功");
         responseData.setData(blogWork);
         return responseData;
+    }
+
+    private BlogWork checkContributions(BlogWork blogWork)
+    {
+        StringBuilder contributions=new StringBuilder();
+        Double totalRatio=0.0;
+        for (int i=0;i<blogWork.getContributionList().size();i++)
+        {
+            Contribution contribution=blogWork.getContributionList().get(i);
+            totalRatio+=Double.parseDouble(contribution.getRatio())/100;
+            contributions.append(contribution.getAccount()+":"+contribution.getRatio()+",");
+        }
+        if (Math.abs(totalRatio-1)<0.000001)
+        {
+            String tmp=contributions.toString();
+            blogWork.setContributions(tmp.substring(0,tmp.length()-1));
+            return blogWork;
+        }
+        return null;
     }
 
     @Override
@@ -216,6 +241,16 @@ public class ScoreServiceImpl implements ScoreService {
         return null;
     }
 
+    @Override
+    public List<BlogWork> getUserBlogWorkListByUserId(User user) {
+        return scoreMapper.selUserBlogWorkListByUserId(user);
+    }
+
+    @Override
+    public List<BlogWork> getTeamBlogWorkListByUserId(User user) {
+        return scoreMapper.selTeamBlogWorkListByUserId(user);
+    }
+
     private BlogWork dealIndividualBlogWork(BlogWork blogWork,BlogWork blogWork1,List<DetailsData> detailsDataList)
     {
         log.info("需要处理的数据："+blogWork+blogWork1+detailsDataList);
@@ -237,6 +272,8 @@ public class ScoreServiceImpl implements ScoreService {
         {
             //存储本次作业总分
             scoreMapper.upduserScoreById(score);
+            //将作业状态修改至已经批改
+            scoreMapper.updBlogWorkIsMarkById(blogWork1);
             User user=blogWork1.getUser();
             log.info("即将操作的用户的信息："+user.toString());
             //累计到个人总分
@@ -283,7 +320,8 @@ public class ScoreServiceImpl implements ScoreService {
         {
             //存储本次作业总分
             scoreMapper.updteamScoreById(score);
-
+            //将作业状态修改至已经批改
+            scoreMapper.updBlogWorkIsMarkById(blogWork1);
             //累积到个人分数
             String contribution=score.getContributions();
             log.info("贡献度"+contribution);
@@ -366,5 +404,36 @@ public class ScoreServiceImpl implements ScoreService {
         return ans.toString();
     }
 
+    public List<Task> getTaskListByClassId(ClassRoom classRoom)
+    {
+        return scoreMapper.sellTaskByClassId(classRoom);
+    }
 
+    public List<ClassRoom> getAllClassRoom()
+    {
+        return scoreMapper.selAllClass();
+    }
+
+    @Override
+    public List<DetailsData> getDetailsDataWithReplyReview() {
+        return scoreMapper.selDetailsDataWithReplyReview();
+    }
+
+    @Override
+    public List<TeamReplyReviewForm> getTeamReplyReviewForm(TeamReplyReviewForm teamReplyReviewForm) {
+        return scoreMapper.selTeamReplyReviewFormByTeamIdandDetailsId(teamReplyReviewForm);
+    }
+
+    @Override
+    public Integer changeReplyReviewFormDetails(TeamReplyReviewForm teamReplyReviewForm) {
+        List<TeamReplyReviewForm> teamReplyReviewFormList=scoreMapper.selTeamReplyReviewFormByTeamIdandDetailsId(teamReplyReviewForm);
+        if (teamReplyReviewFormList.size()>0)
+        {
+            return scoreMapper.updTeamReplyReviewForm(teamReplyReviewForm);
+        }
+        else
+        {
+            return scoreMapper.insTeamReplyReviewForm(teamReplyReviewForm);
+        }
+    }
 }

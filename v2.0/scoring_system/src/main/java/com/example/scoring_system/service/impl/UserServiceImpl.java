@@ -1,10 +1,14 @@
 package com.example.scoring_system.service.impl;
 
+import com.example.scoring_system.bean.PageRequest;
+import com.example.scoring_system.bean.Team;
 import com.example.scoring_system.bean.User;
 import com.example.scoring_system.mapper.UserMapper;
 import com.example.scoring_system.service.UserService;
 import com.example.scoring_system.utils.JwtUtils;
 import com.example.scoring_system.utils.SaltUtils;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +32,7 @@ public class UserServiceImpl implements UserService {
      * @Date: 2021/4/27
      */
     @Override
-    public List<User> insUserBatch(List<User> userList) {
+    public List<User> insUserBatch(List<User> userList,User u) {
         List<User> tmpList = new ArrayList<>();
         User user;
         for (int i = 0; i < userList.size(); i++) {
@@ -54,6 +58,7 @@ public class UserServiceImpl implements UserService {
                 //对明文密码进行md5+salt+hash散列
                 Md5Hash md5Hash = new Md5Hash(user.getPassword(), salt, 1024);
                 user.setPassword(md5Hash.toHex());
+                user.setClassId(u.getClassId());
             }
         }
 
@@ -109,4 +114,28 @@ public class UserServiceImpl implements UserService {
     public User getUserByAccountWithoutPrivacy(User user) {
         return userMapper.selUserByAccountWhitoutPrivacy(user);
     }
+
+    /**
+    * @Description: 获取所有学生用户的信息
+    * @Param: []
+    * @return: java.util.List<com.example.scoring_system.bean.User>
+    * @Date: 2021/5/7
+    */
+    @Override
+    public PageInfo<User> getUserByRoleWithStudent(PageRequest pageRequest) {
+        PageHelper.startPage(pageRequest.getPageNum(),pageRequest.getPageSize());
+        return new PageInfo<>(userMapper.selUserByRoleWithStudent());
+    }
+
+    @Override
+    public List<User> getUserListByTeamId(Team team) {
+        List<User> userList=userMapper.selUserByTeamId(team);
+        for (int i=0;i<userList.size();i++)
+        {
+            userList.get(i).setPassword("");
+        }
+        return userList;
+    }
+
+
 }

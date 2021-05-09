@@ -2,6 +2,8 @@ package com.example.scoring_system.bean;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class BlogWork {
     String id;
@@ -16,4 +18,6 @@ public class BlogWork {
     Task task;
     User user;
     Score score;
+    String contributions;
+    List<Contribution> contributionList;
 }

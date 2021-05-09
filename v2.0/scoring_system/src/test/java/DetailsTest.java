@@ -13,5 +13,7 @@ public class DetailsTest {
     public static void main(String[] args) throws FileNotFoundException {
        String t="1";
         System.out.println(Double.parseDouble(t));
+        String tmp="gsadgasgsagdfh";
+        System.out.println(tmp.substring(0,tmp.length()-1));
     }
 }

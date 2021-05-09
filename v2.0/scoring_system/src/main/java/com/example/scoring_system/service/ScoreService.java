@@ -6,12 +6,19 @@ import com.github.pagehelper.PageInfo;
 import java.util.List;
 
 public interface ScoreService {
-    public ResponseData importScoreDetais(List<Details> details);
-    public ResponseData importTask(Task task);
-    public List<Task> getTaskByClassId(Task task);
-    public ResponseData blogWorkSubmit(BlogWork blogWork);
-    public PageInfo<BlogWork> getBlogWorkPageInfo(PageRequest pageRequest, Task task);
-    public BlogWork getOneTeamBlogWork(BlogWork blogWork);
-    public BlogWork getOneUserBlogWork(BlogWork blogWork);
-    public BlogWork scoringBlogWork(BlogWork blogWork,List<DetailsData>  detailsDataList);
+    ResponseData importScoreDetais(List<Details> details);
+    ResponseData importTask(Task task);
+    List<Task> getTaskByClassId(Task task);
+    ResponseData blogWorkSubmit(BlogWork blogWork);
+    PageInfo<BlogWork> getBlogWorkPageInfo(PageRequest pageRequest, Task task);
+    BlogWork getOneTeamBlogWork(BlogWork blogWork);
+    BlogWork getOneUserBlogWork(BlogWork blogWork);
+    BlogWork scoringBlogWork(BlogWork blogWork,List<DetailsData>  detailsDataList);
+    List<BlogWork> getUserBlogWorkListByUserId(User user);
+    List<BlogWork> getTeamBlogWorkListByUserId(User user);
+    List<Task> getTaskListByClassId(ClassRoom classRoom);
+    List<ClassRoom> getAllClassRoom();
+    List<DetailsData> getDetailsDataWithReplyReview();
+    List<TeamReplyReviewForm> getTeamReplyReviewForm(TeamReplyReviewForm teamReplyReviewForm);
+    Integer changeReplyReviewFormDetails(TeamReplyReviewForm teamReplyReviewForm);
 }

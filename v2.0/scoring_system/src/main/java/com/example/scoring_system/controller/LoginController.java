@@ -370,7 +370,8 @@ public class LoginController {
      * @Date: 2021/4/27
      */
     @RequestMapping("/student/import")
-    public String importStudent(MultipartFile excel, Model model) {
+    @ResponseBody
+    public ResponseData importStudent(MultipartFile excel,User user,Model model) {
         log.info("上传的文件名称：" + excel.getOriginalFilename());
         ImportParams params = new ImportParams();
         params.setTitleRows(1);//一级标题
@@ -378,11 +379,11 @@ public class LoginController {
         try {
             List<User> userList = ExcelImportUtil.importExcel(excel.getInputStream(), User.class, params);
             log.info("导入的数量:" + userList.size());
-            userService.insUserBatch(userList);
+            userService.insUserBatch(userList,user);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "redirect:/showlist";
+        return new ResponseData("导入成功","200","[]");
     }
 
     /**

@@ -48,15 +48,15 @@ class ScoringSystemApplicationTests {
     }
 
 //    @Test
-    void testInsBatcher()
-    {
-        List<User> userList=new ArrayList<>();
-        User user=new User();
-        user.setAccount("S221801202");
-        user.setUserName("getusername2");
-        userList.add(user);
-        System.out.println(userService.insUserBatch(userList));
-    }
+//    void testInsBatcher()
+//    {
+//        List<User> userList=new ArrayList<>();
+//        User user=new User();
+//        user.setAccount("S221801202");
+//        user.setUserName("getusername2");
+//        userList.add(user);
+//        System.out.println(userService.insUserBatch(userList));
+//    }
 
 
 //    @Test

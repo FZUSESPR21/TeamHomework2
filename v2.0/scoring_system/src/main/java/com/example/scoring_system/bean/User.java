@@ -29,18 +29,19 @@ public class User implements Serializable {
     private String perms;
     private Set<Role> roles;
     private String salt;
-    private String class_id;
+    private String classId;
     private String tokenSalt;
     private String teamId;
     private String totalScore;
+
     public User()
     {
 
     }
 
-    public User(String id, String user_name, String password, Set<Role> roles) {
+    public User(String id, String userName, String password, Set<Role> roles) {
         this.id = id;
-        this.userName = user_name;
+        this.userName = userName;
         this.password = password;
         this.roles = roles;
     }

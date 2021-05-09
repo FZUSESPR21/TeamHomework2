@@ -19,6 +19,7 @@ public class DetailsData {
     String createTime;
     String taskId;
     String score;
+    String taskName;
 
     @Override
     public boolean equals(Object o) {

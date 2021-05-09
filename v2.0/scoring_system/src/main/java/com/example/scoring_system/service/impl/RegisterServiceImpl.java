@@ -40,4 +40,6 @@ public class RegisterServiceImpl implements RegisterService {
         user.setPassword(md5Hash.toHex());
         return userMapper.insUser(user);
     }
+
+
 }

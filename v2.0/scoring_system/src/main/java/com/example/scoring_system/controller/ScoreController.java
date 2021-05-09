@@ -2,6 +2,7 @@ package com.example.scoring_system.controller;
 
 import com.example.scoring_system.bean.*;
 import com.example.scoring_system.service.ScoreService;
+import com.example.scoring_system.service.UserService;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
@@ -22,7 +23,40 @@ public class ScoreController {
 
     @Autowired
     ScoreService scoreService;
+    @Autowired
+    UserService userService;
 
+    /**
+    * @Description: 查询所有学生的总成绩
+    * @Param: []
+    * @return: com.example.scoring_system.bean.ResponseData
+    * @Date: 2021/5/7
+    */
+    @RequestMapping("/score/user_score/show")
+    @ResponseBody
+    public ResponseData showAllUserScore(PageRequest pageRequest)
+    {
+        ResponseData responseData;
+        PageInfo<User> userPageInfo=userService.getUserByRoleWithStudent(pageRequest);
+        if (userPageInfo!=null&&userPageInfo.getList()!=null&&userPageInfo.getSize()>0)
+        {
+            responseData=new ResponseData("查询成功","200",userPageInfo);
+        }
+        else
+        {
+            responseData=new ResponseData("查询成功","200","[]");
+        }
+
+        return responseData;
+    }
+
+
+    /**
+    * @Description: 根据班级号查询相应任务
+    * @Param: [task]
+    * @return: com.example.scoring_system.bean.ResponseData
+    * @Date: 2021/5/7
+    */
     @RequestMapping("/score/task/show")
     @ResponseBody
     public ResponseData showAllTask(Task task)
@@ -50,14 +84,26 @@ public class ScoreController {
         return responseData;
     }
 
+    /**
+    * @Description: 博客作业提交
+    * @Param: [blogWork]
+    * @return: com.example.scoring_system.bean.ResponseData
+    * @Date: 2021/5/7
+    */
     @RequestMapping("/score/blogwork/submit")
     @ResponseBody
-    public ResponseData saveWorkBlog(BlogWork blogWork)
+    public ResponseData saveWorkBlog(@RequestBody BlogWork blogWork)
     {
-        log.debug("接收到的博客作业:"+blogWork.toString());
+        log.info("接收到的博客作业:"+blogWork.toString());
         return scoreService.blogWorkSubmit(blogWork);
     }
 
+    /**
+    * @Description:  展示blogwork 列表
+    * @Param: [pageRequest, task]
+    * @return: com.example.scoring_system.bean.ResponseData
+    * @Date: 2021/5/7
+    */
     @RequestMapping("/score/blogwork/showlist")
     @ResponseBody
     public ResponseData shlowWorkBlog(PageRequest pageRequest, Task task)
@@ -75,9 +121,41 @@ public class ScoreController {
         return responseData;
     }
 
+
+    @RequestMapping("/score/task/showlist")
+    @ResponseBody
+    public ResponseData showTask(ClassRoom classRoom)
+    {
+        log.info("获取的请求数据:"+classRoom);
+        ResponseData responseData;
+
+        List<Task> taskList=scoreService.getTaskListByClassId(classRoom);
+        log.info("响应的数据"+taskList);
+        responseData=new ResponseData("获取成功","200",taskList);
+        return responseData;
+    }
+
+    @RequestMapping("/score/class/showlist")
+    @ResponseBody
+    public ResponseData showClassRoom()
+    {
+        ResponseData responseData;
+
+        List<ClassRoom> classRooms=scoreService.getAllClassRoom();
+        log.info("响应的数据"+classRooms);
+        responseData=new ResponseData("获取成功","200",classRooms);
+        return responseData;
+    }
+
+    /**
+    * @Description: 根据blogwork id查询blogwork的详情及相应成绩等
+    * @Param: [blogWork]
+    * @return: com.example.scoring_system.bean.ResponseData
+    * @Date: 2021/5/7
+    */
     @RequestMapping("/score/blogwork/details")
     @ResponseBody
-    public ResponseData showTeamBlogWorkDetais(BlogWork blogWork)
+    public ResponseData showBlogWorkDetais(BlogWork blogWork)
     {
         log.info("获取的请求数据:"+blogWork);
         ResponseData responseData;
@@ -96,6 +174,38 @@ public class ScoreController {
         return responseData;
     }
 
+    @RequestMapping("/score/userblogwork/list")
+    @ResponseBody
+    public ResponseData showUserBlogWorkList(User user)
+    {
+        log.info("查询的用户:"+user);
+        List<BlogWork> blogWorkList=scoreService.getUserBlogWorkListByUserId(user);
+        if (blogWorkList!=null&&blogWorkList.size()>0)
+        {
+            return new ResponseData("查询成功","200",blogWorkList);
+        }
+        return new ResponseData("查询失败","1101","[]");
+    }
+
+    @RequestMapping("/score/teamblogwork/list")
+    @ResponseBody
+    public ResponseData showTeamBlogWorkList(User user)
+    {
+        log.info("查询的用户:"+user);
+        List<BlogWork> blogWorkList=scoreService.getTeamBlogWorkListByUserId(user);
+        if (blogWorkList!=null&&blogWorkList.size()>0)
+        {
+            return new ResponseData("查询成功","200",blogWorkList);
+        }
+        return new ResponseData("查询失败","1101","[]");
+    }
+
+    /**
+    * @Description: 博客评分接口。
+    * @Param: [blogWorkScoring]
+    * @return: com.example.scoring_system.bean.ResponseData
+    * @Date: 2021/5/7
+    */
     @RequestMapping("/score/blogwork/scoring")
     @ResponseBody
     public ResponseData scoringBlogWork(@RequestBody BlogWorkScoring blogWorkScoring)
@@ -114,4 +224,60 @@ public class ScoreController {
             return new ResponseData("评分提交失败","1091","[]");
         }
     }
+
+    @RequestMapping("/score/teamUser/show")
+    @ResponseBody
+    public ResponseData showTeamUser(Team team)
+    {
+        log.info("传入的数据:"+team.toString());
+        List<User> userList=userService.getUserListByTeamId(team);
+        if (userList==null||userList.size()<=0)
+        {
+            return new ResponseData("查询失败","1121","[]");
+        }
+        else
+        {
+            return new ResponseData("查询成功","200",userList);
+        }
+    }
+
+    @RequestMapping("/score/teamReplyReview/show")
+    @ResponseBody
+    public ResponseData showReplyReviewList()
+    {
+        List<DetailsData> detailsDataList=scoreService.getDetailsDataWithReplyReview();
+        if (detailsDataList==null||detailsDataList.size()<=0)
+        {
+            return new ResponseData("查询失败","1131","[]");
+        }
+        return new ResponseData("查询成功","200",detailsDataList);
+    }
+
+    @RequestMapping("/score/teamReplyReview/details")
+    @ResponseBody
+    public ResponseData showReplyReviewFormDetails(TeamReplyReviewForm teamReplyReviewForm)
+    {
+        List<TeamReplyReviewForm> teamReplyReviewFormList=scoreService.getTeamReplyReviewForm(teamReplyReviewForm);
+        if (teamReplyReviewFormList==null||teamReplyReviewFormList.size()<=0)
+        {
+            return new ResponseData("查询失败","1141","[]");
+        }
+        return new ResponseData("查询成功","200",teamReplyReviewFormList);
+    }
+
+    @RequestMapping("/score/teamReplyReview/change")
+    @ResponseBody
+    public ResponseData changeReplyReviewFormDetails(TeamReplyReviewForm teamReplyReviewForm)
+    {
+        if (teamReplyReviewForm==null||teamReplyReviewForm.getTeamId()==null||teamReplyReviewForm.getDetailsId()==null)
+        {
+            return new ResponseData("传入的TeamId,DetailsId不能为空 ","1042","[]");
+        }
+        if (scoreService.changeReplyReviewFormDetails(teamReplyReviewForm)>0)
+        {
+            return new ResponseData("评审表修改成功","200","[]");
+        }
+        return new ResponseData("评审表修改失败","1051","[]");
+    }
+    
 }
