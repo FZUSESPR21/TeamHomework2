@@ -10,9 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.thymeleaf.util.StringUtils;
 
-import java.lang.module.Configuration;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -251,6 +249,14 @@ public class ScoreServiceImpl implements ScoreService {
         return scoreMapper.selTeamBlogWorkListByUserId(user);
     }
 
+    @Override
+    public List<BlogWork> getBlogWorkListByClassIdAndTaskId(Task task) {
+        List<BlogWork> blogWorkList=new ArrayList<>();
+        blogWorkList.addAll(scoreMapper.selUserBlogWorkListByClassIdAndTaskId(task));
+        blogWorkList.addAll(scoreMapper.selTeamBlogWorkListByClassIdAndTaskId(task));
+        return blogWorkList;
+    }
+
     private BlogWork dealIndividualBlogWork(BlogWork blogWork,BlogWork blogWork1,List<DetailsData> detailsDataList)
     {
         log.info("需要处理的数据："+blogWork+blogWork1+detailsDataList);
@@ -404,9 +410,18 @@ public class ScoreServiceImpl implements ScoreService {
         return ans.toString();
     }
 
-    public List<Task> getTaskListByClassId(ClassRoom classRoom)
+    public List<Task> getTaskListByClassIdOrType(Task task)
     {
-        return scoreMapper.sellTaskByClassId(classRoom);
+        if (task.getTaskType()==null)
+        {
+            ClassRoom classRoom=new ClassRoom();
+            classRoom.setId(Integer.parseInt(task.getClassRoomId()));
+            return scoreMapper.selTaskByClassId(classRoom);
+        }
+        else
+        {
+            return scoreMapper.selTaskByClassIdAndType(task);
+        }
     }
 
     public List<ClassRoom> getAllClassRoom()
@@ -421,19 +436,122 @@ public class ScoreServiceImpl implements ScoreService {
 
     @Override
     public List<TeamReplyReviewForm> getTeamReplyReviewForm(TeamReplyReviewForm teamReplyReviewForm) {
-        return scoreMapper.selTeamReplyReviewFormByTeamIdandDetailsId(teamReplyReviewForm);
+        List<TeamReplyReviewForm> list=null;
+        if (teamReplyReviewForm.getUserId()!=null)
+        {
+            list=scoreMapper.selTeamReplyReviewFormDetailsByTeamIdAndDetailsIdAndUserId(teamReplyReviewForm);
+        }
+        if (list==null||list.size()<1)
+        {
+            TeamReplyReviewForm teamReplyReviewForm1=scoreMapper.selReplyReviewFormByDetailsIdAndTeamId(teamReplyReviewForm);
+            if (teamReplyReviewForm1!=null)
+            {
+                list=new ArrayList<>();
+                list.add(teamReplyReviewForm1);
+            }
+        }
+        return list;
     }
 
     @Override
+    public List<TeamReplyReviewForm> getTeamReplyReviewFormByDetailsIdExceptTeamId(TeamReplyReviewForm teamReplyReviewForm) {
+        log.info("输入的数据:"+teamReplyReviewForm);
+        return scoreMapper.selReplyReviewFormByDetailsId(teamReplyReviewForm);
+    }
+
+    /**
+    * @Description:  操作成功返回1，操作失败返回0；
+    * @Param: [teamReplyReviewForm]
+    * @return: java.lang.Integer
+    * @Date: 2021/5/9
+    */
+    @Override
+    @Transactional
     public Integer changeReplyReviewFormDetails(TeamReplyReviewForm teamReplyReviewForm) {
-        List<TeamReplyReviewForm> teamReplyReviewFormList=scoreMapper.selTeamReplyReviewFormByTeamIdandDetailsId(teamReplyReviewForm);
+        Integer flag=1;
+        List<TeamReplyReviewForm> teamReplyReviewFormList=scoreMapper.selTeamReplyReviewFormByTeamIdAndDetailsIdAndUserId(teamReplyReviewForm);
+        log.info("查询到的:"+teamReplyReviewFormList);
         if (teamReplyReviewFormList.size()>0)
         {
             return scoreMapper.updTeamReplyReviewForm(teamReplyReviewForm);
         }
         else
         {
-            return scoreMapper.insTeamReplyReviewForm(teamReplyReviewForm);
+            if (scoreMapper.insTeamReplyReviewForm(teamReplyReviewForm)<1)
+            {
+                flag=0;
+            }
         }
+        //已评分的评审表
+        teamReplyReviewFormList=scoreMapper.selTeamReplyReviewFormByTeamIdAndDetailsIdAndUserId(teamReplyReviewForm);
+//        //发布的原始评审表
+//        TeamReplyReviewForm replyReviewForm=scoreMapper.selReplyReviewFormByDetailsIdAndTeamId(teamReplyReviewForm);
+//        if (teamReplyReviewFormList.size()==Integer.parseInt(replyReviewForm.getReviewPeopleNum()) )
+//        {
+//            Double score=countAverageScore(teamReplyReviewFormList);
+//            DetailsData detailsData=new DetailsData();
+//            detailsData.setId(replyReviewForm.getDetailsId());
+//            detailsData.setScore(score.toString());
+//            List<DetailsData> detailsDataList=new ArrayList<>();
+//            detailsDataList.add(detailsData);
+//            log.info("存储的答辩总分："+detailsData);
+//            String teamScoreId=scoreMapper.selTeamScoreIdByTeamIdAndDetailsId(teamReplyReviewForm);
+//            saveTeamScoreDetails(detailsDataList,teamScoreId);
+//        }
+        return flag;
+    }
+
+    @Override
+    @Transactional
+    public Integer countScore(TeamReplyReviewForm teamReplyReviewForm) {
+        List<TeamReplyReviewForm> teamReplyReviewFormList=scoreMapper.selTeamReplyReviewFormByTeamIdAndDetailsId(teamReplyReviewForm);
+        TeamReplyReviewForm replyReviewForm=scoreMapper.selReplyReviewFormByDetailsIdAndTeamId(teamReplyReviewForm);
+        teamReplyReviewForm.setFinnishCount(1);
+        scoreMapper.updReplyReviewFormFinnishCountByDetailsIdAndTeamId(teamReplyReviewForm);
+//        if (teamReplyReviewFormList.size()>=Integer.parseInt(replyReviewForm.getReviewPeopleNum()) )
+//        {
+            log.info("各组评分："+teamReplyReviewFormList.toString());
+            Double score=countAverageScore(teamReplyReviewFormList);
+            DetailsData detailsData=new DetailsData();
+            detailsData.setId(replyReviewForm.getDetailsId());
+            detailsData.setScore(score.toString());
+            List<DetailsData> detailsDataList=new ArrayList<>();
+            detailsDataList.add(detailsData);
+            log.info("存储的答辩总分："+detailsData);
+            List<String> teamScoreIdList=scoreMapper.selTeamScoreIdByTeamIdAndDetailsId(teamReplyReviewForm);
+            log.info("分数："+teamScoreIdList.toString());
+            saveTeamScoreDetails(detailsDataList,teamScoreIdList.get(0));
+//        }
+        return 1;
+    }
+
+
+    private Double countAverageScore(List<TeamReplyReviewForm> teamReplyReviewFormList)
+    {
+        Double tmp=0.0;
+        for (int i=0;i<teamReplyReviewFormList.size();i++)
+        {
+            tmp+=Double.parseDouble(teamReplyReviewFormList.get(i).getScore());
+        }
+        tmp/=teamReplyReviewFormList.size();
+        return tmp;
+    }
+
+    @Override
+    public Integer giveReplyReviewFormDetails(TeamReplyReviewForm teamReplyReviewForm) {
+        TeamReplyReviewForm teamReplyReviewForm1=scoreMapper.selReplyReviewFormByDetailsIdAndTeamId(teamReplyReviewForm);
+        if (teamReplyReviewForm1==null||teamReplyReviewForm1.getId()==null)
+            return scoreMapper.insReplyReviewForm(teamReplyReviewForm);
+        return 0;
+    }
+
+    @Override
+    public List<DetailsData> getDetailsDataByTaskId(Task task) {
+        return scoreMapper.selDetailsDataByTaskId(task);
+    }
+
+    @Override
+    public Task getTaskByTaskId(Task task) {
+        return scoreMapper.selTaskById(task);
     }
 }

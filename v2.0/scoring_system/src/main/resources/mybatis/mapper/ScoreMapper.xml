@@ -125,6 +125,11 @@
             <id column="u_id" property="id"/>
             <result column="u_accout" property="account"></result>
             <result column="u_total_score" property="totalScore"></result>
+            <result column="class_id" property="classId"></result>
+            <association property="classRoom" javaType="com.example.scoring_system.bean.ClassRoom">
+                <id column="class_id" property="id"></id>
+                <result column="c_class_name" property="className"></result>
+            </association>
         </association>
         <!--        作业任务-->
         <association property="task" javaType="com.example.scoring_system.bean.Task">
@@ -144,14 +149,28 @@
 
     <select id="selUserBlogWorkListByUserId" parameterType="com.example.scoring_system.bean.User" resultMap="userBlogWorkListMap">
         SELECT b.sys_id b_id,b.blog_work_name blog_work_name,b.blog_work_content blog_work_content,blog_work_type,blog_url,
-        u.id u_id,u.account u_accout,u.total_score u_total_score,
+        u.id u_id,u.account u_accout,u.total_score u_total_score,u.class_id class_id,c.class_name c_class_name,
         ta.sys_id ta_id,ta.task_name task_name, ta.create_user_id ta_create_user_id,ta.create_time ta_create_time,ta.begine_time ta_begine_time,ta.deadline ta_deadline,ta.make_up_time ta_make_up_time,
         us.sys_id us_id,us.sys_score us_score
         FROM blog_work b
-        LEFT JOIN USER u ON b.user_id=u.id
+        LEFT JOIN user u ON b.user_id=u.id
         LEFT JOIN task ta ON b.task_id=ta.sys_id
         LEFT JOIN user_score us ON us.user_id=b.user_id AND us.task_id=b.task_id
+        LEFT JOIN class c ON u.class_id=c.sys_id
         WHERE u.id=#{id} AND ta.task_type='个人作业'
+    </select>
+
+    <select id="selUserBlogWorkListByClassIdAndTaskId" parameterType="com.example.scoring_system.bean.User" resultMap="userBlogWorkListMap">
+        SELECT b.sys_id b_id,b.blog_work_name blog_work_name,b.blog_work_content blog_work_content,blog_work_type,blog_url,
+        u.id u_id,u.account u_accout,u.total_score u_total_score,u.class_id class_id,c.class_name c_class_name,
+        ta.sys_id ta_id,ta.task_name task_name, ta.create_user_id ta_create_user_id,ta.create_time ta_create_time,ta.begine_time ta_begine_time,ta.deadline ta_deadline,ta.make_up_time ta_make_up_time,
+        us.sys_id us_id,us.sys_score us_score
+        FROM blog_work b
+        LEFT JOIN user u ON b.user_id=u.id
+        LEFT JOIN task ta ON b.task_id=ta.sys_id
+        LEFT JOIN user_score us ON us.user_id=b.user_id AND us.task_id=b.task_id
+        LEFT JOIN class c ON u.class_id=c.sys_id
+        WHERE u.class_id=#{classRoomId} AND ta.sys_id=#{id} AND ta.task_type='个人作业'
     </select>
 
     <resultMap id="teamBlogWorkListMap" type="com.example.scoring_system.bean.BlogWork">
@@ -165,6 +184,10 @@
             <result column="te_team_name" property="sysTeamName"></result>
             <result column="te_team_slogan" property="sysTeamSlogan"></result>
             <result column="te_class_id" property="classRoomId"></result>
+            <association property="classRoom" javaType="com.example.scoring_system.bean.ClassRoom">
+                <id column="te_class_id" property="id"></id>
+                <result column="c_class_name" property="className"></result>
+            </association>
         </association>
         <!--        作业任务-->
         <association property="task" javaType="com.example.scoring_system.bean.Task">
@@ -185,13 +208,28 @@
 
     <select id="selTeamBlogWorkListByUserId" parameterType="com.example.scoring_system.bean.BlogWork" resultMap="teamBlogWorkMap">
         SELECT b.sys_id b_id,b.blog_work_name blog_work_name,b.blog_work_content blog_work_content,blog_work_type,blog_url,
-        te.sys_id te_id,te.sys_team_name te_team_name,te.sys_team_slogan te_team_slogan,te.class_id te_class_id,
+        te.sys_id te_id,te.sys_team_name te_team_name,te.sys_team_slogan te_team_slogan,te.class_id te_class_id,c.class_name c_class_name,
         ta.sys_id ta_id,ta.task_name task_name, ta.create_user_id ta_create_user_id,ta.create_time ta_create_time,ta.begine_time ta_begine_time,ta.deadline ta_deadline,ta.make_up_time ta_make_up_time,
         ts.sys_id ts_id,ts.sys_score ts_score,ts.contributions ts_contributions
         FROM blog_work b
         LEFT JOIN team te ON b.team_id=te.sys_id
         LEFT JOIN task ta ON b.task_id=ta.sys_id
         LEFT JOIN team_score ts ON ts.team_id=b.team_id AND ts.`task_id`=b.`task_id`
+        LEFT JOIN class c ON te.class_id=c.sys_id
         WHERE b.user_id=#{id} AND ta.task_type='团队作业' OR ta.task_type='结对作业'
+    </select>
+
+
+    <select id="selTeamBlogWorkListByClassIdAndTaskId" parameterType="com.example.scoring_system.bean.BlogWork" resultMap="teamBlogWorkListMap">
+        SELECT b.sys_id b_id,b.blog_work_name blog_work_name,b.blog_work_content blog_work_content,blog_work_type,blog_url,
+        te.sys_id te_id,te.sys_team_name te_team_name,te.sys_team_slogan te_team_slogan,te.class_id te_class_id,c.class_name c_class_name,
+        ta.sys_id ta_id,ta.task_name task_name, ta.create_user_id ta_create_user_id,ta.create_time ta_create_time,ta.begine_time ta_begine_time,ta.deadline ta_deadline,ta.make_up_time ta_make_up_time,
+        ts.sys_id ts_id,ts.sys_score ts_score,ts.contributions ts_contributions
+        FROM blog_work b
+        LEFT JOIN team te ON b.team_id=te.sys_id
+        LEFT JOIN task ta ON b.task_id=ta.sys_id
+        LEFT JOIN team_score ts ON ts.team_id=b.team_id AND ts.`task_id`=b.`task_id`
+        LEFT JOIN class c ON te.class_id=c.sys_id
+        WHERE te.class_id=#{classRoomId} AND ta.sys_id=#{id}  AND ta.task_type='团队作业' OR ta.task_type='结对作业'
     </select>
 </mapper>

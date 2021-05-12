@@ -58,6 +58,7 @@ public class UserServiceImpl implements UserService {
                 //对明文密码进行md5+salt+hash散列
                 Md5Hash md5Hash = new Md5Hash(user.getPassword(), salt, 1024);
                 user.setPassword(md5Hash.toHex());
+                log.info("&&*&*&*&*"+u.getClassId());
                 user.setClassId(u.getClassId());
             }
         }

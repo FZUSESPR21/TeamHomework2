@@ -16,9 +16,15 @@ public interface ScoreService {
     BlogWork scoringBlogWork(BlogWork blogWork,List<DetailsData>  detailsDataList);
     List<BlogWork> getUserBlogWorkListByUserId(User user);
     List<BlogWork> getTeamBlogWorkListByUserId(User user);
-    List<Task> getTaskListByClassId(ClassRoom classRoom);
+    List<BlogWork> getBlogWorkListByClassIdAndTaskId(Task task);
+    List<Task> getTaskListByClassIdOrType(Task task);
     List<ClassRoom> getAllClassRoom();
     List<DetailsData> getDetailsDataWithReplyReview();
     List<TeamReplyReviewForm> getTeamReplyReviewForm(TeamReplyReviewForm teamReplyReviewForm);
+    List<TeamReplyReviewForm> getTeamReplyReviewFormByDetailsIdExceptTeamId(TeamReplyReviewForm teamReplyReviewForm);
     Integer changeReplyReviewFormDetails(TeamReplyReviewForm teamReplyReviewForm);
+    Integer countScore(TeamReplyReviewForm teamReplyReviewForm);
+    Integer giveReplyReviewFormDetails(TeamReplyReviewForm teamReplyReviewForm);
+    List<DetailsData> getDetailsDataByTaskId(Task task);
+    Task getTaskByTaskId(Task task);
 }

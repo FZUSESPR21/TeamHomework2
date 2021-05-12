@@ -5,9 +5,9 @@ import com.example.scoring_system.service.ScoreService;
 import com.example.scoring_system.service.UserService;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +25,8 @@ public class ScoreController {
     ScoreService scoreService;
     @Autowired
     UserService userService;
+
+
 
     /**
     * @Description: 查询所有学生的总成绩
@@ -50,6 +52,19 @@ public class ScoreController {
         return responseData;
     }
 
+
+
+    @RequestMapping("/score/task/details")
+    @ResponseBody
+    public ResponseData showTaskDetails(Task task)
+    {
+        ResponseData responseData;
+        Task task1=scoreService.getTaskByTaskId(task);
+        List<DetailsData> detailsDataList=scoreService.getDetailsDataByTaskId(task);
+        task1.setDetailsData(detailsDataList);
+        responseData=new ResponseData("查询成功","200",task1);
+        return responseData;
+    }
 
     /**
     * @Description: 根据班级号查询相应任务
@@ -106,7 +121,7 @@ public class ScoreController {
     */
     @RequestMapping("/score/blogwork/showlist")
     @ResponseBody
-    public ResponseData shlowWorkBlog(PageRequest pageRequest, Task task)
+    public ResponseData showWorkBlog(PageRequest pageRequest, Task task)
     {
         log.info("获取的请求数据:"+pageRequest+task);
         ResponseData responseData;
@@ -122,14 +137,15 @@ public class ScoreController {
     }
 
 
+
     @RequestMapping("/score/task/showlist")
     @ResponseBody
-    public ResponseData showTask(ClassRoom classRoom)
+    public ResponseData showTask(Task task)
     {
-        log.info("获取的请求数据:"+classRoom);
+        log.info("获取的请求数据:"+task);
         ResponseData responseData;
 
-        List<Task> taskList=scoreService.getTaskListByClassId(classRoom);
+        List<Task> taskList=scoreService.getTaskListByClassIdOrType(task);
         log.info("响应的数据"+taskList);
         responseData=new ResponseData("获取成功","200",taskList);
         return responseData;
@@ -174,6 +190,92 @@ public class ScoreController {
         return responseData;
     }
 
+    @RequestMapping("/score/blogwork/details/next")
+    @ResponseBody
+    public ResponseData showNextWorkBlog(PageRequest pageRequest, Task task, String blogWorkId)
+    {
+        log.info("获取的请求数据:"+pageRequest+task);
+        pageRequest.setPageNum(1);
+        pageRequest.setPageSize(100000000);
+        ResponseData responseData;
+        if (task.getClassRoomId()==null||task.getId()==null||pageRequest.getPageNum()<=0||pageRequest.getPageSize()<=0||blogWorkId==null)
+        {
+            responseData=new ResponseData("输入的班级号，任务号，请求数量，大小,当前博客号存在null或0","1071","[]");
+            return responseData;
+        }
+        PageInfo<BlogWork> blogWorkPageInfo=scoreService.getBlogWorkPageInfo(pageRequest,task);
+
+        log.info("响应的数据"+blogWorkPageInfo);
+        responseData=new ResponseData("获取成功","200",getNextBlog(blogWorkPageInfo,blogWorkId));
+        return responseData;
+    }
+
+    private BlogWork getNextBlog(PageInfo<BlogWork> blogWorkPageInfo,String blogWorkId)
+    {
+        for (int i=0;i<blogWorkPageInfo.getList().size();i++)
+        {
+            BlogWork tmp=blogWorkPageInfo.getList().get(i);
+            if (tmp.getId().equals(blogWorkId))
+            {
+                return blogWorkPageInfo.getList().get(i+1);
+            }
+        }
+        return null;
+    }
+
+
+    @RequestMapping("/score/blogwork/details/previous")
+    @ResponseBody
+    public ResponseData showPreviousWorkBlog(PageRequest pageRequest, Task task,String blogWorkId)
+    {
+        log.info("获取的请求数据:"+pageRequest+task);
+        pageRequest.setPageNum(1);
+        pageRequest.setPageSize(100000000);
+        ResponseData responseData;
+        if (task.getClassRoomId()==null||task.getId()==null||pageRequest.getPageNum()<=0||pageRequest.getPageSize()<=0||blogWorkId==null)
+        {
+            responseData=new ResponseData("输入的班级号，任务号，请求数量，大小,当前博客号存在null或0","1071","[]");
+            return responseData;
+        }
+        PageInfo<BlogWork> blogWorkPageInfo=scoreService.getBlogWorkPageInfo(pageRequest,task);
+
+        log.info("响应的数据"+blogWorkPageInfo);
+        responseData=new ResponseData("获取成功","200",getPreviousBlog(blogWorkPageInfo,blogWorkId));
+        return responseData;
+    }
+
+    private BlogWork getPreviousBlog(PageInfo<BlogWork> blogWorkPageInfo,String blogWorkId)
+    {
+        for (int i=0;i<blogWorkPageInfo.getList().size();i++)
+        {
+            BlogWork tmp=blogWorkPageInfo.getList().get(i);
+            if (tmp.getId().equals(blogWorkId)&&i>0)
+            {
+                return blogWorkPageInfo.getList().get(i-1);
+            }
+        }
+        return null;
+    }
+
+
+    /**
+    * @Description: 根据classRommId和id查询博客及其分数
+    * @Param: [task]
+    * @return: com.example.scoring_system.bean.ResponseData
+    * @Date: 2021/5/11
+    */
+    @RequestMapping("/score/task_class_blogwork_score/list")
+    @ResponseBody
+    public  ResponseData shoBlogWorkListByClassIdAndTaskId(Task task)
+    {
+        List<BlogWork> blogWorkList=scoreService.getBlogWorkListByClassIdAndTaskId(task);
+        if (blogWorkList!=null&&blogWorkList.size()>0)
+        {
+            return new ResponseData("查询成功","200",blogWorkList);
+        }
+        return new ResponseData("查询失败","1101","[]");
+    }
+
     @RequestMapping("/score/userblogwork/list")
     @ResponseBody
     public ResponseData showUserBlogWorkList(User user)
@@ -183,6 +285,20 @@ public class ScoreController {
         if (blogWorkList!=null&&blogWorkList.size()>0)
         {
             return new ResponseData("查询成功","200",blogWorkList);
+        }
+        return new ResponseData("查询失败","1101","[]");
+    }
+
+    @RequestMapping("/score/android/userblogwork/list")
+    @ResponseBody
+    public ResponseData showUserBlogWorkListForAndroid(User user)
+    {
+        log.info("查询的用户:"+user);
+        List<BlogWork> blogWorkList=scoreService.getUserBlogWorkListByUserId(user);
+        List<BlogWorkForAndroid> blogWorkForAndroidList=adaptBlogWork(blogWorkList);
+        if (blogWorkList!=null&&blogWorkList.size()>0)
+        {
+            return new ResponseData("查询成功","200",blogWorkForAndroidList);
         }
         return new ResponseData("查询失败","1101","[]");
     }
@@ -198,6 +314,38 @@ public class ScoreController {
             return new ResponseData("查询成功","200",blogWorkList);
         }
         return new ResponseData("查询失败","1101","[]");
+    }
+
+    @RequestMapping("/score/android/teamblogwork/list")
+    @ResponseBody
+    public ResponseData showTeamBlogWorkListForAndroid(User user)
+    {
+        log.info("查询的用户:"+user);
+        List<BlogWork> blogWorkList=scoreService.getTeamBlogWorkListByUserId(user);
+        List<BlogWorkForAndroid> blogWorkForAndroidList=adaptBlogWork(blogWorkList);
+        if (blogWorkList!=null&&blogWorkList.size()>0)
+        {
+            return new ResponseData("查询成功","200",blogWorkForAndroidList);
+        }
+        return new ResponseData("查询失败","1101","[]");
+    }
+
+    private List<BlogWorkForAndroid> adaptBlogWork(List<BlogWork> blogWorkList)
+    {
+        BlogWorkForAndroid blogWorkForAndroid=new BlogWorkForAndroid();
+        List<BlogWorkForAndroid> blogWorkForAndroidList=new ArrayList<>();
+        for (int i=0;i<blogWorkList.size();i++)
+        {
+            blogWorkForAndroid=new BlogWorkForAndroid();
+            blogWorkForAndroid.setId(blogWorkList.get(i).getId());
+            blogWorkForAndroid.setRawScore(blogWorkList.get(i).getScore().getScore());
+            blogWorkForAndroid.setProportion(blogWorkList.get(i).getTask().getRatio());
+            blogWorkForAndroid.setDeadline(blogWorkList.get(i).getTask().getDeadline());
+            blogWorkForAndroid.setTitle(blogWorkList.get(i).getBlogWorkName());
+            blogWorkForAndroid.setType(blogWorkList.get(i).getBlogWorkType());
+            blogWorkForAndroidList.add(blogWorkForAndroid);
+        }
+        return blogWorkForAndroidList;
     }
 
     /**
@@ -258,6 +406,7 @@ public class ScoreController {
     public ResponseData showReplyReviewFormDetails(TeamReplyReviewForm teamReplyReviewForm)
     {
         List<TeamReplyReviewForm> teamReplyReviewFormList=scoreService.getTeamReplyReviewForm(teamReplyReviewForm);
+
         if (teamReplyReviewFormList==null||teamReplyReviewFormList.size()<=0)
         {
             return new ResponseData("查询失败","1141","[]");
@@ -279,5 +428,52 @@ public class ScoreController {
         }
         return new ResponseData("评审表修改失败","1051","[]");
     }
-    
+
+    @RequestMapping("/score/teamReplyReview/calculate")
+    @ResponseBody
+    public ResponseData calculateReplyReviewFormDetails(TeamReplyReviewForm teamReplyReviewForm)
+    {
+        if (scoreService.countScore(teamReplyReviewForm)>0)
+        {
+            return new ResponseData("计算总分成功","200","[]");
+        }
+        else
+        {
+            return new ResponseData("计算总分失败","1181","[]");
+        }
+    }
+
+    @RequestMapping("/score/replyform/give")
+    @ResponseBody
+    public ResponseData giveReplyForm(TeamReplyReviewForm teamReplyReviewForm)
+    {
+        log.info(teamReplyReviewForm.toString());
+        if (scoreService.giveReplyReviewFormDetails(teamReplyReviewForm)>0)
+        {
+            return new ResponseData("发布成功","200","[]");
+        }
+        return new ResponseData("发布失败,可能已经发布","1061","[]");
+    }
+
+
+    @RequestMapping("/score/replyform/team/show")
+    @ResponseBody
+    public ResponseData showTeamReplyFormByDetailsIdExceptTeamId(TeamReplyReviewForm teamReplyReviewForm)
+    {
+        log.info("查找的细则号:"+teamReplyReviewForm.toString());
+        List<TeamReplyReviewForm> teamReplyReviewFormList=scoreService.getTeamReplyReviewFormByDetailsIdExceptTeamId(teamReplyReviewForm);
+        List<TeamReplyReviewFormSimple> teamReplyReviewFormSimpleList=new ArrayList<>();
+        for (int i=0;i<teamReplyReviewFormList.size();i++)
+        {
+            TeamReplyReviewForm teamReplyReviewForm1=teamReplyReviewFormList.get(i);
+            Boolean bool=false;
+            if (teamReplyReviewForm1.getFinnishCount()!=null&&teamReplyReviewForm1.getFinnishCount()>0)
+            {
+                bool=true;
+            }
+            teamReplyReviewFormSimpleList.add(new TeamReplyReviewFormSimple(teamReplyReviewForm1.getTeamId(),
+                    teamReplyReviewForm1.getTeamName(),bool));
+        }
+        return new ResponseData("查询成功","200",teamReplyReviewFormSimpleList);
+    }
 }

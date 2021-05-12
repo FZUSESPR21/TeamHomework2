@@ -14,10 +14,10 @@ public interface StudentMapper {
     @Select("SELECT id,account,user_name as userName,PASSWORD,perms,salt,total_score,team_id,team_change_history,class_id FROM user WHERE id=#{id} and account like 'S%'")
     public User selSingleStudent(String id);
 
-   @Insert("INSERT INTO user VALUES(DEFAULT,#{account},#{userName},#{password},null,#{salt},0,#{teamId},null,#{classId})")
+   @Insert("INSERT INTO user(id,account,user_name,password,perms,salt,total_score,team_id,team_change_history,class_id,token_salt,pair_team_id) VALUES(DEFAULT,#{account},#{userName},#{password},null,#{salt},0,#{teamId},null,#{classId},null,null)")
     public Integer addSingleStudent(User user);
 
-    @Delete("delete from user where id = #{id}")
+    @Delete("delete from user where id = #{id} and account like 'S%'")
     public Integer delStudent(String id);
 
     @Select("SELECT id,account,user_name as userName,PASSWORD,perms,salt,total_score,team_id,team_change_history,class_id FROM user where account like 'S%'")

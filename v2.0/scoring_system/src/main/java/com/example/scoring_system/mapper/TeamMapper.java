@@ -22,7 +22,7 @@ public interface TeamMapper {
     @Delete("delete from team where sys_id = #{id}")
     public Integer delTeam(Team team);
 
-    @Insert("insert into team value (DEFAULT,#{teamName},#{teamSlogan},#{classId})")
+    @Insert("insert into team(sys_id,sys_team_name,sys_team_slogan,class_id) value (DEFAULT,#{teamName},#{teamSlogan},#{classId})")
     public Integer addSingleTeam(Team team);
 
     @Update("update user set team_id = #{teamId} where account = #{id}")

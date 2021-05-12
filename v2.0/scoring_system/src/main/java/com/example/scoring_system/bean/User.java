@@ -33,6 +33,7 @@ public class User implements Serializable {
     private String tokenSalt;
     private String teamId;
     private String totalScore;
+    private ClassRoom classRoom;
 
     public User()
     {

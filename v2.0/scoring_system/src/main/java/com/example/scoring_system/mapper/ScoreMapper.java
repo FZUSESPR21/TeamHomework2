@@ -60,13 +60,22 @@ public interface ScoreMapper {
     @Select("SELECT sys_id id,task_name taskName,task_content taskContent,create_user_id creteUserId,\n" +
             "            create_time createTime,begine_time begineTime,deadline,make_up_time makeUpTime,class_id classRoomId,task_type taskType,ratio\n" +
             "            FROM task WHERE class_id=#{id}")
-    List<Task> sellTaskByClassId(ClassRoom classRoom);
+    List<Task> selTaskByClassId(ClassRoom classRoom);
+
+    @Select("        SELECT sys_id id,task_name taskName,task_content taskContent,create_user_id creteUserId,\n" +
+            "        create_time createTime,begine_time begineTime,deadline,make_up_time makeUpTime,class_id classRoomId,task_type taskType,ratio\n" +
+            "        FROM task WHERE class_id=1 AND task_type=#{taskType}")
+    List<Task> selTaskByClassIdAndType(Task task);
 
     BlogWork selAllClassRoom(BlogWork blogWork);
 
     BlogWork selTeamBlogWorkById(BlogWork blogWork);
 
     BlogWork selUserBlogWorkById(BlogWork blogWork);
+
+    List<BlogWork> selUserBlogWorkListByClassIdAndTaskId(Task task);
+
+    List<BlogWork> selTeamBlogWorkListByClassIdAndTaskId(Task task);
 
     List<BlogWork> selUserBlogWorkListByUserId(User user);
 
@@ -125,24 +134,54 @@ public interface ScoreMapper {
     @Update("UPDATE user SET total_score=#{totalScore} WHERE account=#{account}")
     Integer updUserTotalScore(User user);
 
-    @Select("SELECT d.sys_id dId,d.details_name detailsName,task_name taskName\n" +
-            "FROM details d\n" +
-            "LEFT JOIN task t ON d.task_id=t.sys_id\n" +
-            "WHERE details_name LIKE '答辩%' AND task_name IS NOT NULL")
+    @Select("SELECT d.sys_id id,d.details_name detailsName,task_name taskName,d.task_id taskId\n" +
+            "            FROM details d\n" +
+            "            LEFT JOIN task t ON d.task_id=t.sys_id\n" +
+            "            WHERE details_name LIKE '答辩%' AND task_name IS NOT NULL\n")
     List<DetailsData> selDetailsDataWithReplyReview();
 
+    @Select("SELECT sys_id id,details_name detailsName,score_ratio totalScoreRatio,create_user_id createUserId,create_time createTime,task_id taskId FROM details WHERE task_id=#{id}")
+    List<DetailsData> selDetailsDataByTaskId(Task task);
+
     @Insert("INSERT INTO team_reply_review_form (sys_id,team_id,reply_review_form,user_id,score,advice,details_id)\n" +
-            "VALUES(DEFAULT,#{team_id},#{reply_review_form},NULL,NULL,NULL,#{detailsId})")
+            "VALUES(DEFAULT,#{teamId},#{replyReviewForm},#{userId},#{score},NULL,#{detailsId})")
     Integer insTeamReplyReviewForm(TeamReplyReviewForm teamReplyReviewForm);
 
-    @Update("UPDATE team_reply_review_form SET score=#{score},reply_review_form=#{replyReviewForm}")
+    @Update("UPDATE team_reply_review_form SET score=#{score},reply_review_form=#{replyReviewForm},user_id=#{userId}" +
+            "WHERE team_id=#{teamId} AND details_id=#{detailsId} AND user_id=#{userId}")
     Integer updTeamReplyReviewForm(TeamReplyReviewForm teamReplyReviewForm);
 
     @Select("SELECT sys_id id,team_id teamId,reply_review_form replyReviewForm,user_id userId,score,advice,details_id detailsId\n" +
-            "FROM team_reply_review_form WHERE team_id=#{teamId} AND details_id=#{detailsId}")
-    List<TeamReplyReviewForm> selTeamReplyReviewFormByTeamIdandDetailsId(TeamReplyReviewForm replyReviewForm);
+            "FROM team_reply_review_form WHERE team_id=#{teamId} AND details_id=#{detailsId} AND user_id=#{userId}")
+    List<TeamReplyReviewForm> selTeamReplyReviewFormByTeamIdAndDetailsIdAndUserId(TeamReplyReviewForm replyReviewForm);
+
+    @Select("SELECT t.sys_id id,t.team_id teamId,t.reply_review_form replyReviewForm,t.user_id userId,t.score,t.advice,t.details_id detailsId,r.`review_items` replyReviewFormScore,r.`finnish_count` finnishCount\n" +
+            "FROM team_reply_review_form t LEFT JOIN reply_review_form r ON r.`details_id`=t.`details_id` AND r.`team_id`=t.`team_id`\n" +
+            "WHERE t.team_id=#{teamId} AND t.details_id=#{detailsId} AND t.user_id=#{userId}")
+    List<TeamReplyReviewForm> selTeamReplyReviewFormDetailsByTeamIdAndDetailsIdAndUserId(TeamReplyReviewForm teamReplyReviewForm);
+
+    @Select("SELECT sys_id id,team_id teamId,reply_review_form replyReviewForm,user_id userId,score,advice,details_id detailsId\n" +
+            "FROM team_reply_review_form WHERE team_id=#{teamId} AND details_id=#{detailsId} ")
+    List<TeamReplyReviewForm> selTeamReplyReviewFormByTeamIdAndDetailsId(TeamReplyReviewForm replyReviewForm);
+
+    @Select("SELECT r.sys_id id,review_items replyReviewForm,task_id taskId,team_id teamId,details_id detailsId,`finnish_count` finnishCount,t.sys_team_name teamName\n" +
+            "            FROM reply_review_form  r\n" +
+            "            LEFT JOIN team t ON r.`team_id`=t.`sys_id`\n" +
+            "            WHERE  details_id=#{detailsId} AND r.`team_id`!=#{teamId}")
+    List<TeamReplyReviewForm> selReplyReviewFormByDetailsId(TeamReplyReviewForm teamReplyReviewForm);
 
     @Select("SELECT sys_id id FROM team_score WHERE team_id=#{teamId}\n" +
             "AND task_id IN(SELECT task_id FROM details WHERE sys_id=#{detailsId})")
-    String selTeamScoreIdByTeamIdAndDetailsId(TeamReplyReviewForm teamReplyReviewForm);
+    List<String> selTeamScoreIdByTeamIdAndDetailsId(TeamReplyReviewForm teamReplyReviewForm);
+
+    @Insert("INSERT INTO reply_review_form(sys_id,review_items,task_id,team_id,details_id,review_people_num)\n" +
+            "VALUES (DEFAULT,#{replyReviewForm},#{taskId},#{teamId},#{detailsId},#{reviewPeopleNum})\n")
+    Integer insReplyReviewForm(TeamReplyReviewForm teamReplyReviewForm);
+
+    @Select("SELECT sys_id id,review_items replyReviewForm,task_id taskId,team_id teamId,details_id detailsId \n" +
+            "FROM reply_review_form WHERE  details_id=#{detailsId} AND team_id=#{teamId}")
+    TeamReplyReviewForm selReplyReviewFormByDetailsIdAndTeamId(TeamReplyReviewForm teamReplyReviewForm);
+
+    @Update("UPDATE reply_review_form SET finnish_count=#{finnishCount} WHERE team_id=#{teamId} AND details_id=#{detailsId}")
+    Integer updReplyReviewFormFinnishCountByDetailsIdAndTeamId(TeamReplyReviewForm teamReplyReviewForm);
 }
