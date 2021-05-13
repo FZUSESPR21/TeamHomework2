@@ -19,12 +19,14 @@ public interface ScoreService {
     List<BlogWork> getBlogWorkListByClassIdAndTaskId(Task task);
     List<Task> getTaskListByClassIdOrType(Task task);
     List<ClassRoom> getAllClassRoom();
-    List<DetailsData> getDetailsDataWithReplyReview();
+    List<DetailsDataWithTeamReplyReviewFormVO> getDetailsDataWithReplyReview(TeamReplyReviewForm teamReplyReviewForm);
     List<TeamReplyReviewForm> getTeamReplyReviewForm(TeamReplyReviewForm teamReplyReviewForm);
     List<TeamReplyReviewForm> getTeamReplyReviewFormByDetailsIdExceptTeamId(TeamReplyReviewForm teamReplyReviewForm);
+    List<TeamReplyReviewFormSimple> getTeamWithIsterminted(TeamReplyReviewForm teamReplyReviewForm);
     Integer changeReplyReviewFormDetails(TeamReplyReviewForm teamReplyReviewForm);
     Integer countScore(TeamReplyReviewForm teamReplyReviewForm);
     Integer giveReplyReviewFormDetails(TeamReplyReviewForm teamReplyReviewForm);
     List<DetailsData> getDetailsDataByTaskId(Task task);
     Task getTaskByTaskId(Task task);
+    PageInfo<BlogWork> getBlogWorkPageInfoAll(PageRequest pageRequest, Task task);
 }

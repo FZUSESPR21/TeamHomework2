@@ -25,7 +25,9 @@ class ScoringSystemApplicationTests {
     ScoreMapper scoreMapper;
     @Test
     void selRolesByUserName() {
-
+        BlogWork blogWork=new BlogWork();
+        blogWork.setId("17");
+        System.out.println(scoreMapper.selUserBlogWorkById(blogWork));
     }
 
     void contextLoads() {
@@ -39,12 +41,13 @@ class ScoringSystemApplicationTests {
 //                System.out.println(p.getPermissionsName());
 //            }
 //        }
-        List<User> userList=new ArrayList<>();
-        User user=new User();
-        user.setAccount("S221801201");
-        user.setUserName("getusername");
-        userList.add(user);
-        System.out.println(userMapper.insUserBatch(userList));
+//        List<User> userList=new ArrayList<>();
+//        User user=new User();
+//        user.setAccount("S221801201");
+//        user.setUserName("getusername");
+//        userList.add(user);
+//        System.out.println(userMapper.insUserBatch(userList));
+
     }
 
 //    @Test

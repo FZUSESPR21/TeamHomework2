@@ -54,6 +54,10 @@ public interface ScoreMapper {
             " FROM blog_work b LEFT JOIN user u ON b.user_id=u.id WHERE task_id=#{id} AND u.class_id=#{classRoomId}")
     List<BlogWork> selBlogWorkByTaskIdAndClassRoomId(Task task);
 
+    @Select("SELECT sys_id id,blog_work_name blogWorkName,blog_work_content blogWorkContent,user_id userId,b.team_id teamId,task_id taskId,blog_url blogUrl,is_mark isMark\n" +
+            " FROM blog_work b LEFT JOIN user u ON b.user_id=u.id WHERE u.class_id=#{classRoomId}")
+    List<BlogWork> selBlogWorkByClassRoomId(Task task);
+
     @Select("SELECT sys_id id,class_name className,grade,teacher_id teacherId FROM class")
     List<ClassRoom> selAllClass();
 
@@ -155,7 +159,7 @@ public interface ScoreMapper {
             "FROM team_reply_review_form WHERE team_id=#{teamId} AND details_id=#{detailsId} AND user_id=#{userId}")
     List<TeamReplyReviewForm> selTeamReplyReviewFormByTeamIdAndDetailsIdAndUserId(TeamReplyReviewForm replyReviewForm);
 
-    @Select("SELECT t.sys_id id,t.team_id teamId,t.reply_review_form replyReviewForm,t.user_id userId,t.score,t.advice,t.details_id detailsId,r.`review_items` replyReviewFormScore,r.`finnish_count` finnishCount\n" +
+    @Select("SELECT t.sys_id id,t.team_id teamId,t.reply_review_form  replyReviewFormScore,t.user_id userId,t.score,t.advice,t.details_id detailsId,r.`review_items` replyReviewForm,r.`finnish_count` finnishCount\n" +
             "FROM team_reply_review_form t LEFT JOIN reply_review_form r ON r.`details_id`=t.`details_id` AND r.`team_id`=t.`team_id`\n" +
             "WHERE t.team_id=#{teamId} AND t.details_id=#{detailsId} AND t.user_id=#{userId}")
     List<TeamReplyReviewForm> selTeamReplyReviewFormDetailsByTeamIdAndDetailsIdAndUserId(TeamReplyReviewForm teamReplyReviewForm);
@@ -184,4 +188,7 @@ public interface ScoreMapper {
 
     @Update("UPDATE reply_review_form SET finnish_count=#{finnishCount} WHERE team_id=#{teamId} AND details_id=#{detailsId}")
     Integer updReplyReviewFormFinnishCountByDetailsIdAndTeamId(TeamReplyReviewForm teamReplyReviewForm);
+
+    @Select("SELECT sys_id teamId,sys_team_name teamName FROM team WHERE sys_id!=#{teamId}")
+    List<TeamReplyReviewFormSimple> getTeamReplyReviewFormSimple(String teamId);
 }

@@ -15,5 +15,7 @@ public class DetailsTest {
         System.out.println(Double.parseDouble(t));
         String tmp="gsadgasgsagdfh";
         System.out.println(tmp.substring(0,tmp.length()-1));
+        Integer tmp1=34;
+        System.out.println(tmp1);
     }
 }

@@ -33,7 +33,7 @@ public interface StudentMapper {
             " where ur.roleid = 2")
     public int selStudentCount();
 
-    @Update("update user set user_name = #{userName}, password = #{password}, total_score = #{totalScore}, class_id = #{classId} where id = #{id}")
+    @Update("update user set user_name = #{userName}, password = #{password} where id = #{id}")
     public Integer updStudent1(User user);
 
     @Update("update user set team_id = #{user.teamId}, team_change_history = #{change} where id = #{user.id}")

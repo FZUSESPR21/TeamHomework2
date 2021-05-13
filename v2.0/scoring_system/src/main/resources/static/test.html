@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap-table/1.15.4/bootstrap-table.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap-table/1.15.4/locale/bootstrap-table-zh-CN.min.js"></script>
+</head>
+<body>
+<button onclick="f()">test</button>
+<button onclick="ff()">test2</button>
+<script>
+
+    function set(type, value) {
+        localStorage.setItem(type, value);
+    }
+
+    function get(type) {
+        return localStorage.getItem(type);
+    }
+    // //设置token
+    // set("token", data.token);
+    // //获取token
+    // var token;
+    // token=get("token");
+    // //退出登录
+    // set("token",null);
+
+    function f() {
+        $.ajax({
+            type: 'get',
+            url: 'test4.json',
+            dataType: 'json',
+            success: function(data){
+                set("token", data.token);
+                console.log(data.token)
+            }
+        });
+    }
+
+    function ff() {
+        var token;
+        token=get("token");
+        console.log(token);
+    }
+
+
+</script>
+</body>
+</html>

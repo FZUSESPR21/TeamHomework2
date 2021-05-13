@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 public class TeamReplyReviewFormSimple {
     String teamId;
     String teamName;
-    boolean terminated;
+    boolean terminated=false;
 }

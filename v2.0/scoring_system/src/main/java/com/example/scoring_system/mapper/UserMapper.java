@@ -37,6 +37,8 @@ public interface UserMapper {
 
     User selRolesByUserName(String username);
 
+    User selRoleByUserAccount(String account);
+
     @Select("SELECT id,account,user_name as userName,password,perms,salt,total_score,team_id,team_change_history,class_id FROM user")
     List<User> selAllUser();
 
@@ -44,10 +46,12 @@ public interface UserMapper {
             "FROM user WHERE id=#{id}")
     User selUserById(User user);
 
+    User  selUserAndClassRoomByUserId(User user);
+
     @Update("UPDATE user SET token_salt=#{tokenSalt} WHERE account=#{account}")
     Integer updUserTokenSaltByAccount(User user);
 
-    @Select("SELECT id,account,user_name as userName,total_score,team_id,team_change_history,class_id FROM user WHERE account=#{account}")
+    @Select("SELECT id,account,user_name as userName,total_score totalScore,team_id teamId,team_change_history teamChangeHistory,class_id classId FROM user WHERE account=#{account}")
     User selUserByAccountWhitoutPrivacy(User user);
 
     @Select("SELECT id,account,user_name userName,PASSWORD,perms,salt,total_score totalScore,team_id teamId,team_change_history teamChangeHistory,class_id classId " +

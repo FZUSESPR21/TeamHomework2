@@ -1,0 +1,144 @@
+{
+  "message": "获取成功",
+  "code": "200",
+  "data": {
+    "id": "8",
+    "blogWorkName": "团队作业222",
+    "blogWorkContent": "#C语言提供了几个标准库函数，可以将任意类型(整型、长整型、浮点型等)的数字转换为字符串。以下是用itoa()函数将整数转 换为字符串的一个例子：        atoi     把字符串转换成整型数        itoa     把一整数转换为字符串    #include \"stdio.h\" #include \"ctype.h\" #include \"stdlib.h\"   /* Converts a character string into an int or long 将一个字符串转化为整数 */ int my_atoi(char s[]) { \tint i,n,sign;   \tfor(i=0;isspace(s[i]);i++);   //跳过空白   \tsign=(s[i]=='-')?-1:1; \tif(s[i]=='+'||s[i]==' -')     //跳过符号位 \t\ti++; \tfor(n=0;isdigit(s[i]);i++) \t\tn=10*n+(s[i]-'0');        //将数字字符转换成整形数字 \treturn sign*n; }   /* Converts an int or long into a character string 将一个整数转化为字符串 */ void my_itoa(int n,char s[]) { \tint i,j,sign;   \tif((sign=n)<0)    //记录符号 \t\tn=-n;         //使n成为正数 \ti=0; \tdo{ \t\ts[i++]=n%10+'0';    //取下一个数字 \t}while((n/=10)>0);      //循环相除   \tif(sign<0) \t\ts[i++]='-'; \ts[i]='\\0'; \tfor(j=i-1;j>=0;j--)        //生成的数字是逆序的，所以要逆序输出 \t\tprintf(\"%c\",s[j]); }     void main() { \tint n; \tchar str[100]; \tmy_itoa(-123,str); \tprintf(\"\\n\"); \tprintf(\"%d\\n\",my_atoi(\"123\")); \tsystem(\"pause\"); } ",
+    "userId": null,
+    "teamId": null,
+    "taskId": null,
+    "blogWorkType": "团队作业",
+    "blogUrl": null,
+    "team": {
+      "id": "1",
+      "sysTeamName": "字节乱动",
+      "sysTeamSlogan": "天天向上",
+      "classRoomId": "1",
+      "blogWorkList": null,
+      "userList": null,
+      "classRoom": null
+    },
+    "task": {
+      "id": "1",
+      "taskName": "团队作业五——站立式会议+alpha冲刺",
+      "taskContent": null,
+      "createUserId": "2",
+      "createUser": {
+        "id": null,
+        "account": null,
+        "userName": null,
+        "password": null,
+        "perms": null,
+        "roles": null,
+        "salt": null,
+        "classId": null,
+        "tokenSalt": null,
+        "teamId": null,
+        "totalScore": null,
+        "classRoom": null
+      },
+      "createTime": "2021-04-25 09:00:42",
+      "begineTime": "2021-04-25 09:01:02",
+      "deadline": "2021-05-14 09:01:24",
+      "makeUpTime": "2021-05-16 09:03:05",
+      "detailsList": [],
+      "classRoom": {
+        "id": null,
+        "className": null,
+        "grade": null,
+        "teacherId": null,
+        "user": null
+      },
+      "classRoomId": null,
+      "creteUserId": null,
+      "taskType": null,
+      "detailsData": null,
+      "ratio": null
+    },
+    "user": null,
+    "score": {
+      "id": "5",
+      "score": "60",
+      "teamId": null,
+      "userId": null,
+      "user1Id": null,
+      "user2Id": null,
+      "taskId": null,
+      "contributions": "s221801110:0.5,s221809991:0.5",
+      "detailsDataList": [{
+        "id": "34",
+        "detailsName": "博客-测试随笔（10%）",
+        "totalScoreRatio": "0.06",
+        "createUserId": null,
+        "createTime": null,
+        "taskId": null,
+        "score": "60",
+        "taskName": null
+      },
+        {
+          "id": "35",
+          "detailsName": "博客-冲刺总结随笔-项目预期计划、现实进展（20%）",
+          "totalScoreRatio": "0.12",
+          "createUserId": null,
+          "createTime": null,
+          "taskId": null,
+          "score": "60",
+          "taskName": null
+        },
+        {
+          "id": "36",
+          "detailsName": "博客-冲刺总结随笔-过程体会、组员分工协作（10%）",
+          "totalScoreRatio": "0.06",
+          "createUserId": null,
+          "createTime": null,
+          "taskId": null,
+          "score": "60",
+          "taskName": null
+        },
+        {
+          "id": "37",
+          "detailsName": "博客-冲刺总结随笔-在Alpha阶段的工作量比例、下阶段展望（5%）",
+          "totalScoreRatio": "0.03",
+          "createUserId": null,
+          "createTime": null,
+          "taskId": null,
+          "score": "60",
+          "taskName": null
+        },
+        {
+          "id": "38",
+          "detailsName": "博客-冲刺随笔-要求团队在冲刺的十天内，每天发布一篇随笔，共十篇（30%）",
+          "totalScoreRatio": "0.18",
+          "createUserId": null,
+          "createTime": null,
+          "taskId": null,
+          "score": "60",
+          "taskName": null
+        },
+        {
+          "id": "39",
+          "detailsName": "博客-代码规范、冲刺任务与计划",
+          "totalScoreRatio": "0.15",
+          "createUserId": null,
+          "createTime": null,
+          "taskId": null,
+          "score": "60",
+          "taskName": null
+        },
+        {
+          "id": "40",
+          "detailsName": "答辩-答辩",
+          "totalScoreRatio": "0.4",
+          "createUserId": null,
+          "createTime": null,
+          "taskId": null,
+          "score": "60",
+          "taskName": null
+        }
+      ]
+    },
+    "contributions": null,
+    "contributionList": null
+  }
+}

@@ -3,6 +3,7 @@ package com.example.scoring_system.service.impl;
 import com.example.scoring_system.bean.PageRequest;
 import com.example.scoring_system.bean.Team;
 import com.example.scoring_system.bean.User;
+import com.example.scoring_system.bean.UserVO;
 import com.example.scoring_system.mapper.UserMapper;
 import com.example.scoring_system.service.UserService;
 import com.example.scoring_system.utils.JwtUtils;
@@ -113,7 +114,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserByAccountWithoutPrivacy(User user) {
-        return userMapper.selUserByAccountWhitoutPrivacy(user);
+        User user1=userMapper.selUserByAccountWhitoutPrivacy(user);
+        log.info(user1.toString());
+        User user2=userMapper.selRoleByUserAccount(user.getAccount());
+        log.info(user2.toString());
+        user1.setRoles(user2.getRoles());
+        return user1;
     }
 
     /**
@@ -135,7 +141,19 @@ public class UserServiceImpl implements UserService {
         {
             userList.get(i).setPassword("");
         }
+
         return userList;
+    }
+
+    @Override
+    public UserVO getUserAndClassRoomByUserId(User user) {
+        log.info("查询的user"+user.getId());
+        User user1=userMapper.selUserAndClassRoomByUserId(user);
+        if (user1==null)
+        {
+            return new UserVO();
+        }
+        return new UserVO(user1.getId(),user1.getAccount(),user1.getUserName(),user1.getClassRoom().getClassName());
     }
 
 

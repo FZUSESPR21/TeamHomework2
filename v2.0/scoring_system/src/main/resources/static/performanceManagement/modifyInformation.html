@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>修改信息</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <script src="../layui/layui.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/select.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/option.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/sidebarnavigation.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="../css/modifyInformation.css">
+    <script src="../jquery/dist/jquery.min.js"></script>
+</head>
+<body>
+<form class="layui-form" action="">
+    <div class="layui-form-item">
+        <label class="layui-form-label">当前密码：</label>
+        <div class="layui-input-inline">
+            <input type="password" name="password" required lay-verify="required" placeholder="请输入当前密码" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-form-mid layui-word-aux">辅助文字</div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">新密码：</label>
+        <div class="layui-input-inline">
+            <input type="password" name="password" id="new_password" required lay-verify="required" placeholder="请输入新密码" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-form-mid layui-word-aux" id="prompt_Information">密码由6-16位数字或者字母组成</div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">确认密码：</label>
+        <div class="layui-input-inline">
+            <input type="password" name="password" id="confirm_password" required lay-verify="required" placeholder="请确认新密码" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-form-mid layui-word-aux" id="prompt_Information1">密码由6-16位数字或者字母组成</div>
+    </div>
+</form>
+
+<script type="text/javascript">
+    $(function(){
+        $("#new_password").change(function(){
+            var zhengze =  /^[0-9a-zA-Z]{6,16}$/;    //判断密码
+            var repPass1 = /[0-9]{1,}/;       //判断数字
+            var repPass2 = /[a-zA-Z]{1,}/;     //判断字母
+            var va=$("#new_password").val();
+            if(!zhengze.test(va)){
+               document.getElementById("prompt_Information").innerHTML="密码由6-16位数字或者字母组成";
+            }else if(!repPass1.test(va) || !repPass2.test(va)){
+                document.getElementById("prompt_Information").innerHTML="请输入符合规则的密码~!";
+            }
+            else if(va.length<6||va.length>16)
+            {
+                document.getElementById("prompt_Information").innerHTML="登录密码长度不符合要求!";
+            }
+        });
+    })
+</script>
+</body>
+</html>

@@ -4,10 +4,7 @@ import cn.afterturn.easypoi.excel.ExcelExportUtil;
 import cn.afterturn.easypoi.excel.ExcelImportUtil;
 import cn.afterturn.easypoi.excel.entity.ExportParams;
 import cn.afterturn.easypoi.excel.entity.ImportParams;
-import com.example.scoring_system.bean.Details;
-import com.example.scoring_system.bean.ResponseData;
-import com.example.scoring_system.bean.Task;
-import com.example.scoring_system.bean.User;
+import com.example.scoring_system.bean.*;
 import com.example.scoring_system.service.LoginService;
 import com.example.scoring_system.service.RegisterService;
 import com.example.scoring_system.service.ScoreService;
@@ -39,6 +36,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.constraints.NotNull;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -324,6 +322,7 @@ public class LoginController {
         return responseData;
     }
 
+
     @RequestMapping("/detailspage")
     public String toDetails()
     {
@@ -409,7 +408,18 @@ public class LoginController {
         }
     }
 
-
+    @RequestMapping("/user/userInfo")
+    @ResponseBody
+    public ResponseData getUserInfoByUserId(@NotNull String userId)
+    {
+        log.info("查询userId："+userId);
+        User user=new User();
+        user.setId(userId);
+        UserVO userVO=userService.getUserAndClassRoomByUserId(user);
+        if (userVO!=null&&userVO.getId()!=null)
+            return new ResponseData("查询成功","200",userVO);
+        return new ResponseData("查询失败","1191","[]");
+    }
 
     /**
      * @Description: 实现验证码

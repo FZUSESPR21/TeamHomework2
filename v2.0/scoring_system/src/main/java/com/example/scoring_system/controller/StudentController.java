@@ -59,14 +59,14 @@ public class StudentController {
 
     @RequestMapping("/selByPage")
     @ResponseBody
-    public ResponseData selByPage(@RequestBody PageRequest pageRequest){
+    public ResponseData selByPage( PageRequest pageRequest){
         PageInfo<User> pageInfo = studentService.selByPage(pageRequest);
         return new ResponseData("返回的学生列表","200",pageInfo);
     }
 
     @RequestMapping("/addSingleStudent")
     @ResponseBody
-    public ResponseData addSingleStudent(@RequestBody User user){
+    public ResponseData addSingleStudent(User user){
         boolean result;
         ResponseData responseData;
 
@@ -108,7 +108,8 @@ public class StudentController {
 
     @RequestMapping("/updStudent1")
     @ResponseBody
-    public ResponseData updStudent1(@RequestBody User user){
+    public ResponseData updStudent1(User user){
+        log.info(user.toString());
         if (user == null){
             return new ResponseData("没有要修改学生数据","1001","[]");
         }
@@ -129,7 +130,7 @@ public class StudentController {
 
     @RequestMapping("/updStudent2")
     @ResponseBody
-    public ResponseData updStudent2(@RequestBody User user){
+    public ResponseData updStudent2(User user){
         if (user == null){
             return new ResponseData("没有要修改学生数据","1001","[]");
         }
@@ -161,5 +162,4 @@ public class StudentController {
         }
         return new ResponseData("成功插入学生数据"+String.valueOf(size)+"条","200","[]");
     }
-
 }

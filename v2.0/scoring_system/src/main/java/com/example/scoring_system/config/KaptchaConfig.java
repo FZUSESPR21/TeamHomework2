@@ -45,7 +45,7 @@ public class KaptchaConfig {
         properties.setProperty("kaptcha.image.width", "160");
         properties.setProperty("kaptcha.image.height", "60");
         properties.setProperty("kaptcha.textproducer.font.size", "28");
-        properties.setProperty("kaptcha.session.key", "code");
+        properties.setProperty("kaptcha.session.key", "verificationCode");
         properties.setProperty("kaptcha.textproducer.char.spac", "35");
         properties.setProperty("kaptcha.textproducer.char.length", "4");
         properties.setProperty("kaptcha.textproducer.font.names", "Arial,Courier");

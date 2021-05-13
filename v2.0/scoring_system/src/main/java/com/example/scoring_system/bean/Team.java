@@ -19,8 +19,8 @@ public class Team {
     private ClassRoom classRoom;
 
     public Team(String teamName, String teamSlogan, String classId) {
-        this.sysTeamName=teamName;
-        this.sysTeamSlogan=teamSlogan;
-        this.classRoomId=classId;
+        sysTeamName=teamName;
+        sysTeamSlogan=teamSlogan;
+        classRoomId=classId;
     }
 }

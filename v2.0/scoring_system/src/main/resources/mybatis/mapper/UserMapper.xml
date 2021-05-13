@@ -3,11 +3,11 @@
 <mapper namespace="com.example.scoring_system.mapper.UserMapper">
     <resultMap id="userMap" type="com.example.scoring_system.bean.User">
         <id column="uid" property="id"/>
-        <result column="username" property="userName"></result>
-        <collection property="roles" javaType="java.util.Set" ofType="Role">
+        <result column="user_name" property="userName"></result>
+        <collection property="roles" javaType="java.util.Set" ofType="com.example.scoring_system.bean.Role">
             <id column="rid" property="id"/>
             <result column="rname" property="roleName"/>
-            <collection property="permissions" javaType="java.util.Set" ofType="Permissions">
+            <collection property="permissions" javaType="java.util.Set" ofType="com.example.scoring_system.bean.Permissions">
                 <id column="pid" property="id"/>
                 <result column="pname" property="permissionsName"/>
             </collection>
@@ -23,6 +23,15 @@
         where u.user_name=#{userName}
     </select>
 
+    <select id="selRoleByUserAccount" resultMap="userMap"  parameterType="java.lang.String" >
+        select u.id uid,u.user_name,r.id rid,r.rolename rname,p.id pid,p.permsname pname from user u
+        left join user_role ur on u.id=ur.userid
+        left join role r on ur.roleid=r.id
+        LEFT JOIN role_perms rp ON r.id=rp.roleid
+        LEFT JOIN perms p ON rp.permsid=p.id
+        where u.account=#{account}
+    </select>
+
     <insert id="insUserBatch" parameterType="java.util.List">
         INSERT INTO user
         (id,account,user_name ,PASSWORD,perms,salt,total_score,team_id,team_change_history,class_id,token_salt)
@@ -33,4 +42,22 @@
             NULL,#{user.salt},NULL,NULL,NULL,#{user.classId},NULL)
         </foreach>
     </insert>
+
+    <resultMap id="userInfoMap" type="com.example.scoring_system.bean.User">
+        <id column="id" property="id"/>
+        <result column="account" property="account"></result>
+        <result column="userName" property="userName"></result>
+        <association property="classRoom" javaType="com.example.scoring_system.bean.ClassRoom">
+            <id column="classId" property="id"/>
+            <result column="className" property="className"/>
+        </association>
+    </resultMap>
+
+    <select id="selUserAndClassRoomByUserId" parameterType="com.example.scoring_system.bean.User" resultMap="userInfoMap">
+        SELECT id,account,user_name userName,PASSWORD,perms,salt,total_score totalScore,team_id teamId,team_change_history teamChangeHistory,class_id classId,class_name className
+        FROM `user` u
+        LEFT JOIN class c ON u.class_id=c.sys_id
+        WHERE id=#{id}
+    </select>
+
 </mapper>

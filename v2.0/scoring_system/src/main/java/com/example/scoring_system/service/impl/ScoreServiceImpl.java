@@ -2,6 +2,7 @@ package com.example.scoring_system.service.impl;
 
 import com.example.scoring_system.bean.*;
 import com.example.scoring_system.mapper.ScoreMapper;
+import com.example.scoring_system.mapper.TeamMapper;
 import com.example.scoring_system.mapper.UserMapper;
 import com.example.scoring_system.service.ScoreService;
 import com.github.pagehelper.PageHelper;
@@ -23,6 +24,9 @@ public class ScoreServiceImpl implements ScoreService {
 
     @Autowired
     UserMapper userMapper;
+
+    @Autowired
+    TeamMapper teamMapper;
 
     @Override
     public ResponseData importScoreDetais(List<Details> detailsList) {
@@ -206,6 +210,15 @@ public class ScoreServiceImpl implements ScoreService {
     }
 
     @Override
+    public PageInfo<BlogWork> getBlogWorkPageInfoAll(PageRequest pageRequest, Task task) {
+        int pageNum=pageRequest.getPageNum();
+        int pageSize=pageRequest.getPageSize();
+        PageHelper.startPage(pageNum,pageSize);
+        List<BlogWork> blogWorkList=scoreMapper.selBlogWorkByClassRoomId(task);
+        return new PageInfo<>(blogWorkList);
+    }
+
+    @Override
     public BlogWork getOneTeamBlogWork(BlogWork blogWork) {
         return scoreMapper.selTeamBlogWorkById(blogWork);
     }
@@ -224,8 +237,10 @@ public class ScoreServiceImpl implements ScoreService {
     @Override
     @Transactional
     public BlogWork scoringBlogWork(BlogWork blogWork,List<DetailsData> detailsDataList) {
-        log.info(blogWork.toString()+"修改的细则"+detailsDataList);
+        log.info(blogWork.toString());
+        log.info("$$$$$$$$$$$$$$$$$$$$$$$$$$4修改的细则"+detailsDataList);
         BlogWork blogWork1=scoreMapper.selUserBlogWorkById(blogWork);
+        log.info("查询的博客1："+blogWork1.toString());
         if ((blogWork1.getBlogWorkType().equals("团队作业")||blogWork1.getBlogWorkType().equals("结对作业")))
         {
             blogWork1=dealTeamAndPairBlogWork(blogWork,blogWork1,detailsDataList);
@@ -430,8 +445,28 @@ public class ScoreServiceImpl implements ScoreService {
     }
 
     @Override
-    public List<DetailsData> getDetailsDataWithReplyReview() {
-        return scoreMapper.selDetailsDataWithReplyReview();
+    public List<DetailsDataWithTeamReplyReviewFormVO> getDetailsDataWithReplyReview(TeamReplyReviewForm teamReplyReviewForm) {
+        List<DetailsDataWithTeamReplyReviewFormVO> detailsDataWithTeamReplyReviewFormVOList=new ArrayList<>();
+        List<DetailsData> detailsDataList=scoreMapper.selDetailsDataWithReplyReview();
+
+        for (int i=0;i<detailsDataList.size();i++)
+        {
+            teamReplyReviewForm.setDetailsId(detailsDataList.get(i).getId());
+            log.info("查询的"+teamReplyReviewForm);
+            TeamReplyReviewForm teamReplyReviewForm1=scoreMapper.selReplyReviewFormByDetailsIdAndTeamId(teamReplyReviewForm);
+            DetailsDataWithTeamReplyReviewFormVO detailsDataWithTeamReplyReviewFormVO;
+            if (teamReplyReviewForm1!=null&&teamReplyReviewForm1.getId()!=null)
+            {
+                detailsDataWithTeamReplyReviewFormVO=new DetailsDataWithTeamReplyReviewFormVO(detailsDataList.get(i),true);
+            }
+            else
+            {
+                detailsDataWithTeamReplyReviewFormVO=new DetailsDataWithTeamReplyReviewFormVO(detailsDataList.get(i),false);
+            }
+            detailsDataWithTeamReplyReviewFormVOList.add(detailsDataWithTeamReplyReviewFormVO);
+        }
+
+        return detailsDataWithTeamReplyReviewFormVOList;
     }
 
     @Override
@@ -458,6 +493,30 @@ public class ScoreServiceImpl implements ScoreService {
         log.info("输入的数据:"+teamReplyReviewForm);
         return scoreMapper.selReplyReviewFormByDetailsId(teamReplyReviewForm);
     }
+
+    @Override
+    public List<TeamReplyReviewFormSimple> getTeamWithIsterminted(TeamReplyReviewForm teamReplyReviewForm) {
+        List<TeamReplyReviewForm> teamReplyReviewFormList=getTeamReplyReviewFormByDetailsIdExceptTeamId(teamReplyReviewForm);
+        List<TeamReplyReviewFormSimple> teamReplyReviewFormSimpleList=scoreMapper.getTeamReplyReviewFormSimple(teamReplyReviewForm.getTeamId());
+        for (int i=0;i<teamReplyReviewFormList.size();i++)
+        {
+            TeamReplyReviewForm teamReplyReviewForm1=teamReplyReviewFormList.get(i);
+            if (teamReplyReviewForm1.getFinnishCount()!=null&&teamReplyReviewForm1.getFinnishCount()>0)
+            {
+                for (int j=0;j<teamReplyReviewFormSimpleList.size();j++)
+                {
+                    log.info(teamReplyReviewFormSimpleList.get(j).getTeamId()+"   "+teamReplyReviewForm1.getTeamId());
+                    if (teamReplyReviewFormSimpleList.get(j).getTeamId().equals(teamReplyReviewForm1.getTeamId()))
+                    {
+                        teamReplyReviewFormSimpleList.set(j,new TeamReplyReviewFormSimple(teamReplyReviewForm1.getTeamId(),
+                                teamReplyReviewForm1.getTeamName(),true));
+                    }
+                }
+            }
+        }
+        return teamReplyReviewFormSimpleList;
+    }
+
 
     /**
     * @Description:  操作成功返回1，操作失败返回0；
