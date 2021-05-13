@@ -1,11 +1,13 @@
 package com.example.scoring_system.mapper;
 
 import com.example.scoring_system.bean.*;
-import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Map;
 
 @Repository
 @Mapper
@@ -24,18 +26,15 @@ public interface ScoreMapper {
     * @return: java.lang.Integer
     * @Date: 2021/4/29
     */
-    @Insert("INSERT INTO task(sys_id,task_name,task_content,create_user_id,create_time,begine_time,deadline,make_up_time,class_id,task_type,ratio) VALUES\n" +
-            "(DEFAULT,#{taskName},#{taskContent},#{createUser.id},#{createTime},#{begineTime},#{deadline},#{makeUpTime},#{classRoom.id},#{taskType},#{ratio})")
+    @Insert("INSERT INTO task(sys_id,task_name,task_content,create_user_id,create_time,begine_time,deadline,make_up_time,class_id) VALUES\n" +
+            "(DEFAULT,#{taskName},#{taskContent},#{createUser.id},#{createTime},#{begineTime},#{deadline},#{makeUpTime},#{classRoom.id})")
     Integer insTask(Task task);
 
     @Select("SELECT sys_id id FROM task ORDER BY sys_id DESC LIMIT 1")
     Task selLastRecordInTask();
 
-    @Select("SELECT sys_id id,task_name taskName,task_content taskContent,create_user_id creteUserId,\n" +
-            "create_time createTime,begine_time begineTime,deadline,make_up_time makeUpTime,class_id classRoomId,task_type taskType,ratio \n" +
-            "FROM task\n" +
-            "WHERE class_id=#{classRoomId}")
-    List<Task> selTaskByClassRoomId(Task task);
+    @Select("SELECT sys_id,task_name,task_content,create_user_id,create_time,begine_time,deadline,make_up_time,class_id from details")
+    public List<Details> selDetails();
 
     @Select("SELECT sys_id id,task_name taskName,task_content taskContent,create_user_id creteUserId,\n" +
             "create_time createTime,begine_time begineTime,deadline,make_up_time makeUpTime,class_id classRoomId,task_type taskType,ratio \n" +
@@ -191,4 +190,7 @@ public interface ScoreMapper {
 
     @Select("SELECT sys_id teamId,sys_team_name teamName FROM team WHERE sys_id!=#{teamId}")
     List<TeamReplyReviewFormSimple> getTeamReplyReviewFormSimple(String teamId);
+}
+    @Delete("DELETE FROM details where sys_id=#{sys_id}")
+    public void delDetails(String sys_id);
 }

@@ -1,7 +1,5 @@
 package com.example.scoring_system.service;
 
-import com.example.scoring_system.bean.PageRequest;
-import com.example.scoring_system.bean.Team;
 import com.example.scoring_system.bean.User;
 import com.example.scoring_system.bean.UserVO;
 import com.github.pagehelper.PageInfo;

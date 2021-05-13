@@ -4,7 +4,6 @@ import com.example.scoring_system.bean.User;
 import com.example.scoring_system.mapper.UserMapper;
 import com.example.scoring_system.service.RegisterService;
 import com.example.scoring_system.utils.SaltUtils;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-@Slf4j
 public class RegisterServiceImpl implements RegisterService {
     final int SALT_SIZE = 8;
 
@@ -26,8 +24,7 @@ public class RegisterServiceImpl implements RegisterService {
      */
     @Override
     public Integer register(User user) {
-        log.info("注册的用户"+user.toString());
-        if (userMapper.selUserByAccount(user) != null) {
+        if (userMapper.selUserByUserName(user) != null) {
             System.out.println("用户名已经存在");
             //用户名已经存在
             return -1;
@@ -40,6 +37,4 @@ public class RegisterServiceImpl implements RegisterService {
         user.setPassword(md5Hash.toHex());
         return userMapper.insUser(user);
     }
-
-
 }

@@ -17,5 +17,7 @@ public class DetailsTest {
         System.out.println(tmp.substring(0,tmp.length()-1));
         Integer tmp1=34;
         System.out.println(tmp1);
+        String json="{\"msg\":\"请输入用户名和密码,验证码\",\"code\":\"1002\",\"data\":null,\"token\":null}";
+
     }
 }
