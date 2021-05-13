@@ -29,20 +29,19 @@ public class User implements Serializable {
     private String perms;
     private Set<Role> roles;
     private String salt;
-    private String classId;
+    private int class_id;
     private String tokenSalt;
-    private String teamId;
-    private String totalScore;
-    private ClassRoom classRoom;
+    private double total_score;
+    private int pair_team_id;
 
     public User()
     {
 
     }
 
-    public User(String id, String userName, String password, Set<Role> roles) {
+    public User(String id, String user_name, String password, Set<Role> roles) {
         this.id = id;
-        this.userName = userName;
+        this.userName = user_name;
         this.password = password;
         this.roles = roles;
     }
@@ -60,5 +59,77 @@ public class User implements Serializable {
             userList.add(user);
         }
         return userList;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getAccount() {
+        return account;
+    }
+
+    public void setAccount(String account) {
+        this.account = account;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getPerms() {
+        return perms;
+    }
+
+    public void setPerms(String perms) {
+        this.perms = perms;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
+
+    public int getClass_id() {
+        return class_id;
+    }
+
+    public void setClass_id(int class_id) {
+        this.class_id = class_id;
+    }
+
+    public String getTokenSalt() {
+        return tokenSalt;
+    }
+
+    public void setTokenSalt(String tokenSalt) {
+        this.tokenSalt = tokenSalt;
     }
 }
