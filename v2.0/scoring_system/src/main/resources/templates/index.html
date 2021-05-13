@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+                xmlns:shiro="http://www.thymeleaf.org/thymeleaf-extras-shiro">
+<head>
+    <meta charset="UTF-8">
+    <title>主页</title>
+</head>
+<body>
+    <a th:href="@{/tologin}">登录</a>
+    <a th:href="@{/logout}">退出</a>
+    <hr/>
+    <p>hello shiro</p>
+    <div shiro:hasPermission="user:add">
+        <a th:href="@{/user/add}">add</a>
+    </div>
+    |
+    <div shiro:hasPermission="user:query">
+        <a th:href="@{/user/query}">query</a>
+    </div>
+    |
+    <div shiro:hasPermission="user:delete">
+        <a th:href="@{/user/delete}">deleter</a>
+    </div>
+    |
+    <div shiro:hasPermission="user:update">
+        <a th:href="@{/user/update}">deleter</a>
+    </div>
+
+    <div shiro:hasRole="admin">
+        <li><a href="">学生管理</a></li>
+        <li><a href="">团队管理</a></li>
+        <li><a href="">成绩管理</a></li>
+        <li><a href="">评分项管理</a></li>
+    </div>
+</body>
+</html>

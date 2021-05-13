@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.scoring_system.mapper.ScoreMapper">
+    <insert id="insDetailsBatch" parameterType="java.util.List">
+        INSERT INTO details(sys_id,details_name,score_ratio,create_user_id,create_time,task_id)VALUES
+        <foreach collection="list" item="detailsData" index="index" separator=",">
+            (DEFAULT,#{detailsData.detailsName},#{detailsData.totalScoreRatio},#{detailsData.createUserId},#{detailsData.createTime},
+            #{detailsData.taskId})
+        </foreach>
+    </insert>
+</mapper>

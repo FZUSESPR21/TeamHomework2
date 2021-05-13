@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.scoring_system.mapper.UserMapper">
+    <resultMap id="userMap" type="com.example.scoring_system.bean.User">
+        <id column="uid" property="id"/>
+        <result column="username" property="userName"></result>
+        <collection property="roles" javaType="java.util.Set" ofType="Role">
+            <id column="rid" property="id"/>
+            <result column="rname" property="roleName"/>
+            <collection property="permissions" javaType="java.util.Set" ofType="Permissions">
+                <id column="pid" property="id"/>
+                <result column="pname" property="permissionsName"/>
+            </collection>
+        </collection>
+    </resultMap>
+
+    <select id="selRolesByUserName" resultMap="userMap"  parameterType="java.lang.String" >
+        select u.id uid,u.user_name,r.id rid,r.rolename rname,p.id pid,p.permsname pname from user u
+        left join user_role ur on u.id=ur.userid
+        left join role r on ur.roleid=r.id
+        LEFT JOIN role_perms rp ON r.id=rp.roleid
+        LEFT JOIN perms p ON rp.permsid=p.id
+        where u.user_name=#{userName}
+    </select>
+
+    <insert id="insUserBatch" parameterType="java.util.List">
+        INSERT INTO user
+        (id,account,user_name as userName,PASSWORD,perms,salt,total_score,team_id,team_change_history,class_id,token_salt)
+        VALUES
+        <foreach collection="list"  item="user" index="index" separator=",">
+            (DEFAULT,#{user.account},
+            #{user.userName},#{user.password},
+            NULL,#{user.salt},NULL,NULL,NULL,#{user.class_id},NULL)
+        </foreach>
+    </insert>
+</mapper>

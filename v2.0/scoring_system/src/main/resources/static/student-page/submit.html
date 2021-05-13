@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../editor.md-master/css/editormd.preview.css" />
+    <title>作业提交</title>
+</head>
+<body>
+
+<div id="test-markdown-view">
+    <!-- Server-side output Markdown text -->
+    <textarea style="display:none;">### Hello world!</textarea>
+</div>
+<script src="../editor.md-master/examples/js/jquery.min.js"></script>
+<script src="../editor.md-master/editormd.js"></script>
+<script src="../editor.md-master/lib/marked.min.js"></script>
+<script src="../editor.md-master/lib/prettify.min.js"></script>
+<script type="text/javascript">
+    $(function() {
+        var testView = editormd.markdownToHTML("test-markdown-view", {
+            // markdown : "[TOC]\n### Hello world!\n## Heading 2", // Also, you can dynamic set Markdown text
+            // htmlDecode : true,  // Enable / disable HTML tag encode.
+            // htmlDecode : "style,script,iframe",  // Note: If enabled, you should filter some dangerous HTML tags for website security.
+        });
+    });
+</script>
+</body>
+</html>
