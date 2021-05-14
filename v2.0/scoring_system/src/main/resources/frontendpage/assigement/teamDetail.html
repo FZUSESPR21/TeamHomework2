@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>团队详情</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <script src="../layui/layui.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/select.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/option.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/sidebarnavigation.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="../bootstrap-table/dist/bootstrap-table.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap-table/1.15.4/bootstrap-table.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap-table/1.15.4/locale/bootstrap-table-zh-CN.min.js"></script>
+    <link rel="stylesheet" href="../css/snstyle.css">
+</head>
+<body>
+<div>
+    <div class="clear">
+        <ul class="layui-nav">
+            <li class="layui-nav-item" id="manage-content">
+                <a onclick="manageClicked()">内容管理<span class="layui-nav-item"></span></a>
+            </li>
+            <li class="layui-nav-item layui-this">
+                <a onclick="userClicked()">用户管理<span class="layui-nav-item"></span></a>
+            </li>
+            <li class="layui-nav-item">
+                <a onclick="analysisClicked()">统计分析<span class="layui-nav-item"></span></a>
+            </li>
+            <li class="layui-nav-item" id="my-message">
+                <a href=""><img src="//t.cn/RCzsdCq" class="layui-nav-img">我</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="javascript:;">修改信息</a></dd>
+                    <dd><a href="javascript:;" onclick="unLoadOnClick()">退出</a></dd>
+                </dl>
+            </li>
+        </ul>
+        <div class="sidebar">
+            <ul class="layui-nav layui-nav-tree" lay-filter="test" lay-shrink="all" id="content-manage" style="height: 100vh">
+                <!-- 侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> -->
+                <li class="layui-nav-item">
+                    <a href="javascript:;">评分细则管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="detailList.html">所有细则</a></dd>
+                        <dd><a href="newdetails.html">增加细则</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a href="javascript:;">成绩管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="scoreinquiry.html">成绩查询</a></dd>
+                        <!--                    <dd><a href="assignmentScore.html">博客评分</a></dd>-->
+                        <dd><a href="blogList.html">博客列表</a></dd>
+                    </dl>
+                </li>
+            </ul>
+
+            <ul class="layui-nav layui-nav-tree" lay-filter="test" lay-shrink="all" id="user-manage"  style="height: 100vh">
+                <!-- 侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> -->
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a href="javascript:;">团队管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="teamList.html">所有团队</a></dd>
+                        <dd><a href="newTeam.html">增加团队</a></dd>
+                    </dl>
+                </li>
+                <!--                <li class="layui-nav-item">-->
+                <!--                    <a href="javascript:;">结对管理</a>-->
+                <!--                    <dl class="layui-nav-child">-->
+                <!--                        <dd><a href="javascript:;">结对信息</a></dd>-->
+                <!--                        <dd><a href="">增加结对</a></dd>-->
+                <!--                    </dl>-->
+                <!--                </li>-->
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a href="javascript:;">学生管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="studentList.html">学生列表</a></dd>
+                        <dd><a href="newstudents.html">增加学生</a></dd>
+                    </dl>
+                </li>
+            </ul>
+
+            <ul class="layui-nav layui-nav-tree" lay-filter="test" lay-shrink="all" id="statistical-analysis"  style="height: 100vh">
+                <!-- 侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> -->
+                <li class="layui-nav-item  layui-nav-itemed">
+                    <a href="javascript:;">统计分析</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="">千帆竟发图</a></dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="page-wrapper">
+        <div id="edit_link_div">
+            <select id="team" name="team" class="layui-select">
+            </select>
+        </div>
+
+        <table id="myTable" class="table table-hover text-nowrap"></table>
+        <button id="jquery_post" class="layui-btn" onclick="onClicked()">提交</button>
+    </div>
+
+</div>
+
+
+<script>
+    document.getElementById("content-manage").style.display="none";
+    document.getElementById("user-manage").style.display="block";
+    document.getElementById("statistical-analysis").style.display="none";
+    //获取url中的参数
+    function getUrlParam(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+        var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+        if (r != null) return unescape(r[2]); return null; //返回参数值
+    }
+    var team_id;
+    var id = getUrlParam('id');
+    $(document).ready(function () {
+        //加载下拉列表的内容
+        $.ajax({
+            type: 'get',
+            url: 'test1.json',
+            dataType: 'json',
+            success: function(data){
+                $.each(data,function (index,item) {
+                    if (data[index].id){
+                        $("#team").append("<option value='"+data[index].id+"'>"+data[index].id+data[index].name+"</option>");
+                    }
+                });
+            }
+        });
+    });
+
+    //下拉选项改变时
+    document.getElementById('team').onchange=function(){
+        student_id = this.options[this.options.selectedIndex].value;
+        $.ajax({
+            type: 'post',
+            url: 'test2.json',
+            dataType: 'json',
+            data: {
+                id: student_id,
+            },
+            success: function(data){
+                if (data == 'Yes') {
+                    $('#myTable').bootstrapTable('refresh');
+                }
+                else {
+                    alert('查询不到该团队！');
+                }
+            }
+        });
+    };
+
+    //加载表
+    $('#myTable').bootstrapTable({
+        method: 'get',
+        url: "test1.json", // 请求路径
+        //url: "http://1.15.129.32:8080//score/userblogwork/list?id=44",
+        //url: "http://1.15.129.32:8080//score/userblogwork/list?id="+id, // 请求路径
+        striped: true, // 是否显示行间隔色
+        pageNumber: 1, // 初始化加载第一页
+        pagination: true, // 是否分页
+        sidePagination: 'client', // server:服务器端分页|client：前端分页
+        height:600,
+        sortable: true,
+        pageSize: 10, // 单页记录数
+        pageList: [10, 15],
+        dataField: 'list',
+        // sidePagination: "server", //表示服务端请求
+        // //设置为undefined可以获取pageNumber，pageSize，searchText，sortName，sortOrder
+        // //设置为limit可以获取limit, offset, search, sort, order
+        // queryParamsType : "undefined",
+        // queryParams: function queryParams(params) { //设置查询参数
+        //     var param = {
+        //         pageNumber: params.pageNumber,
+        //         pageSize: params.pageSize,
+        //         orderNum : $("#orderNum").val()
+        //     };
+        //     return param;
+        // },
+        // onLoadSuccess: function(){ //加载成功时执行
+        //     layer.msg("加载成功");
+        // },
+        // onLoadError: function(){ //加载失败时执行
+        //     layer.msg("加载数据失败", {time : 1500, icon : 2});
+        // }
+
+        paginationLoop: true,
+        paginationHAlign: 'left',
+        paginationDetailHAlign: 'right',
+        paginationPreText: '上一页',
+        paginationNextText: '下一页',
+        // queryParams: function(params) { // 上传服务器的参数
+        //     var temp = {
+        //         name: 1
+        //     };
+        //     return temp;
+        // },
+        responseHandler:function(res){
+            //在ajax获取到数据，渲染表格之前，修改数据源
+            //该项返回的为数据源内的二级列表data
+            return res.data;
+        },
+        columns: [{
+            field: 'sId',
+            title: '成员学号',
+            sortable: true,
+
+        }, {
+            title: '成员姓名',
+            field: 'sName',
+
+            sortable: true,
+        }
+
+        ]
+    });
+</script>
+
+
+</body>
+</html>

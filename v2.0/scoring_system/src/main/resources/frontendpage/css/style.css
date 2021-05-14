@@ -1,0 +1,20 @@
+caption{
+    font-family: myFirstFont;
+    text-align:center;
+    font-size: 25px;
+    font-weight: bold;
+    color:#000000;
+    text-shadow: 4px 4px 8px #00FFFF;
+}
+
+.panel-default{
+    margin-top:70px;
+    margin-left:100px;
+}
+
+.reci{
+    width: 200px;
+    height: 100px;
+    text-align:center;
+    background-color: #ccc;
+}

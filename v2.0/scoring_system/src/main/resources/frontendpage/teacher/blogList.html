@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>博客列表</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <script src="../layui/layui.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/select.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/option.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/sidebarnavigation.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="../bootstrap-table/dist/bootstrap-table.min.css">
+    <link rel="stylesheet" href="../css/table.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap-table/1.15.4/bootstrap-table.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap-table/1.15.4/locale/bootstrap-table-zh-CN.min.js"></script>
+    <link rel="stylesheet" href="../css/snstyle.css">
+    <script src="../js/token-operation.js" type="text/javascript" charset="utf-8"></script>
+
+</head>
+<body>
+<div>
+    <div class="clear">
+        <ul class="layui-nav">
+            <li class="layui-nav-item layui-this" id="manage-content">
+                <a onclick="manageClicked()">内容管理<span class="layui-nav-item"></span></a>
+            </li>
+            <li class="layui-nav-item">
+                <a onclick="userClicked()">用户管理<span class="layui-nav-item"></span></a>
+            </li>
+            <li class="layui-nav-item">
+                <a onclick="analysisClicked()">统计分析<span class="layui-nav-item"></span></a>
+            </li>
+            <li class="layui-nav-item" id="my-message">
+                <a href=""><img src="//t.cn/RCzsdCq" class="layui-nav-img">我</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="javascript:;">修改信息</a></dd>
+                    <dd><a href="javascript:;" onclick="unLoadOnClick()">退出</a></dd>
+                </dl>
+            </li>
+        </ul>
+        <div class="sidebar">
+            <ul class="layui-nav layui-nav-tree" lay-filter="test" lay-shrink="all" id="content-manage" style="height: 100vh">
+                <!-- 侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> -->
+                <li class="layui-nav-item">
+                    <a href="javascript:;">评分细则管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="detailList.html">所有细则</a></dd>
+                        <!--                        <dd><a href="../performanceManagement/newdetails.html">增加细则</a></dd>-->
+                    </dl>
+                </li>
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a href="javascript:;">成绩管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="scoreinquiry.html">成绩查询</a></dd>
+                        <!--                    <dd><a href="assignmentScore.html">博客评分</a></dd>-->
+                        <dd><a href="blogList.html" class="layui-this">博客列表</a></dd>
+                    </dl>
+                </li>
+            </ul>
+
+            <ul class="layui-nav layui-nav-tree" lay-filter="test" lay-shrink="all" id="user-manage" style="height: 100vh">
+                <!-- 侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> -->
+                <!--                <li class="layui-nav-item">-->
+                <!--                    <a href="javascript:;">团队管理</a>-->
+                <!--                    <dl class="layui-nav-child">-->
+                <!--                        <dd><a href="">所有团队</a></dd>-->
+                <!--                        <dd><a href="javascript:;">增加团队</a></dd>-->
+                <!--                    </dl>-->
+                <!--                </li>-->
+                <!--                <li class="layui-nav-item">-->
+                <!--                    <a href="javascript:;">结对管理</a>-->
+                <!--                    <dl class="layui-nav-child">-->
+                <!--                        <dd><a href="javascript:;">结对信息</a></dd>-->
+                <!--                        <dd><a href="">增加结对</a></dd>-->
+                <!--                    </dl>-->
+                <!--                </li>-->
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a href="javascript:;">学生管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="studentList2.html">学生列表</a></dd>
+                        <dd><a href="newstudents.html">增加学生</a></dd>
+                    </dl>
+                </li>
+            </ul>
+
+            <ul class="layui-nav layui-nav-tree" lay-filter="test" lay-shrink="all" id="statistical-analysis" style="height: 100vh">
+                <!-- 侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> -->
+                <li class="layui-nav-item  layui-nav-itemed">
+                    <a href="javascript:;">统计分析</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="">千帆竟发图</a></dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!--将各个部分代码填在以下div内-->
+    <div class="page-wrapper">
+        <div class="edit_link_div">
+            <select id="work_item" name="work_item" class="layui-select">
+                <option value="">请选择作业项</option>
+            </select>
+        </div>
+<!--        选择年级，默认加载当前时间的年级-->
+        <div class="edit_link_div">
+            <select id="classes" name="classes" class="layui-select">
+                <option value="">请选择班级</option>
+            </select>
+        </div>
+
+        <table id="myTable" class="table table-hover text-nowrap"></table>
+    </div>
+</div>
+
+
+<script>
+
+    $(document).ready(function () {
+        var classRoomId = getToken("class");
+        $.ajax({
+            type: 'post',
+            //url: 'http://1.15.129.32:8080/score/task/show?classRoomId=1',
+            url: 'http://1.15.129.32:8888/score/task/show?classRoomId='+classRoomId,
+            dataType: 'json',
+            success: function (data) {
+                $.each(data.data, function (index, item) {
+                    $("#work_item").append("<option value='" + data.data[index].id + "'>" + data.data[index].taskName + "</option>");
+                });
+            }
+        });
+        //加载下拉列表的内容
+        $.ajax({
+            type: 'post',
+            url: 'http://1.15.129.32:8888/score/class/showlist',
+            dataType: 'json',
+            success: function(data){
+                $.each(data.data,function (index,item) {
+                    $("#classes").append("<option value='"+data.data[index].id+"'>"+data.data[index].className+"</option>");
+                });
+            }
+        });
+    });
+
+
+    //下拉选项改变时
+    document.getElementById('classes').onchange=function(){
+        $('#myTable').bootstrapTable('refresh');
+    };
+
+    //下拉选项改变时
+    document.getElementById('work_item').onchange=function(){
+        $('#myTable').bootstrapTable('refresh');
+    };
+    // var pageNum=2;
+    // var id=1;
+    // var pageSize=3;
+    // var classRoomId=1;
+    $('#myTable').bootstrapTable({
+        method: 'post',
+        //url: "http://1.15.129.32:8080/score/blogwork/showlist?pageNum=" +pageNum+ "&pageSize=" +pageSize+ "&id=" +id+ "&classRoomId=" +classRoomId, // 请求路径
+        url: "http://1.15.129.32:8888/score/blogwork/showlist",
+        //url: "data.json",
+        striped: true, // 是否显示行间隔色
+        pageNumber: 1, // 初始化加载第一页
+        pagination: true, // 是否分页
+        dataField: "list",
+        //sidePagination: 'client', // server:服务器端分页|client：前端分页
+        height:600,
+        sortable: true,
+        search: true,
+        showColumns: true, //筛选要显示的列
+        showSearchClearButton: true, //显示搜索清除按钮
+        pageSize: 10, // 单页记录数
+        pageList: [10, 15, 20],
+
+        sidePagination: "server", //表示服务端请求
+        //设置为undefined可以获取pageNumber，pageSize，searchText，sortName，sortOrder
+        //设置为limit可以获取limit, offset, search, sort, order
+        contentType: "application/x-www-form-urlencoded",//必须要有！！！！
+        queryParamsType : "undefined",
+        queryParams: function queryParams(params) { //设置查询参数
+            var options = $("#work_item option:selected").val();
+            var classId = $("#classes option:selected").val();
+            var param = {
+                pageNum: params.pageNumber,
+                pageSize: params.pageSize,
+                id: options,
+                classRoomId: classId,
+                // id: 1,
+                // classRoomId: 1,
+            };
+            return param;
+        },
+        onLoadSuccess: function(){ //加载成功时执行
+            layer.msg("加载成功");
+        },
+        onLoadError: function(){ //加载失败时执行
+            layer.msg("加载数据失败", {time : 1500, icon : 2});
+        },
+        responseHandler:function(res){
+            //在ajax获取到数据，渲染表格之前，修改数据源
+            //该项返回的为数据源内的二级列表data
+            return res.data;
+        },
+
+        paginationLoop: true,
+        paginationHAlign: 'left',
+        paginationDetailHAlign: 'right',
+        paginationPreText: '上一页',
+        paginationNextText: '下一页',
+        columns: [{
+            checkbox: true
+        }, {
+            title: '博客ID',
+            field: 'id',
+            sort: true,
+            align: 'center',
+            sortable: true,
+            searchable:true,
+        },{
+            title: '博客链接',
+            field: 'blogUrl',
+            // events: {
+            //     'click #link': function (e, value, row, index) {
+            //         window.location.href=row.blogUrl;
+            //     },
+            // },
+            formatter: function (value, row, index) {
+                var result = "";
+                result += '<a style="color: #0a53be" href="'+value+'">原文链接</a>';
+                return result;
+            },
+            sortable: true,
+            align: 'center',
+        }, {
+            title: '博客名',
+            field: 'blogWorkName',
+            sort: true,
+            align: 'center',
+            sortable: true,
+            searchable:true,
+        },  {
+            title: '博客状态',
+            field: 'isMark',
+            align: 'center',
+            formatter: function (value, row, index) {
+                if (value == 0) {
+                    var a = '<p style="color: #9c3328;font-size: 15px"> 未评分</p>';
+                    return a;
+                } else {
+                    var a = '<p style="color: #0f5132;font-size: 15px"> 已评分</p>';
+                    return a;
+                }
+            }
+        },
+        //     {
+        //     field: 'operate',
+        //     title: '操作',
+        //     align: 'center',
+        //     valign: 'middle',
+        //     events: {
+        //         'click #edit': function (e, value, row, index) {
+        //             //editInfo(row.id);
+        //             window.open('assignmentScore.html?id='+row.id);
+        //         },
+        //     },
+        //     formatter: function (value, row, index) {
+        //         var result = "";
+        //         result += '<button id="edit" class="btn btn-info" data-toggle="modal" data-target="#editModal">批改博客</button>';
+        //         //result += '<button id="change" class="btn btn-info" style="margin-left:1%;">修改状态</button>';
+        //         return result;
+        //     }
+        // }
+        ]
+    });
+
+    // function editInfo(id) {
+    //     var work_id = $("#work_item").find("option:selected").val();
+    //     $.ajax({
+    //         type: 'post',
+    //         url: 'test2.json',
+    //         dataType: 'json',
+    //         data: {
+    //             id: id,
+    //             work: work_id,
+    //         },
+    //         success: function (data) {
+    //             if (data == 'Yes') {
+    //                 window.open('assignmentScore.html');
+    //             }
+    //             else {
+    //                 alert('该功能暂未开放');
+    //             }
+    //         }
+    //     });
+    // }
+
+
+</script>
+
+
+</body>
+</html>

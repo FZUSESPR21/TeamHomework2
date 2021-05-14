@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>查看细则</title>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <link rel="stylesheet" href="../layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../css/bootstrap.css" media="all">
+    <link rel="stylesheet" href="../css/newdetails.css" media="all">
+    <script src="../js/token-operation.js"></script>
+    <script src="../js/sidebarnavigation.js" type="text/javascript" charset="utf-8"></script>
+    <link rel="stylesheet" href="../css/snstyle.css">
+</head>
+<body>
+<div class="clear">
+    <ul class="layui-nav">
+        <li class="layui-nav-item layui-this" id="manage-content">
+            <a onclick="manageClicked()">内容管理<span class="layui-nav-item"></span></a>
+        </li>
+        <li class="layui-nav-item">
+            <a onclick="userClicked()">用户管理<span class="layui-nav-item"></span></a>
+        </li>
+        <li class="layui-nav-item">
+            <a onclick="analysisClicked()">统计分析<span class="layui-nav-item"></span></a>
+        </li>
+        <li class="layui-nav-item" id="my-message">
+            <a href=""><img src="//t.cn/RCzsdCq" class="layui-nav-img">我</a>
+            <dl class="layui-nav-child">
+                <dd><a href="javascript:;">修改信息</a></dd>
+                <dd><a href="javascript:;">退出</a></dd>
+            </dl>
+        </li>
+    </ul>
+    <div class="sidebar">
+        <ul class="layui-nav layui-nav-tree" lay-filter="test" lay-shrink="all" id="content-manage">
+            <!-- 侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> -->
+            <li class="layui-nav-item">
+                <a href="javascript:;">评分细则管理</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="jobManagemant/showdetails.html">所有细则</a></dd>
+                    <dd><a href="jobManagemant/newdetails.html">增加细则</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item layui-nav-itemed">
+                <a href="javascript:;">成绩管理</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="scoreinquiry.html">成绩查询</a></dd>
+                    <dd><a href="assignmentScore.html">博客评分</a></dd>
+                    <dd><a href="defensescore.html">答辩评分</a></dd>
+                    <dd><a href="blogList.html">博客列表</a></dd>
+                </dl>
+            </li>
+        </ul>
+
+        <ul class="layui-nav layui-nav-tree" lay-filter="test" lay-shrink="all" id="user-manage">
+            <!-- 侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> -->
+            <li class="layui-nav-item">
+                <a href="javascript:;">团队管理</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="">所有团队</a></dd>
+                    <dd><a href="javascript:;">增加团队</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item">
+                <a href="javascript:;">结对管理</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="javascript:;">结对信息</a></dd>
+                    <dd><a href="">增加结对</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item layui-nav-itemed">
+                <a href="javascript:;">学生管理</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="javascript:;">学生列表</a></dd>
+                    <dd><a href="">增加学生</a></dd>
+                </dl>
+            </li>
+        </ul>
+
+        <ul class="layui-nav layui-nav-tree" lay-filter="test" lay-shrink="all" id="statistical-analysis">
+            <!-- 侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> -->
+            <li class="layui-nav-item  layui-nav-itemed">
+                <a href="javascript:;">统计分析</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="">千帆竟发图</a></dd>
+                </dl>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="page-wrapper">
+    <div id="message_form">
+        <div>
+            <div class="display-inline">
+                <div class="input-group">
+                    <span class="input-group-addon">作业标题：</span>
+                    <label>
+                        <input id="assignment_title" name="assignment_title" type="text" class="form-control"
+                               placeholder="请输入作业标题" aria-describedby="basic-addon1">
+                    </label>
+                </div>
+
+                <div class="input-group">
+                    <span class="input-group-addon">作业类型：</span>
+                    <select id="work_type" name="work_type" class="layui-select">
+                        <option value="1">个人作业</option>
+                        <option value="2">结对作业</option>
+                        <option value="3">团队作业</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">作业占比：</span>
+                    <label>
+                        <input id="proportion" name="proportion" type="text" oninput = "value=value.replace(/[^\d]/g,'')"
+                               class="form-control" placeholder="请输入作业占比" aria-describedby="basic-addon1">
+                    </label>
+                </div>
+            </div>
+
+
+            <div>
+                <div class="input-group">
+                    <span class="input-group-addon">截止日期：</span>
+                    <label>
+                        <input id="closing_date" name="closing_date" type="date"/>
+                    </label>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">补交日期：</span>
+                    <label>
+                        <input id="make_up_date" name="make_up_date" type="date"/>
+                    </label>
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-form-text" id="checklist-form">
+                <label>CheckList:</label>
+                <div class="layui-input-block">
+                    <label>
+                        <textarea id="checklist" name="checklist" placeholder="请输入checklist" class="layui-textarea"></textarea>
+                    </label>
+                </div>
+            </div>
+            <div class="display-inline">
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon2">评分项上传：</span>
+                    <input id="file_upload" type="file" name="file_upload">
+                </div>
+                <div class="input-group">
+                    <button id="down_load_excel" onclick="downLoadExcel()" class="layui-btn">下载评分项</button>
+                </div>
+                <div class="input-group">
+                    <button id="down_load_model" onclick="downLoadModel()" class="layui-btn">下载模板</button>
+                </div>
+            </div>
+
+            <br>
+
+            <button id="jquery_post" class="layui-btn layui-btn-danger" onclick="onClicked()">提交</button>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="../jquery/dist/jquery.min.js"></script>
+<script src="../layui/layui.js"></script>
+<script src="../js/newDetails.js"></script>
+<script src="../js/showDetails.js"></script>
+</body>
+</html>
