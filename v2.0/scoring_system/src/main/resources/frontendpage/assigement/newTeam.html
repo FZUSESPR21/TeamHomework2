@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>新增学生</title>
+    <title>增加团队</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../layui/css/layui.css">
     <script src="../layui/layui.js" type="text/javascript" charset="utf-8"></script>
@@ -63,11 +63,11 @@
 
                 <ul class="layui-nav layui-nav-tree" lay-filter="test" lay-shrink="all" id="user-manage"  style="height: 100vh">
                     <!-- 侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> -->
-                    <li class="layui-nav-item">
+                    <li class="layui-nav-item layui-nav-itemed">
                         <a href="javascript:;">团队管理</a>
                         <dl class="layui-nav-child">
                             <dd><a href="teamList.html">所有团队</a></dd>
-                            <dd><a href="newTeam.html">增加团队</a></dd>
+                            <dd><a href="newTeam.html" class="layui-this">增加团队</a></dd>
                         </dl>
                     </li>
                     <!--                <li class="layui-nav-item">-->
@@ -77,11 +77,11 @@
                     <!--                        <dd><a href="">增加结对</a></dd>-->
                     <!--                    </dl>-->
                     <!--                </li>-->
-                    <li class="layui-nav-item layui-nav-itemed">
+                    <li class="layui-nav-item">
                         <a href="javascript:;">学生管理</a>
                         <dl class="layui-nav-child">
                             <dd><a href="studentList.html">学生列表</a></dd>
-                            <dd><a href="newstudents.html" class="layui-this">增加学生</a></dd>
+                            <dd><a href="newstudents.html">增加学生</a></dd>
                         </dl>
                     </li>
                 </ul>
@@ -99,22 +99,20 @@
         </div>
     
         <div id="message_form">
-    
-            <div class="input-group">
-                <span class="input-group-addon" id="basic-addon1">学生班级：</span>
-                <label>
-                    <input id="classId" name="classId" type="text" class="form-control" placeholder="输入学生所在班级" >
-                </label>
-            </div>
+            <label>正在完善</label>
+<!--            <div class="input-group">-->
+<!--                <span class="input-group-addon" id="basic-addon1">团队名称：</span>-->
+<!--                <label>-->
+<!--                    <input id="teamId" name="teamId" type="text" class="form-control" placeholder="输入团队的名称" >-->
+<!--                </label>-->
+<!--            </div>-->
 
-            <div class="input-group">
-                <span class="input-group-addon" id="basic-addon2">学生列表上传：</span>
-                <input id="file_upload" type="file" name="file_upload">
-            </div>
-
-            <button id="down_load_model" onclick="downLoadModel()" class="layui-btn">下载模板</button>
-            <br>
-            <button id="jquery_post" class="layui-btn" onclick="onClicked()">提交</button>
+<!--            <div class="input-group">-->
+<!--                <span class="input-group-addon" id="basic-addon2">团队成员列表上传：</span>-->
+<!--                <input id="file_upload" type="file" name="file_upload">-->
+<!--            </div>-->
+<!--            -->
+<!--            <button id="jquery_post" class="layui-btn" onclick="UpladFile()">提交</button>-->
         </div>
     </div>
     
@@ -126,56 +124,88 @@
     document.getElementById("content-manage").style.display="none";
     document.getElementById("user-manage").style.display="block";
     document.getElementById("statistical-analysis").style.display="none";
-
-    function downLoadModel() {
-        window.open('http://1.15.129.32:8888/student/export/formwork');
-    }
-
-    function onClicked() {
-        //判断作业名是否为空
-        if ($("#classId").val() == ""){
-            alert("作业名不能为空！ ");
-            return false;
-        }
-
-        var $file1 = $("input[name='file_upload']").val();//用户文件内容(文件)
-        // 判断文件是否为空
-        if ($file1 == "") {
-            alert("请选择上传的目标文件! ");
-            return false;
-        }
-
-        //判断文件类型,我这里根据业务需求判断的是Excel文件
-        var fileName1 = $file1.substring($file1.lastIndexOf(".") + 1).toLowerCase();
-        if(fileName1 != "xls" && fileName1 !="xlsx"){
-            alert("请选择Execl文件!");
-            return false;
-        }
-        3
-        //判断文件大小
-        var size1 = $("input[name='file_upload']")[0].files[0].size;
-        if (size1>104857600) {
-            alert("上传文件不能大于100M!");
-            return false;
-        }
-
-        var form=new FormData();
-        var classId = $("#classId").val();
-        form.append("excel",$("#file_upload")[0].files[0]);
-        form.append("classId",classId);
-        $.ajax({
-            url:"http://1.15.129.32:8888/student/import",
-            type:"POST",
-            data:form,
-            contentType: false,
-            processData: false,
-            success:function(data){
-                if(data.code == '200'){
-                    alert("上传成功！");
-                }
-            }
-        })
-    }
+    // function onClicked() {
+    //     //判断团队名是否为空
+    //     if ($("#teamId").val() == ""){
+    //         alert("团队名称不能为空！ ");
+    //         return false;
+    //     }
+    //
+    //     var $file1 = $("input[name='file_upload']").val();//用户文件内容(文件)
+    //     // 判断文件是否为空
+    //     if ($file1 == "") {
+    //         alert("请选择上传的团队成员列表文件! （excel）");
+    //         return false;
+    //     }
+    //     //判断文件类型,我这里根据业务需求判断的是Excel文件
+    //     var fileName1 = $file1.substring($file1.lastIndexOf(".") + 1).toLowerCase();
+    //     if(fileName1 != "xls" && fileName1 !="xlsx"){
+    //         alert("请选择Execl文件!");
+    //         return false;
+    //     }
+    //     //判断文件大小
+    //     var size1 = $("input[name='file_upload']")[0].files[0].size;
+    //     if (size1>104857600) {
+    //         alert("上传文件不能大于100M!");
+    //         return false;
+    //     }
+    //     var form=new FormData();
+    //     var teamId = $("#teamId").val();
+    //     form.append("excel",$("#file_upload")[0].files[0]);
+    //     form.append("teamId",teamId);
+    //     $.ajax({
+    //         url:'',
+    //         type:"POST",
+    //         data:form,
+    //         contentType: false,
+    //         processData: false,
+    //         success:function(data){
+    //             if(data.code == '200'){
+    //                 alert("上传成功！");
+    //             }
+    //         }
+    //     })
+    // }
+    // function UpladFile() {
+    //     //判断团队名是否为空
+    //     if ($("#teamId").val() == ""){
+    //         alert("团队名称不能为空！ ");
+    //         return false;
+    //     }
+    //
+    //     var $file1 = $("input[name='file_upload']").val();//用户文件内容(文件)
+    //     // 判断文件是否为空
+    //     if ($file1 == "") {
+    //         alert("请选择上传的团队成员列表文件! （excel）");
+    //         return false;
+    //     }
+    //     //判断文件类型,我这里根据业务需求判断的是Excel文件
+    //     var fileName1 = $file1.substring($file1.lastIndexOf(".") + 1).toLowerCase();
+    //     if(fileName1 != "xls" && fileName1 !="xlsx"){
+    //         alert("请选择Execl文件!");
+    //         return false;
+    //     }
+    //     //判断文件大小
+    //     var size1 = $("input[name='file_upload']")[0].files[0].size;
+    //     if (size1>104857600) {
+    //         alert("上传文件不能大于100M!");
+    //         return false;
+    //     }
+    //     var fileObj = document.getElementById("file_upload").files[0]; // 获取文件对象
+    //     var teamId = document.getElementById("teamId");
+    //     var FileController = ""; // 接收上传文件的后台地址
+    //     // FormData 对象
+    //     var form = new FormData();
+    //     form.append("teamId", teamId.Value); // 可以增加表单数据
+    //     form.append("excel", fileObj);  // 文件对象
+    //     // XMLHttpRequest 对象
+    //     var xhr = new XMLHttpRequest();
+    //     xhr.open("post", FileController, true);
+    //     xhr.onload = function () {
+    //         alert("上传完成!");
+    //     };
+    //     xhr.send(form);
+    // }
     
 </script>
 </body>

@@ -43,7 +43,7 @@
                 <dl class="layui-nav-child">
                     <dd><a href="scoreinquiry.html">成绩查询</a></dd>
 <!--                    <dd><a href="">答辩评分</a></dd>-->
-                    <dd><a href="assignmentSubmit.html">作业提交</a></dd>
+                    <dd><a href="assignmentSubmit.html" class="layui-this">作业提交</a></dd>
                 </dl>
             </li>
         </ul>
@@ -227,10 +227,10 @@
 
     $(document).ready(function () {
         loadWork("个人作业");
-        var userId = getToken("id");
+        var teamId = getToken("group");
         $.ajax({
             type: 'post',
-             url: 'http://1.15.129.32:8888/score/teamUser/show?id='+userId,
+             url: 'http://1.15.129.32:8888/score/teamUser/show?id='+teamId,
             //url: 'http://1.15.129.32:8080/score/teamUser/show?id=1',
             //url: 'test.json',
             dataType: 'json',
@@ -299,6 +299,12 @@
         var student_id2 = $("#student2").val();
         var userId = getToken("id");
         var userAccount = getToken("account");
+
+        var reg=/^http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w- ./?%&=]*)?$/;
+        if(!reg.test(blog_link)){
+            alert('输入正确的链接');
+            return false;
+        }
         // var team_id = $("#team").find("option:selected").val();
         if (work_type_id == 1){
             console.log(1);
@@ -323,9 +329,7 @@
                 contentType: "application/json",
                 data: data,
                 success: function(data){
-                    if(data == 'Yes'){
-                        alert("提交成功");
-                    }
+                    layer.msg(data.message);
                 }
             });
         }else if (work_type_id == 2){
@@ -355,9 +359,7 @@
                 contentType: "application/json",
                 data: data,
                 success: function(data){
-                    if(data == 'Yes'){
-                        alert("提交成功");
-                    }
+                    layer.msg(data.message);
                 }
             });
         }else {
@@ -416,7 +418,7 @@
             data: data,
             success: function(data){
                 if(data.code == 200){
-                    layer.msg(data.message, {time : 1500, icon : 2});
+                    layer.msg(data.message);
                 }
             }
         });

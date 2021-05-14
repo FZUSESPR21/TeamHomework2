@@ -43,14 +43,14 @@
         <div class="sidebar">
             <ul class="layui-nav layui-nav-tree" lay-filter="test" lay-shrink="all" id="content-manage" style="height: 100vh">
                 <!-- 侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> -->
-                <li class="layui-nav-item">
+                <li class="layui-nav-item layui-nav-itemed">
                     <a href="javascript:;">评分细则管理</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="detailList.html">所有细则</a></dd>
+                        <dd><a href="detailList.html" class="layui-this">所有细则</a></dd>
                         <!--                        <dd><a href="../performanceManagement/newdetails.html">增加细则</a></dd>-->
                     </dl>
                 </li>
-                <li class="layui-nav-item layui-nav-itemed">
+                <li class="layui-nav-item">
                     <a href="javascript:;">成绩管理</a>
                     <dl class="layui-nav-child">
                         <dd><a href="scoreinquiry.html">成绩查询</a></dd>
@@ -178,49 +178,40 @@
             field: 'deadline',
             sortable: true,
         } ,
-        //     {
-        //     field: 'operate',
-        //     title: '操作',
-        //     align: 'center',
-        //     valign: 'middle',
-        //     events: {
-        //         'click #edit': function (e, value, row, index) {
-        //             editInfo(row.id);
-        //         },
-        //         'click #delete': function (e, value, row, index) {
-        //             deleteInfo(row.Id);
-        //         }
-        //     },
-        //     formatter: function (value, row, index) {
-        //         var result = "";
-        //         result += '<button id="edit" class="btn btn-info" data-toggle="modal" data-target="#editModal">查看</button>';
-        //         result += '<button id="delete" class="btn btn-info" style="margin-left:1%;">删除</button>';
-        //         return result;
-        //     }
-        // }
+            {
+            field: 'operate',
+            title: '操作',
+            align: 'center',
+            valign: 'middle',
+            events: {
+                'click #edit': function (e, value, row, index) {
+                    editInfo(row.id);
+                },
+            },
+            formatter: function (value, row, index) {
+                var result = "";
+                result += '<button id="edit" class="btn btn-info" data-toggle="modal" data-target="#editModal">查看</button>';
+                return result;
+            }
+        }
         ]
     });
 
     //查看信息
     function editInfo(id) {
-        // var work_id = $("#work_item").find("option:selected").val();
-        // $.ajax({
-        //     type: 'post',
-        //     url: 'test2.json',
-        //     dataType: 'json',
-        //     data: {
-        //         id: id,
-        //         work: work_id,
-        //     },
-        //     success: function (data) {
-        //         if (data == 'Yes') {
-        //             window.open('showdetails.html');
-        //         }
-        //         else {
-        //             alert('该功能暂未开放');
-        //         }
-        //     }
-        // });
+        $.ajax({
+            // url:"/assistant/task/add",
+            url: "http://1.15.129.32:8888/score/task/details?id="+id,
+            type:"post",
+            dataType:"JSON",
+            success:function(data){
+                if (data.code == "200"){
+                    window.location.href="showdetails.html?id="+id;
+                }else {
+                    alert(data.message);
+                }
+            }
+        });
     }
 
     // 删除信息

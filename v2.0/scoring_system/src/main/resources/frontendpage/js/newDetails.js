@@ -1,6 +1,6 @@
 
 function downLoadModel() {
-    window.open();
+    window.open('http://1.15.129.32:8888/details/export/formwork');
 }
 
 function judgeExcelFile() {
@@ -52,11 +52,29 @@ function onClicked() {
     var create_month = date.getMonth()+1;
     var create_day = date.getDate();
     var create_time = create_year + "-" + create_month + "-" + create_day;
+    var mytime= new Date(create_time);
+    console.log(mytime);
+
     //alert(create_time);
     //console.log(create_year + create_month +create_day);
 
+    if (proportion == ""){
+        alert("占比不能为空");
+        return false;
+    }
+
     if (make_up_date =="" || closing_date == ""){
         alert("时间不能为空！");
+        return false;
+    }
+
+    if (new Date(closing_date) < new Date(create_time)){
+        alert("截止日期不能小于当前日期");
+        return false;
+    }
+
+    if (new Date(make_up_date) < new Date(closing_date)){
+        alert("补交日期不能小于截止日期");
         return false;
     }
 
@@ -84,7 +102,7 @@ function onClicked() {
         contentType: false,
         processData: false,
         success:function(data){
-
+            layer.msg(data.message);
         }
     });
 }

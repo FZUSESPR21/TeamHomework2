@@ -34,14 +34,14 @@
     <div class="sidebar">
         <ul class="layui-nav layui-nav-tree" lay-filter="test" lay-shrink="all" id="content-manage" style="height: 100vh">
             <!-- 侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> -->
-            <li class="layui-nav-item">
+            <li class="layui-nav-item layui-nav-itemed">
                 <a href="javascript:;">评分细则管理</a>
                 <dl class="layui-nav-child">
                     <dd><a href="detailList.html">所有细则</a></dd>
-                    <dd><a href="newdetails.html">增加细则</a></dd>
+                    <dd><a href="newdetails.html" class="layui-this">增加细则</a></dd>
                 </dl>
             </li>
-            <li class="layui-nav-item layui-nav-itemed">
+            <li class="layui-nav-item">
                 <a href="javascript:;">成绩管理</a>
                 <dl class="layui-nav-child">
                     <dd><a href="scoreinquiry.html">成绩查询</a></dd>
@@ -51,15 +51,15 @@
             </li>
         </ul>
 
-        <ul class="layui-nav layui-nav-tree" lay-filter="test" lay-shrink="all" id="user-manage">
+        <ul class="layui-nav layui-nav-tree" lay-filter="test" lay-shrink="all" id="user-manage" style="height: 100vh">
             <!-- 侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> -->
-            <!--                <li class="layui-nav-item">-->
-            <!--                    <a href="javascript:;">团队管理</a>-->
-            <!--                    <dl class="layui-nav-child">-->
-            <!--                        <dd><a href="">所有团队</a></dd>-->
-            <!--                        <dd><a href="javascript:;">增加团队</a></dd>-->
-            <!--                    </dl>-->
-            <!--                </li>-->
+            <li class="layui-nav-item">
+                <a href="javascript:;">团队管理</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="teamList.html">所有团队</a></dd>
+                    <dd><a href="newTeam.html">增加团队</a></dd>
+                </dl>
+            </li>
             <!--                <li class="layui-nav-item">-->
             <!--                    <a href="javascript:;">结对管理</a>-->
             <!--                    <dl class="layui-nav-child">-->
@@ -76,7 +76,7 @@
             </li>
         </ul>
 
-        <ul class="layui-nav layui-nav-tree" lay-filter="test" lay-shrink="all" id="statistical-analysis">
+        <ul class="layui-nav layui-nav-tree" lay-filter="test" lay-shrink="all" id="statistical-analysis" style="height: 100vh">
             <!-- 侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> -->
             <li class="layui-nav-item  layui-nav-itemed">
                 <a href="javascript:;">统计分析</a>
@@ -100,17 +100,21 @@
                 </div>
 
                 <div class="input-group">
-                    <span class="input-group-addon">作业类型：</span>
-                    <select id="work_type" name="work_type" class="layui-select">
-                        <option value="个人作业">个人作业</option>
-                        <option value="结对作业">结对作业</option>
-                        <option value="团队作业">团队作业</option>
-                    </select>
+                    <div style="display: inline">
+                        <span class="input-group-addon" >作业类型：</span>
+                    </div>
+                    <div style="display: inline">
+                        <select id="work_type" name="work_type" class="layui-select" style="display: inline">
+                            <option value="个人作业">个人作业</option>
+                            <option value="结对作业">结对作业</option>
+                            <option value="团队作业">团队作业</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="input-group">
                     <span class="input-group-addon">作业占比：</span>
                     <label>
-                        <input id="proportion" name="proportion" type="number" oninput = "if(value>10)value=10"
+                        <input id="proportion" name="proportion" type="number" oninput = "if(value>100)value=100"
                                class="form-control"  placeholder="请输入作业占比(分)" aria-describedby="basic-addon1">
                     </label>
                 </div>

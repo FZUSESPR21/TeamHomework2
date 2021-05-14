@@ -56,7 +56,7 @@
                     <dl class="layui-nav-child">
                         <dd><a href="scoreinquiry.html">成绩查询</a></dd>
                         <!--                    <dd><a href="assignmentScore.html">博客评分</a></dd>-->
-                        <dd><a href="blogList.html">博客列表</a></dd>
+                        <dd><a href="blogList.html" class="layui-this">博客列表</a></dd>
                     </dl>
                 </li>
             </ul>
@@ -244,15 +244,15 @@
             searchable:true,
         },  {
             title: '博客状态',
-            field: 'score',
+            field: 'isMark',
             align: 'center',
             formatter: function (value, row, index) {
-                if (value == null || value == undefined) {
+                if (value == 0) {
                     var a = '<p style="color: #9c3328;font-size: 15px"> 未评分</p>';
                     return a;
                 } else {
                     var a = '<p style="color: #0f5132;font-size: 15px"> 已评分</p>';
-                    return "已评分";
+                    return a;
                 }
             }
         },

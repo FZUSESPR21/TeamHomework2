@@ -24,10 +24,10 @@
 <div>
     <div class="clear">
         <ul class="layui-nav">
-            <li class="layui-nav-item layui-this" id="manage-content">
+            <li class="layui-nav-item" id="manage-content">
                 <a onclick="manageClicked()">内容管理<span class="layui-nav-item"></span></a>
             </li>
-            <li class="layui-nav-item">
+            <li class="layui-nav-item layui-this">
                 <a onclick="userClicked()">用户管理<span class="layui-nav-item"></span></a>
             </li>
             <li class="layui-nav-item">
@@ -61,15 +61,15 @@
                 </li>
             </ul>
 
-            <ul class="layui-nav layui-nav-tree" lay-filter="test" lay-shrink="all" id="user-manage">
+            <ul class="layui-nav layui-nav-tree" lay-filter="test" lay-shrink="all" id="user-manage"  style="height: 100vh">
                 <!-- 侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> -->
-                <!--                <li class="layui-nav-item">-->
-                <!--                    <a href="javascript:;">团队管理</a>-->
-                <!--                    <dl class="layui-nav-child">-->
-                <!--                        <dd><a href="">所有团队</a></dd>-->
-                <!--                        <dd><a href="javascript:;">增加团队</a></dd>-->
-                <!--                    </dl>-->
-                <!--                </li>-->
+                <li class="layui-nav-item">
+                    <a href="javascript:;">团队管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="teamList.html">所有团队</a></dd>
+                        <dd><a href="newTeam.html">增加团队</a></dd>
+                    </dl>
+                </li>
                 <!--                <li class="layui-nav-item">-->
                 <!--                    <a href="javascript:;">结对管理</a>-->
                 <!--                    <dl class="layui-nav-child">-->
@@ -80,13 +80,13 @@
                 <li class="layui-nav-item layui-nav-itemed">
                     <a href="javascript:;">学生管理</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="studentList.html">学生列表</a></dd>
+                        <dd><a href="studentList.html" class="layui-this">学生列表</a></dd>
                         <dd><a href="newstudents.html">增加学生</a></dd>
                     </dl>
                 </li>
             </ul>
 
-            <ul class="layui-nav layui-nav-tree" lay-filter="test" lay-shrink="all" id="statistical-analysis">
+            <ul class="layui-nav layui-nav-tree" lay-filter="test" lay-shrink="all" id="statistical-analysis"  style="height: 100vh">
                 <!-- 侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> -->
                 <li class="layui-nav-item  layui-nav-itemed">
                     <a href="javascript:;">统计分析</a>
@@ -121,9 +121,11 @@
 <!--    </div>-->
 
 </div>
-</div>
 
 <script>
+    document.getElementById("content-manage").style.display="none";
+    document.getElementById("user-manage").style.display="block";
+    document.getElementById("statistical-analysis").style.display="none";
     // var open = document.getElementById('open');
     // var box = document.getElementById('box');
     // var hidden = document.getElementById('hidden');

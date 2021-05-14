@@ -24,10 +24,10 @@
     <div>
         <div class="clear">
             <ul class="layui-nav">
-                <li class="layui-nav-item layui-this" id="manage-content">
+                <li class="layui-nav-item" id="manage-content">
                     <a onclick="manageClicked()">内容管理<span class="layui-nav-item"></span></a>
                 </li>
-                <li class="layui-nav-item">
+                <li class="layui-nav-item layui-this">
                     <a onclick="userClicked()">用户管理<span class="layui-nav-item"></span></a>
                 </li>
                 <li class="layui-nav-item">
@@ -81,7 +81,7 @@
                         <a href="javascript:;">学生管理</a>
                         <dl class="layui-nav-child">
                             <dd><a href="studentList2.html">学生列表</a></dd>
-                            <dd><a href="newstudents.html">增加学生</a></dd>
+                            <dd><a href="newstudents.html" class="layui-this">增加学生</a></dd>
                         </dl>
                     </li>
                 </ul>
@@ -121,6 +121,10 @@
 <script src="../editormd/lib/marked.min.js"></script>
 <script src="../editormd/lib/prettify.min.js"></script>
 <script type="text/javascript">
+
+    document.getElementById("content-manage").style.display="none";
+    document.getElementById("user-manage").style.display="block";
+    document.getElementById("statistical-analysis").style.display="none";
 
     function onClicked() {
         //判断作业名是否为空

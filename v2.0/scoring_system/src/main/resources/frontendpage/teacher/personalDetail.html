@@ -275,7 +275,9 @@
                 title: '分数',
                 sortable: true,
                 formatter: function (value, row, index) {
-                    if (value.score == null || value.score == undefined) {
+                    if (value == null || value == undefined){
+                        return "0";
+                    }else if (value.score == null || value.score == undefined) {
                         return "0";
                     } else {
                         return value.score;
@@ -380,23 +382,7 @@
                 valign: 'middle',
                 events: {
                     'click #edit': function (e, value, row, index) {
-                        $.ajax({
-                            type: 'post',
-                            url: 'test2.json',
-                            dataType: 'json',
-                            data: {
-                                work: row.work_id,
-                                id: student_id,
-                            },
-                            success: function (data) {
-                                if (data == 'Yes') {
-                                    window.location.href="itemDetails.html?id="+row.id;
-                                }
-                                else {
-                                    alert('该功能暂未开放');
-                                }
-                            }
-                        });
+                        window.location.href="itemDetails.html?id="+row.id;
                     },
                 },
 

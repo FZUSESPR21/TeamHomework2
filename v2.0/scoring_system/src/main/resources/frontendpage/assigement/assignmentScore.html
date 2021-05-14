@@ -57,15 +57,15 @@
                 </li>
             </ul>
 
-            <ul class="layui-nav layui-nav-tree" lay-filter="test" lay-shrink="all" id="user-manage">
+            <ul class="layui-nav layui-nav-tree" lay-filter="test" lay-shrink="all" id="user-manage" style="height: 100vh">
                 <!-- 侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> -->
-<!--                <li class="layui-nav-item">-->
-<!--                    <a href="javascript:;">团队管理</a>-->
-<!--                    <dl class="layui-nav-child">-->
-<!--                        <dd><a href="">所有团队</a></dd>-->
-<!--                        <dd><a href="javascript:;">增加团队</a></dd>-->
-<!--                    </dl>-->
-<!--                </li>-->
+                <li class="layui-nav-item">
+                    <a href="javascript:;">团队管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="teamList.html">所有团队</a></dd>
+                        <dd><a href="newTeam.html">增加团队</a></dd>
+                    </dl>
+                </li>
 <!--                <li class="layui-nav-item">-->
 <!--                    <a href="javascript:;">结对管理</a>-->
 <!--                    <dl class="layui-nav-child">-->
@@ -82,7 +82,7 @@
                 </li>
             </ul>
 
-            <ul class="layui-nav layui-nav-tree" lay-filter="test" lay-shrink="all" id="statistical-analysis">
+            <ul class="layui-nav layui-nav-tree" lay-filter="test" lay-shrink="all" id="statistical-analysis" style="height: 100vh">
                 <!-- 侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> -->
                 <li class="layui-nav-item  layui-nav-itemed">
                     <a href="javascript:;">统计分析</a>
@@ -223,12 +223,7 @@
             contentType: "application/json",
             data: JSON.stringify(data1),
             success: function(data){
-                // if (data == 'Yes') {
-                //     alert("成功修改！");
-                //     //location.reload();
-                // }else {
-                //     alert(data);
-                // }
+                layer.msg(data.message);
             }
         });
     }
@@ -246,7 +241,7 @@
                 if (data.code == '200') {
                     window.location.href='assignmentScore.html?id='+ data.data.id;
                 }else {
-                    alert(data);
+                    layer.msg(data.message);
                 }
             }
         });
@@ -271,7 +266,7 @@
                 if (data.code == '200') {
                     window.location.href='assignmentScore.html?id='+ data.data.id;
                 }else {
-                    alert(data);
+                    alert(data.message);
                 }
             }
         });
