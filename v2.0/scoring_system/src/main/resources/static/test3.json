@@ -1,0 +1,11 @@
+{"message":"获取成功","code":"200",
+  "data":{"total":1,
+    "list":
+    [{"id":"8","blogWorkName":"团队作业222",
+      "blogWorkContent":"C语言提供了几个标准库函数，可以将任意类型(整型、长整型、浮点型等)的数字转换为字符串。以下是用itoa()函数将整数转 换为字符串的一个例子：        atoi     把字符串转换成整型数        itoa     把一整数转换为字符串    #include \"stdio.h\" #include \"ctype.h\" #include \"stdlib.h\"   /* Converts a character string into an int or long 将一个字符串转化为整数 */ int my_atoi(char s[]) { \tint i,n,sign;   \tfor(i=0;isspace(s[i]);i++);   //跳过空白   \tsign=(s[i]=='-')?-1:1; \tif(s[i]=='+'||s[i]==' -')     //跳过符号位 \t\ti++; \tfor(n=0;isdigit(s[i]);i++) \t\tn=10*n+(s[i]-'0');        //将数字字符转换成整形数字 \treturn sign*n; }   /* Converts an int or long into a character string 将一个整数转化为字符串 */ void my_itoa(int n,char s[]) { \tint i,j,sign;   \tif((sign=n)<0)    //记录符号 \t\tn=-n;         //使n成为正数 \ti=0; \tdo{ \t\ts[i++]=n%10+'0';    //取下一个数字 \t}while((n/=10)>0);      //循环相除   \tif(sign<0) \t\ts[i++]='-'; \ts[i]='\\0'; \tfor(j=i-1;j>=0;j--)        //生成的数字是逆序的，所以要逆序输出 \t\tprintf(\"%c\",s[j]); }     void main() { \tint n; \tchar str[100]; \tmy_itoa(-123,str); \tprintf(\"\\n\"); \tprintf(\"%d\\n\",my_atoi(\"123\")); \tsystem(\"pause\"); } ",
+      "userId":"44","teamId":"1","taskId":"1",
+      "blogWorkType":null,"blogUrl":"www.xxxx.com",
+      "team":null,"task":null,"user":null,"score":null,
+      "contributions":null,"contributionList":null}],
+    "pageNum":1,"pageSize":3,"size":1,
+    "startRow":1,"endRow":1,"pages":1,"prePage":0,"nextPage":0,"isFirstPage":true,"isLastPage":true,"hasPreviousPage":false,"hasNextPage":false,"navigatePages":8,"navigatepageNums":[1],"navigateFirstPage":1,"navigateLastPage":1,"lastPage":1,"firstPage":1}}

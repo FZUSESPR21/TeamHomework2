@@ -4,10 +4,10 @@ import cn.afterturn.easypoi.excel.ExcelExportUtil;
 import cn.afterturn.easypoi.excel.ExcelImportUtil;
 import cn.afterturn.easypoi.excel.entity.ExportParams;
 import cn.afterturn.easypoi.excel.entity.ImportParams;
-import com.example.scoring_system.bean.ResponseData;
-import com.example.scoring_system.bean.User;
+import com.example.scoring_system.bean.*;
 import com.example.scoring_system.service.LoginService;
 import com.example.scoring_system.service.RegisterService;
+import com.example.scoring_system.service.ScoreService;
 import com.example.scoring_system.service.UserService;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +19,7 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.apache.shiro.authz.annotation.RequiresUser;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -35,11 +36,14 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.constraints.NotNull;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -53,6 +57,8 @@ public class LoginController {
     LoginService loginService;
     @Autowired
     UserService userService;
+    @Autowired
+    ScoreService scoreService;
 
     @Autowired
     DefaultKaptcha defaultKaptcha;
@@ -76,47 +82,47 @@ public class LoginController {
         return "showlist";
     }
 
-    /**
-     * @Description: web端登录（包含验证码）
-     * @Param: [user, verifyCode, model, session]
-     * @return: java.lang.String
-     * @Date: 2021/4/27
-     */
-    @GetMapping("/login")
-    public String login(User user, String verifyCode, Model model, HttpSession session) {
-        if (StringUtils.isEmpty(user.getUserName()) || StringUtils.isEmpty(user.getPassword()) || StringUtils.isEmpty(verifyCode) || session.getAttribute("verificationCode") == null) {
-            model.addAttribute("msg", "请输入用户名和密码,验证码");
-            return "loginpage";
-        }
-        String code = session.getAttribute("verificationCode").toString();
-        System.out.println("&&" + code + "&&&" + verifyCode);
-        if (StringUtils.isEmpty(code) || !(code.equalsIgnoreCase(verifyCode))) {
-            model.addAttribute("msg", "验证码错误!");
-            return "loginpage";
-        }
-        //获取当前用户
-        Subject subject = SecurityUtils.getSubject();
-        //封装用户的登录数据
-        UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(user.getUserName(), user.getPassword());
-        try {
-            //进行登录
-            subject.login(usernamePasswordToken);
-            model.addAttribute("msg", "登录成功");
-            return "index";
-        } catch (UnknownAccountException e) {
-            log.error("用户名不存在", e);
-            model.addAttribute("msg", "用户名不存在");
-            return "loginpage";
-        } catch (AuthenticationException e) {
-            log.error("账户或密码错误", e);
-            model.addAttribute("msg", "账户或密码错误");
-            return "loginpage";
-        } catch (AuthorizationException e) {
-            log.error("没有权限", e);
-            model.addAttribute("msg", "没有权限");
-            return "loginpage";
-        }
-    }
+//    /**
+//     * @Description: web端登录（包含验证码）
+//     * @Param: [user, verifyCode, model, session]
+//     * @return: java.lang.String
+//     * @Date: 2021/4/27
+//     */
+//    @GetMapping("/login")
+//    public String login(User user, String verifyCode, Model model, HttpSession session) {
+//        if (StringUtils.isEmpty(user.getUserName()) || StringUtils.isEmpty(user.getPassword()) || StringUtils.isEmpty(verifyCode) || session.getAttribute("verificationCode") == null) {
+//            model.addAttribute("msg", "请输入用户名和密码,验证码");
+//            return "loginpage";
+//        }
+//        String code = session.getAttribute("verificationCode").toString();
+//        System.out.println("&&" + code + "&&&" + verifyCode);
+//        if (StringUtils.isEmpty(code) || !(code.equalsIgnoreCase(verifyCode))) {
+//            model.addAttribute("msg", "验证码错误!");
+//            return "loginpage";
+//        }
+//        //获取当前用户
+//        Subject subject = SecurityUtils.getSubject();
+//        //封装用户的登录数据
+//        UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(user.getUserName(), user.getPassword());
+//        try {
+//            //进行登录
+//            subject.login(usernamePasswordToken);
+//            model.addAttribute("msg", "登录成功");
+//            return "index";
+//        } catch (UnknownAccountException e) {
+//            log.error("用户名不存在", e);
+//            model.addAttribute("msg", "用户名不存在");
+//            return "loginpage";
+//        } catch (AuthenticationException e) {
+//            log.error("账户或密码错误", e);
+//            model.addAttribute("msg", "账户或密码错误");
+//            return "loginpage";
+//        } catch (AuthorizationException e) {
+//            log.error("没有权限", e);
+//            model.addAttribute("msg", "没有权限");
+//            return "loginpage";
+//        }
+//    }
 
     /**
      * @Description: 安卓端登录，不包含验证码
@@ -124,14 +130,14 @@ public class LoginController {
      * @return: com.example.scoring_system.bean.ResponseData
      * @Date: 2021/4/27
      */
-    @RequestMapping("/android/login")
+    @RequestMapping("/login")
     @ResponseBody
-    public ResponseData loginAndroid(User user, Model model, HttpSession session) {
+    public ResponseData loginAndroid(User user, Model model, HttpSession session, String verifyCode, HttpServletRequest request, HttpServletResponse response) {
         ResponseData responseData = new ResponseData();
-
-        if (StringUtils.isEmpty(user.getUserName()) || StringUtils.isEmpty(user.getPassword())) {
+        log.info("取得的user"+user.toString());
+        if (StringUtils.isEmpty(user.getAccount()) || StringUtils.isEmpty(user.getPassword())) {
             model.addAttribute("msg", "请输入用户名和密码");
-            responseData.setMsg("请输入用户名和密码,验证码");
+            responseData.setMessage("请输入用户名和密码,验证码");
             responseData.setCode("1002");
             return responseData;
         }
@@ -140,37 +146,41 @@ public class LoginController {
 //        if (StringUtils.isEmpty(code)||!(code.equalsIgnoreCase(verifyCode)))
 //        {
 //            model.addAttribute("msg","验证码错误!");
-//            responseData.setMsg("验证码错误!");
+//            responseData.setMessage("验证码错误!");
 //            responseData.setCode("1001");
 //            return responseData;
 //        }
         //获取当前用户
         Subject subject = SecurityUtils.getSubject();
         //封装用户的登录数据
-        UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(user.getUserName(), user.getPassword());
+        UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(user.getAccount(), user.getPassword());
         try {
             //进行登录
             subject.login(usernamePasswordToken);
-            model.addAttribute("msg", "登录成功");
-            responseData.setMsg("登录成功!");
+            user=userService.getUserByAccountWithoutPrivacy(user);
+            log.info("返回的user:"+user.toString());
+            String newToken=userService.generateJwtToken(user);
+            response.setHeader("x-auth-token", newToken);
+            responseData.setMessage("登录成功!");
             responseData.setCode("200");
+            responseData.setData(user);
             return responseData;
         } catch (UnknownAccountException e) {
             log.error("用户名不存在", e);
             model.addAttribute("msg", "用户名不存在");
-            responseData.setMsg("用户名不存在");
+            responseData.setMessage("用户名不存在");
             responseData.setCode("1003");
             return responseData;
         } catch (AuthenticationException e) {
             log.error("账户或密码错误", e);
             model.addAttribute("msg", "账户或密码错误");
-            responseData.setMsg("账户或密码错误");
+            responseData.setMessage("账户或密码错误");
             responseData.setCode("1004");
             return responseData;
         } catch (AuthorizationException e) {
             log.error("没有权限", e);
             model.addAttribute("msg", "没有权限");
-            responseData.setMsg("没有权限");
+            responseData.setMessage("没有权限");
             responseData.setCode("1005");
             return responseData;
         }
@@ -206,6 +216,7 @@ public class LoginController {
      * @return: java.lang.String
      * @Date: 2021/4/27
      */
+    @RequiresUser
     @GetMapping("/index")
     public String index() {
         return "index";
@@ -260,27 +271,95 @@ public class LoginController {
         return "register";
     }
 
-    /**
-     * @Description: 注册
-     * @Param: [user, model]
-     * @return: java.lang.String
-     * @Date: 2021/4/27
-     */
+//    /**
+//     * @Description: 注册
+//     * @Param: [user, model]
+//     * @return: java.lang.String
+//     * @Date: 2021/4/27
+//     */
+//    @RequestMapping("/register")
+//    public String register(User user, Model model) {
+//        if (user.getPassword() == null || user.getUserName() == null) {
+//            model.addAttribute("msg", "用户名,密码不能为空");
+//            return "register";
+//        }
+//        Integer code = registerService.register(user);
+//        if (code == -1) {
+//            model.addAttribute("msg", "用户名已经存在");
+//            return "register";
+//        } else if (code == 0) {
+//            model.addAttribute("msg", "注册失败");
+//            return "register";
+//        }
+//        return "redirect:/login";
+//    }
+
+
     @RequestMapping("/register")
-    public String register(User user, Model model) {
-        if (user.getPassword() == null || user.getUserName() == null) {
-            model.addAttribute("msg", "用户名,密码不能为空");
-            return "register";
+    @ResponseBody
+    public ResponseData androidRegister(User user, Model model) {
+        ResponseData responseData=new ResponseData();
+        if (user.getPassword() == null || user.getAccount() == null) {
+            responseData.setCode("1033");
+            responseData.setMessage("用户名,密码不能为空");
         }
         Integer code = registerService.register(user);
         if (code == -1) {
-            model.addAttribute("msg", "用户名已经存在");
-            return "register";
+            responseData.setCode("1032");
+            responseData.setMessage("用户名已经存在");
+            responseData.setData("[]");
         } else if (code == 0) {
-            model.addAttribute("msg", "注册失败");
-            return "register";
+            responseData.setCode("1031");
+            responseData.setMessage("注册失败");
+            responseData.setData("[]");
         }
-        return "redirect:/login";
+        else
+        {
+            responseData.setCode("200");
+            responseData.setMessage("注册成功");
+            responseData.setData("[]");
+        }
+        return responseData;
+    }
+
+
+    @RequestMapping("/detailspage")
+    public String toDetails()
+    {
+        return "detalis";
+    }
+
+    @RequestMapping("/details/import")
+    @ResponseBody
+    public ResponseData importDetails(MultipartFile excel, Task task, Model model)
+    {
+        log.info("上传的文件名称："+excel.getOriginalFilename()+"上传的作业名称"+task.toString());
+        task.setCreateTime(new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date()));
+        task.getCreateUser().setId(task.getCreteUserId());
+        task.getClassRoom().setId(Integer.parseInt(task.getClassRoomId()));
+        ResponseData responseData=new ResponseData();
+        ImportParams params = new ImportParams();
+        params.setTitleRows(1);//一级标题
+        params.setHeadRows(2);//header标题
+        try {
+            List<Details> details = ExcelImportUtil.importExcel(excel.getInputStream(), Details.class, params);
+            task.setDetailsList(details);
+            responseData=scoreService.importTask(task);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (responseData.getCode()==null)
+        {
+            responseData.setCode("1041");
+            responseData.setMessage("操作错误");
+        }
+        return responseData;
+    }
+
+    @RequestMapping("/studentimport")
+    public String toImportStudent()
+    {
+        return "showlist";
     }
 
     /**
@@ -290,7 +369,8 @@ public class LoginController {
      * @Date: 2021/4/27
      */
     @RequestMapping("/student/import")
-    public String importStudent(MultipartFile excel, Model model) {
+    @ResponseBody
+    public ResponseData importStudent(MultipartFile excel,User user,Model model) {
         log.info("上传的文件名称：" + excel.getOriginalFilename());
         ImportParams params = new ImportParams();
         params.setTitleRows(1);//一级标题
@@ -298,12 +378,14 @@ public class LoginController {
         try {
             List<User> userList = ExcelImportUtil.importExcel(excel.getInputStream(), User.class, params);
             log.info("导入的数量:" + userList.size());
-            userService.insUserBatch(userList);
+            userService.insUserBatch(userList,user);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "redirect:/showlist";
+        return new ResponseData("导入成功","200","[]");
     }
+
+
 
     /**
      * @Description: 学生导出（excel）
@@ -324,6 +406,19 @@ public class LoginController {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
+    }
+
+    @RequestMapping("/user/userInfo")
+    @ResponseBody
+    public ResponseData getUserInfoByUserId(@NotNull String userId)
+    {
+        log.info("查询userId："+userId);
+        User user=new User();
+        user.setId(userId);
+        UserVO userVO=userService.getUserAndClassRoomByUserId(user);
+        if (userVO!=null&&userVO.getId()!=null)
+            return new ResponseData("查询成功","200",userVO);
+        return new ResponseData("查询失败","1191","[]");
     }
 
     /**

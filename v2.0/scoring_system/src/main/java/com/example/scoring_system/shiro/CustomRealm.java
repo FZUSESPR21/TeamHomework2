@@ -4,6 +4,7 @@ import com.example.scoring_system.bean.Permissions;
 import com.example.scoring_system.bean.Role;
 import com.example.scoring_system.bean.User;
 import com.example.scoring_system.service.LoginService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
@@ -19,6 +20,7 @@ import org.thymeleaf.util.StringUtils;
  * @Author: 曹鑫
  * @Date: 2021/4/12
  */
+@Slf4j
 public class CustomRealm extends AuthorizingRealm {
 
     @Autowired
@@ -83,12 +85,13 @@ public class CustomRealm extends AuthorizingRealm {
         }
         UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken) authenticationToken;
         //验证用户名是否存在
-        User user = loginService.getUserByName2(usernamePasswordToken.getUsername());
+        User user = loginService.getUserByAccount(usernamePasswordToken.getUsername());
+        log.info("customRealm数据库查询的user"+user+"usernamePasswordToken.username"+usernamePasswordToken.getUsername());
         if (user == null) {
             return null;
         }
         //验证密码是否正确
-        SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(user, user.getPassword(),
+        SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(user.getAccount(), user.getPassword(),
                 ByteSource.Util.bytes(user.getSalt()), this.getName());
         return simpleAuthenticationInfo;
     }

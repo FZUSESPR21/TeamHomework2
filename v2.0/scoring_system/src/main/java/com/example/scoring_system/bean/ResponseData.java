@@ -4,7 +4,8 @@ import lombok.Data;
 
 @Data
 public class ResponseData {
-    String msg;
+    String message;
     String code;
-    String Object;
+    Object data;
+    String token;
 }

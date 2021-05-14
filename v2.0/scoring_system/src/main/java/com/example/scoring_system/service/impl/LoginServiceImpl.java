@@ -23,10 +23,10 @@ public class LoginServiceImpl implements LoginService {
         return getMapByName(getMapbyName);
     }
 
-    public User getUserByName2(String name) {
+    public User getUserByAccount(String account) {
         User user = new User();
-        user.setUserName(name);
-        return userMapper.selUserByUserName(user);
+        user.setAccount(account);
+        return userMapper.selUserByAccount(user);
     }
 
     /**
