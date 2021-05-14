@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="layui/css/layui.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <style type="text/css">
+        .container{
+            width: 420px;
+            height: 320px;
+            min-height: 320px;
+            max-height: 320px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            margin: auto;
+            padding: 20px;
+            z-index: 130;
+            border-radius: 8px;
+            background-color: #ffffff;
+            box-shadow: 0 3px 18px rgba(100, 0, 0, .5);
+            font-size: 16px;
+        }
+        .close{
+            background-color: #ffffff;
+            border: none;
+            font-size: 18px;
+            margin-left: 410px;
+            margin-top: -10px;
+        }
+
+        .layui-input{
+            border-radius: 5px;
+            width: 300px;
+            height: 40px;
+            font-size: 15px;
+        }
+        .layui-form-item{
+            margin-left: -20px;
+        }
+        #logoid{
+            margin-top: -16px;
+            padding-left:165px;
+            padding-bottom: 15px;
+        }
+        .layui-btn{
+            margin-left: 35px;
+            border-radius: 5px;
+            width: 350px;
+            height: 40px;
+            font-size: 15px;
+        }
+        .verity{
+            width: 120px;
+        }
+        .font-set{
+            font-size: 13px;
+            text-decoration: none;
+            margin-left: 120px;
+        }
+        a:hover{
+            text-decoration: underline;
+        }
+
+    </style>
+    <title></title>
+</head>
+<body>
+    <div class="container">
+        <button class="close" title="关闭">X</button>
+        <img id="logoid" src="css/logo.png" height="80">
+        <div class="layui-form-item">
+            <label class="layui-form-label">用户名</label>
+            <div class="layui-input-block">
+                <input type="text" id="user_id" name="title" required  lay-verify="required" placeholder="请输入用户名" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">密 &nbsp;&nbsp;码</label>
+            <div class="layui-input-inline">
+                <input type="password" id="password" name="password" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">验证码</label>
+            <div class="layui-input-block">
+                <input type="text" id="verify_code" style="width: 150px;display: inline" name="title" required  lay-verify="required" placeholder="请输入验证码" autocomplete="off" class="layui-input">
+                <img id="log_image" src="http://1.15.129.32:8080/captcha?rnd=1619849291865" onclick="changeCode()" height="40px" width="120px" style="margin-left: 25px;display: inline">
+            </div>
+        </div>
+        <button class="layui-btn" onclick="loging()">登陆</button>
+    </div>
+<script>
+    var timestamp = Date.parse(new Date());
+    function changeCode(){
+        document.getElementById("log_image").src="http://1.15.129.32:8080/captcha?rnd="+timestamp;
+    }
+    function setToken(type, value) {
+        localStorage.setItem(type, value);
+    }
+    function loging() {
+        var id = document.getElementById("user_id").value;
+        var password = document.getElementById("password").value;
+        var verify_code = document.getElementById("verify_code").value;
+
+        console.log(id +":" + password +":" +verify_code +":" + timestamp);
+        $.ajax({
+            url: 'http://1.15.129.32:8080/login',
+            type: 'post',
+            dataType: 'json',
+            data: {
+                account: id,
+                password: password,
+                verifyCode: verify_code,
+                rnd: timestamp,
+            },
+            success: function(data){
+                if (data.code == 200){
+                    setToken("id", data.data.id);
+                    setToken("token", data.data.tokenSalt);
+                    setToken("class", data.data.classId);
+                    setToken("group", data.data.teamId);
+                    setToken("account",data.data.account);
+                    setToken("role",data.data.roles[0].roleName);
+                    //跳转到页面
+                    if (data.data.roles[0].roleName =="student"){
+                        window.location.href="student/scoreinquiry.html";
+                    }else if (data.data.roles[0].roleName =="teacher") {
+                        window.location.href="teacher/scoreinquiry.html";
+                    }else{
+                        window.location.href="assigement/scoreinquiry.html";
+                    }
+                }else {
+                    alert(data.message);
+                }
+
+            }
+        });
+
+    }
+
+    // layui.use(['form', 'layedit', 'laydate'], function(){
+    //     var form = layui.form
+    //     ,layer = layui.layer
+    //     ,layedit = layui.layedit
+    //     ,laydate = layui.laydate;
+    //
+    // //日期
+    // /* laydate.render({
+    //    elem: '#date'
+    //  });
+    //  laydate.render({
+    //    elem: '#date1'
+    //  });
+    //
+    //  //创建一个编辑器
+    //  var editIndex = layedit.build('LAY_demo_editor');
+    //
+    //  //自定义验证规则
+    //  form.verify({
+    //    title: function(value){
+    //      if(value.length < 5){
+    //        return '标题至少得5个字符啊';
+    //      }
+    //    }
+    //    ,pass: [
+    //      /^[\S]{6,12}$/
+    //      ,'密码必须6到12位，且不能出现空格'
+    //    ]
+    //    ,content: function(value){
+    //      layedit.sync(editIndex);
+    //    }
+    //  });
+    //
+    //  //监听指定开关
+    //  form.on('switch(switchTest)', function(data){
+    //    layer.msg('开关checked：'+ (this.checked ? 'true' : 'false'), {
+    //      offset: '6px'
+    //    });
+    //    layer.tips('温馨提示：请注意开关状态的文字可以随意定义，而不仅仅是ON|OFF', data.othis)
+    //  });*/
+    //
+    //     //监听提交
+    //     form.on('submit(formDemo)', function(data){
+    //         var id = document.getElementById("user_id").value();
+    //         var password = document.getElementById("password").value();
+    //         $.ajax({
+    //             url:'test2.json',
+    //             method:'post',
+    //             data:data.field,
+    //             dataType:'JSON',
+    //             success:function(res){
+    //                 if(res=="Yes"){
+    //                     alert(1231);
+    //                 }
+    //                 else
+    //                     alert(res.msg);
+    //             },
+    //             error:function (data) {
+    //
+    //             }
+    //         });
+    //         alert(id + password);
+    //         return false;
+    //     });
+    //
+    // });
+</script>
+</body>
+</html>

@@ -1,13 +1,33 @@
 .input-group{
-    margin-top: 2%;
+    margin-top: 1%;
+    float: left;
+    margin-left: 2%;
+    width: auto;
+}
+.display-inline{
+    display: inline-block;
+    width: 100%;
+}
+ul{
+    margin-bottom: 0;
 }
 #jquery_post{
     margin-top: 2%;
     margin-left: 5%;
+    width: 100px;
+}
+#checklist-form{
+    margin-top: 2%;
+}
+#checklist{
+    width: 820px;
+    height: 400px;
 }
 #message_form{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 5% 0;
+    margin-top: 1%;
+    margin-left: 1%;
+    /*display: flex;*/
+    /*justify-content: center;*/
+    /*align-items: center;*/
+    /*padding: 5% 0;*/
 }

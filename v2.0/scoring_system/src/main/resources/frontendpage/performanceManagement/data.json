@@ -1,0 +1,69 @@
+{
+  "message": "获取成功",
+  "code": "200",
+  "data": {
+    "total": 4,
+    "list": [
+      {
+        "id": "1",
+        "blogWorkName": "团队作业1",
+        "blogWorkContent": "test",
+        "userId": "44",
+        "teamId": null,
+        "taskId": "1",
+        "blogWorkType": null,
+        "blogUrl": "www.baidu.com",
+        "team": null,
+        "task": null,
+        "user": null
+      },
+      {
+        "id": "2",
+        "blogWorkName": "团队作业1",
+        "blogWorkContent": "test",
+        "userId": "44",
+        "teamId": null,
+        "taskId": "1",
+        "blogWorkType": null,
+        "blogUrl": "www.baidu.com",
+        "team": null,
+        "task": null,
+        "user": null
+      },
+      {
+        "id": "3",
+        "blogWorkName": null,
+        "blogWorkContent": "test",
+        "userId": "44",
+        "teamId": null,
+        "taskId": "1",
+        "blogWorkType": null,
+        "blogUrl": "www.xxxx.com",
+        "team": null,
+        "task": null,
+        "user": null
+      }
+    ],
+    "pageNum": 1,
+    "pageSize": 3,
+    "size": 3,
+    "startRow": 1,
+    "endRow": 3,
+    "pages": 2,
+    "prePage": 0,
+    "nextPage": 2,
+    "isFirstPage": true,
+    "isLastPage": false,
+    "hasPreviousPage": false,
+    "hasNextPage": true,
+    "navigatePages": 8,
+    "navigatepageNums": [
+      1,
+      2
+    ],
+    "navigateFirstPage": 1,
+    "navigateLastPage": 2,
+    "firstPage": 1,
+    "lastPage": 2
+  }
+}
