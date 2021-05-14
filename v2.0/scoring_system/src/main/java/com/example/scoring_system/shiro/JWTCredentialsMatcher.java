@@ -18,14 +18,14 @@ public class JWTCredentialsMatcher implements CredentialsMatcher {
     @Override
     public boolean doCredentialsMatch(AuthenticationToken authenticationToken, AuthenticationInfo authenticationInfo) {
         log.info("进入自定义Matcher");
-        JWTToken token = (JWTToken)authenticationToken;
-        log.info("验证信息token:"+token);
+        JWTToken token = (JWTToken) authenticationToken;
+        log.info("验证信息token:" + token);
         Object stored = authenticationInfo.getCredentials();
         String salt = stored.toString();
-        log.info("验证信息："+salt);
-        log.info("验证信息:"+authenticationInfo.getPrincipals().getPrimaryPrincipal().toString());
-        User user = (User)authenticationInfo.getPrincipals().getPrimaryPrincipal();
-        log.info("正在验证的user"+user.toString());
+        log.info("验证信息：" + salt);
+        log.info("验证信息:" + authenticationInfo.getPrincipals().getPrimaryPrincipal().toString());
+        User user = (User) authenticationInfo.getPrincipals().getPrimaryPrincipal();
+        log.info("正在验证的user" + user.toString());
         try {
             Algorithm algorithm = Algorithm.HMAC256(salt);
             JWTVerifier verifier = JWT.require(algorithm)

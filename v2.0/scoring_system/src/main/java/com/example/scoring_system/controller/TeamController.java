@@ -3,14 +3,14 @@ package com.example.scoring_system.controller;
 import cn.afterturn.easypoi.excel.ExcelImportUtil;
 import cn.afterturn.easypoi.excel.entity.ImportParams;
 import com.example.scoring_system.bean.*;
-
 import com.example.scoring_system.service.TeamService;
 import com.github.pagehelper.PageInfo;
-import org.springframework.stereotype.Controller;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -26,40 +26,40 @@ public class TeamController {
 
     @RequestMapping("/selTeamByPage")
     @ResponseBody
-    public ResponseData selTeam(@RequestBody PageRequest pageRequest){
+    public ResponseData selTeam(PageRequest pageRequest) {
         PageInfo<Team> pageInfo = teamService.selTeamByPage(pageRequest);
-        return new ResponseData("返回的团队列表","200",pageInfo);
+        return new ResponseData("返回的团队列表", "200", pageInfo);
     }
 
     @RequestMapping("/selAllTeamMember")
     @ResponseBody
-    public ResponseData selAllTeamMember(@RequestBody Team team){
+    public ResponseData selAllTeamMember(Team team) {
         List<User> studentList = teamService.selAllTeamMember(team);
-        if (studentList != null){
-            return new ResponseData("成功返回该组的所有学生信息","200",studentList);
+        if (studentList != null) {
+            return new ResponseData("成功返回该组的所有学生信息", "200", studentList);
         }
-        return new ResponseData("没有该组相关信息","1001","[]");
+        return new ResponseData("没有该组相关信息", "1001", "[]");
     }
 
     @RequestMapping("/delTeam")
     @ResponseBody
-    public ResponseData delTeam(@RequestBody Team team){
+    public ResponseData delTeam(Team team) {
         boolean result = teamService.delTeam(team);
-        if (result){
-            return new ResponseData("删除成功","200","[]");
+        if (result) {
+            return new ResponseData("删除成功", "200", "[]");
         }
-        return new ResponseData("删除失败","1001","[]");
+        return new ResponseData("删除失败", "1001", "[]");
     }
 
     @RequestMapping("/addSingleTeam")
     @ResponseBody
-    public ResponseData addSingleTeam(@RequestBody TeamForImport team){
+    public ResponseData addSingleTeam(TeamForImport team) {
         boolean result;
         result = teamService.addSingleTeam(team);
         if (result) {
-            return  new ResponseData("团队增加成功","200","[]");
+            return new ResponseData("团队增加成功", "200", "[]");
         }
-        return  new ResponseData("团队增加失败","1001","[]");
+        return new ResponseData("团队增加失败", "1001", "[]");
     }
 
 
@@ -79,16 +79,16 @@ public class TeamController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return new ResponseData("成功导入团队数："+size.toString(),"200","[]");
+        return new ResponseData("成功导入团队数：" + size.toString(), "200", "[]");
     }
 
     @RequestMapping("/updTeam")
     @ResponseBody
-    public ResponseData importTeam(@RequestBody Team team) {
+    public ResponseData importTeam(Team team) {
         Boolean result = teamService.updTeam(team);
         if (result) {
-            return new ResponseData("团队信息修改成功","200","[]");
+            return new ResponseData("团队信息修改成功", "200", "[]");
         }
-        return new ResponseData("团队信息修改失败","1001","[]");
+        return new ResponseData("团队信息修改失败", "1001", "[]");
     }
 }

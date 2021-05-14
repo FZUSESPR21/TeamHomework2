@@ -24,6 +24,7 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,10 +39,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.constraints.NotNull;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -134,22 +134,22 @@ public class LoginController {
     @ResponseBody
     public ResponseData loginAndroid(User user, Model model, HttpSession session, String verifyCode, HttpServletRequest request, HttpServletResponse response) {
         ResponseData responseData = new ResponseData();
-        log.info("取得的user"+user.toString());
+        log.info("取得的user" + user.toString());
         if (StringUtils.isEmpty(user.getAccount()) || StringUtils.isEmpty(user.getPassword())) {
             model.addAttribute("msg", "请输入用户名和密码");
             responseData.setMessage("请输入用户名和密码,验证码");
             responseData.setCode("1002");
             return responseData;
         }
-//        String code=session.getAttribute("verificationCode").toString();
-//        System.out.println("&&"+code+"&&&"+verifyCode);
-//        if (StringUtils.isEmpty(code)||!(code.equalsIgnoreCase(verifyCode)))
-//        {
-//            model.addAttribute("msg","验证码错误!");
-//            responseData.setMessage("验证码错误!");
-//            responseData.setCode("1001");
-//            return responseData;
-//        }
+        String code=session.getAttribute("verificationCode").toString();
+        System.out.println("&&"+code+"&&&"+verifyCode);
+        if (StringUtils.isEmpty(code)||!(code.equalsIgnoreCase(verifyCode)))
+        {
+            model.addAttribute("msg","验证码错误!");
+            responseData.setMessage("验证码错误!");
+            responseData.setCode("1001");
+            return responseData;
+        }
         //获取当前用户
         Subject subject = SecurityUtils.getSubject();
         //封装用户的登录数据
@@ -157,9 +157,9 @@ public class LoginController {
         try {
             //进行登录
             subject.login(usernamePasswordToken);
-            user=userService.getUserByAccountWithoutPrivacy(user);
-            log.info("返回的user:"+user.toString());
-            String newToken=userService.generateJwtToken(user);
+            user = userService.getUserByAccountWithoutPrivacy(user);
+            log.info("返回的user:" + user.toString());
+            String newToken = userService.generateJwtToken(user);
             response.setHeader("x-auth-token", newToken);
             responseData.setMessage("登录成功!");
             responseData.setCode("200");
@@ -298,7 +298,7 @@ public class LoginController {
     @RequestMapping("/register")
     @ResponseBody
     public ResponseData androidRegister(User user, Model model) {
-        ResponseData responseData=new ResponseData();
+        ResponseData responseData = new ResponseData();
         if (user.getPassword() == null || user.getAccount() == null) {
             responseData.setCode("1033");
             responseData.setMessage("用户名,密码不能为空");
@@ -312,9 +312,7 @@ public class LoginController {
             responseData.setCode("1031");
             responseData.setMessage("注册失败");
             responseData.setData("[]");
-        }
-        else
-        {
+        } else {
             responseData.setCode("200");
             responseData.setMessage("注册成功");
             responseData.setData("[]");
@@ -324,32 +322,29 @@ public class LoginController {
 
 
     @RequestMapping("/detailspage")
-    public String toDetails()
-    {
+    public String toDetails() {
         return "detalis";
     }
 
     @RequestMapping("/details/import")
     @ResponseBody
-    public ResponseData importDetails(MultipartFile excel, Task task, Model model)
-    {
-        log.info("上传的文件名称："+excel.getOriginalFilename()+"上传的作业名称"+task.toString());
+    public ResponseData importDetails(MultipartFile excel, Task task, Model model) {
+        log.info("上传的文件名称：" + excel.getOriginalFilename() + "上传的作业名称" + task.toString());
         task.setCreateTime(new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date()));
         task.getCreateUser().setId(task.getCreteUserId());
         task.getClassRoom().setId(Integer.parseInt(task.getClassRoomId()));
-        ResponseData responseData=new ResponseData();
+        ResponseData responseData = new ResponseData();
         ImportParams params = new ImportParams();
         params.setTitleRows(1);//一级标题
         params.setHeadRows(2);//header标题
         try {
             List<Details> details = ExcelImportUtil.importExcel(excel.getInputStream(), Details.class, params);
             task.setDetailsList(details);
-            responseData=scoreService.importTask(task);
+            responseData = scoreService.importTask(task);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if (responseData.getCode()==null)
-        {
+        if (responseData.getCode() == null) {
             responseData.setCode("1041");
             responseData.setMessage("操作错误");
         }
@@ -357,8 +352,7 @@ public class LoginController {
     }
 
     @RequestMapping("/studentimport")
-    public String toImportStudent()
-    {
+    public String toImportStudent() {
         return "showlist";
     }
 
@@ -370,7 +364,7 @@ public class LoginController {
      */
     @RequestMapping("/student/import")
     @ResponseBody
-    public ResponseData importStudent(MultipartFile excel,User user,Model model) {
+    public ResponseData importStudent(MultipartFile excel, User user, Model model) {
         log.info("上传的文件名称：" + excel.getOriginalFilename());
         ImportParams params = new ImportParams();
         params.setTitleRows(1);//一级标题
@@ -378,13 +372,12 @@ public class LoginController {
         try {
             List<User> userList = ExcelImportUtil.importExcel(excel.getInputStream(), User.class, params);
             log.info("导入的数量:" + userList.size());
-            userService.insUserBatch(userList,user);
+            userService.insUserBatch(userList, user);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return new ResponseData("导入成功","200","[]");
+        return new ResponseData("导入成功", "200", "[]");
     }
-
 
 
     /**
@@ -398,7 +391,7 @@ public class LoginController {
         List<User> userList = loginService.selAllUser();
         Workbook workbook = ExcelExportUtil.exportExcel(new ExportParams("学生列表", "用户信息"), User.class, userList);
         try {
-            response.setHeader("content-disposition", "attachment;fileName=" + URLEncoder.encode("学生列表.xls", "UTF-8"));
+            response.setHeader("content-disposition", "attachment;fileName=" + URLEncoder.encode("学生列表.xls", StandardCharsets.UTF_8));
             ServletOutputStream os = response.getOutputStream();
             workbook.write(os);
             os.close();
@@ -408,17 +401,166 @@ public class LoginController {
         }
     }
 
+    @RequestMapping("/student/export/formwork")
+    public void exportStudetnFormworkExcel(HttpServletResponse response, HttpServletRequest request) throws IOException {
+        List<User> userList = loginService.selAllUser();
+//        String path = System.getProperty("user.dir");
+        //待下载文件名
+        String fileName = "student.xls";
+        //设置为png格式的文件
+        response.setHeader("content-type", "image/png");
+        response.setContentType("application/octet-stream");
+        response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
+        byte[] buff = new byte[1024];
+        //创建缓冲输入流
+        BufferedInputStream bis = null;
+        OutputStream outputStream = null;
+        String path = "E:\\其他\\三下\\软件工程\\t2\\git\\meeting-system-8\\v2.0\\scoring_system\\src\\main\\resources\\static\\excel\\";
+        path="/usr/java/rescource/";
+        try {
+            outputStream = response.getOutputStream();
+
+            //这个路径为待下载文件的路径
+            bis = new BufferedInputStream(new FileInputStream(new File(path + fileName)));
+            int read = bis.read(buff);
+
+            //通过while循环写入到指定了的文件夹中
+            while (read != -1) {
+                outputStream.write(buff, 0, buff.length);
+                outputStream.flush();
+                read = bis.read(buff);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            //出现异常返回给页面失败的信息
+        } finally {
+            if (bis != null) {
+                try {
+                    bis.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (outputStream != null) {
+                try {
+                    outputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    @RequestMapping("/details/export/formwork")
+    public void exportDetailsFormworkExcel(HttpServletResponse response, HttpServletRequest request) throws IOException {
+        List<User> userList = loginService.selAllUser();
+//        String path = System.getProperty("user.dir");
+        //待下载文件名
+        String fileName = "taskDetails.xls";
+        //设置为png格式的文件
+        response.setHeader("content-type", "image/png");
+        response.setContentType("application/octet-stream");
+        response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
+        byte[] buff = new byte[1024];
+        //创建缓冲输入流
+        BufferedInputStream bis = null;
+        OutputStream outputStream = null;
+        String path="E:\\其他\\三下\\软件工程\\t2\\git\\meeting-system-8\\v2.0\\scoring_system\\src\\main\\resources\\static\\excel\\";
+        path="/usr/java/rescource/";
+        try {
+            outputStream = response.getOutputStream();
+
+            //这个路径为待下载文件的路径
+            bis = new BufferedInputStream(new FileInputStream(new File(path + fileName)));
+            int read = bis.read(buff);
+
+            //通过while循环写入到指定了的文件夹中
+            while (read != -1) {
+                outputStream.write(buff, 0, buff.length);
+                outputStream.flush();
+                read = bis.read(buff);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            //出现异常返回给页面失败的信息
+        } finally {
+            if (bis != null) {
+                try {
+                    bis.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (outputStream != null) {
+                try {
+                    outputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    @RequestMapping("/team/export/formwork")
+    public void exportTeamFormworkExcel(HttpServletResponse response, HttpServletRequest request) throws IOException {
+        List<User> userList = loginService.selAllUser();
+//        String path = System.getProperty("user.dir");
+        //待下载文件名
+        String fileName = "team.xls";
+        //设置为png格式的文件
+        response.setHeader("content-type", "image/png");
+        response.setContentType("application/octet-stream");
+        response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
+        byte[] buff = new byte[1024];
+        //创建缓冲输入流
+        BufferedInputStream bis = null;
+        OutputStream outputStream = null;
+        String path = "E:\\其他\\三下\\软件工程\\t2\\git\\meeting-system-8\\v2.0\\scoring_system\\src\\main\\resources\\static\\excel\\";
+        path="/usr/java/rescource/";
+        try {
+            outputStream = response.getOutputStream();
+
+            //这个路径为待下载文件的路径
+            bis = new BufferedInputStream(new FileInputStream(new File(path + fileName)));
+            int read = bis.read(buff);
+
+            //通过while循环写入到指定了的文件夹中
+            while (read != -1) {
+                outputStream.write(buff, 0, buff.length);
+                outputStream.flush();
+                read = bis.read(buff);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            //出现异常返回给页面失败的信息
+        } finally {
+            if (bis != null) {
+                try {
+                    bis.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (outputStream != null) {
+                try {
+                    outputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
     @RequestMapping("/user/userInfo")
     @ResponseBody
-    public ResponseData getUserInfoByUserId(@NotNull String userId)
-    {
-        log.info("查询userId："+userId);
-        User user=new User();
+    public ResponseData getUserInfoByUserId(@NotNull String userId) {
+        log.info("查询userId：" + userId);
+        User user = new User();
         user.setId(userId);
-        UserVO userVO=userService.getUserAndClassRoomByUserId(user);
-        if (userVO!=null&&userVO.getId()!=null)
-            return new ResponseData("查询成功","200",userVO);
-        return new ResponseData("查询失败","1191","[]");
+        UserVO userVO = userService.getUserAndClassRoomByUserId(user);
+        if (userVO != null && userVO.getId() != null)
+            return new ResponseData("查询成功", "200", userVO);
+        return new ResponseData("查询失败", "1191", "[]");
     }
 
     /**

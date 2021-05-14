@@ -8,7 +8,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
-import java.util.Map;
 
 @Data
 @NoArgsConstructor
@@ -23,12 +22,12 @@ public class Details {
     String createTime;
     String taskId;
     //评分大项
-    @ExcelEntity(id="评分大项")
+    @ExcelEntity(id = "评分大项")
     ScoreItem scoreItem;
     //大项占总分比
-    @Excel(name="大项占总分比")
+    @Excel(name = "大项占总分比")
     String scoreRatio;
     //评分细则与评分细则占大项比
-    @ExcelCollection(name="评分细则")
+    @ExcelCollection(name = "评分细则")
     List<ScoreDetail> scoreDetail;
 }

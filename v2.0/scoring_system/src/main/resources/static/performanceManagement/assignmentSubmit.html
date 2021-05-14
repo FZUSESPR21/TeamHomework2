@@ -29,26 +29,51 @@
             <a href=""><img src="//t.cn/RCzsdCq" class="layui-nav-img">我</a>
             <dl class="layui-nav-child">
                 <dd><a href="javascript:;">修改信息</a></dd>
-                <dd><a href="javascript:;">退出</a></dd>
+                <dd><a href="javascript:;" onclick="unLoadOnClick()">退出</a></dd>
             </dl>
         </li>
     </ul>
 
     <div class="sidebar">
-        <ul class="layui-nav layui-nav-tree" lay-filter="test" lay-shrink="all" id="content-manage">
+        <ul class="layui-nav layui-nav-tree" lay-filter="test" lay-shrink="all" id="content-manage" style="height: 100vh">
             <!-- 侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> -->
 
             <li class="layui-nav-item layui-nav-itemed">
                 <a href="javascript:;">成绩管理</a>
                 <dl class="layui-nav-child">
-                    <dd><a href="javascript:;">成绩查询</a></dd>
-                    <dd><a href="">答辩评分</a></dd>
-                    <dd><a href="">作业提交</a></dd>
+                    <dd><a href="scoreinquiry.html">成绩查询</a></dd>
+<!--                    <dd><a href="">答辩评分</a></dd>-->
+                    <dd><a href="assignmentSubmit.html" class="layui-this">作业提交</a></dd>
                 </dl>
             </li>
         </ul>
 
-        <ul class="layui-nav layui-nav-tree" lay-filter="test" lay-shrink="all" id="statistical-analysis">
+        <ul class="layui-nav layui-nav-tree" lay-filter="test" lay-shrink="all" id="user-manage" style="height: 100vh">
+            <!-- 侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> -->
+            <li class="layui-nav-item">
+                <a href="javascript:;">团队管理</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="">所有团队</a></dd>
+                    <dd><a href="javascript:;">增加团队</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item">
+                <a href="javascript:;">结对管理</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="javascript:;">结对信息</a></dd>
+                    <dd><a href="">增加结对</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item layui-nav-itemed">
+                <a href="javascript:;">学生管理</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="javascript:;">学生列表</a></dd>
+                    <dd><a href="">增加学生</a></dd>
+                </dl>
+            </li>
+        </ul>
+
+        <ul class="layui-nav layui-nav-tree" lay-filter="test" lay-shrink="all" id="statistical-analysis" style="height: 100vh">
             <!-- 侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> -->
             <li class="layui-nav-item  layui-nav-itemed">
                 <a href="javascript:;">统计分析</a>
@@ -103,7 +128,7 @@
                     <select id="team" name="team" class="layui-select">
                     </select>
 
-                    <div id="personal_id">
+                    <div id="personal_id" style="display: none">
                         <div class="input_student_id">
                             <span class="input-group-addon">你的学号：</span>
                             <label>
@@ -188,7 +213,7 @@
         $.ajax({
             type: 'post',
             //url: 'http://1.15.129.32:8080/score/task/show?classRoomId=1',
-            url: 'http://1.15.129.32:8080/score/task/show?classRoomId='+classRoomId,
+            url: 'http://1.15.129.32:8888/score/task/show?classRoomId='+classRoomId,
             dataType: 'json',
             success: function(data){
                 $.each(data.data,function (index,item) {
@@ -199,12 +224,13 @@
             }
         });
     }
+
     $(document).ready(function () {
         loadWork("个人作业");
-        var userId = getToken("id");
+        var teamId = getToken("group");
         $.ajax({
             type: 'post',
-             url: 'http://1.15.129.32:8080/score/teamUser/show?id='+userId,
+             url: 'http://1.15.129.32:8888/score/teamUser/show?id='+teamId,
             //url: 'http://1.15.129.32:8080/score/teamUser/show?id=1',
             //url: 'test.json',
             dataType: 'json',
@@ -273,6 +299,12 @@
         var student_id2 = $("#student2").val();
         var userId = getToken("id");
         var userAccount = getToken("account");
+
+        var reg=/^http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w- ./?%&=]*)?$/;
+        if(!reg.test(blog_link)){
+            alert('输入正确的链接');
+            return false;
+        }
         // var team_id = $("#team").find("option:selected").val();
         if (work_type_id == 1){
             console.log(1);
@@ -292,14 +324,12 @@
             var data =JSON.stringify(data1);
             $.ajax({
                 type: 'post',
-                url: 'http://1.15.129.32:8080/score/blogwork/submit',
+                url: 'http://1.15.129.32:8888/score/blogwork/submit',
                 dataType: 'json',
                 contentType: "application/json",
                 data: data,
                 success: function(data){
-                    if(data == 'Yes'){
-                        alert("提交成功");
-                    }
+                    layer.msg(data.message, {time : 1500, icon : 2});
                 }
             });
         }else if (work_type_id == 2){
@@ -324,14 +354,12 @@
             var data=JSON.stringify(data1);
             $.ajax({
                 type: 'post',
-                url: 'http://1.15.129.32:8080/score/blogwork/submit',
+                url: 'http://1.15.129.32:8888/score/blogwork/submit',
                 dataType: 'json',
                 contentType: "application/json",
                 data: data,
                 success: function(data){
-                    if(data == 'Yes'){
-                        alert("提交成功");
-                    }
+                    layer.msg(data.message, {time : 1500, icon : 2});
                 }
             });
         }else {
@@ -385,7 +413,7 @@
         $.ajax({
             type: 'post',
             contentType: "application/json",
-            url: 'http://1.15.129.32:8080/score/blogwork/submit',
+            url: 'http://1.15.129.32:8888/score/blogwork/submit',
             dataType: 'json',
             data: data,
             success: function(data){

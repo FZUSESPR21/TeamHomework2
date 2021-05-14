@@ -14,7 +14,7 @@ public class DetailsDataWithTeamReplyReviewFormVO {
     String taskName;
     boolean hasReplyForm;
 
-    public DetailsDataWithTeamReplyReviewFormVO(DetailsData detailsData,Boolean hasReplyForm) {
+    public DetailsDataWithTeamReplyReviewFormVO(DetailsData detailsData, Boolean hasReplyForm) {
         this.id = detailsData.id;
         this.detailsName = detailsData.detailsName;
         this.totalScoreRatio = detailsData.totalScoreRatio;

@@ -1,6 +1,7 @@
 package com.example.scoring_system.mapper;
 
-import com.example.scoring_system.bean.*;
+import com.example.scoring_system.bean.DetailsData;
+import com.example.scoring_system.bean.Task;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -35,16 +36,16 @@ public interface DetailsOperationMapper {
 
     @Select("SELECT sys_id as id,task_name as taskName,task_content as taskContent,create_user_id as creteUserId,create_time as createTime,begine_time as begine_Time,deadline,make_up_time as makeUpTime" +
             ",class_id as classRoomId from task")
-    public List<Task> selDetails();
+    List<Task> selDetails();
 
     @Delete("DELETE FROM details where sys_id=#{sys_id}")
-    public void delDetails(String sys_id);
+    void delDetails(String sys_id);
 
     @Select("SELECT sys_id as id,task_name as taskName,task_content as taskContent,create_user_id as creteUserId,create_time as createTime,begine_time as begine_Time,deadline,make_up_time as makeUpTime" +
             ",class_id as classRoomId from task " +
             "WHERE sys_id=#{id}")
-    public Task getTaskInfo(Task task);
+    Task getTaskInfo(Task task);
 
     @Delete("DELETE FROM task where task_id=#{id}")
-    public void delTaks(Task task);
+    void delTaks(Task task);
 }

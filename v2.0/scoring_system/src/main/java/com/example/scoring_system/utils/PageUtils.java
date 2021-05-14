@@ -6,11 +6,11 @@ import com.github.pagehelper.PageInfo;
 
 public class PageUtils {
     /**
-    * @Description:  将分页信息封装到统一的接口
-    * @Param: [pageRequest, pageInfo]
-    * @return: com.example.scoring_system.bean.PageResult
-    * @Date: 2021/5/1
-    */
+     * @Description: 将分页信息封装到统一的接口
+     * @Param: [pageRequest, pageInfo]
+     * @return: com.example.scoring_system.bean.PageResult
+     * @Date: 2021/5/1
+     */
     public static PageResult getPageResult(PageRequest pageRequest, PageInfo<?> pageInfo) {
         PageResult pageResult = new PageResult();
         pageResult.setPageNum(pageInfo.getPageNum());

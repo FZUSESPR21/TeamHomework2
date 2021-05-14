@@ -34,12 +34,12 @@
 
     <insert id="insUserBatch" parameterType="java.util.List">
         INSERT INTO user
-        (id,account,user_name as userName,PASSWORD,perms,salt,total_score,team_id,team_change_history,class_id,token_salt)
+        (id,account,user_name ,PASSWORD,perms,salt,total_score,team_id,team_change_history,class_id,token_salt)
         VALUES
         <foreach collection="list"  item="user" index="index" separator=",">
             (DEFAULT,#{user.account},
             #{user.userName},#{user.password},
-            NULL,#{user.salt},NULL,NULL,NULL,#{user.class_id},NULL)
+            NULL,#{user.salt},NULL,NULL,NULL,#{user.classId},NULL)
         </foreach>
     </insert>
 

@@ -5,8 +5,11 @@ import com.example.scoring_system.bean.User;
 import java.util.List;
 
 public interface AssistantService {
-    public List<User> showAllAssistant();
-    public void addAssistant(User user);
-    public void updateAssistant();
-    public void delAssistant();
+    List<User> showAllAssistant();
+
+    void addAssistant(User user);
+
+    void updateAssistant();
+
+    void delAssistant();
 }

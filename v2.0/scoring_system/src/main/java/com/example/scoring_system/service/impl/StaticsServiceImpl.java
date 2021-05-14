@@ -1,7 +1,6 @@
 package com.example.scoring_system.service.impl;
 
 import com.example.scoring_system.bean.User;
-import com.example.scoring_system.mapper.AssistantMapper;
 import com.example.scoring_system.mapper.StaticsMapper;
 import com.example.scoring_system.service.StaticsService;
 import lombok.extern.slf4j.Slf4j;
@@ -23,8 +22,7 @@ public class StaticsServiceImpl implements StaticsService {
     StaticsMapper staticsMapper;
 
     @Override
-    public List<User> getStudentScores()
-    {
+    public List<User> getStudentScores() {
         return staticsMapper.getAllAssistants();
     }
 

@@ -14,7 +14,7 @@ public class JWTToken implements HostAuthenticationToken {
     String host;
 
     public JWTToken(String jwtToken) {
-        this(jwtToken,null);
+        this(jwtToken, null);
     }
 
     @Override

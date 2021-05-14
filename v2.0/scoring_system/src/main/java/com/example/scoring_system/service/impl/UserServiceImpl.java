@@ -1,11 +1,15 @@
 package com.example.scoring_system.service.impl;
 
+import com.example.scoring_system.bean.PageRequest;
+import com.example.scoring_system.bean.Team;
 import com.example.scoring_system.bean.User;
 import com.example.scoring_system.bean.UserVO;
 import com.example.scoring_system.mapper.UserMapper;
 import com.example.scoring_system.service.UserService;
 import com.example.scoring_system.utils.JwtUtils;
 import com.example.scoring_system.utils.SaltUtils;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +33,7 @@ public class UserServiceImpl implements UserService {
      * @Date: 2021/4/27
      */
     @Override
-    public List<User> insUserBatch(List<User> userList) {
+    public List<User> insUserBatch(List<User> userList, User u) {
         List<User> tmpList = new ArrayList<>();
         User user;
         for (int i = 0; i < userList.size(); i++) {
@@ -55,6 +59,8 @@ public class UserServiceImpl implements UserService {
                 //对明文密码进行md5+salt+hash散列
                 Md5Hash md5Hash = new Md5Hash(user.getPassword(), salt, 1024);
                 user.setPassword(md5Hash.toHex());
+                log.info("&&*&*&*&*" + u.getClassId());
+                user.setClassId(u.getClassId());
             }
         }
 
@@ -67,72 +73,68 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-    * @Description: 保存user登录信息，获取token.
-    * @Param: [user]
-    * @return: java.lang.String
-    * @Date: 2021/4/29
-    */
-    public String generateJwtToken(User user)
-    {
-        log.debug("User:"+user);
-        String salt= JwtUtils.generateSalt();
+     * @Description: 保存user登录信息，获取token.
+     * @Param: [user]
+     * @return: java.lang.String
+     * @Date: 2021/4/29
+     */
+    public String generateJwtToken(User user) {
+        log.debug("User:" + user);
+        String salt = JwtUtils.generateSalt();
         user.setTokenSalt(salt);
         //保存salt到数据库中
         userMapper.updUserTokenSaltByAccount(user);
-        return JwtUtils.sign(user.getAccount(),user.getTokenSalt(),3600);
+        return JwtUtils.sign(user.getAccount(), user.getTokenSalt(), 3600);
     }
 
     /**
-    * @Description:获取上次token生成的salt指和登录用户信息。
-    * @Param: [user]
-    * @return: com.example.scoring_system.bean.User
-    * @Date: 2021/4/30
-    */
-    public User getJwtTokenInfo(User user)
-    {
+     * @Description:获取上次token生成的salt指和登录用户信息。
+     * @Param: [user]
+     * @return: com.example.scoring_system.bean.User
+     * @Date: 2021/4/30
+     */
+    public User getJwtTokenInfo(User user) {
         return userMapper.selUserByAccount(user);
     }
 
     /**
-    * @Description: 清除toen信息
-    * @Param: [user]
-    * @return: java.lang.Integer
-    * @Date: 2021/4/30
-    */
-    public Integer deleteLoginInfo(User user)
-    {
-        log.debug("消除token的user:"+user);
+     * @Description: 清除toen信息
+     * @Param: [user]
+     * @return: java.lang.Integer
+     * @Date: 2021/4/30
+     */
+    public Integer deleteLoginInfo(User user) {
+        log.debug("消除token的user:" + user);
         user.setTokenSalt("");
         return userMapper.updUserTokenSaltByAccount(user);
     }
 
     @Override
     public User getUserByAccountWithoutPrivacy(User user) {
-        User user1=userMapper.selUserByAccountWhitoutPrivacy(user);
+        User user1 = userMapper.selUserByAccountWhitoutPrivacy(user);
         log.info(user1.toString());
-        User user2=userMapper.selRoleByUserAccount(user.getAccount());
+        User user2 = userMapper.selRoleByUserAccount(user.getAccount());
         log.info(user2.toString());
         user1.setRoles(user2.getRoles());
         return user1;
     }
 
     /**
-    * @Description: 获取所有学生用户的信息
-    * @Param: []
-    * @return: java.util.List<com.example.scoring_system.bean.User>
-    * @Date: 2021/5/7
-    */
+     * @Description: 获取所有学生用户的信息
+     * @Param: []
+     * @return: java.util.List<com.example.scoring_system.bean.User>
+     * @Date: 2021/5/7
+     */
     @Override
     public PageInfo<User> getUserByRoleWithStudent(PageRequest pageRequest) {
-        PageHelper.startPage(pageRequest.getPageNum(),pageRequest.getPageSize());
+        PageHelper.startPage(pageRequest.getPageNum(), pageRequest.getPageSize());
         return new PageInfo<>(userMapper.selUserByRoleWithStudent());
     }
 
     @Override
     public List<User> getUserListByTeamId(Team team) {
-        List<User> userList=userMapper.selUserByTeamId(team);
-        for (int i=0;i<userList.size();i++)
-        {
+        List<User> userList = userMapper.selUserByTeamId(team);
+        for (int i = 0; i < userList.size(); i++) {
             userList.get(i).setPassword("");
         }
 
@@ -141,13 +143,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserVO getUserAndClassRoomByUserId(User user) {
-        log.info("查询的user"+user.getId());
-        User user1=userMapper.selUserAndClassRoomByUserId(user);
-        if (user1==null)
-        {
+        log.info("查询的user" + user.getId());
+        User user1 = userMapper.selUserAndClassRoomByUserId(user);
+        if (user1 == null) {
             return new UserVO();
         }
-        return new UserVO(user1.getId(),user1.getAccount(),user1.getUserName(),user1.getClassRoom().getClassName());
+        return new UserVO(user1.getId(), user1.getAccount(), user1.getUserName(), user1.getClassRoom().getClassName());
     }
 
 

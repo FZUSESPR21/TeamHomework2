@@ -1,10 +1,7 @@
 package com.example.scoring_system.mapper;
 
 import com.example.scoring_system.bean.*;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -12,29 +9,32 @@ import java.util.List;
 @Repository
 @Mapper
 public interface ScoreMapper {
-    /** 
-    * @Description: 批量导入评分细则
-    * @Param: [detailsList] 
-    * @return: java.lang.Integer 
-    * @Date: 2021/4/29 
-    */
-   Integer insDetailsBatch(List<DetailsData> detailsList);
+    /**
+     * @Description: 批量导入评分细则
+     * @Param: [detailsList]
+     * @return: java.lang.Integer
+     * @Date: 2021/4/29
+     */
+    Integer insDetailsBatch(List<DetailsData> detailsList);
 
     /**
-    * @Description: 导入作业信息
-    * @Param: [task]
-    * @return: java.lang.Integer
-    * @Date: 2021/4/29
-    */
-    @Insert("INSERT INTO task(sys_id,task_name,task_content,create_user_id,create_time,begine_time,deadline,make_up_time,class_id) VALUES\n" +
-            "(DEFAULT,#{taskName},#{taskContent},#{createUser.id},#{createTime},#{begineTime},#{deadline},#{makeUpTime},#{classRoom.id})")
+     * @Description: 导入作业信息
+     * @Param: [task]
+     * @return: java.lang.Integer
+     * @Date: 2021/4/29
+     */
+    @Insert("INSERT INTO task(sys_id,task_name,task_content,create_user_id,create_time,begine_time,deadline,make_up_time,class_id,task_type,ratio) VALUES\n" +
+            "(DEFAULT,#{taskName},#{taskContent},#{createUser.id},#{createTime},#{begineTime},#{deadline},#{makeUpTime},#{classRoom.id},#{taskType},#{ratio})")
     Integer insTask(Task task);
 
     @Select("SELECT sys_id id FROM task ORDER BY sys_id DESC LIMIT 1")
     Task selLastRecordInTask();
 
-    @Select("SELECT sys_id,task_name,task_content,create_user_id,create_time,begine_time,deadline,make_up_time,class_id from details")
-    public List<Details> selDetails();
+    @Select("SELECT sys_id id,task_name taskName,task_content taskContent,create_user_id creteUserId,\n" +
+            "create_time createTime,begine_time begineTime,deadline,make_up_time makeUpTime,class_id classRoomId,task_type taskType,ratio \n" +
+            "FROM task\n" +
+            "WHERE class_id=#{classRoomId}")
+    List<Task> selTaskByClassRoomId(Task task);
 
     @Select("SELECT sys_id id,task_name taskName,task_content taskContent,create_user_id creteUserId,\n" +
             "create_time createTime,begine_time begineTime,deadline,make_up_time makeUpTime,class_id classRoomId,task_type taskType,ratio \n" +
@@ -86,14 +86,14 @@ public interface ScoreMapper {
 
     @Select("SELECT sys_id id,blog_work_name blogWorkName,blog_work_content blogWorkContent,user_id userId,team_id teamId,task_id taskId,blog_work_type blogWorkType,blog_url blogUrl" +
             " FROM blog_work WHERE  task_id=#{taskId} AND (user_id=#{userId} OR team_id=#{teamId})")
-    List<BlogWork> selBlogWorkByTaskIdAndUserIdOrTeamId(String teamId,String taskId,String userId);
+    List<BlogWork> selBlogWorkByTaskIdAndUserIdOrTeamId(String teamId, String taskId, String userId);
 
     @Insert("INSERT INTO team_score VALUES(DEFAULT,NULL,#{teamId},#{taskId},#{contributions})")
-    Integer insTeamScore(String teamId,String taskId,String contributions);
+    Integer insTeamScore(String teamId, String taskId, String contributions);
 
 
     @Insert("INSERT INTO user_score VALUES(DEFAULT,#{userId},#{taskId},NULL)")
-    Integer insUserScore(String userId,String taskId);
+    Integer insUserScore(String userId, String taskId);
 
     @Update("UPDATE blog_work SET is_mark=1 WHERE sys_id=#{id}")
     Integer updBlogWorkIsMarkById(BlogWork blogWork);
@@ -117,22 +117,22 @@ public interface ScoreMapper {
     Integer insTeamScoreDetailsBatch(@Param("detailsDataList") List<DetailsData> detailsDataList, @Param("teamScoreId") String teamScoreId);
 
     @Insert("INSERT INTO team_score_details VALUES(DEFAULT,#{teamScoreId},#{detailsData.id},#{detailsData.score})")
-    Integer insTeamScoreDetails(@Param("detailsData") DetailsData detailsData,@Param("teamScoreId") String teamScoreId);
+    Integer insTeamScoreDetails(@Param("detailsData") DetailsData detailsData, @Param("teamScoreId") String teamScoreId);
 
     @Insert("INSERT INTO user_score_details VALUES(DEFAULT,#{userScoreId},#{detailsData.id},#{detailsData.score})")
-    Integer insUserScoreDetails(@Param("detailsData") DetailsData detailsData,@Param("userScoreId") String userScoreId);
+    Integer insUserScoreDetails(@Param("detailsData") DetailsData detailsData, @Param("userScoreId") String userScoreId);
 
     @Update("UPDATE team_score_details SET score=#{detailsData.score} WHERE team_score_id=#{teamScoreId} AND details_id=#{detailsData.id}")
-    Integer updTeamScoreDetails(@Param("detailsData") DetailsData detailsData,@Param("teamScoreId") String teamScoreId);
+    Integer updTeamScoreDetails(@Param("detailsData") DetailsData detailsData, @Param("teamScoreId") String teamScoreId);
 
     @Update("UPDATE user_score_details SET score=#{detailsData.score} WHERE user_score_id=#{userScoreId} AND details_id=#{detailsData.id}")
-    Integer updUserScoreDetails(@Param("detailsData") DetailsData detailsData,@Param("userScoreId") String userScoreId);
+    Integer updUserScoreDetails(@Param("detailsData") DetailsData detailsData, @Param("userScoreId") String userScoreId);
 
     @Select("SELECT sys_id id,score FROM team_score_details WHERE team_score_id=#{teamScoreId} AND details_id=#{details_id}")
-    DetailsData selTeamScoreDetailsByTeamScoreIdAndDetailsId(@Param("teamScoreId") String teamScoreId,@Param("details_id")String detailsId);
+    DetailsData selTeamScoreDetailsByTeamScoreIdAndDetailsId(@Param("teamScoreId") String teamScoreId, @Param("details_id") String detailsId);
 
     @Select("SELECT sys_id id,score FROM user_score_details WHERE user_score_id=#{userScoreId} AND details_id=#{details_id}")
-    DetailsData selUserScoreDetailsByTeamScoreIdAndDetailsId(@Param("userScoreId") String userScoreId,@Param("details_id")String detailsId);
+    DetailsData selUserScoreDetailsByTeamScoreIdAndDetailsId(@Param("userScoreId") String userScoreId, @Param("details_id") String detailsId);
 
     @Update("UPDATE user SET total_score=#{totalScore} WHERE account=#{account}")
     Integer updUserTotalScore(User user);
@@ -190,7 +190,4 @@ public interface ScoreMapper {
 
     @Select("SELECT sys_id teamId,sys_team_name teamName FROM team WHERE sys_id!=#{teamId}")
     List<TeamReplyReviewFormSimple> getTeamReplyReviewFormSimple(String teamId);
-}
-    @Delete("DELETE FROM details where sys_id=#{sys_id}")
-    public void delDetails(String sys_id);
 }

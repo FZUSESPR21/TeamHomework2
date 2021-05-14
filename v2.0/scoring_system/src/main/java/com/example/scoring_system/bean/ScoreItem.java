@@ -5,6 +5,6 @@ import lombok.Data;
 
 @Data
 public class ScoreItem {
-    @Excel(name="评分大项")
+    @Excel(name = "评分大项")
     String scoreItem;
 }

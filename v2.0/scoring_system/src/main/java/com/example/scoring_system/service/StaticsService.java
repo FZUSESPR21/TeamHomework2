@@ -10,5 +10,5 @@ import java.util.List;
  * @Date: 2021/05/04
  */
 public interface StaticsService {
-    public List<User> getStudentScores();
+    List<User> getStudentScores();
 }

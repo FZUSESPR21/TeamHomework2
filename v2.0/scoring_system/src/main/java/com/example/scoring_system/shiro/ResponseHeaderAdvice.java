@@ -23,9 +23,9 @@ public class ResponseHeaderAdvice implements ResponseBodyAdvice<Object> {
     @Override
     public Object beforeBodyWrite(Object o, MethodParameter methodParameter, MediaType mediaType, Class<? extends HttpMessageConverter<?>> aClass,
                                   ServerHttpRequest serverHttpRequest, ServerHttpResponse serverHttpResponse) {
-        ServletServerHttpRequest serverRequest = (ServletServerHttpRequest)serverHttpRequest;
-        ServletServerHttpResponse serverResponse = (ServletServerHttpResponse)serverHttpResponse;
-        if(serverRequest == null || serverResponse == null
+        ServletServerHttpRequest serverRequest = (ServletServerHttpRequest) serverHttpRequest;
+        ServletServerHttpResponse serverResponse = (ServletServerHttpResponse) serverHttpResponse;
+        if (serverRequest == null || serverResponse == null
                 || serverRequest.getServletRequest() == null || serverResponse.getServletResponse() == null) {
             return o;
         }
@@ -34,26 +34,26 @@ public class ResponseHeaderAdvice implements ResponseBodyAdvice<Object> {
         HttpServletRequest request = serverRequest.getServletRequest();
         HttpServletResponse response = serverResponse.getServletResponse();
         String originHeader = "Access-Control-Allow-Origin";
-        if(!response.containsHeader(originHeader)) {
+        if (!response.containsHeader(originHeader)) {
             String origin = request.getHeader("Origin");
-            if(origin == null) {
+            if (origin == null) {
                 String referer = request.getHeader("Referer");
-                if(referer != null)
+                if (referer != null)
                     origin = referer.substring(0, referer.indexOf("/", 7));
             }
             response.setHeader("Access-Control-Allow-Origin", origin);
         }
 
         String allowHeaders = "Access-Control-Allow-Headers";
-        if(!response.containsHeader(allowHeaders))
+        if (!response.containsHeader(allowHeaders))
             response.setHeader(allowHeaders, request.getHeader(allowHeaders));
 
         String allowMethods = "Access-Control-Allow-Methods";
-        if(!response.containsHeader(allowMethods))
+        if (!response.containsHeader(allowMethods))
             response.setHeader(allowMethods, "GET,POST,OPTIONS,HEAD");
 
         String exposeHeaders = "access-control-expose-headers";
-        if(!response.containsHeader(exposeHeaders))
+        if (!response.containsHeader(exposeHeaders))
             response.setHeader(exposeHeaders, "x-auth-token");
 
         return o;

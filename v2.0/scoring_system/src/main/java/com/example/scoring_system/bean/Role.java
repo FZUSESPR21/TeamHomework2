@@ -6,11 +6,11 @@ import lombok.NoArgsConstructor;
 
 import java.util.Set;
 
-/** 
-* @Description: 角色类
-* @Author: 曹鑫
-* @Date: 2021/4/11 
-*/
+/**
+ * @Description: 角色类
+ * @Author: 曹鑫
+ * @Date: 2021/4/11
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

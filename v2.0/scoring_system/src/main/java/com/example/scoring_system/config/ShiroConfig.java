@@ -2,7 +2,6 @@ package com.example.scoring_system.config;
 
 import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 import com.example.scoring_system.filter.JwtAuthFilter;
-import com.example.scoring_system.service.UserService;
 import com.example.scoring_system.shiro.CustomRealm;
 import com.example.scoring_system.shiro.JWTCredentialsMatcher;
 import com.example.scoring_system.shiro.JWTShiroRealm;
@@ -10,13 +9,10 @@ import org.apache.shiro.authc.Authenticator;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.authc.pam.FirstSuccessfulStrategy;
 import org.apache.shiro.authc.pam.ModularRealmAuthenticator;
-import org.apache.shiro.crypto.hash.Sha256Hash;
 import org.apache.shiro.mgt.SessionStorageEvaluator;
 import org.apache.shiro.realm.Realm;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
-import org.apache.shiro.spring.web.config.DefaultShiroFilterChainDefinition;
-import org.apache.shiro.spring.web.config.ShiroFilterChainDefinition;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.mgt.DefaultWebSessionStorageEvaluator;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -46,9 +42,9 @@ public class ShiroConfig {
      * 注册shiro的Filter，拦截请求
      */
     @Bean
-    public FilterRegistrationBean<Filter> filterRegistrationBean(DefaultWebSecurityManager securityManager) throws Exception{
+    public FilterRegistrationBean<Filter> filterRegistrationBean(DefaultWebSecurityManager securityManager) throws Exception {
         FilterRegistrationBean<Filter> filterRegistration = new FilterRegistrationBean<Filter>();
-        filterRegistration.setFilter((Filter)shiroFilterFactoryBean(securityManager).getObject());
+        filterRegistration.setFilter((Filter) shiroFilterFactoryBean(securityManager).getObject());
         filterRegistration.addInitParameter("targetFilterLifecycle", "true");
         filterRegistration.setAsyncSupported(true);
         filterRegistration.setEnabled(true);
@@ -75,11 +71,12 @@ public class ShiroConfig {
      * 需要注意的是，如果用户代码里调用Subject.getSession()还是可以用session，如果要完全禁用，要配合下面的noSessionCreation的Filter来实现
      */
     @Bean
-    protected SessionStorageEvaluator sessionStorageEvaluator(){
+    protected SessionStorageEvaluator sessionStorageEvaluator() {
         DefaultWebSessionStorageEvaluator sessionStorageEvaluator = new DefaultWebSessionStorageEvaluator();
         sessionStorageEvaluator.setSessionStorageEnabled(false);
         return sessionStorageEvaluator;
     }
+
     /**
      * 用于用户名密码登录时认证的realm
      */
@@ -95,6 +92,7 @@ public class ShiroConfig {
         customerRealm.setCredentialsMatcher(credentialsMatcher);
         return customerRealm;
     }
+
     /**
      * 用于JWT token认证的realm
      */
@@ -129,7 +127,7 @@ public class ShiroConfig {
     @Bean
     public DefaultWebSecurityManager securityManager() {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
-        securityManager.setRealms(Arrays.asList(myShiroRealm(),jwtShiroRealm()));
+        securityManager.setRealms(Arrays.asList(myShiroRealm(), jwtShiroRealm()));
         return securityManager;
     }
 
@@ -154,8 +152,8 @@ public class ShiroConfig {
 
         //错误页面，认证不通过跳转
         shiroFilterFactoryBean.setUnauthorizedUrl("/noauth");
-        LinkedHashMap<String,Filter> filtsMap=new LinkedHashMap<>();
-        filtsMap.put("authc",new JwtAuthFilter());
+        LinkedHashMap<String, Filter> filtsMap = new LinkedHashMap<>();
+        filtsMap.put("authc", new JwtAuthFilter());
         shiroFilterFactoryBean.setFilters(filtsMap);
         shiroFilterFactoryBean.setFilterChainDefinitionMap(map);
         return shiroFilterFactoryBean;

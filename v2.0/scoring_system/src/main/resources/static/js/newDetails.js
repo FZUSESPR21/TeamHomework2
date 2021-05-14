@@ -1,6 +1,6 @@
 
 function downLoadModel() {
-    window.open();
+    window.open('http://1.15.129.32:8888/details/export/formwork');
 }
 
 function judgeExcelFile() {
@@ -43,20 +43,38 @@ function onClicked() {
     var checklist = $("#checklist").val();
     var make_up_date = $("#make_up_date").val();
     var closing_date = $("#closing_date").val();
-    var proportion = $("#proportion").val();
+    var proportion = $("#proportion").val()/100;
     var work_type = $("#work_type option:selected").val();
-    var create_user = getToken("userId");
-    var class_id = getToken("classId");
+    var create_user = getToken("id");
+    var class_id = getToken("class");
     //获取当前时间，格式为2021-05-05
     var create_year = date.getFullYear();
     var create_month = date.getMonth()+1;
     var create_day = date.getDate();
     var create_time = create_year + "-" + create_month + "-" + create_day;
-    alert(create_time);
+    var mytime= new Date(create_time);
+    console.log(mytime);
+
+    //alert(create_time);
     //console.log(create_year + create_month +create_day);
+
+    if (proportion == ""){
+        alert("占比不能为空");
+        return false;
+    }
 
     if (make_up_date =="" || closing_date == ""){
         alert("时间不能为空！");
+        return false;
+    }
+
+    if (new Date(closing_date) < new Date(create_time)){
+        alert("截止日期不能小于当前日期");
+        return false;
+    }
+
+    if (new Date(make_up_date) < new Date(closing_date)){
+        alert("补交日期不能小于截止日期");
         return false;
     }
 
@@ -65,34 +83,26 @@ function onClicked() {
         return false;
     }
     //console.log(title+checklist+make_up_date+closing_date+proportion+work_type);
-    data2.append("file",$("#file_upload")[0].files[0]);
-    data2.append("title",title);
-    data2.append("checklist",checklist);
-    data2.append("make_up_date",make_up_date);
-    data2.append("closing_date",closing_date);
-    data2.append("proportion",proportion);
-    data2.append("work_type",work_type);
-    data2.append("create_user",create_user);
-    data2.append("class_id",class_id);
-    data2.append("create_time",create_time);
+    data2.append("excel",$("#file_upload")[0].files[0]);
+    data2.append("taskName",title);
+    data2.append("taskContent",checklist);
+    data2.append("makeUpTime",make_up_date);
+    data2.append("deadline",closing_date);
+    data2.append("ratio",proportion);
+    data2.append("taskType",work_type);
+    data2.append("creteUserId",create_user);
+    data2.append("classRoomId",class_id);
+    data2.append("begineTime",create_time);
     console.log(data2);
     $.ajax({
-        url:"/assistant/task/add",
-        type:"CREATE",
+        url:"http://1.15.129.32:8888/details/import",
+        type:"post",
         dataType:"JSON",
         data: data2,
         contentType: false,
         processData: false,
         success:function(data){
-            if(data == 'Yes'){
-                alert("新增一项作业！");
-            }else{
-                if (data == 'Exit'){
-                    alert("该作业已存在");
-                }else{
-                    alert("作业新增失败");
-                }
-            }
+            layer.msg(data.message);
         }
     });
 }

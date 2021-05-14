@@ -86,7 +86,7 @@ public class CustomRealm extends AuthorizingRealm {
         UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken) authenticationToken;
         //验证用户名是否存在
         User user = loginService.getUserByAccount(usernamePasswordToken.getUsername());
-        log.info("customRealm数据库查询的user"+user+"usernamePasswordToken.username"+usernamePasswordToken.getUsername());
+        log.info("customRealm数据库查询的user" + user + "usernamePasswordToken.username" + usernamePasswordToken.getUsername());
         if (user == null) {
             return null;
         }

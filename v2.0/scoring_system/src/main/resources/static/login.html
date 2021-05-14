@@ -5,6 +5,10 @@
     <link rel="stylesheet" href="layui/css/layui.css">
     <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
     <style type="text/css">
+        body{
+            background: url("css/wallpaper.jpg") ;
+            background-size : cover;
+        }
         .container{
             width: 420px;
             height: 320px;
@@ -42,7 +46,7 @@
         }
         #logoid{
             margin-top: -16px;
-            padding-left:150px;
+            padding-left:165px;
             padding-bottom: 15px;
         }
         .layui-btn{
@@ -70,7 +74,7 @@
 <body>
     <div class="container">
         <button class="close" title="关闭">X</button>
-        <img id="logoid" src="layui/font/logo.jpg" height="80">
+        <img id="logoid" src="css/logo.png" height="80">
         <div class="layui-form-item">
             <label class="layui-form-label">用户名</label>
             <div class="layui-input-block">
@@ -123,87 +127,26 @@
                     setToken("class", data.data.classId);
                     setToken("group", data.data.teamId);
                     setToken("account",data.data.account);
-
-                    // //跳转到页面
-                    // if (data.data.roles){
-                    //     window.open(url);
-                    // }else {
-                    //     window.open(url);
-                    // }
+                    setToken("role",data.data.roles[0].roleName);
+                    //跳转到页面
+                    if (data.data.roles[0].roleName =="student"){
+                        window.location.href="student/scoreinquiry.html";
+                    }else if (data.data.roles[0].roleName =="teacher") {
+                        window.location.href="teacher/scoreinquiry.html";
+                    }else if (data.data.roles[0].roleName =="admin"){
+                        window.location.href="assigement/scoreinquiry.html";
+                    }else {
+                        alert("身份错误");
+                    }
                 }else {
                     alert(data.message);
                 }
+
             }
         });
 
     }
 
-    // layui.use(['form', 'layedit', 'laydate'], function(){
-    //     var form = layui.form
-    //     ,layer = layui.layer
-    //     ,layedit = layui.layedit
-    //     ,laydate = layui.laydate;
-    //
-    // //日期
-    // /* laydate.render({
-    //    elem: '#date'
-    //  });
-    //  laydate.render({
-    //    elem: '#date1'
-    //  });
-    //
-    //  //创建一个编辑器
-    //  var editIndex = layedit.build('LAY_demo_editor');
-    //
-    //  //自定义验证规则
-    //  form.verify({
-    //    title: function(value){
-    //      if(value.length < 5){
-    //        return '标题至少得5个字符啊';
-    //      }
-    //    }
-    //    ,pass: [
-    //      /^[\S]{6,12}$/
-    //      ,'密码必须6到12位，且不能出现空格'
-    //    ]
-    //    ,content: function(value){
-    //      layedit.sync(editIndex);
-    //    }
-    //  });
-    //
-    //  //监听指定开关
-    //  form.on('switch(switchTest)', function(data){
-    //    layer.msg('开关checked：'+ (this.checked ? 'true' : 'false'), {
-    //      offset: '6px'
-    //    });
-    //    layer.tips('温馨提示：请注意开关状态的文字可以随意定义，而不仅仅是ON|OFF', data.othis)
-    //  });*/
-    //
-    //     //监听提交
-    //     form.on('submit(formDemo)', function(data){
-    //         var id = document.getElementById("user_id").value();
-    //         var password = document.getElementById("password").value();
-    //         $.ajax({
-    //             url:'test2.json',
-    //             method:'post',
-    //             data:data.field,
-    //             dataType:'JSON',
-    //             success:function(res){
-    //                 if(res=="Yes"){
-    //                     alert(1231);
-    //                 }
-    //                 else
-    //                     alert(res.msg);
-    //             },
-    //             error:function (data) {
-    //
-    //             }
-    //         });
-    //         alert(id + password);
-    //         return false;
-    //     });
-    //
-    // });
 </script>
 </body>
 </html>

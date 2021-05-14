@@ -27,19 +27,19 @@ public class Statics {
 
     @RequestMapping("/teacher/statistics")
     @ResponseBody
-    public List<User> getStudentInfoT(){
+    public List<User> getStudentInfoT() {
         return staticsService.getStudentScores();
     }
 
     @RequestMapping("/student/statistics")
     @ResponseBody
-    public List<User> getStudentInfoS(){
+    public List<User> getStudentInfoS() {
         return staticsService.getStudentScores();
     }
 
     @RequestMapping("/assistant/statistics")
     @ResponseBody
-    public List<User> getStudentInfoA(){
+    public List<User> getStudentInfoA() {
         return staticsService.getStudentScores();
     }
 }

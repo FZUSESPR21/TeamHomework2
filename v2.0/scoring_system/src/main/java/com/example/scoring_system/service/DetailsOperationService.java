@@ -12,10 +12,15 @@ import java.util.List;
  * @Date: 2021/05/09
  */
 public interface DetailsOperationService {
-    public ResponseData importScoreDetails(List<Details> details);
-    public ResponseData importTask(Task task);
-    public List<Task> getAllDetails();
-    public void delDetails(Task task);
-    public void delTask(Task task);
-    public Task getTaskInfo(Task task);
+    ResponseData importScoreDetails(List<Details> details);
+
+    ResponseData importTask(Task task);
+
+    List<Task> getAllDetails();
+
+    void delDetails(Task task);
+
+    void delTask(Task task);
+
+    Task getTaskInfo(Task task);
 }

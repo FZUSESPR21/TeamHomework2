@@ -14,6 +14,11 @@ function analysisClicked() {
     document.getElementById("statistical-analysis").style.display="block";
 }
 function unLoadOnClick() {
-    localStorage.setItem("Token", null);
-    window.location.href="";
+    localStorage.setItem("class", null);
+    localStorage.setItem("role", null);
+    localStorage.setItem("token", null);
+    localStorage.setItem("id", null);
+    localStorage.setItem("account", null);
+    localStorage.setItem("group", null);
+    window.location.href="../login.html";
 }

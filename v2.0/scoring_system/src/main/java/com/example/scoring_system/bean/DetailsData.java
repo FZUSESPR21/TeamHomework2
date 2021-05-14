@@ -1,15 +1,14 @@
 package com.example.scoring_system.bean;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.util.Objects;
 
-/** 
-* @Description: 与数据库映射的bean
-* @Author: 曹鑫
-* @Date: 2021/4/28 
-*/
+/**
+ * @Description: 与数据库映射的bean
+ * @Author: 曹鑫
+ * @Date: 2021/4/28
+ */
 @Data
 public class DetailsData {
     String id;
@@ -18,6 +17,8 @@ public class DetailsData {
     String createUserId;
     String createTime;
     String taskId;
+    String score;
+    String taskName;
 
     @Override
     public boolean equals(Object o) {

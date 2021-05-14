@@ -5,16 +5,12 @@ import com.example.scoring_system.bean.User;
 import com.example.scoring_system.mapper.AssistantMapper;
 import com.example.scoring_system.service.AssistantService;
 import com.example.scoring_system.utils.SaltUtils;
-import org.apache.shiro.crypto.hash.Md5Hash;
-import com.example.scoring_system.bean.Permissions;
-import com.example.scoring_system.bean.Role;
-import com.example.scoring_system.bean.User;
-import com.example.scoring_system.mapper.UserMapper;
-import com.example.scoring_system.service.LoginService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.*;
+
+import java.util.List;
 
 @Service
 @Slf4j
@@ -22,7 +18,7 @@ import java.util.*;
 
 public class AssistantServiceImpl implements AssistantService {
 
-    int SALT_SIZE=8;
+    int SALT_SIZE = 8;
 
     @Autowired
     AssistantMapper assistantMapper;
@@ -48,7 +44,7 @@ public class AssistantServiceImpl implements AssistantService {
      */
     @Override
     public void addAssistant(User user) {
-        User tempuser=user;
+        User tempuser = user;
         if (assistantMapper.selUserByAccount(user) != null) {
             log.info("账户已经存在:" + user.toString());
             //账户名已经存在

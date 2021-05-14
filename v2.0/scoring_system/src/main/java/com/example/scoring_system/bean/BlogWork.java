@@ -20,4 +20,5 @@ public class BlogWork {
     Score score;
     String contributions;
     List<Contribution> contributionList;
+    String isMark;
 }
