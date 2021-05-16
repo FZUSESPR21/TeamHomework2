@@ -10,11 +10,13 @@ public interface ScoreService {
 
     ResponseData importTask(Task task);
 
+    ResponseData delTaskAndReference(String taskId);
+
     List<Task> getTaskByClassId(Task task);
 
     ResponseData blogWorkSubmit(BlogWork blogWork);
 
-    PageInfo<BlogWork> getBlogWorkPageInfo(PageRequest pageRequest, Task task);
+    PageInfo<BlogWork> getBlogWorkPageInfoByTaskIdAndClassRoomId(PageRequest pageRequest, Task task);
 
     BlogWork getOneTeamBlogWork(BlogWork blogWork);
 
@@ -50,5 +52,7 @@ public interface ScoreService {
 
     Task getTaskByTaskId(Task task);
 
-    PageInfo<BlogWork> getBlogWorkPageInfoAll(PageRequest pageRequest, Task task);
+    PageInfo<BlogWork> getBlogWorkPageInfoByClassRoomId(PageRequest pageRequest, Task task);
+
+//    PageInfo<BlogWork> getBlogWorkPageInfoByClassRoomId(PageRequest pageRequest,Task task);
 }

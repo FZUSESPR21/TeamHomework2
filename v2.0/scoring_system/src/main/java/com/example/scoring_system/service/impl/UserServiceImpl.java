@@ -43,7 +43,8 @@ public class UserServiceImpl implements UserService {
                 log.info("存在空的账户名或者空名字");
                 return null;
             }
-
+            //为账户添加标识符S
+            user.setAccount("s" + user.getAccount());
             if (userMapper.selUserByAccount(user) != null) {
                 log.info("账户已经存在:" + user.toString());
                 //用户名已经存在
@@ -52,8 +53,6 @@ public class UserServiceImpl implements UserService {
                 //生成随机盐并保存
                 String salt = SaltUtils.getSalt(SALT_SIZE);
                 user.setSalt(salt);
-                //为账户添加标识符S
-                user.setAccount("s" + user.getAccount());
                 //设置密码为默认密码
                 user.setPassword("123456");
                 //对明文密码进行md5+salt+hash散列

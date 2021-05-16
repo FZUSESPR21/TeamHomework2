@@ -24,7 +24,6 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -70,16 +69,30 @@ public class LoginController {
     }
 
     /**
-     * @Description: 展示学生列表页面
+     * @Description: 展示学生列表页面通过班级
      * @Param: [model]
      * @return: java.lang.String
      * @Date: 2021/4/27
      */
-    @RequestMapping("/showlist")
-    public String toShowlist(Model model) {
-        List<User> list = loginService.selAllUser();
-        model.addAttribute("users", list);
-        return "showlist";
+    @RequestMapping("/user/show/class")
+    @ResponseBody
+    public ResponseData toShowlist(@NotNull String classId) {
+        User user=new User();
+        user.setClassId(classId);
+        List<User> list = loginService.getAllStudentUserByClassId(user);
+        if (list!=null&&list.size()>0)
+            return new ResponseData("查询成功","200",list);
+        return new ResponseData("查询失败","1331","[]");
+    }
+
+
+    @RequestMapping("/user/show/all")
+    @ResponseBody
+    public ResponseData toShowlist() {
+        List<User> list = loginService.selAllStudentUser();
+        if (list!=null&&list.size()>0)
+            return new ResponseData("查询成功","200",list);
+        return new ResponseData("查询失败","1331","[]");
     }
 
 //    /**
@@ -135,7 +148,7 @@ public class LoginController {
     public ResponseData loginAndroid(User user, Model model, HttpSession session, String verifyCode, HttpServletRequest request, HttpServletResponse response) {
         ResponseData responseData = new ResponseData();
         log.info("取得的user" + user.toString());
-        if (StringUtils.isEmpty(user.getAccount()) || StringUtils.isEmpty(user.getPassword())) {
+        if (StringUtils.isEmpty(user.getAccount()) || StringUtils.isEmpty(user.getPassword())||StringUtils.isEmpty(verifyCode)) {
             model.addAttribute("msg", "请输入用户名和密码");
             responseData.setMessage("请输入用户名和密码,验证码");
             responseData.setCode("1002");
@@ -372,7 +385,11 @@ public class LoginController {
         try {
             List<User> userList = ExcelImportUtil.importExcel(excel.getInputStream(), User.class, params);
             log.info("导入的数量:" + userList.size());
-            userService.insUserBatch(userList, user);
+            List<User> userList1=userService.insUserBatch(userList, user);
+            if (userList1!=null&userList1.size()>0)
+            {
+                return new ResponseData("导入失败，导入的账号已存在", "1401", userList1);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -388,7 +405,7 @@ public class LoginController {
      */
     @RequestMapping("/student/export")
     public void exportExcel(HttpServletResponse response, HttpServletRequest request) throws IOException {
-        List<User> userList = loginService.selAllUser();
+        List<User> userList = loginService.selAllStudentUser();
         Workbook workbook = ExcelExportUtil.exportExcel(new ExportParams("学生列表", "用户信息"), User.class, userList);
         try {
             response.setHeader("content-disposition", "attachment;fileName=" + URLEncoder.encode("学生列表.xls", StandardCharsets.UTF_8));
@@ -403,7 +420,7 @@ public class LoginController {
 
     @RequestMapping("/student/export/formwork")
     public void exportStudetnFormworkExcel(HttpServletResponse response, HttpServletRequest request) throws IOException {
-        List<User> userList = loginService.selAllUser();
+        List<User> userList = loginService.selAllStudentUser();
 //        String path = System.getProperty("user.dir");
         //待下载文件名
         String fileName = "student.xls";
@@ -453,7 +470,7 @@ public class LoginController {
 
     @RequestMapping("/details/export/formwork")
     public void exportDetailsFormworkExcel(HttpServletResponse response, HttpServletRequest request) throws IOException {
-        List<User> userList = loginService.selAllUser();
+        List<User> userList = loginService.selAllStudentUser();
 //        String path = System.getProperty("user.dir");
         //待下载文件名
         String fileName = "taskDetails.xls";
@@ -503,7 +520,7 @@ public class LoginController {
 
     @RequestMapping("/team/export/formwork")
     public void exportTeamFormworkExcel(HttpServletResponse response, HttpServletRequest request) throws IOException {
-        List<User> userList = loginService.selAllUser();
+        List<User> userList = loginService.selAllStudentUser();
 //        String path = System.getProperty("user.dir");
         //待下载文件名
         String fileName = "team.xls";

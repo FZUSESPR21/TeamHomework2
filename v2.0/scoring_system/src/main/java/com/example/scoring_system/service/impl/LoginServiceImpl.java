@@ -79,7 +79,12 @@ public class LoginServiceImpl implements LoginService {
     }
 
     @Override
-    public List<User> selAllUser() {
-        return userMapper.selAllUser();
+    public List<User> selAllStudentUser() {
+        return userMapper.selAllStudentUser();
+    }
+
+    @Override
+    public List<User> getAllStudentUserByClassId(User user) {
+        return userMapper.selAllStudentUserByClassId(user);
     }
 }

@@ -66,6 +66,7 @@ public class TeamController {
     @RequestMapping("/import")
     @ResponseBody
     public ResponseData importTeam(MultipartFile excel) {
+        ResponseData responseData=new ResponseData("导入失败", "1511", "[]");
         Integer size = 0;
         log.info("上传的文件名称：" + excel.getOriginalFilename());
         ImportParams params = new ImportParams();
@@ -75,11 +76,11 @@ public class TeamController {
             List<TeamForImport> teamList = ExcelImportUtil.importExcel(excel.getInputStream(), TeamForImport.class, params);
             size = teamList.size();
             log.error("导入的数量:" + teamList.size());
-            size = teamService.insTeamBatch(teamList);
+            responseData = teamService.insTeamBatch(teamList);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return new ResponseData("成功导入团队数：" + size.toString(), "200", "[]");
+        return responseData;
     }
 
     @RequestMapping("/updTeam")

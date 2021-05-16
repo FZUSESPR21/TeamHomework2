@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -125,7 +126,7 @@ public class ScoreController {
             responseData = new ResponseData("输入的班级号，任务号，请求数量，大小存在null或0", "1071", "[]");
             return responseData;
         }
-        PageInfo<BlogWork> blogWorkPageInfo = scoreService.getBlogWorkPageInfo(pageRequest, task);
+        PageInfo<BlogWork> blogWorkPageInfo = scoreService.getBlogWorkPageInfoByTaskIdAndClassRoomId(pageRequest, task);
         log.info("响应的数据" + blogWorkPageInfo);
         responseData = new ResponseData("获取成功", "200", blogWorkPageInfo);
         return responseData;
@@ -141,7 +142,7 @@ public class ScoreController {
 //            responseData=new ResponseData("输入的班级号，任务号，请求数量，大小存在null或0","1071","[]");
 //            return responseData;
 //        }
-        PageInfo<BlogWork> blogWorkPageInfo = scoreService.getBlogWorkPageInfoAll(pageRequest, task);
+        PageInfo<BlogWork> blogWorkPageInfo = scoreService.getBlogWorkPageInfoByClassRoomId(pageRequest, task);
         log.info("响应的数据" + blogWorkPageInfo);
         responseData = new ResponseData("获取成功", "200", blogWorkPageInfo);
         return responseData;
@@ -225,7 +226,7 @@ public class ScoreController {
             responseData = new ResponseData("输入的班级号，任务号，请求数量，大小,当前博客号存在null或0", "1071", "[]");
             return responseData;
         }
-        PageInfo<BlogWork> blogWorkPageInfo = scoreService.getBlogWorkPageInfo(pageRequest, task);
+        PageInfo<BlogWork> blogWorkPageInfo = scoreService.getBlogWorkPageInfoByTaskIdAndClassRoomId(pageRequest, task);
 
         log.info("响应的数据" + blogWorkPageInfo);
         responseData = new ResponseData("获取成功", "200", getNextBlog(blogWorkPageInfo, blogWorkId));
@@ -260,7 +261,7 @@ public class ScoreController {
             responseData = new ResponseData("输入的班级号，任务号，请求数量，大小,当前博客号存在null或0", "1071", "[]");
             return responseData;
         }
-        PageInfo<BlogWork> blogWorkPageInfo = scoreService.getBlogWorkPageInfo(pageRequest, task);
+        PageInfo<BlogWork> blogWorkPageInfo = scoreService.getBlogWorkPageInfoByTaskIdAndClassRoomId(pageRequest, task);
 
         log.info("响应的数据" + blogWorkPageInfo);
         responseData = new ResponseData("获取成功", "200", getPreviousBlog(blogWorkPageInfo, blogWorkId));
@@ -473,4 +474,13 @@ public class ScoreController {
         List<TeamReplyReviewFormSimple> teamReplyReviewFormSimpleList = scoreService.getTeamWithIsterminted(teamReplyReviewForm);
         return new ResponseData("查询成功", "200", teamReplyReviewFormSimpleList);
     }
+
+    @RequestMapping("/task/delete")
+    @ResponseBody
+    public  ResponseData deleteTaskByTaskId(@NotNull String taskId)
+    {
+        log.info("即将删除任务的Id:"+taskId);
+        return scoreService.delTaskAndReference(taskId);
+    }
+
 }

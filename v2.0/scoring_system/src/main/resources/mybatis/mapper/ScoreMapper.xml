@@ -126,6 +126,7 @@
             <result column="u_accout" property="account"></result>
             <result column="u_total_score" property="totalScore"></result>
             <result column="class_id" property="classId"></result>
+            <result column="u_user_name" property="userName"></result>
             <association property="classRoom" javaType="com.example.scoring_system.bean.ClassRoom">
                 <id column="class_id" property="id"></id>
                 <result column="c_class_name" property="className"></result>
@@ -149,7 +150,7 @@
 
     <select id="selUserBlogWorkListByUserId" parameterType="com.example.scoring_system.bean.User" resultMap="userBlogWorkListMap">
         SELECT b.sys_id b_id,b.blog_work_name blog_work_name,b.blog_work_content blog_work_content,blog_work_type,blog_url,
-        u.id u_id,u.account u_accout,u.total_score u_total_score,u.class_id class_id,c.class_name c_class_name,
+        u.id u_id,u.account u_accout,u.user_name u_user_name,u.total_score u_total_score,u.class_id class_id,c.class_name c_class_name,
         ta.sys_id ta_id,ta.task_name task_name, ta.create_user_id ta_create_user_id,ta.create_time ta_create_time,ta.begine_time ta_begine_time,ta.deadline ta_deadline,ta.make_up_time ta_make_up_time,
         us.sys_id us_id,us.sys_score us_score
         FROM blog_work b
@@ -162,7 +163,7 @@
 
     <select id="selUserBlogWorkListByClassIdAndTaskId" parameterType="com.example.scoring_system.bean.User" resultMap="userBlogWorkListMap">
         SELECT b.sys_id b_id,b.blog_work_name blog_work_name,b.blog_work_content blog_work_content,blog_work_type,blog_url,
-        u.id u_id,u.account u_accout,u.total_score u_total_score,u.class_id class_id,c.class_name c_class_name,
+        u.id u_id,u.account u_accout,u.user_name u_user_name,u.total_score u_total_score,u.class_id class_id,c.class_name c_class_name,
         ta.sys_id ta_id,ta.task_name task_name, ta.create_user_id ta_create_user_id,ta.create_time ta_create_time,ta.begine_time ta_begine_time,ta.deadline ta_deadline,ta.make_up_time ta_make_up_time,
         us.sys_id us_id,us.sys_score us_score
         FROM blog_work b

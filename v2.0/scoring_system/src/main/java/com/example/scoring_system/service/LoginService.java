@@ -13,6 +13,7 @@ public interface LoginService {
 
     User selRolesByUserName(String username);
 
-    List<User> selAllUser();
+    List<User> selAllStudentUser();
 
+    List<User> getAllStudentUserByClassId(User user);
 }

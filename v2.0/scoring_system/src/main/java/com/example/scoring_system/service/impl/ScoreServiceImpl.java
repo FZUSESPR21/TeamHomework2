@@ -102,6 +102,16 @@ public class ScoreServiceImpl implements ScoreService {
     }
 
     @Override
+    @Transactional
+    public ResponseData delTaskAndReference(String taskId) {
+        if (scoreMapper.delTask(taskId)>0)
+            scoreMapper.delDetails(taskId);
+        else
+            return new ResponseData("删除失败，任务已经有作业提交，或id错误","1401","[]");
+        return new ResponseData("删除成功","200","[]");
+    }
+
+    @Override
     public List<Task> getTaskByClassId(Task task) {
         log.info("查询的task号" + task.toString());
         return scoreMapper.selTaskByClassRoomId(task);
@@ -182,7 +192,7 @@ public class ScoreServiceImpl implements ScoreService {
     }
 
     @Override
-    public PageInfo<BlogWork> getBlogWorkPageInfo(PageRequest pageRequest, Task task) {
+    public PageInfo<BlogWork> getBlogWorkPageInfoByTaskIdAndClassRoomId(PageRequest pageRequest, Task task) {
         int pageNum = pageRequest.getPageNum();
         int pageSize = pageRequest.getPageSize();
         PageHelper.startPage(pageNum, pageSize);
@@ -191,13 +201,23 @@ public class ScoreServiceImpl implements ScoreService {
     }
 
     @Override
-    public PageInfo<BlogWork> getBlogWorkPageInfoAll(PageRequest pageRequest, Task task) {
+    public PageInfo<BlogWork> getBlogWorkPageInfoByClassRoomId(PageRequest pageRequest, Task task) {
         int pageNum = pageRequest.getPageNum();
         int pageSize = pageRequest.getPageSize();
         PageHelper.startPage(pageNum, pageSize);
         List<BlogWork> blogWorkList = scoreMapper.selBlogWorkByClassRoomId(task);
         return new PageInfo<>(blogWorkList);
     }
+
+//    @Override
+//    public PageInfo<BlogWork> getBlogWorkPageInfoByClassRoomId(PageRequest pageRequest, Task task) {
+//        int pageNum = pageRequest.getPageNum();
+//        int pageSize = pageRequest.getPageSize();
+//        PageHelper.startPage(pageNum, pageSize);
+//        List<BlogWork> blogWorkList = scoreMapper.selBlogWorkByClassRoomId(task);
+//        return new PageInfo<>(blogWorkList);
+//        return null;
+//    }
 
     @Override
     public BlogWork getOneTeamBlogWork(BlogWork blogWork) {
@@ -245,6 +265,7 @@ public class ScoreServiceImpl implements ScoreService {
     @Override
     public List<BlogWork> getBlogWorkListByClassIdAndTaskId(Task task) {
         List<BlogWork> blogWorkList = new ArrayList<>();
+        log.info("需要查询的task"+task.toString());
         blogWorkList.addAll(scoreMapper.selUserBlogWorkListByClassIdAndTaskId(task));
         blogWorkList.addAll(scoreMapper.selTeamBlogWorkListByClassIdAndTaskId(task));
         return blogWorkList;

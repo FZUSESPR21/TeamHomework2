@@ -38,8 +38,13 @@ public interface UserMapper {
 
     User selRoleByUserAccount(String account);
 
-    @Select("SELECT id,account,user_name as userName,password,perms,salt,total_score,team_id,team_change_history,class_id FROM user")
-    List<User> selAllUser();
+    @Select("SELECT id,account,user_name as userName,password,perms,salt,total_score totalScore,team_id teamId,team_change_history teamChangeHistory,class_id classId " +
+            "FROM user WHERE account LIKE 's%' ")
+    List<User> selAllStudentUser();
+
+    @Select("SELECT id,account,user_name as userName,password,perms,salt,total_score totalScore,team_id teamId,team_change_history teamChangeHistory,class_id classId FROM user " +
+            "where class_id=#{classId} AND account LIKE 's%' ")
+    List<User> selAllStudentUserByClassId(User user);
 
     @Select("SELECT id,account,user_name userName,PASSWORD,perms,salt,total_score totalScore,team_id teamId,team_change_history teamChangeHistory,class_id classId " +
             "FROM user WHERE id=#{id}")

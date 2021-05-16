@@ -3,6 +3,7 @@ package com.example.scoring_system.mapper;
 import com.example.scoring_system.bean.*;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
+import org.thymeleaf.util.StringUtils;
 
 import java.util.List;
 
@@ -26,6 +27,12 @@ public interface ScoreMapper {
     @Insert("INSERT INTO task(sys_id,task_name,task_content,create_user_id,create_time,begine_time,deadline,make_up_time,class_id,task_type,ratio) VALUES\n" +
             "(DEFAULT,#{taskName},#{taskContent},#{createUser.id},#{createTime},#{begineTime},#{deadline},#{makeUpTime},#{classRoom.id},#{taskType},#{ratio})")
     Integer insTask(Task task);
+
+    @Delete("DELETE FROM task WHERE sys_id=#{taskId} AND sys_id NOT IN (SELECT task_id FROM blog_work)")
+    Integer delTask(String taskId);
+
+    @Delete("DELETE FROM details WHERE task_id=#{taskId}")
+    Integer delDetails(String taskId);
 
     @Select("SELECT sys_id id FROM task ORDER BY sys_id DESC LIMIT 1")
     Task selLastRecordInTask();
@@ -52,6 +59,10 @@ public interface ScoreMapper {
     @Select("SELECT sys_id id,blog_work_name blogWorkName,blog_work_content blogWorkContent,user_id userId,b.team_id teamId,task_id taskId,blog_url blogUrl,is_mark isMark\n" +
             " FROM blog_work b LEFT JOIN user u ON b.user_id=u.id WHERE task_id=#{id} AND u.class_id=#{classRoomId}")
     List<BlogWork> selBlogWorkByTaskIdAndClassRoomId(Task task);
+
+//    @Select("SELECT sys_id id,blog_work_name blogWorkName,blog_work_content blogWorkContent,user_id userId,b.team_id teamId,task_id taskId,blog_url blogUrl,is_mark isMark\n" +
+//            " FROM blog_work b LEFT JOIN user u ON b.user_id=u.id WHERE  u.class_id=#{calssRoomId}")
+//    List<BlogWork> selBlogWorkByClassRoomId(String calssRoomId);
 
     @Select("SELECT sys_id id,blog_work_name blogWorkName,blog_work_content blogWorkContent,user_id userId,b.team_id teamId,task_id taskId,blog_url blogUrl,is_mark isMark\n" +
             " FROM blog_work b LEFT JOIN user u ON b.user_id=u.id WHERE u.class_id=#{classRoomId}")
