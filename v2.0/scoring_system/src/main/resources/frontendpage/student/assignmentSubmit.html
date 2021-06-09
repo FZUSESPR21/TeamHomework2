@@ -15,6 +15,7 @@
     <script src="../js/token-operation.js"></script>
     <link rel="stylesheet" href="../layui/css/layui.css" media="all">
     <link rel="stylesheet" href="../css/assignmentSubmit.css" media="all">
+    <script src="../js/token-operation.js" type="text/javascript" charset="utf-8"></script>
 </head>
 <body>
 <div>
@@ -230,10 +231,13 @@
         var teamId = getToken("group");
         $.ajax({
             type: 'post',
-             url: 'http://1.15.129.32:8888/score/teamUser/show?id='+teamId,
+            url: 'http://1.15.129.32:8888/score/teamUser/show?id='+teamId,
             //url: 'http://1.15.129.32:8080/score/teamUser/show?id=1',
             //url: 'test.json',
             dataType: 'json',
+            beforeSend: function (XMLHttpRequest) {
+                XMLHttpRequest.setRequestHeader("Token", localStorage.token);
+            },
             success: function(data){
                 //$("#work option").remove();
 
@@ -326,6 +330,9 @@
                 type: 'post',
                 url: 'http://1.15.129.32:8888/score/blogwork/submit',
                 dataType: 'json',
+                beforeSend: function (XMLHttpRequest) {
+                    XMLHttpRequest.setRequestHeader("Token", localStorage.token);
+                },
                 contentType: "application/json",
                 data: data,
                 success: function(data){
@@ -356,6 +363,9 @@
                 type: 'post',
                 url: 'http://1.15.129.32:8888/score/blogwork/submit',
                 dataType: 'json',
+                beforeSend: function (XMLHttpRequest) {
+                    XMLHttpRequest.setRequestHeader("Token", localStorage.token);
+                },
                 contentType: "application/json",
                 data: data,
                 success: function(data){
@@ -415,6 +425,9 @@
             contentType: "application/json",
             url: 'http://1.15.129.32:8888/score/blogwork/submit',
             dataType: 'json',
+            beforeSend: function (XMLHttpRequest) {
+                XMLHttpRequest.setRequestHeader("Token", localStorage.token);
+            },
             data: data,
             success: function(data){
                 if(data.code == 200){

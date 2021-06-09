@@ -17,6 +17,9 @@ $.ajax({
     url: "http://1.15.129.32:8888/score/task/details?id="+id,
     type:"post",
     dataType:"JSON",
+    beforeSend: function (XMLHttpRequest) {
+        XMLHttpRequest.setRequestHeader("Token", localStorage.token);
+    },
     success:function(data){
         $("#assignment_title").val(data.data.taskName);
         $("#checklist").val(data.data.taskContent);

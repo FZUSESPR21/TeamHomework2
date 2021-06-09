@@ -99,6 +99,9 @@ function onClicked() {
         type:"post",
         dataType:"JSON",
         data: data2,
+        beforeSend: function (XMLHttpRequest) {
+            XMLHttpRequest.setRequestHeader("Token", localStorage.token);
+        },
         contentType: false,
         processData: false,
         success:function(data){
