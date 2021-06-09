@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="../css/snstyle.css">
     <link rel="stylesheet" href="../editormd/css/editormd.preview.css" />
     <link rel="stylesheet" href="../css/assignmentScore.css">
+    <script src="../js/token-operation.js" type="text/javascript" charset="utf-8"></script>
 </head>
 <body>
 <div>
@@ -138,6 +139,9 @@
             url: 'http://1.15.129.32:8888/score/blogwork/details?id='+id,
             type: 'post',
             dataType: 'json',
+            beforeSend: function (XMLHttpRequest) {
+                XMLHttpRequest.setRequestHeader("Token", localStorage.token);
+            },
             success: function(data){
                 // alert(data.data.id);
                 // alert(data.data.blogWorkContent);
@@ -220,6 +224,9 @@
             type: 'post',
             url: 'http://1.15.129.32:8888/score/blogwork/scoring',
             dataType: 'json',
+            beforeSend: function (XMLHttpRequest) {
+                XMLHttpRequest.setRequestHeader("Token", localStorage.token);
+            },
             contentType: "application/json",
             data: JSON.stringify(data1),
             success: function(data){
@@ -237,6 +244,9 @@
             type: 'post',
             url: "http://1.15.129.32:8888/score/blogwork/details/next?id="+task_id+"&classRoomId="+classRoom+"&blogWorkId="+blog_id,
             dataType: 'json',
+            beforeSend: function (XMLHttpRequest) {
+                XMLHttpRequest.setRequestHeader("Token", localStorage.token);
+            },
             success: function(data){
                 if (data.code == '200') {
                     window.location.href='assignmentScore.html?id='+ data.data.id;
@@ -256,12 +266,9 @@
             type: 'post',
             url: "http://1.15.129.32:8888/score/blogwork/details/previous?id="+task_id+"&classRoomId="+classRoom+"&blogWorkId="+blog_id,
             dataType: 'json',
-            // url: "http://1.15.129.32:8080/score/blogwork/details/previous",
-            // data:{
-            //     id: task_id,
-            //     classRoomId: classRoom,
-            //     blogWorkId: blog_id,
-            // },
+            beforeSend: function (XMLHttpRequest) {
+                XMLHttpRequest.setRequestHeader("Token", localStorage.token);
+            },
             success: function(data){
                 if (data.code == '200') {
                     window.location.href='assignmentScore.html?id='+ data.data.id;

@@ -248,6 +248,17 @@
             pageList: [10, 15],
             dataField: "data",
 
+            ajaxOptions:{
+                headers: {"Token":getToken("token")}
+            },
+
+            onLoadSuccess: function(){ //加载成功时执行
+                layer.msg("加载成功");
+            },
+            onLoadError: function(){ //加载失败时执行
+                layer.msg("加载数据失败", {time : 1500, icon : 2});
+            },
+
 
             paginationLoop: true,
             paginationHAlign: 'left',
@@ -291,23 +302,6 @@
                 events: {
                     'click #edit': function (e, value, row, index) {
                         window.location.href="itemDetails.html?id="+row.id;
-                        // $.ajax({
-                        //     type: 'post',
-                        //     url: 'test2.json',
-                        //     dataType: 'json',
-                        //     data: {
-                        //         work: row.work_id,
-                        //         id: student_id,
-                        //     },
-                        //     success: function (data) {
-                        //         if (data == 'Yes') {
-                        //
-                        //         }
-                        //         else {
-                        //             alert('该功能暂未开放');
-                        //         }
-                        //     }
-                        // });
                     },
                 },
 
@@ -342,6 +336,10 @@
             paginationDetailHAlign: 'right',
             paginationPreText: '上一页',
             paginationNextText: '下一页',
+
+            ajaxOptions:{
+                headers: {"Token":getToken("token")}
+            },
 
             columns: [{
                 title: '博客ID',

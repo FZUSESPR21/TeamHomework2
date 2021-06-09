@@ -144,13 +144,15 @@
             pageSize: 10, // 单页记录数
             pageList: [10, 15],
             dataField: "data",
-
-
             paginationLoop: true,
             paginationHAlign: 'left',
             paginationDetailHAlign: 'right',
             paginationPreText: '上一页',
             paginationNextText: '下一页',
+
+            ajaxOptions:{
+                headers: {"Token":getToken("token")}
+            },
 
             columns: [{
                 title: '博客ID',
@@ -221,6 +223,10 @@
             paginationDetailHAlign: 'right',
             paginationPreText: '上一页',
             paginationNextText: '下一页',
+
+            ajaxOptions:{
+                headers: {"Token":getToken("token")}
+            },
 
             columns: [{
                 title: '博客ID',

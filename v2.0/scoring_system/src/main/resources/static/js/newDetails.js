@@ -98,6 +98,9 @@ function onClicked() {
         url:"http://1.15.129.32:8888/details/import",
         type:"post",
         dataType:"JSON",
+        beforeSend: function (XMLHttpRequest) {
+            XMLHttpRequest.setRequestHeader("Token", localStorage.token);
+        },
         data: data2,
         contentType: false,
         processData: false,

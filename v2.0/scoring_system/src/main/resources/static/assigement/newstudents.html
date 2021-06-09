@@ -3,22 +3,16 @@
 <head>
     <meta charset="utf-8">
     <title>新增学生</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../layui/css/layui.css">
     <script src="../layui/layui.js" type="text/javascript" charset="utf-8"></script>
     <script src="../js/select.js" type="text/javascript" charset="utf-8"></script>
     <script src="../js/option.js" type="text/javascript" charset="utf-8"></script>
     <script src="../js/sidebarnavigation.js" type="text/javascript" charset="utf-8"></script>
     <script src="../js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="../bootstrap-table/dist/bootstrap-table.min.css">
-    <link rel="stylesheet" href="../css/table.css">
-    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
-    <script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-    <script src="https://cdn.bootcss.com/bootstrap-table/1.15.4/bootstrap-table.min.js"></script>
-    <script src="https://cdn.bootcss.com/bootstrap-table/1.15.4/locale/bootstrap-table-zh-CN.min.js"></script>
     <link rel="stylesheet" href="../css/snstyle.css">
     <link rel="stylesheet" href="../css/popup.css">
     <link rel="stylesheet" href="../css/newstudents.css">
+    <script src="../js/token-operation.js" type="text/javascript" charset="utf-8"></script>
 </head>
 <body>
     <div>
@@ -100,20 +94,39 @@
     
         <div id="message_form">
     
+<!--            <div class="input-group">-->
+<!--                <span class="input-group-addon" id="basic-addon1">学生班级：</span>-->
+<!--                <label>-->
+<!--                    <input id="classId" name="classId" type="text" class="form-control" placeholder="输入学生所在班级" >-->
+<!--                </label>-->
+<!--            </div>-->
             <div class="input-group">
-                <span class="input-group-addon" id="basic-addon1">学生班级：</span>
-                <label>
-                    <input id="classId" name="classId" type="text" class="form-control" placeholder="输入学生所在班级" >
-                </label>
+                <div style="display: inline">
+                    <span class="input-group-addon" >选择班级：</span>
+                </div>
+                <div style="display: inline">
+                    <select id="classId" name="classId" class="layui-select">
+                        <option value="">请选择班级</option>
+                    </select>
+                </div>
+            </div>
+            <div class="display-inline">
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon2">评分项上传：</span>
+                    <input id="file_upload" type="file" name="file_upload">
+                </div>
+                <div class="input-group">
+                    <button id="down_load_model" onclick="downLoadModel()" class="layui-btn">下载模板</button>
+                </div>
             </div>
 
-            <div class="input-group">
-                <span class="input-group-addon" id="basic-addon2">学生列表上传：</span>
-                <input id="file_upload" type="file" name="file_upload">
-            </div>
+<!--            <div class="input-group">-->
+<!--                <span class="input-group-addon" id="basic-addon2">学生列表上传：</span>-->
+<!--                <input id="file_upload" type="file" name="file_upload">-->
+<!--            </div>-->
 
-            <button id="down_load_model" onclick="downLoadModel()" class="layui-btn">下载模板</button>
-            <br>
+<!--            <button id="down_load_model" onclick="downLoadModel()" class="layui-btn">下载模板</button>-->
+<!--            <br>-->
             <button id="jquery_post" class="layui-btn" onclick="onClicked()">提交</button>
         </div>
     </div>
@@ -130,6 +143,23 @@
     function downLoadModel() {
         window.open('http://1.15.129.32:8888/student/export/formwork');
     }
+
+    $(document).ready(function () {
+        //加载下拉列表的内容
+        $.ajax({
+            type: 'post',
+            url: 'http://1.15.129.32:8888/score/class/showlist',
+            dataType: 'json',
+            beforeSend: function (XMLHttpRequest) {
+                XMLHttpRequest.setRequestHeader("Token", localStorage.token);
+            },
+            success: function(data){
+                $.each(data.data,function (index,item) {
+                    $("#classId").append("<option value='"+data.data[index].id+"'>"+data.data[index].className+"</option>");
+                });
+            }
+        });
+    });
 
     function onClicked() {
         //判断作业名是否为空
@@ -166,6 +196,9 @@
         $.ajax({
             url:"http://1.15.129.32:8888/student/import",
             type:"POST",
+            beforeSend: function (XMLHttpRequest) {
+                XMLHttpRequest.setRequestHeader("Token", localStorage.token);
+            },
             data:form,
             contentType: false,
             processData: false,
@@ -176,6 +209,7 @@
             }
         })
     }
+    
 </script>
 </body>
 </html>

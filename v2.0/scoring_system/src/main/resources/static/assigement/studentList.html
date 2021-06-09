@@ -18,6 +18,7 @@
     <script src="https://cdn.bootcss.com/bootstrap-table/1.15.4/locale/bootstrap-table-zh-CN.min.js"></script>
     <link rel="stylesheet" href="../css/snstyle.css">
     <link rel="stylesheet" href="../css/popup.css">
+    <link rel="stylesheet" href="../css/studentList.css">
     <script src="../js/token-operation.js"></script>
 </head>
 <body>
@@ -101,24 +102,23 @@
 
     <div class="page-wrapper">
         <table id="myTable" class="table table-hover text-nowrap"></table>
-        <div class="input-group">
-            <span class="input-group-addon" id="basic-addon2">学生列表上传：</span>
-            <input id="file_upload" type="file" name="file_upload">
-        </div>
-
-        <button id="jquery_post" class="layui-btn" onclick="onClicked()">提交</button>
-    </div>
-<!--    <div id="container">-->
-<!--        <div id="hidden"></div>-->
-<!--        <div id="box">-->
-<!--            <span>是否重置密码？</span>-->
-<!--            &lt;!&ndash;                    <input id="defense_score" type="text" placeholder="输入分数" onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')">&ndash;&gt;-->
-<!--            <div>-->
-<!--                <input type="button" value="确定" id="submit">-->
-<!--                <input type="button" value="取消" id="close">-->
-<!--            </div>-->
+<!--        <div class="input-group">-->
+<!--            <span class="input-group-addon" id="basic-addon2">学生列表上传：</span>-->
+<!--            <input id="file_upload" type="file" name="file_upload">-->
 <!--        </div>-->
-<!--    </div>-->
+
+<!--        <button id="jquery_post" class="layui-btn" onclick="onClicked()">提交</button>-->
+    </div>
+    <div id="container">
+        <div id="hidden"></div>
+        <div id="box">
+            <span>是否删除用户:<i id="student_id"></i><i id="delete_id" style="display: none"></i></span>
+            <div class="button_box">
+                <input type="button" value="确定" id="submit">
+                <input type="button" value="取消" id="close">
+            </div>
+        </div>
+    </div>
 
 </div>
 
@@ -126,10 +126,10 @@
     document.getElementById("content-manage").style.display="none";
     document.getElementById("user-manage").style.display="block";
     document.getElementById("statistical-analysis").style.display="none";
-    // var open = document.getElementById('open');
-    // var box = document.getElementById('box');
-    // var hidden = document.getElementById('hidden');
-    // var close = document.getElementById('close');
+    var open = document.getElementById('open');
+    var box = document.getElementById('box');
+    var hidden = document.getElementById('hidden');
+    var close = document.getElementById('close');
     var classRoom = getToken("class");
 
     $('#myTable').bootstrapTable({
@@ -151,8 +151,13 @@
         sidePagination: "server", //表示服务端请求
         //设置为undefined可以获取pageNumber，pageSize，searchText，sortName，sortOrder
         //设置为limit可以获取limit, offset, search, sort, order
-        contentType: "application/json",//必须要有！！！！
+        contentType: "application/x-www-form-urlencoded",//必须要有！！！！
         queryParamsType : "undefined",
+
+        ajaxOptions:{
+            headers: {"Token":getToken("token")}
+        },
+
         queryParams: function queryParams(params) { //设置查询参数
             var param = {
                 pageNum: params.pageNumber,
@@ -161,16 +166,21 @@
             };
             return param;
         },
-        onLoadSuccess: function(){ //加载成功时执行
-            layer.msg("加载成功");
-        },
+        // onLoadSuccess: function(){ //加载成功时执行
+        //     layer.msg("加载成功");
+        // },
         onLoadError: function(){ //加载失败时执行
             layer.msg("加载数据失败", {time : 1500, icon : 2});
         },
         responseHandler:function(res){
             //在ajax获取到数据，渲染表格之前，修改数据源
             //该项返回的为数据源内的二级列表data
-            return res.data;
+            if (res.code == "200"){
+                return res.data;
+            }else {
+                layer.msg(res.message, {time : 1500, icon : 2});
+                return false;
+            }
         },
 
         paginationLoop: true,
@@ -192,13 +202,6 @@
             sortable: true,
             searchable:true,
         },
-        //     {
-        //     title: '密码',
-        //     field: 'password',
-        //     sort: true,
-        //     sortable: true,
-        //     searchable:true,
-        // },
             {
             title: '班级',
             field: 'classId',
@@ -214,11 +217,16 @@
                     window.location.href="personalDetail.html?id="+row.id;
                 },
                 'click #update': function (e, value, row, index) {
-                    updateInfo(row.id,row.account,row.userName);
+                    updateInfo(row.id,row.account,row.userName,row.perms,row.classId,row.totalScore);
 
                 },
                 'click #delete': function (e, value, row, index) {
-                    deleteInfo(row.id);
+                    // deleteInfo(row.id);
+                    $('#student_id').text(row.account);
+                    $('#delete_id').text(row.id);
+                    console.log(row.account);
+                    box.style.display = 'flex';
+                    hidden.style.display = 'block';
                 }
             },
             formatter: function (value, row, index) {
@@ -238,8 +246,9 @@
         $.ajax({
             type: 'post',
             url: 'http://1.15.129.32:8888/student/selSingleStudent/id',
-            //dataType: 'json',
-            //contentType: "application/json",//必须要有！！！！
+            beforeSend: function (XMLHttpRequest) {
+                XMLHttpRequest.setRequestHeader("Token", localStorage.token);
+            },
             data: id,
             success: function (data) {
                 if (data.code == '200') {
@@ -259,10 +268,13 @@
         $.ajax({
             type: 'post',
             url: 'http://1.15.129.32:8888/student/delStuById/'+id,
+            beforeSend: function (XMLHttpRequest) {
+                XMLHttpRequest.setRequestHeader("Token", localStorage.token);
+            },
             success: function (data) {
                 if (data.code == "200") {
-                    $('#table').bootstrapTable('refresh');
-                    alert('删除成功');
+                    $('#myTable').bootstrapTable('refresh');
+                    layer.msg(data.message);
                 }
                 else if(data.code="1002") {
                     alert('没有这个权限');
@@ -303,6 +315,7 @@
         // XMLHttpRequest 对象
         var xhr = new XMLHttpRequest();
         xhr.open("post", FileController, true);
+        xhr.setRequestHeader("Token",localStorage.token);
         xhr.onload = function () {
             alert("上传完成!");
         };
@@ -310,17 +323,22 @@
     }
 
     //重置密码
-    function updateInfo(id,account,userName){
+    function updateInfo(id,account,userName,perms,classId,totalScore){
         var data1={
             id:id,
             account:account,
-            password:"123456",
-            userName:userName
+            userName:userName,
+            perms: perms,
+            classId: classId,
+            totalScore: totalScore,
         };
 
         $.ajax({
             url:"http://1.15.129.32:8888/student/updStudent1",
             type:'post',
+            beforeSend: function (XMLHttpRequest) {
+                XMLHttpRequest.setRequestHeader("Token", localStorage.token);
+            },
             //contentType:"application/json; charset=utf-8",
             data: data1,
             success:function(data){
@@ -334,65 +352,20 @@
         });
     }
 
-    // //关闭
-    // close.onclick = function () {
-    //     box.style.display = 'none';
-    //     hidden.style.display = 'none';
-    //     // 关闭后恢复box到原来的默认位置
-    //     box.style.top = '200px';
-    //     box.style.marginRight = '100%';
-    // }
-    //
-    // function getPage(e) {
-    //     var pageX = e.pageX || e.clientX + getScroll().scrollLeft;
-    //     var pageY = e.pageY || e.clientY + getScroll().scrollTop;
-    //     return {
-    //         pageX: pageX,
-    //         pageY: pageY
-    //     }
-    // }
-    //
-    // box.onmousedown = function (e) {
-    //     e = e || window.event;
-    //     // 盒子的位置
-    //     var x = getPage(e).pageX - box.offsetLeft;
-    //     var y = getPage(e).pageY - box.offsetTop;
-    //     document.onmousemove = function (e) {
-    //         e = e || window.event;
-    //         box.style.left = getPage(e).pageX - x + 'px';
-    //         box.style.top = getPage(e).pageY - y + 'px';
-    //     }
-    // }
-    //
-    // document.onmouseup = function () {
-    //     document.onmousemove = null;
-    // }
-    //
-    // // 重置密码
-    // function updateInfo(id,account) {
-    //     $.ajax({
-    //         type: 'post',
-    //         url: 'http://1.15.129.32:8080/student/updStudent1',
-    //         dataType: 'json',
-    //         contentType: "application/json",//必须要有！！！！
-    //         data: {
-    //             id: id,
-    //             account: account,
-    //             password:"123456"
-    //
-    //         },
-    //         success: function (data) {
-    //             if (data.code == '200') {
-    //                 $('#myTable').bootstrapTable('refresh');
-    //                 alert("密码重置成功");
-    //             }
-    //             else if(data.code=='1002') {
-    //                 alert('没有这个学生用户');
-    //             }
-    //         }
-    //     });
-    //     close.click();
-    // }
+    //关闭
+    close.onclick = function () {
+        box.style.display = 'none';
+        hidden.style.display = 'none';
+        // 关闭后恢复box到原来的默认位置
+        box.style.top = '200px';
+        box.style.marginRight = '100%';
+    };
+
+    $("#submit").click(function () {
+        deleteInfo($("#delete_id").text());
+        close.click();
+    });
+
 </script>
 
 </body>

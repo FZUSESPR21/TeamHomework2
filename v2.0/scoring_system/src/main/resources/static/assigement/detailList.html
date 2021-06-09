@@ -18,6 +18,7 @@
     <script src="https://cdn.bootcss.com/bootstrap-table/1.15.4/locale/bootstrap-table-zh-CN.min.js"></script>
     <link rel="stylesheet" href="../css/snstyle.css">
     <script src="../js/token-operation.js"></script>
+    <script src="../js/token-operation.js" type="text/javascript" charset="utf-8"></script>
 </head>
 <body>
 <div>
@@ -124,17 +125,10 @@
         pageSize: 10, // 单页记录数
         pageList: [10, 15],
 
-        // sidePagination: "server", //表示服务端请求
-        // //设置为undefined可以获取pageNumber，pageSize，searchText，sortName，sortOrder
-        // //设置为limit可以获取limit, offset, search, sort, order
-        // contentType: "application/x-www-form-urlencoded",//必须要有！！！！
-        // queryParamsType : "undefined",
-        // queryParams: function queryParams(params) { //设置查询参数
-        //     var param = {
-        //         classRoomId: getToken("class"),
-        //     };
-        //     return param;
-        // },
+        ajaxOptions:{
+            headers: {"Token":getToken("token")}
+        },
+
         onLoadSuccess: function(){ //加载成功时执行
             layer.msg("加载成功");
         },
@@ -144,7 +138,11 @@
         responseHandler:function(res){
             //在ajax获取到数据，渲染表格之前，修改数据源
             //该项返回的为数据源内的二级列表data
-            return res;
+            if (res.code == "200"){
+                return res;
+            }else {
+                layer.msg(res.message, {time : 1500, icon : 2});
+            }
         },
 
         paginationLoop: true,
@@ -187,7 +185,7 @@
                     editInfo(row.id);
                 },
                 'click #delete': function (e, value, row, index) {
-                    deleteInfo(row.Id);
+                    deleteInfo(row.id);
                 }
             },
             formatter: function (value, row, index) {
@@ -207,6 +205,9 @@
             url: "http://1.15.129.32:8888/score/task/details?id="+id,
             type:"post",
             dataType:"JSON",
+            beforeSend: function (XMLHttpRequest) {
+                XMLHttpRequest.setRequestHeader("Token", localStorage.token);
+            },
             success:function(data){
                 if (data.code == "200"){
                     window.location.href="showdetails.html?id="+id;
@@ -219,22 +220,23 @@
 
     // 删除信息
     function deleteInfo(id) {
-        // $.ajax({
-        //     type: 'post',
-        //     url: 'test2.json',
-        //     dataType: 'json',
-        //     data: {
-        //         id: id
-        //     },
-        //     success: function (data) {
-        //         if (data == 'Yes') {
-        //             $('#table').bootstrapTable('refresh');
-        //         }
-        //         else {
-        //             alert('删除失败');
-        //         }
-        //     }
-        // });
+        $.ajax({
+            type: 'post',
+            url: 'http://1.15.129.32:8888/task/delete?taskId='+id,
+            dataType: 'json',
+            beforeSend: function (XMLHttpRequest) {
+                XMLHttpRequest.setRequestHeader("Token", localStorage.token);
+            },
+            success: function (data) {
+                if (data.code == 200){
+                    layer.msg(data.message);
+                    $('#myTable').bootstrapTable('refresh');
+                }else{
+                    layer.msg(data.message, {time : 1500, icon : 2});
+                }
+
+            }
+        });
     }
 
 </script>

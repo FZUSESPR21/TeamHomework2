@@ -6,9 +6,12 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   thymeleaf:
     check-template-location: true
-mvc.fa
+  redis:
+    host: 1.15.129.32
+    port: 6379
+    database: 0
 mybatis:
-  type-aliases-package: com.example.scoring_system.bean
+  type-aliases-package: com.example.scoringsystem.bean
   mapper-locations: classpath:mybatis/mapper/*.xml
 logging:
   level:
@@ -18,6 +21,7 @@ pagehelper:
   reasonable: true
   supportMethodsArguments: true
   params: count=countSql
+
 
 server:
   #端口号
