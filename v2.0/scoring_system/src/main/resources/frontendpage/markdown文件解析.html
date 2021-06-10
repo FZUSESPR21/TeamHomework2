@@ -1,32 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+    <title>test</title>
+    <style type="text/css">
+        *{margin:0px;padding:0px;}
+        .header {
+            width: 100%;
+            background: #567;
+            height: 100px;
+        }
+
+        #col1, #col2, #col3 {
+            float: left;
+            width: 80px;
+            background: #DDD;
+            margin-right: 10px;
+            word-wrap:break-word;
+            font-size:12px;
+        }
+        #foot{height:100px; background-color:#ccc;clear:both;}
+        #middle{ zoom:1;}
+    </style>
 </head>
 <body>
-<link rel="stylesheet" href="editormd/css/editormd.min.css" />
-<script src="jquery/dist/jquery.min.js"></script>
-<link rel="stylesheet" href="editormd/css/editormd.preview.css" />
-<div id="test-markdown-view">
-    <!-- Server-side output Markdown text -->
-    <label>
-        <textarea style="display:none;" id="blog_content">### Hello world!</textarea>
-    </label>
-</div>
-<script src="editormd/editormd.js"></script>
-<script src="editormd/lib/marked.min.js"></script>
-<script src="editormd/lib/prettify.min.js"></script>
-<script type="text/javascript">
-    $(function() {
 
-        $("#blog_content").text('### Hello world11111!');//加载数据
-        var testView = editormd.markdownToHTML("test-markdown-view", {
-            // markdown : "[TOC]\n### Hello world!\n## Heading 2", // Also, you can dynamic set Markdown text
-            // htmlDecode : true,  // Enable / disable HTML tag encode.
-            // htmlDecode : "style,script,iframe",  // Note: If enabled, you should filter some dangerous HTML tags for website security.
-        });
-    });
+<div class="header" id="XX">header</div>
+<div id="middle">
+    <div id="col1">col1</div>
+    <div id="col2">col2</div>
+    <div id="col3">col3</div>
+</div>
+<div id="foot"></div>
+<script>
+    total = document.documentElement.clientHeight;
+    colHeight = total-100-document.getElementById("col1").offsetTop;
+    document.getElementById("col1").style.height=colHeight+"px";
+    document.getElementById("col2").style.height=colHeight+"px";
+    document.getElementById("col3").style.height=colHeight+"px";
 </script>
 </body>
 </html>
