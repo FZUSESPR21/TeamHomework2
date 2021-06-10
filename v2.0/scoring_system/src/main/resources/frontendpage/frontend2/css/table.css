@@ -1,0 +1,25 @@
+
+/*table{*/
+/*    width:80%;*/
+/*    table-layout:fixed;*/
+/*}*/
+
+/*table{table-layout: fixed;word-break: break-all; word-wrap: break-word; //表格固定布局}*/
+
+#myTable tr.header, #myTable tr:hover {
+    /* 表头及鼠标移动过 tr 时添加背景 */
+    background-color: #f1f1f1;
+}
+
+td {
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow: ellipsis;
+    width: 150px;
+}
+
+.wrap{
+    white-space: nowrap; //不换行
+    text-overflow: ellipsis; //超出部分用....代替
+    overflow: hidden; //超出隐藏
+}

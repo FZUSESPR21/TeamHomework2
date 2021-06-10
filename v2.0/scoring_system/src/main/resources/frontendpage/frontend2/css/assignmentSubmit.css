@@ -1,0 +1,174 @@
+#pair_member{
+    display: none;
+    margin-left: 5%;
+}
+#team{
+    display: none;
+    margin-left: 5%;
+}
+#personal_id{
+    margin-left: 5%;
+}
+
+#message_form{
+    margin-left: 5%;
+    margin-top: 2%;
+}
+#blog_form{
+    margin-top: 2%;
+}
+.input_student_id{
+    margin-top: 2%;
+}
+#work_type{
+    margin-left: 4%;
+}
+#blog_link{
+    width: 250px;
+}
+#work_name{
+    margin-left: 1%;
+}
+#work{
+    margin-left: 3%;
+}
+#blog_content{
+    width: 800px;
+    height: 450px;
+}
+#submit_button{
+    margin-left: 5%;
+    margin-top: 2%;
+}
+
+
+#container {
+    display: flex;
+    justify-content: center;
+}
+
+#open:hover {
+    background-color: #4a5f8f;
+}
+
+/* 背景遮罩 */
+#hidden {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #000000;
+    opacity: 0.3;
+    display: none;
+}
+
+.option{
+    /*用div的样式代替select的样式*/
+    margin: 100px;
+    width: 140px;
+    height: 40px;
+    /*border-radius: 5px;*/
+    /*盒子阴影修饰作用,自己随意*/
+    /* box-shadow: 0 0 5px #ccc;*/
+    border: 1px solid #cccccc;
+    position: relative;
+}
+.option select{
+    /*清除select的边框样式*/
+    border: none;
+    /*清除select聚焦时候的边框颜色*/
+    outline: none;
+    /*将select的宽高等于div的宽高*/
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    /*隐藏select的下拉图标*/
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    /*通过padding-left的值让文字居中*/
+    padding-left: 20px;
+}
+
+
+/* 盒子 */
+#box {
+    color: #fff;
+    width: 350px;
+    height: auto;
+    background-color: #40527e;
+    display: none;
+    flex-direction: column;
+    border-radius: 10px;
+    align-items: center;
+    padding-top: 30px;
+    box-sizing: border-box;
+    position: absolute;
+    top: 100px;
+    cursor: move;
+    margin-right: 100%;
+}
+/* 关闭按钮 */
+#close {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-weight: normal;
+    display: block;
+    width: 50px;
+    height: 25px;
+    line-height: 25px;
+    text-align: center;
+    border-radius: 20px;
+    color: #7a9ae4;
+}
+
+#close:hover {
+    background-color: #52699e;
+    cursor: pointer;
+}
+/* 输入框 */
+#box input {
+    width: 200px;
+    height: 25px;
+    border-radius: 25px;
+    border: none;
+    outline: none;
+    background-color: #536a9e;
+    color: #fff;
+}
+
+#box .input{
+    padding-left: 20px;
+}
+
+#box #hint{
+    margin-bottom: 10px;
+}
+
+#box #submit{
+    margin-bottom: 5px;
+}
+
+/* 改变placeholder的值 */
+#box input::-webkit-input-placeholder {
+    color: rgb(255, 255, 255);
+    opacity: 0.4;
+}
+
+#box input:first-child {
+    margin-bottom: 20px;
+}
+
+/* 登录按钮 */
+#box #submit {
+    cursor: pointer;
+    width: 150px;
+    height: 30px;
+    background-color: #02a0a0;
+}
+
+#box #login:hover {
+    background-color: #019191;
+}
