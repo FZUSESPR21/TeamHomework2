@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>学生详情</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <script src="../layui/layui.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/select.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/option.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/sidebarnavigation.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="../bootstrap-table/dist/bootstrap-table.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap-table/1.15.4/bootstrap-table.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap-table/1.15.4/locale/bootstrap-table-zh-CN.min.js"></script>
+    <link rel="stylesheet" href="../css/snstyle.css">
+    <script src="../js/token-operation.js"></script>
+</head>
+<body>
+<div>
+    <div class="clear">
+        <ul class="layui-nav">
+            <li class="layui-nav-item layui-this" id="manage-content">
+                <a onclick="manageClicked()">内容管理<span class="layui-nav-item"></span></a>
+            </li>
+            <li class="layui-nav-item">
+                <a onclick="userClicked()">用户管理<span class="layui-nav-item"></span></a>
+            </li>
+            <li class="layui-nav-item">
+                <a onclick="analysisClicked()">统计分析<span class="layui-nav-item"></span></a>
+            </li>
+            <li class="layui-nav-item" id="my-message">
+                <a href=""><img src="//t.cn/RCzsdCq" class="layui-nav-img">我</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="javascript:;">修改信息</a></dd>
+                    <dd><a href="javascript:;" onclick="unLoadOnClick()">退出</a></dd>
+                </dl>
+            </li>
+        </ul>
+        <div class="sidebar">
+            <ul class="layui-nav layui-nav-tree" lay-filter="test" lay-shrink="all" id="content-manage" style="height: 100vh">
+                <!-- 侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> -->
+                <li class="layui-nav-item">
+                    <a href="javascript:;">评分细则管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="detailList.html">所有细则</a></dd>
+                        <!--                        <dd><a href="../performanceManagement/newdetails.html">增加细则</a></dd>-->
+                    </dl>
+                </li>
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a href="javascript:;">成绩管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="scoreinquiry.html">成绩查询</a></dd>
+                        <!--                    <dd><a href="assignmentScore.html">博客评分</a></dd>-->
+                        <dd><a href="blogList.html">博客列表</a></dd>
+                    </dl>
+                </li>
+            </ul>
+
+            <ul class="layui-nav layui-nav-tree" lay-filter="test" lay-shrink="all" id="user-manage" style="height: 100vh">
+                <!-- 侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> -->
+                <li class="layui-nav-item">
+                    <a href="javascript:;">团队管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="teamList.html">所有团队</a></dd>
+                    </dl>
+                </li>
+                <!--                <li class="layui-nav-item">-->
+                <!--                    <a href="javascript:;">结对管理</a>-->
+                <!--                    <dl class="layui-nav-child">-->
+                <!--                        <dd><a href="javascript:;">结对信息</a></dd>-->
+                <!--                        <dd><a href="">增加结对</a></dd>-->
+                <!--                    </dl>-->
+                <!--                </li>-->
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a href="javascript:;">学生管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="studentList2.html">学生列表</a></dd>
+                        <dd><a href="newstudents.html">增加学生</a></dd>
+                        <dd><a href="newClasses.html">新建班级</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">助教管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="assistantList.html">助教列表</a></dd>
+                        <dd><a href="newAssistant.html">增加助教</a></dd>
+                    </dl>
+                </li>
+            </ul>
+
+            <ul class="layui-nav layui-nav-tree" lay-filter="test" lay-shrink="all" id="statistical-analysis" style="height: 100vh">
+                <!-- 侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> -->
+                <li class="layui-nav-item  layui-nav-itemed">
+                    <a href="javascript:;">统计分析</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="">千帆竟发图</a></dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="page-wrapper" style="margin-top: 1%">
+        <div id="edit_link_div">
+            <select id="work_type" name="work_type" class="layui-select">
+                <option value="1">个人作业</option>
+                <option value="2">结对作业</option>
+                <option value="3">团队作业</option>
+            </select>
+        </div>
+
+        <div id="personal_table">
+            <table id="myTable" class="table table-hover text-nowrap"></table>
+        </div>
+
+    </div>
+</div>
+
+
+<script>
+    //获取url中的参数
+    function getUrlParam(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+        var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+        if (r != null) return unescape(r[2]); return null; //返回参数值
+    }
+    var student_id;
+    var user_id = getUrlParam('id');
+
+    personalWork();
+    document.getElementById('work_type').onchange=function(){
+        var work_type_id = $("#work_type").find("option:selected").val();
+        if (work_type_id == 1){
+            console.log(1);
+            document.getElementById("personal_table").innerHTML="";
+            $("#personal_table").append("<table id=\"myTable\" class=\"table table-hover text-nowrap\"></table>");
+            personalWork();
+        }
+        // else if (work_type_id == 2){
+        //     console.log(2);
+        //     document.getElementById("personal_table").innerHTML="";
+        //     $("#personal_table").append("<table id=\"myTable\" class=\"table table-hover text-nowrap\"></table>");
+        //     $('#myTable').bootstrapTable({
+        //         method: 'post',
+        //         //url: "test.json", // 请求路径
+        //         url: "http://1.15.129.32:8080//score/teamblogwork/list?id=44",
+        //         //url: "http://1.15.129.32:8080//score/teamblogwork/list?id="+id, // 请求路径
+        //         striped: true, // 是否显示行间隔色
+        //         pageNumber: 1, // 初始化加载第一页
+        //         pagination: true, // 是否分页
+        //         sidePagination: 'client', // server:服务器端分页|client：前端分页
+        //         height:600,
+        //         sortable: true,
+        //         pageSize: 10, // 单页记录数
+        //         pageList: [10, 15],
+        //         dataField: "data",
+        //
+        //         paginationLoop: true,
+        //         paginationHAlign: 'left',
+        //         paginationDetailHAlign: 'right',
+        //         paginationPreText: '上一页',
+        //         paginationNextText: '下一页',
+        //
+        //         columns: [{
+        //             title: '博客ID',
+        //             field: 'id',
+        //             // formatter: function (value, row, index) {
+        //             //     if (value.id == null || value.id == undefined) {
+        //             //         return "0";
+        //             //     } else {
+        //             //         return value.id;
+        //             //     }
+        //             // },
+        //             sortable: true,
+        //         },{
+        //             title: '作业名称',
+        //             field: 'task',
+        //             formatter: function (value, row, index) {
+        //                 if (value.taskName == null || value.taskName == undefined) {
+        //                     return "0";
+        //                 } else {
+        //                     return value.taskName;
+        //                 }
+        //             },
+        //         }, {
+        //             field: 'score',
+        //             title: '分数',
+        //             sortable: true,
+        //             formatter: function (value, row, index) {
+        //                 if (value.score == null || value.score == undefined) {
+        //                     return "0";
+        //                 } else {
+        //                     return value.score;
+        //                 }
+        //             },
+        //         }, {
+        //             field: 'operate',
+        //             title: '操作',
+        //             align: 'center',
+        //             valign: 'middle',
+        //             events: {
+        //                 'click #edit': function (e, value, row, index) {
+        //                     $.ajax({
+        //                         type: 'post',
+        //                         url: 'test2.json',
+        //                         dataType: 'json',
+        //                         data: {
+        //                             work: row.work_id,
+        //                             id: student_id,
+        //                         },
+        //                         success: function (data) {
+        //                             if (data == 'Yes') {
+        //                                 window.location.href="itemDetails.html?id="+row.id;
+        //                             }
+        //                             else {
+        //                                 alert('该功能暂未开放');
+        //                             }
+        //                         }
+        //                     });
+        //                 },
+        //             },
+        //
+        //             formatter: function (value, row, index) {
+        //                 var result = "";
+        //                 result += '<button id="edit" class="btn btn-info" data-toggle="modal" data-target="#editModal">查看详情</button>';
+        //                 return result;
+        //             }
+        //         }
+        //         ]
+        //     });
+        // }
+        else {
+            console.log(3);
+            document.getElementById("personal_table").innerHTML="";
+            $("#personal_table").append("<table id=\"myTable\" class=\"table table-hover text-nowrap\"></table>");
+            teamWork();
+        }
+    };
+    //加载表根据用户id
+    function personalWork() {
+        $('#myTable').bootstrapTable({
+            method: 'post',
+            //url: "test1.json", // 请求路径
+            //url: "http://1.15.129.32:8080//score/userblogwork/list?id=44",
+            url: "http://1.15.129.32:8888//score/userblogwork/list?id="+user_id, // 请求路径
+            striped: true, // 是否显示行间隔色
+            pageNumber: 1, // 初始化加载第一页
+            pagination: true, // 是否分页
+            sidePagination: 'client', // server:服务器端分页|client：前端分页
+            height:600,
+            sortable: true,
+            pageSize: 10, // 单页记录数
+            pageList: [10, 15],
+            dataField: "data",
+
+            ajaxOptions:{
+                headers: {"Token":getToken("token")}
+            },
+
+            onLoadSuccess: function(){ //加载成功时执行
+                layer.msg("加载成功");
+            },
+            onLoadError: function(){ //加载失败时执行
+                layer.msg("加载数据失败", {time : 1500, icon : 2});
+            },
+
+
+            paginationLoop: true,
+            paginationHAlign: 'left',
+            paginationDetailHAlign: 'right',
+            paginationPreText: '上一页',
+            paginationNextText: '下一页',
+
+            columns: [{
+                title: '博客ID',
+                field: 'id',
+
+                sortable: true,
+            },{
+                title: '作业名称',
+                field: 'task',
+                formatter: function (value, row, index) {
+                    if (value.taskName == null || value.taskName == undefined) {
+                        return "0";
+                    } else {
+                        return value.taskName;
+                    }
+                },
+            }, {
+                field: 'score',
+                title: '分数',
+                sortable: true,
+                formatter: function (value, row, index) {
+                    if (value == null || value == undefined){
+                        return "0";
+                    }else if (value.score == null || value.score == undefined) {
+                        return "0";
+                    } else {
+                        return value.score;
+                    }
+                },
+            }, {
+                field: 'operate',
+                title: '操作',
+                align: 'center',
+                valign: 'middle',
+                events: {
+                    'click #edit': function (e, value, row, index) {
+                        window.location.href="itemDetails.html?id="+row.id;
+                    },
+                },
+
+                formatter: function (value, row, index) {
+                    var result = "";
+                    result += '<button id="edit" class="btn btn-info" data-toggle="modal" data-target="#editModal">查看详情</button>';
+                    return result;
+                }
+            }
+            ]
+        });
+    }
+
+    function teamWork() {
+        $('#myTable').bootstrapTable({
+            method: 'post',
+            //url: "test.json", // 请求路径
+            //url: "http://1.15.129.32:8080//score/teamblogwork/list?id=44",
+            url: "http://1.15.129.32:8888//score/teamblogwork/list?id="+user_id, // 请求路径
+            striped: true, // 是否显示行间隔色
+            pageNumber: 1, // 初始化加载第一页
+            pagination: true, // 是否分页
+            sidePagination: 'client', // server:服务器端分页|client：前端分页
+            height:600,
+            sortable: true,
+            pageSize: 10, // 单页记录数
+            pageList: [10, 15],
+            dataField: "data",
+
+            paginationLoop: true,
+            paginationHAlign: 'left',
+            paginationDetailHAlign: 'right',
+            paginationPreText: '上一页',
+            paginationNextText: '下一页',
+
+            onLoadError: function(){ //加载失败时执行
+                layer.msg("加载数据失败", {time : 1500, icon : 2});
+            },
+
+            responseHandler:function(res){
+                if (res.code == "200"){
+                    return res;
+                }else {
+                    console.log(res.message);
+                    layer.msg(res.message, {time : 1500, icon : 2});
+                    return false;
+                }
+            },
+
+            ajaxOptions:{
+                headers: {"Token":getToken("token")}
+            },
+
+            columns: [{
+                title: '博客ID',
+                field: 'id',
+                // formatter: function (value, row, index) {
+                //     if (value.id == null || value.id == undefined) {
+                //         return "0";
+                //     } else {
+                //         return value.id;
+                //     }
+                // },
+                sortable: true,
+            },{
+                title: '作业名称',
+                field: 'task',
+                formatter: function (value, row, index) {
+                    if (value.taskName == null || value.taskName == undefined) {
+                        return "0";
+                    } else {
+                        return value.taskName;
+                    }
+                },
+            }, {
+                field: 'score',
+                title: '分数',
+                sortable: true,
+                formatter: function (value, row, index) {
+                    if (value.score == null || value.score == undefined) {
+                        return "0";
+                    } else {
+                        return value.score;
+                    }
+                },
+            }, {
+                field: 'operate',
+                title: '操作',
+                align: 'center',
+                valign: 'middle',
+                events: {
+                    'click #edit': function (e, value, row, index) {
+                        window.location.href="itemDetails.html?id="+row.id;
+                    },
+                },
+
+                formatter: function (value, row, index) {
+                    var result = "";
+                    result += '<button id="edit" class="btn btn-info" data-toggle="modal" data-target="#editModal">查看详情</button>';
+                    return result;
+                }
+            }
+            ]
+        });
+    }
+
+
+</script>
+
+
+</body>
+</html>

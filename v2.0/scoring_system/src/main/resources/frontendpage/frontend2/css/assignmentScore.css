@@ -1,0 +1,53 @@
+.layui-btn{
+    width: 150px;
+    margin-top: 20px;
+}
+
+.clear{
+    clear: both;
+}
+
+#operations{
+    margin-top: 10%;
+    text-align:center;
+    /*display:table;*/
+    /*width: 100%;*/
+    /*position: fixed;*/
+    /*bottom: 15%;*/
+    /*border-width: 1px 0 0 0 ;*/
+    /*border-style: solid;*/
+    /*padding-left: 3%;*/
+}
+
+
+
+#test-markdown-view{
+    width: 80%;
+    float: left;
+    height: 800px;
+    border-width: 0 3px 0 0 ;
+    border-style: solid;
+    overflow: scroll;
+}
+#blog_message{
+    width: 20%;
+    float: left;
+}
+.item_label{
+    margin-top: 2%;
+    font-size: 15px;
+}
+.score_input{
+    margin-top: 2%;
+    margin-left: 2%;
+    width: 100px;
+    height: 40px;
+    padding: 1%;
+}
+#scoring_items{
+    padding-left: 10%;
+    width: 105%;
+    margin-top: 15%;
+    overflow: scroll;
+    height: 400px;
+}

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>新建班级</title>
+    <script src="../layui/layui.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/select.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/option.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/sidebarnavigation.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="../bootstrap-table/dist/bootstrap-table.min.css">
+    <link rel="stylesheet" href="../css/table.css">
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <link rel="stylesheet" href="../css/bootstrap.css" media="all">
+    <link rel="stylesheet" href="../css/newdetails.css" media="all">
+    <link rel="stylesheet" href="../css/snstyle.css">
+    <link rel="stylesheet" href="../css/popup.css">
+    <link rel="stylesheet" href="../css/newClasses.css">
+    <script src="../js/token-operation.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+<div>
+    <div class="clear">
+        <ul class="layui-nav">
+            <li class="layui-nav-item" id="manage-content">
+                <a onclick="manageClicked()">内容管理<span class="layui-nav-item"></span></a>
+            </li>
+            <li class="layui-nav-item layui-this">
+                <a onclick="userClicked()">用户管理<span class="layui-nav-item"></span></a>
+            </li>
+            <li class="layui-nav-item">
+                <a onclick="analysisClicked()">统计分析<span class="layui-nav-item"></span></a>
+            </li>
+            <li class="layui-nav-item" id="my-message">
+                <a href=""><img src="//t.cn/RCzsdCq" class="layui-nav-img">我</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="javascript:;">修改信息</a></dd>
+                    <dd><a href="javascript:;" onclick="unLoadOnClick()">退出</a></dd>
+                </dl>
+            </li>
+        </ul>
+        <div class="sidebar">
+            <ul class="layui-nav layui-nav-tree" lay-filter="test" lay-shrink="all" id="content-manage" style="height: 100vh">
+                <!-- 侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> -->
+                <li class="layui-nav-item">
+                    <a href="javascript:;">评分细则管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="detailList.html">所有细则</a></dd>
+                        <!--                        <dd><a href="../performanceManagement/newdetails.html">增加细则</a></dd>-->
+                    </dl>
+                </li>
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a href="javascript:;">成绩管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="scoreinquiry.html">成绩查询</a></dd>
+                        <!--                    <dd><a href="assignmentScore.html">博客评分</a></dd>-->
+                        <dd><a href="blogList.html">博客列表</a></dd>
+                    </dl>
+                </li>
+            </ul>
+
+            <ul class="layui-nav layui-nav-tree" lay-filter="test" lay-shrink="all" id="user-manage" style="height: 100vh">
+                <!-- 侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> -->
+                <li class="layui-nav-item">
+                    <a href="javascript:;">团队管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="teamList.html">所有团队</a></dd>
+                    </dl>
+                </li>
+                <!--                <li class="layui-nav-item">-->
+                <!--                    <a href="javascript:;">结对管理</a>-->
+                <!--                    <dl class="layui-nav-child">-->
+                <!--                        <dd><a href="javascript:;">结对信息</a></dd>-->
+                <!--                        <dd><a href="">增加结对</a></dd>-->
+                <!--                    </dl>-->
+                <!--                </li>-->
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a href="javascript:;">学生管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="studentList2.html">学生列表</a></dd>
+                        <dd><a href="newstudents.html">增加学生</a></dd>
+                        <dd><a href="newClasses.html" class="layui-this">新建班级</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">助教管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="assistantList.html">助教列表</a></dd>
+                        <dd><a href="newAssistant.html">增加助教</a></dd>
+                    </dl>
+                </li>
+            </ul>
+
+            <ul class="layui-nav layui-nav-tree" lay-filter="test" lay-shrink="all" id="statistical-analysis" style="height: 100vh">
+                <!-- 侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> -->
+                <li class="layui-nav-item  layui-nav-itemed">
+                    <a href="javascript:;">统计分析</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="">千帆竟发图</a></dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="message_form">
+
+        <div class="input-group">
+            <div style="display: inline" class="message_text">
+                <span class="input-group-addon" >班级名：</span>
+            </div>
+            <label style="display: inline">
+                <input id="class_name" name="class_name" type="text" class="form-control"
+                       placeholder="请输入班级名" aria-describedby="basic-addon1">
+            </label>
+        </div>
+        <div class="input-group">
+            <div style="display: inline" class="message_text">
+                <span class="input-group-addon" >年级：</span>
+            </div>
+            <label style="display: inline">
+                <input id="grade" name="grade" type="number" class="form-control"
+                       placeholder="请输入年级(完整年份)" aria-describedby="basic-addon1">
+            </label>
+        </div>
+
+        <button id="jquery_post" class="layui-btn" onclick="onClicked()">提交</button>
+    </div>
+</div>
+
+<script src="../jquery/dist/jquery.min.js"></script>
+<script type="text/javascript">
+
+    document.getElementById("content-manage").style.display="none";
+    document.getElementById("user-manage").style.display="block";
+    document.getElementById("statistical-analysis").style.display="none";
+
+
+    function onClicked() {
+        //判断作业名是否为空
+        if ($("#class_name").val() == ""){
+            alert("作业名不能为空！ ");
+            return false;
+        }
+
+        if ($("#grade").val() == ""){
+            alert("年级不能为空");
+            return false;
+        }
+
+        if ($("#grade").val() < 1900 || $("#grade").val() > 3000){
+            alert("请输入1900~2099之间的年份");
+            return false;
+        }
+
+        $.ajax({
+            url:"http://1.15.129.32/:8888/class/insert",
+            type:"POST",
+            beforeSend: function (XMLHttpRequest) {
+                XMLHttpRequest.setRequestHeader("Token", localStorage.token);
+            },
+            data: {
+                className: $("#class_name").val(),
+                grade: $("#grade").val(),
+                teacherId: getToken("id"),
+            },
+            success:function(data){
+                layer.msg(data.message);
+            }
+        })
+    }
+
+</script>
+</body>
+</html>

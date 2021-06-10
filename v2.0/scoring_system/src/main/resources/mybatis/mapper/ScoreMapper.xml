@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.example.scoring_system.mapper.ScoreMapper">
+<mapper namespace="com.example.scoringsystem.mapper.ScoreMapper">
     <insert id="insDetailsBatch" parameterType="java.util.List">
         INSERT INTO details(sys_id,details_name,score_ratio,create_user_id,create_time,task_id)VALUES
         <foreach collection="list" item="detailsData" index="index" separator=",">
@@ -9,20 +9,20 @@
         </foreach>
     </insert>
 
-    <resultMap id="teamBlogWorkMap" type="com.example.scoring_system.bean.BlogWork">
+    <resultMap id="teamBlogWorkMap" type="com.example.scoringsystem.bean.BlogWork">
         <id column="b_id" property="id"/>
         <result column="blog_work_name" property="blogWorkName"></result>
         <result column="blog_work_type" property="blogWorkType"></result>
         <result column="blog_work_content" property="blogWorkContent"></result>
 <!--        团队-->
-        <association property="team" javaType="com.example.scoring_system.bean.Team">
+        <association property="team" javaType="com.example.scoringsystem.bean.Team">
             <id column="te_id" property="id"/>
             <result column="te_team_name" property="sysTeamName"></result>
             <result column="te_team_slogan" property="sysTeamSlogan"></result>
             <result column="te_class_id" property="classRoomId"></result>
         </association>
 <!--        作业任务-->
-        <association property="task" javaType="com.example.scoring_system.bean.Task">
+        <association property="task" javaType="com.example.scoringsystem.bean.Task">
             <id column="ta_id" property="id"/>
             <result column="ta_create_user_id" property="createUserId"></result>
             <result column="task_name" property="taskName"></result>
@@ -31,7 +31,7 @@
             <result column="ta_deadline" property="deadline"></result>
             <result column="ta_make_up_time" property="makeUpTime"></result>
         </association>
-        <association property="score" javaType="com.example.scoring_system.bean.Score">
+        <association property="score" javaType="com.example.scoringsystem.bean.Score">
             <id column="ts_id" property="id"/>
             <result column="ts_score" property="score"></result>
             <result column="ts_contributions" property="contributions"></result>
@@ -44,7 +44,7 @@
         </association>
     </resultMap>
 
-    <select id="selTeamBlogWorkById" parameterType="com.example.scoring_system.bean.BlogWork" resultMap="teamBlogWorkMap">
+    <select id="selTeamBlogWorkById" parameterType="com.example.scoringsystem.bean.BlogWork" resultMap="teamBlogWorkMap">
         SELECT b.sys_id b_id,b.blog_work_name blog_work_name,b.blog_work_content blog_work_content,blog_work_type,blog_url,
         te.sys_id te_id,te.sys_team_name te_team_name,te.sys_team_slogan te_team_slogan,te.class_id te_class_id,
         ta.sys_id ta_id,ta.task_name task_name, ta.create_user_id ta_create_user_id,ta.create_time ta_create_time,ta.begine_time ta_begine_time,ta.deadline ta_deadline,ta.make_up_time ta_make_up_time,
@@ -60,19 +60,19 @@
     </select>
 
 
-    <resultMap id="userBlogWorkMap" type="com.example.scoring_system.bean.BlogWork">
+    <resultMap id="userBlogWorkMap" type="com.example.scoringsystem.bean.BlogWork">
         <id column="b_id" property="id"/>
         <result column="blog_work_name" property="blogWorkName"></result>
         <result column="blog_work_type" property="blogWorkType"></result>
         <result column="blog_work_content" property="blogWorkContent"></result>
         <!--        用户-->
-        <association property="user" javaType="com.example.scoring_system.bean.User">
+        <association property="user" javaType="com.example.scoringsystem.bean.User">
             <id column="u_id" property="id"/>
             <result column="u_accout" property="account"></result>
             <result column="u_total_score" property="totalScore"></result>
         </association>
         <!--        作业任务-->
-        <association property="task" javaType="com.example.scoring_system.bean.Task">
+        <association property="task" javaType="com.example.scoringsystem.bean.Task">
             <id column="ta_id" property="id"/>
             <result column="ta_create_user_id" property="createUserId"></result>
             <result column="task_name" property="taskName"></result>
@@ -81,7 +81,7 @@
             <result column="ta_deadline" property="deadline"></result>
             <result column="ta_make_up_time" property="makeUpTime"></result>
         </association>
-        <association property="score" javaType="com.example.scoring_system.bean.Score">
+        <association property="score" javaType="com.example.scoringsystem.bean.Score">
             <id column="us_id" property="id"/>
             <result column="us_score" property="score"></result>
             <collection property="detailsDataList" javaType="java.util.List" ofType="DetailsData">
@@ -93,7 +93,7 @@
         </association>
     </resultMap>
 
-    <select id="selUserBlogWorkById" parameterType="com.example.scoring_system.bean.BlogWork" resultMap="userBlogWorkMap">
+    <select id="selUserBlogWorkById" parameterType="com.example.scoringsystem.bean.BlogWork" resultMap="userBlogWorkMap">
         SELECT b.sys_id b_id,b.blog_work_name blog_work_name,b.blog_work_content blog_work_content,blog_work_type,blog_url,
         u.id u_id,u.account u_accout,u.total_score u_total_score,
         ta.sys_id ta_id,ta.task_name task_name, ta.create_user_id ta_create_user_id,ta.create_time ta_create_time,ta.begine_time ta_begine_time,ta.deadline ta_deadline,ta.make_up_time ta_make_up_time,
@@ -115,25 +115,25 @@
         </foreach>
     </insert>
 
-    <resultMap id="userBlogWorkListMap" type="com.example.scoring_system.bean.BlogWork">
+    <resultMap id="userBlogWorkListMap" type="com.example.scoringsystem.bean.BlogWork">
         <id column="b_id" property="id"/>
         <result column="blog_work_name" property="blogWorkName"></result>
         <result column="blog_work_type" property="blogWorkType"></result>
         <result column="blog_work_content" property="blogWorkContent"></result>
         <!--        用户-->
-        <association property="user" javaType="com.example.scoring_system.bean.User">
+        <association property="user" javaType="com.example.scoringsystem.bean.User">
             <id column="u_id" property="id"/>
             <result column="u_accout" property="account"></result>
             <result column="u_total_score" property="totalScore"></result>
             <result column="class_id" property="classId"></result>
             <result column="u_user_name" property="userName"></result>
-            <association property="classRoom" javaType="com.example.scoring_system.bean.ClassRoom">
+            <association property="classRoom" javaType="com.example.scoringsystem.bean.ClassRoom">
                 <id column="class_id" property="id"></id>
                 <result column="c_class_name" property="className"></result>
             </association>
         </association>
         <!--        作业任务-->
-        <association property="task" javaType="com.example.scoring_system.bean.Task">
+        <association property="task" javaType="com.example.scoringsystem.bean.Task">
             <id column="ta_id" property="id"/>
             <result column="ta_create_user_id" property="createUserId"></result>
             <result column="task_name" property="taskName"></result>
@@ -142,13 +142,13 @@
             <result column="ta_deadline" property="deadline"></result>
             <result column="ta_make_up_time" property="makeUpTime"></result>
         </association>
-        <association property="score" javaType="com.example.scoring_system.bean.Score">
+        <association property="score" javaType="com.example.scoringsystem.bean.Score">
             <id column="us_id" property="id"/>
             <result column="us_score" property="score"></result>
         </association>
     </resultMap>
 
-    <select id="selUserBlogWorkListByUserId" parameterType="com.example.scoring_system.bean.User" resultMap="userBlogWorkListMap">
+    <select id="selUserBlogWorkListByUserId" parameterType="com.example.scoringsystem.bean.User" resultMap="userBlogWorkListMap">
         SELECT b.sys_id b_id,b.blog_work_name blog_work_name,b.blog_work_content blog_work_content,blog_work_type,blog_url,
         u.id u_id,u.account u_accout,u.user_name u_user_name,u.total_score u_total_score,u.class_id class_id,c.class_name c_class_name,
         ta.sys_id ta_id,ta.task_name task_name, ta.create_user_id ta_create_user_id,ta.create_time ta_create_time,ta.begine_time ta_begine_time,ta.deadline ta_deadline,ta.make_up_time ta_make_up_time,
@@ -161,7 +161,7 @@
         WHERE u.id=#{id} AND ta.task_type='个人作业'
     </select>
 
-    <select id="selUserBlogWorkListByClassIdAndTaskId" parameterType="com.example.scoring_system.bean.User" resultMap="userBlogWorkListMap">
+    <select id="selUserBlogWorkListByClassIdAndTaskId" parameterType="com.example.scoringsystem.bean.User" resultMap="userBlogWorkListMap">
         SELECT b.sys_id b_id,b.blog_work_name blog_work_name,b.blog_work_content blog_work_content,blog_work_type,blog_url,
         u.id u_id,u.account u_accout,u.user_name u_user_name,u.total_score u_total_score,u.class_id class_id,c.class_name c_class_name,
         ta.sys_id ta_id,ta.task_name task_name, ta.create_user_id ta_create_user_id,ta.create_time ta_create_time,ta.begine_time ta_begine_time,ta.deadline ta_deadline,ta.make_up_time ta_make_up_time,
@@ -174,24 +174,24 @@
         WHERE u.class_id=#{classRoomId} AND ta.sys_id=#{id} AND ta.task_type='个人作业'
     </select>
 
-    <resultMap id="teamBlogWorkListMap" type="com.example.scoring_system.bean.BlogWork">
+    <resultMap id="teamBlogWorkListMap" type="com.example.scoringsystem.bean.BlogWork">
         <id column="b_id" property="id"/>
         <result column="blog_work_name" property="blogWorkName"></result>
         <result column="blog_work_type" property="blogWorkType"></result>
         <result column="blog_work_content" property="blogWorkContent"></result>
         <!--        团队-->
-        <association property="team" javaType="com.example.scoring_system.bean.Team">
+        <association property="team" javaType="com.example.scoringsystem.bean.Team">
             <id column="te_id" property="id"/>
             <result column="te_team_name" property="sysTeamName"></result>
             <result column="te_team_slogan" property="sysTeamSlogan"></result>
             <result column="te_class_id" property="classRoomId"></result>
-            <association property="classRoom" javaType="com.example.scoring_system.bean.ClassRoom">
+            <association property="classRoom" javaType="com.example.scoringsystem.bean.ClassRoom">
                 <id column="te_class_id" property="id"></id>
                 <result column="c_class_name" property="className"></result>
             </association>
         </association>
         <!--        作业任务-->
-        <association property="task" javaType="com.example.scoring_system.bean.Task">
+        <association property="task" javaType="com.example.scoringsystem.bean.Task">
             <id column="ta_id" property="id"/>
             <result column="ta_create_user_id" property="createUserId"></result>
             <result column="task_name" property="taskName"></result>
@@ -200,14 +200,14 @@
             <result column="ta_deadline" property="deadline"></result>
             <result column="ta_make_up_time" property="makeUpTime"></result>
         </association>
-        <association property="score" javaType="com.example.scoring_system.bean.Score">
+        <association property="score" javaType="com.example.scoringsystem.bean.Score">
             <id column="ts_id" property="id"/>
             <result column="ts_score" property="score"></result>
             <result column="ts_contributions" property="contributions"></result>
         </association>
     </resultMap>
 
-    <select id="selTeamBlogWorkListByUserId" parameterType="com.example.scoring_system.bean.BlogWork" resultMap="teamBlogWorkMap">
+    <select id="selTeamBlogWorkListByUserId" parameterType="com.example.scoringsystem.bean.BlogWork" resultMap="teamBlogWorkMap">
         SELECT b.sys_id b_id,b.blog_work_name blog_work_name,b.blog_work_content blog_work_content,blog_work_type,blog_url,
         te.sys_id te_id,te.sys_team_name te_team_name,te.sys_team_slogan te_team_slogan,te.class_id te_class_id,c.class_name c_class_name,
         ta.sys_id ta_id,ta.task_name task_name, ta.create_user_id ta_create_user_id,ta.create_time ta_create_time,ta.begine_time ta_begine_time,ta.deadline ta_deadline,ta.make_up_time ta_make_up_time,
@@ -221,7 +221,7 @@
     </select>
 
 
-    <select id="selTeamBlogWorkListByClassIdAndTaskId" parameterType="com.example.scoring_system.bean.BlogWork" resultMap="teamBlogWorkListMap">
+    <select id="selTeamBlogWorkListByClassIdAndTaskId" parameterType="com.example.scoringsystem.bean.BlogWork" resultMap="teamBlogWorkListMap">
         SELECT b.sys_id b_id,b.blog_work_name blog_work_name,b.blog_work_content blog_work_content,blog_work_type,blog_url,
         te.sys_id te_id,te.sys_team_name te_team_name,te.sys_team_slogan te_team_slogan,te.class_id te_class_id,c.class_name c_class_name,
         ta.sys_id ta_id,ta.task_name task_name, ta.create_user_id ta_create_user_id,ta.create_time ta_create_time,ta.begine_time ta_begine_time,ta.deadline ta_deadline,ta.make_up_time ta_make_up_time,
