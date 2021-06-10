@@ -24,10 +24,7 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.thymeleaf.util.StringUtils;
 
@@ -80,8 +77,9 @@ public class LoginController {
         User user=new User();
         user.setClassId(classId);
         List<User> list = loginService.getAllStudentUserByClassId(user);
-        if (list!=null&&list.size()>0)
+        if (list!=null&&list.size()>0) {
             return new ResponseData("查询成功","200",list);
+        }
         return new ResponseData("查询失败","1331","[]");
     }
 
@@ -90,8 +88,9 @@ public class LoginController {
     @ResponseBody
     public ResponseData toShowlist() {
         List<User> list = loginService.selAllStudentUser();
-        if (list!=null&&list.size()>0)
+        if (list!=null&&list.size()>0) {
             return new ResponseData("查询成功","200",list);
+        }
         return new ResponseData("查询失败","1331","[]");
     }
 
@@ -154,15 +153,15 @@ public class LoginController {
             responseData.setCode("1002");
             return responseData;
         }
-//        String code=session.getAttribute("verificationCode").toString();
-//        System.out.println("&&"+code+"&&&"+verifyCode);
-//        if (StringUtils.isEmpty(code)||!(code.equalsIgnoreCase(verifyCode)))
-//        {
-//            model.addAttribute("msg","验证码错误!");
-//            responseData.setMessage("验证码错误!");
-//            responseData.setCode("1001");
-//            return responseData;
-//        }
+        String code=session.getAttribute("verificationCode").toString();
+        System.out.println("&&"+code+"&&&"+verifyCode);
+        if (StringUtils.isEmpty(code)||!(code.equalsIgnoreCase(verifyCode)))
+        {
+            model.addAttribute("msg","验证码错误!");
+            responseData.setMessage("验证码错误!");
+            responseData.setCode("1001");
+            return responseData;
+        }
         //获取当前用户
         Subject subject = SecurityUtils.getSubject();
         //封装用户的登录数据
@@ -397,6 +396,24 @@ public class LoginController {
     }
 
 
+    @RequestMapping("/pair/import")
+    @ResponseBody
+    public ResponseData importPairExcel(MultipartFile excel, User user, Model model)
+    {
+        log.info("上传的文件名称：" + excel.getOriginalFilename());
+        ImportParams params = new ImportParams();
+        params.setTitleRows(1);//一级标题
+        params.setHeadRows(1);//header标题
+        try {
+            List<Pair> pairList = ExcelImportUtil.importExcel(excel.getInputStream(), Pair.class, params);
+            log.info("导入的数量:" + pairList.size());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ResponseData("导入成功", "200", "[]");
+    }
+
+
     /**
      * @Description: 学生导出（excel）
      * @Param: [response, request]
@@ -518,6 +535,7 @@ public class LoginController {
         }
     }
 
+
     @RequestMapping("/team/export/formwork")
     public void exportTeamFormworkExcel(HttpServletResponse response, HttpServletRequest request) throws IOException {
         List<User> userList = loginService.selAllStudentUser();
@@ -575,8 +593,9 @@ public class LoginController {
         User user = new User();
         user.setId(userId);
         UserVO userVO = userService.getUserAndClassRoomByUserId(user);
-        if (userVO != null && userVO.getId() != null)
+        if (userVO != null && userVO.getId() != null) {
             return new ResponseData("查询成功", "200", userVO);
+        }
         return new ResponseData("查询失败", "1191", "[]");
     }
 

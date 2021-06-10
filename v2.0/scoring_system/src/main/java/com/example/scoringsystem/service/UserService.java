@@ -8,6 +8,8 @@ import java.util.List;
 public interface UserService {
     List<User> insUserBatch(List<User> userList, User user);
 
+    Boolean savePair(List<Pair> pairList,String ClassRoomId);
+
     String generateJwtToken(User user);
 
     User getJwtTokenInfo(User user);
@@ -23,4 +25,6 @@ public interface UserService {
     UserVO getUserAndClassRoomByUserId(User user);
 
     ResponseData insClassRomm(ClassRoom classRoom);
+
+
 }

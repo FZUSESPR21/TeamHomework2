@@ -70,4 +70,7 @@ public interface UserMapper {
             "FROM class\n" +
             "WHERE class_name=#{className}")
     List<ClassRoom> selClassRoomByClassName(String className);
+
+
+    Integer insPairTeam(Team team);
 }

@@ -60,4 +60,8 @@
         WHERE id=#{id}
     </select>
 
+    <insert id="insPairTeam" parameterType="com.example.scoringsystem.bean.Team" useGeneratedKeys="true" keyProperty="id">
+        insert into team(sys_id,sys_team_name,sys_team_slogan,class_id)
+        value (DEFAULT,#{sysTeamName},#{sysTeamSlogan},#{classRoomId})
+    </insert>
 </mapper>

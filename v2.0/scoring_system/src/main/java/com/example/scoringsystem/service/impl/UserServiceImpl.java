@@ -1,6 +1,7 @@
 package com.example.scoringsystem.service.impl;
 
 import com.example.scoringsystem.bean.*;
+import com.example.scoringsystem.mapper.TeamMapper;
 import com.example.scoringsystem.mapper.UserMapper;
 import com.example.scoringsystem.service.UserService;
 import com.example.scoringsystem.utils.JwtUtils;
@@ -11,10 +12,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/** 
+* @Description: 用户相关类
+* @Author: 曹鑫
+* @Date: 2021/6/10 
+*/
 @Slf4j
 @Service
 public class UserServiceImpl implements UserService {
@@ -22,6 +29,9 @@ public class UserServiceImpl implements UserService {
     final int SALT_SIZE = 8;
     @Autowired
     UserMapper userMapper;
+
+    @Autowired
+    TeamMapper teamMapper;
 
     /**
      * @Description: 批量导入学生用户
@@ -66,6 +76,25 @@ public class UserServiceImpl implements UserService {
             userMapper.insUserBatch(userList);
         }
         return tmpList;
+    }
+
+    @Override
+    @Transactional
+    public Boolean savePair(List<Pair> pairList,String classRoomId) {
+        for (int i=0;i<pairList.size();i++)
+        {
+            Pair pair=pairList.get(i);
+            if (pair.getAccount1()!=null&&pair.getAccount2()!=null)
+            {
+                String teamName=pair.getAccount1()+"&&&@@@"+pair.getAccount2();
+                Team team=new Team();
+                team.setSysTeamName(teamName);
+                team.setClassRoomId(classRoomId);
+                userMapper.insPairTeam(team);
+                log.info("测试数据库返回的值:"+team);
+            }
+        }
+        return null;
     }
 
     /**
@@ -152,10 +181,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResponseData insClassRomm(ClassRoom classRoom) {
-        if (userMapper.selClassRoomByClassName(classRoom.getClassName()).size()>0)
+        if (userMapper.selClassRoomByClassName(classRoom.getClassName()).size()>0) {
             return new ResponseData("插入失败，班级名已经存在","1052","[]");
-        if (userMapper.insClassRoom(classRoom.getClassName(),classRoom.getGrade(), classRoom.getTeacherId())>0)
+        }
+        if (userMapper.insClassRoom(classRoom.getClassName(),classRoom.getGrade(), classRoom.getTeacherId())>0) {
             return new ResponseData("插入成功","200","[]");
+        }
         return new ResponseData("插入失败","1051","[]");
     }
 }
