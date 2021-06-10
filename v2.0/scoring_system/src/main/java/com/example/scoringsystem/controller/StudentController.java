@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import java.util.regex.Pattern;
 
+//学生控制类
 @Slf4j
 @CrossOrigin
 @Controller
@@ -29,6 +30,7 @@ public class StudentController {
     @Autowired
     StudentMapper studentMapper;
 
+//增加单个学生
     @RequestMapping("/selSingleStudent/{id}")
     @ResponseBody
     public ResponseData selSingleStudent(@PathVariable String id){
@@ -50,12 +52,14 @@ public class StudentController {
         return responseData;
     }
 
+//返回所有学生
     @RequestMapping("/selAll")
     @ResponseBody
     public List<User> selAllStudent(){
         return studentService.selAll();
     }
 
+//分页查询学生数据
     @RequestMapping("/selByPage")
     @ResponseBody
     public ResponseData selByPage(PageRequest pageRequest){
@@ -63,6 +67,7 @@ public class StudentController {
         return new ResponseData("返回的学生列表","200",pageInfo);
     }
 
+//增加单个学生
     @RequestMapping("/addSingleStudent")
     @ResponseBody
     public ResponseData addSingleStudent( User user){
@@ -84,6 +89,7 @@ public class StudentController {
         return responseData;
     }
 
+//删除单个学生
     @RequestMapping("/delStuById/{id}")
     @ResponseBody
     public ResponseData delStudent(@PathVariable String id){
@@ -105,6 +111,7 @@ public class StudentController {
         return new ResponseData("删除失败","1003","[]");
     }
 
+//更新学生数据
     @RequestMapping("/updStudent1")
     @ResponseBody
     public ResponseData updStudent1(@RequestBody User user){
