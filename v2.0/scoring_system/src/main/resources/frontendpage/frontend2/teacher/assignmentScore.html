@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>博客评分</title>
+    <link rel="stylesheet" href="../editormd/css/editormd.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <script src="../layui/layui.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/select.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/option.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/sidebarnavigation.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/token-operation.js"></script>
+    <link rel="stylesheet" href="../css/snstyle.css">
+    <link rel="stylesheet" href="../editormd/css/editormd.preview.css" />
+    <link rel="stylesheet" href="../css/assignmentScore.css">
+    <script src="../js/token-operation.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+<div>
+    <div class="clear">
+        <ul class="layui-nav">
+            <li class="layui-nav-item layui-this" id="manage-content">
+                <a onclick="manageClicked()">内容管理<span class="layui-nav-item"></span></a>
+            </li>
+            <li class="layui-nav-item">
+                <a onclick="userClicked()">用户管理<span class="layui-nav-item"></span></a>
+            </li>
+            <li class="layui-nav-item">
+                <a onclick="analysisClicked()">统计分析<span class="layui-nav-item"></span></a>
+            </li>
+            <li class="layui-nav-item" id="my-message">
+                <a href=""><img src="//t.cn/RCzsdCq" class="layui-nav-img">我</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="javascript:;">修改信息</a></dd>
+                    <dd><a href="javascript:;" onclick="unLoadOnClick()">退出</a></dd>
+                </dl>
+            </li>
+        </ul>
+        <div class="sidebar">
+            <ul class="layui-nav layui-nav-tree" lay-filter="test" lay-shrink="all" id="content-manage" style="height: 100vh">
+                <!-- 侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> -->
+                <li class="layui-nav-item">
+                    <a href="javascript:;">评分细则管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="detailList.html">所有细则</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a href="javascript:;">成绩管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="scoreinquiry.html">成绩查询</a></dd>
+                        <!--                    <dd><a href="assignmentScore.html">博客评分</a></dd>-->
+                        <dd><a href="blogList.html">博客列表</a></dd>
+                    </dl>
+                </li>
+            </ul>
+
+            <ul class="layui-nav layui-nav-tree" lay-filter="test" lay-shrink="all" id="user-manage" style="height: 100vh">
+                <!-- 侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> -->
+                <li class="layui-nav-item">
+                    <a href="javascript:;">团队管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="teamList.html">所有团队</a></dd>
+                    </dl>
+                </li>
+<!--                <li class="layui-nav-item">-->
+<!--                    <a href="javascript:;">结对管理</a>-->
+<!--                    <dl class="layui-nav-child">-->
+<!--                        <dd><a href="javascript:;">结对信息</a></dd>-->
+<!--                        <dd><a href="">增加结对</a></dd>-->
+<!--                    </dl>-->
+<!--                </li>-->
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a href="javascript:;">学生管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="studentList2.html">学生列表</a></dd>
+                        <dd><a href="newstudents.html">增加学生</a></dd>
+                        <dd><a href="newClasses.html">新建班级</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">助教管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="assistantList.html">助教列表</a></dd>
+                        <dd><a href="newAssistant.html">增加助教</a></dd>
+                    </dl>
+                </li>
+            </ul>
+
+            <ul class="layui-nav layui-nav-tree" lay-filter="test" lay-shrink="all" id="statistical-analysis" style="height: 100vh">
+                <!-- 侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> -->
+                <li class="layui-nav-item  layui-nav-itemed">
+                    <a href="javascript:;">统计分析</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="">千帆竟发图</a></dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!--将各个部分代码填在以下div内-->
+    <div class="page-wrapper">
+        <div id="test-markdown-view">
+            <!-- Server-side output Markdown text -->
+            <label>
+                <textarea style="display:none;" id="blog_content">### Hello world!</textarea>
+            </label>
+        </div>
+        <div id="blog_message">
+            <div id="scoring_items" class="" >
+                <form class="layui-form" action="" id="scoring_item" method="post">
+                    <input id="blog_id" name="blog_id" type="text" style="display: none">
+                    <input id="task_id" name="task_id" type="text" style="display: none">
+                </form>
+            </div>
+            <div class="clear"></div>
+            <div id="operations">
+                <button class="layui-btn layui-btn-normal" id="next_blog" onclick="nextOnClick()">下一篇博客</button> <br>
+                <button class="layui-btn layui-btn-primary" id="last_blog" onclick="lastOnClick()">上一篇博客</button> <br>
+            </div>
+            <div class="clear"></div>
+        </div>
+
+    </div>
+</div>
+
+<script src="../jquery/dist/jquery.min.js"></script>
+<script src="../editormd/editormd.js"></script>
+<script src="../editormd/lib/marked.min.js"></script>
+<script src="../editormd/lib/prettify.min.js"></script>
+<script type="text/javascript">
+    function getUrlParam(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+        var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+        if (r != null) return unescape(r[2]); return null; //返回参数值
+    }
+    var id = getUrlParam('id');
+    var i = 1;
+    $(function() {
+        $.ajax({
+            url: 'http://1.15.129.32:8888/score/blogwork/details?id='+id,
+            type: 'post',
+            dataType: 'json',
+            beforeSend: function (XMLHttpRequest) {
+                XMLHttpRequest.setRequestHeader("Token", localStorage.token);
+            },
+            success: function(data){
+                // alert(data.data.id);
+                // alert(data.data.blogWorkContent);
+                $("#blog_id").val(data.data.id);
+                $("#task_id").val(data.data.task.id);
+                $("#blog_content").text(data.data.blogWorkContent);
+                console.log(data.data.score.detailsDataList);
+                var testView = editormd.markdownToHTML("test-markdown-view", {
+                });
+                $.each(data.data.score.detailsDataList,function (index,item) {
+
+                    //oninput="if(value>10)value=10" 最大值
+                    //placeholder 提示文字
+                    //value='"+data[index].score+"' 设置初始分数
+                    if (data.data.score.detailsDataList[index].id){
+                        $("#scoring_item").append("<label class='item_label'>"+data.data.score.detailsDataList[index].detailsName+"</label>");
+                        $("#scoring_item").append("</br>");
+                        // if(data.data.score.detailsDataList[index].score != null){
+                        //     //console.log("score"+data.data.score.detailsDataList[index].score);
+                        //     $("#scoring_item").append(" <input class='score_input' id='"+i+"' type=\"text\" value='"+data.data.score.detailsDataList[index].score+"' name='"+data.data.score.detailsDataList[index].id+"'" +
+                        //         " placeholder='"+"总分"+data.data.score.detailsDataList[index].totalScoreRatio*100+"分"+"' " + "oninput=\"if(value>" + data.data.score.detailsDataList[index].totalScoreRatio*100 +")value="+data.data.score.detailsDataList[index].totalScoreRatio*100+"\""+
+                        //         "onkeyup=\"if(isNaN(value))execCommand('undo')\" onafterpaste=\"if(isNaN(value))execCommand('undo')\">");
+                        // }else{
+                        //     $("#scoring_item").append(" <input class='score_input' id='"+i+"' type=\"text\" value='' name='"+data.data.score.detailsDataList[index].id+"'" +
+                        //         " placeholder='"+"总分"+data.data.score.detailsDataList[index].totalScoreRatio*100+"分"+"' " + "oninput=\"if(value>" + data.data.score.detailsDataList[index].totalScoreRatio*100 +")value="+data.data.score.detailsDataList[index].totalScoreRatio*100+"\""+
+                        //         "onkeyup=\"if(isNaN(value))execCommand('undo')\" onafterpaste=\"if(isNaN(value))execCommand('undo')\">");
+                        // }
+                        if(data.data.score.detailsDataList[index].score != null){
+                            //console.log("score"+data.data.score.detailsDataList[index].score);
+                            $("#scoring_item").append(" <input class='score_input' id='"+i+"' type=\"number\" value='"+data.data.score.detailsDataList[index].score+"' name='"+data.data.score.detailsDataList[index].id+"'" +
+                                " placeholder='"+"总分"+100+"分"+"' " + "oninput=\"if(value>" +100 +")value="+100+"\""+
+                                "onkeyup=\"if(isNaN(value))execCommand('undo')\" onafterpaste=\"if(isNaN(value))execCommand('undo')\">");
+                        }else{
+                            $("#scoring_item").append(" <input class='score_input' id='"+i+"' type=\"number\" value='' name='"+data.data.score.detailsDataList[index].id+"'" +
+                                " placeholder='"+"总分"+100+"分"+"' " + "oninput=\"if(value>" + 100 +")value="+100+"\""+
+                                "onkeyup=\"if(isNaN(value))execCommand('undo')\" onafterpaste=\"if(isNaN(value))execCommand('undo')\">");
+                        }
+
+                        $("#scoring_item").append("</br>");
+                        i=i+1;
+                    }
+                });
+            }
+        });
+    });
+
+
+    function submitOnClick() {
+
+        var t = 0;
+        var itemsScore = new Array();
+        for (var m=1; m<i; m++){
+            //该项得分
+            var k = document.getElementById(m.toString()).value;
+            // if (k == ""){
+            //     alert("评分项不能为空");
+            //     return false;
+            // }
+            // var maxScore = document.getElementById(m.toString()).;
+            //博客id
+            var j = document.getElementById(m.toString()).name;
+            var data2={
+                score: k,
+                id : j
+            };
+            itemsScore[t++] = data2;
+        }
+        var blog_id = $("#blog_id").val();
+
+        console.log(blog_id);
+        var data1={
+            "blogWorkId": blog_id,
+            "detailsDatas": itemsScore,
+        };
+
+        var data = JSON.stringify(data1);
+        console.log(data);
+
+        $.ajax({
+            type: 'post',
+            url: 'http://1.15.129.32:8888/score/blogwork/scoring',
+            dataType: 'json',
+            beforeSend: function (XMLHttpRequest) {
+                XMLHttpRequest.setRequestHeader("Token", localStorage.token);
+            },
+            contentType: "application/json",
+            data: JSON.stringify(data1),
+            success: function(data){
+                layer.msg(data.message);
+            }
+        });
+    }
+
+    function nextOnClick() {
+        var blog_id = $("#blog_id").val();
+        var task_id = $("#task_id").val();
+        var classRoom = getToken("class");
+
+        $.ajax({
+            type: 'post',
+            url: "http://1.15.129.32:8888/score/blogwork/details/next?id="+task_id+"&classRoomId="+classRoom+"&blogWorkId="+blog_id,
+            dataType: 'json',
+            beforeSend: function (XMLHttpRequest) {
+                XMLHttpRequest.setRequestHeader("Token", localStorage.token);
+            },
+            success: function(data){
+                if (data.code == '200') {
+                    window.location.href='assignmentScore.html?id='+ data.data.id;
+                }else {
+                    layer.msg(data.message);
+                }
+            }
+        });
+    }
+
+    function lastOnClick() {
+        var blog_id = $("#blog_id").val();
+        var task_id = $("#task_id").val();
+        var classRoom = getToken("class");
+
+        $.ajax({
+            type: 'post',
+            url: "http://1.15.129.32:8888/score/blogwork/details/previous?id="+task_id+"&classRoomId="+classRoom+"&blogWorkId="+blog_id,
+            dataType: 'json',
+            beforeSend: function (XMLHttpRequest) {
+                XMLHttpRequest.setRequestHeader("Token", localStorage.token);
+            },
+            // url: "http://1.15.129.32:8080/score/blogwork/details/previous",
+            // data:{
+            //     id: task_id,
+            //     classRoomId: classRoom,
+            //     blogWorkId: blog_id,
+            // },
+            success: function(data){
+                if (data.code == '200') {
+                    window.location.href='assignmentScore.html?id='+ data.data.id;
+                }else {
+                    alert(data.message);
+                }
+            }
+        });
+    }
+
+</script>
+</body>
+</html>

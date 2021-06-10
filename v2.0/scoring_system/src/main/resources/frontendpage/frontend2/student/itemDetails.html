@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>成绩项详情</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <script src="../layui/layui.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/select.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/option.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/sidebarnavigation.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="../bootstrap-table/dist/bootstrap-table.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap-table/1.15.4/bootstrap-table.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap-table/1.15.4/locale/bootstrap-table-zh-CN.min.js"></script>
+    <link rel="stylesheet" href="../css/snstyle.css">
+    <link rel="stylesheet" href="../css/itemDetails.css">
+    <script src="../js/token-operation.js"></script>
+</head>
+<body>
+<div>
+    <ul class="layui-nav">
+        <li class="layui-nav-item layui-this" id="manage-content">
+            <a onclick="manageClicked()">内容管理<span class="layui-nav-item"></span></a>
+        </li>
+        <li class="layui-nav-item">
+            <a onclick="analysisClicked()">统计分析<span class="layui-nav-item"></span></a>
+        </li>
+        <li class="layui-nav-item" id="my-message">
+            <a href=""><img src="//t.cn/RCzsdCq" class="layui-nav-img">我</a>
+            <dl class="layui-nav-child">
+                <dd><a href="javascript:;">修改信息</a></dd>
+                <dd><a href="javascript:;" onclick="unLoadOnClick()">退出</a></dd>
+            </dl>
+        </li>
+    </ul>
+
+    <div class="sidebar">
+        <ul class="layui-nav layui-nav-tree" lay-filter="test" lay-shrink="all" id="content-manage" style="height: 100vh">
+            <!-- 侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> -->
+
+            <li class="layui-nav-item layui-nav-itemed">
+                <a href="javascript:;">成绩管理</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="scoreinquiry.html">成绩查询</a></dd>
+                    <!--                    <dd><a href="">答辩评分</a></dd>-->
+                    <dd><a href="assignmentSubmit.html">作业提交</a></dd>
+                </dl>
+            </li>
+        </ul>
+
+        <ul class="layui-nav layui-nav-tree" lay-filter="test" lay-shrink="all" id="user-manage" style="height: 100vh">
+            <!-- 侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> -->
+            <li class="layui-nav-item">
+                <a href="javascript:;">团队管理</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="">所有团队</a></dd>
+                    <dd><a href="javascript:;">增加团队</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item">
+                <a href="javascript:;">结对管理</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="javascript:;">结对信息</a></dd>
+                    <dd><a href="">增加结对</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item layui-nav-itemed">
+                <a href="javascript:;">学生管理</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="javascript:;">学生列表</a></dd>
+                    <dd><a href="">增加学生</a></dd>
+                </dl>
+            </li>
+        </ul>
+
+        <ul class="layui-nav layui-nav-tree" lay-filter="test" lay-shrink="all" id="statistical-analysis" style="height: 100vh">
+            <!-- 侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> -->
+            <li class="layui-nav-item  layui-nav-itemed">
+                <a href="javascript:;">统计分析</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="">千帆竟发图</a></dd>
+                </dl>
+            </li>
+        </ul>
+    </div>
+    <div class="page-wrapper">
+<!--        <div id="edit_link_div">-->
+<!--            <select id="student" name="student" class="layui-select">-->
+<!--            </select>-->
+
+<!--            <select id="work" name="work" class="layui-select">-->
+<!--            </select>-->
+<!--        </div>-->
+
+        <table id="myTable" class="table table-hover text-nowrap"></table>
+
+<!--        <button onclick="updateOnClick()" id="update_button" class="btn btn-info">修改成绩</button>-->
+    </div>
+</div>
+
+
+<script>
+    //获取url中的参数
+    function getUrlParam(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+        var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+        if (r != null) return unescape(r[2]); return null; //返回参数值
+    }
+    var id = getUrlParam('id');
+
+
+    //加载表根据博客id
+    $('#myTable').bootstrapTable({
+        method: 'post',
+        url: "http://1.15.129.32:8888//score/blogwork/details?id="+id, // 请求路径
+        //url: "http://1.15.129.32:8080//score/blogwork/details?id=12",
+        //url: "test.json",
+        striped: true, // 是否显示行间隔色
+        pageNumber: 1, // 初始化加载第一页
+        pagination: true, // 是否分页
+        sidePagination: 'client', // server:服务器端分页|client：前端分页
+        height:600,
+        dataField: "detailsDataList",
+        pageSize: 10, // 单页记录数
+
+        ajaxOptions:{
+            headers: {"Token":getToken("token")}
+        },
+
+        onLoadSuccess: function(){ //加载成功时执行
+            layer.msg("加载成功");
+        },
+        onLoadError: function(){ //加载失败时执行
+            layer.msg("加载数据失败", {time : 1500, icon : 2});
+        },
+        responseHandler:function(res){
+            //在ajax获取到数据，渲染表格之前，修改数据源
+            //该项返回的为数据源内的二级列表data
+            return res.data.score;
+        },
+
+        paginationLoop: true,
+        paginationHAlign: 'left',
+        paginationDetailHAlign: 'right',
+        paginationPreText: '上一页',
+        paginationNextText: '下一页',
+        columns: [
+            {
+            title: '分数项',
+            field: 'detailsName'
+        },{
+            title: '得分',
+            field: 'score',
+                formatter: function (value, row, index) {
+                    if (value == null || value == undefined) {
+                        return "0";
+                    } else {
+                        return value;
+                    }
+                },
+        }
+        ]
+    });
+
+</script>
+
+
+</body>
+</html>
