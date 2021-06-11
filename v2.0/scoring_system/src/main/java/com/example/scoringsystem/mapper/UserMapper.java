@@ -47,7 +47,7 @@ public interface UserMapper {
             "where class_id=#{classId} AND account LIKE 's%' ")
     List<User> selAllStudentUserByClassId(User user);
 
-    @Select("SELECT id,account,user_name userName,PASSWORD,perms,salt,total_score totalScore,team_id teamId,team_change_history teamChangeHistory,class_id classId " +
+    @Select("SELECT id,account,user_name userName,PASSWORD,perms,salt,total_score totalScore,team_id teamId,team_change_history teamChangeHistory,class_id classId,pair_team_id pairTeamId " +
             "FROM user WHERE id=#{id}")
     User selUserById(User user);
 
@@ -71,6 +71,11 @@ public interface UserMapper {
             "WHERE class_name=#{className}")
     List<ClassRoom> selClassRoomByClassName(String className);
 
-
     Integer insPairTeam(Team team);
+
+    @Update("UPDATE user SET pair_team_id=#{pairTeamId} WHERE account=#{account}")
+    Integer updUserPairTeamIdByAccount(String account, String pairTeamId);
+
+    @Select("SELECT * FROM team WHERE  sys_team_name=#{teamName}")
+    List<Team> selTeamByTeamName(String teamName);
 }

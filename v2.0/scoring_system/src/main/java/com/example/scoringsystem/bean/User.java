@@ -34,6 +34,7 @@ public class User implements Serializable {
     private String teamId;
     private String totalScore="0";
     private ClassRoom classRoom;
+    private String pairTeamId;
 
     public User() {
 

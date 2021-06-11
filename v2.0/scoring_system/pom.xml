@@ -11,8 +11,8 @@
     <groupId>com.example</groupId>
     <artifactId>scoring_system</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>scoring_system</name>
-    <description>scoring_system projecct</description>
+    <name>scoringsystem</name>
+    <description>scoringsystem projecct</description>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>

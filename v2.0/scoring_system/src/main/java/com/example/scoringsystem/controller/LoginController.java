@@ -153,15 +153,15 @@ public class LoginController {
             responseData.setCode("1002");
             return responseData;
         }
-        String code=session.getAttribute("verificationCode").toString();
-        System.out.println("&&"+code+"&&&"+verifyCode);
-        if (StringUtils.isEmpty(code)||!(code.equalsIgnoreCase(verifyCode)))
-        {
-            model.addAttribute("msg","验证码错误!");
-            responseData.setMessage("验证码错误!");
-            responseData.setCode("1001");
-            return responseData;
-        }
+//        String code=session.getAttribute("verificationCode").toString();
+//        System.out.println("&&"+code+"&&&"+verifyCode);
+//        if (StringUtils.isEmpty(code)||!(code.equalsIgnoreCase(verifyCode)))
+//        {
+//            model.addAttribute("msg","验证码错误!");
+//            responseData.setMessage("验证码错误!");
+//            responseData.setCode("1001");
+//            return responseData;
+//        }
         //获取当前用户
         Subject subject = SecurityUtils.getSubject();
         //封装用户的登录数据
@@ -396,22 +396,41 @@ public class LoginController {
     }
 
 
+    /** 
+    * @Description: 结对团队的导入 
+    * @Param: [excel, classRoomId, model] 
+    * @return: com.example.scoringsystem.bean.ResponseData 
+    * @Date: 2021/6/11 
+    */
     @RequestMapping("/pair/import")
     @ResponseBody
-    public ResponseData importPairExcel(MultipartFile excel, User user, Model model)
+    public ResponseData importPairExcel(@NotNull MultipartFile excel,@NotNull String classRoomId, Model model)
     {
         log.info("上传的文件名称：" + excel.getOriginalFilename());
         ImportParams params = new ImportParams();
         params.setTitleRows(1);//一级标题
         params.setHeadRows(1);//header标题
+        Boolean flag=false;
         try {
             List<Pair> pairList = ExcelImportUtil.importExcel(excel.getInputStream(), Pair.class, params);
             log.info("导入的数量:" + pairList.size());
+            flag=userService.savePair(pairList,classRoomId);
         } catch (Exception e) {
             e.printStackTrace();
+        }finally {
+            if (flag)
+            {
+                return new ResponseData("导入成功", "200", "[]");
+            }
+            else
+            {
+                return new ResponseData("导入失败，可能excel存在错误数据","2001","[]");
+            }
         }
-        return new ResponseData("导入成功", "200", "[]");
     }
+
+
+
 
 
     /**

@@ -25,5 +25,11 @@
         <input type="submit" value="导入数据" class="btn btn-danger">
     </div>
 </form>
+<h1>结对队友</h1>
+<form action="/pair/import" method="post" enctype="multipart/form-data">
+    班级ID:<input type="text" name="classRoomId"/><br>
+    <input class="form-control" type="file" name="excel"/>
+    <input type="submit" value="提交"/><br>
+</form>
 </body>
 </html>
