@@ -1,0 +1,1441 @@
+{
+  "id": "3a9d6f34-0faa-4982-ae33-fe69a59bd9cd",
+  "version": "2.0",
+  "name": "Beta_assistant",
+  "url": "http://1.15.129.32:8888/assigement/scoreinquiry.html",
+  "tests": [{
+    "id": "cecf88ef-4b47-430a-8562-cfbf0805aca7",
+    "name": "团队查询",
+    "commands": [{
+      "id": "49bebafe-d936-45ec-bb5d-ac5e88000603",
+      "comment": "",
+      "command": "open",
+      "target": "http://1.15.129.32:8888/assigement/scoreinquiry.html",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "95711322-2e98-4bc0-b756-6d84c7de2f51",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1550x838",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "6a981246-180b-445a-9d46-52cef9ed2881",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=用户管理",
+      "targets": [
+        ["linkText=用户管理", "linkText"],
+        ["css=.clear > .layui-nav > .layui-nav-item:nth-child(2) > a", "css:finder"],
+        ["xpath=//a[contains(text(),'用户管理')]", "xpath:link"],
+        ["xpath=//a[@onclick='userClicked()']", "xpath:attributes"],
+        ["xpath=//li[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'用户管理')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "683a9eb5-a911-43c6-a362-9e1dfd721fda",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=团队管理",
+      "targets": [
+        ["linkText=团队管理", "linkText"],
+        ["css=#user-manage > .layui-nav-item:nth-child(1) > a", "css:finder"],
+        ["xpath=//a[contains(text(),'团队管理')]", "xpath:link"],
+        ["xpath=//ul[@id='user-manage']/li/a", "xpath:idRelative"],
+        ["xpath=(//a[contains(@href, 'javascript:;')])[5]", "xpath:href"],
+        ["xpath=//ul[2]/li/a", "xpath:position"],
+        ["xpath=//a[contains(.,'团队管理')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "8a02f2df-1d66-4c8a-b725-d6bcc2fc410a",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=所有团队",
+      "targets": [
+        ["linkText=所有团队", "linkText"],
+        ["css=#user-manage > .layui-nav-itemed dd:nth-child(1) > a", "css:finder"],
+        ["xpath=//a[contains(text(),'所有团队')]", "xpath:link"],
+        ["xpath=//ul[@id='user-manage']/li/dl/dd/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, 'teamList.html')]", "xpath:href"],
+        ["xpath=//ul[2]/li/dl/dd/a", "xpath:position"],
+        ["xpath=//a[contains(.,'所有团队')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "1fe24c0a-f9a3-43fe-b227-112f7ae889f5",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=2",
+      "targets": [
+        ["linkText=2", "linkText"],
+        ["css=.page-item:nth-child(3) > .page-link", "css:finder"],
+        ["xpath=//a[contains(text(),'2')]", "xpath:link"],
+        ["xpath=(//a[contains(@href, 'javascript:void(0)')])[3]", "xpath:href"],
+        ["xpath=//div[2]/ul/li[3]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'2')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "02290a49-b8fe-4d04-afb1-201b7baf0fce",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=1",
+      "targets": [
+        ["linkText=1", "linkText"],
+        ["css=.page-item:nth-child(2) > .page-link", "css:finder"],
+        ["xpath=(//a[contains(text(),'1')])[3]", "xpath:link"],
+        ["xpath=(//a[contains(@href, 'javascript:void(0)')])[2]", "xpath:href"],
+        ["xpath=//div[2]/ul/li[2]/a", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "0f67ce2e-2a10-4abd-8d2f-cabb5f934960",
+      "comment": "",
+      "command": "click",
+      "target": "css=.dropdown > .btn",
+      "targets": [
+        ["css=.dropdown > .btn", "css:finder"],
+        ["xpath=(//button[@type='button'])[3]", "xpath:attributes"],
+        ["xpath=//span[2]/span/button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "7b85e212-6f49-4eea-895d-10b5436867b5",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=15",
+      "targets": [
+        ["linkText=15", "linkText"],
+        ["css=.dropdown-menu > li:nth-child(2) > a", "css:finder"],
+        ["xpath=//a[contains(text(),'15')]", "xpath:link"],
+        ["xpath=(//a[contains(@href, '#')])[2]", "xpath:href"],
+        ["xpath=//span/ul/li[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'15')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "e40a36de-f103-4ff7-896a-86dc2a99bfe0",
+      "comment": "",
+      "command": "click",
+      "target": "css=.dropdown > .btn",
+      "targets": [
+        ["css=.dropdown > .btn", "css:finder"],
+        ["xpath=(//button[@type='button'])[3]", "xpath:attributes"],
+        ["xpath=//span[2]/span/button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "7c859366-77e8-4f39-a987-613485e6e44c",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=10",
+      "targets": [
+        ["linkText=10", "linkText"],
+        ["css=.dropdown-menu > li:nth-child(1) > a", "css:finder"],
+        ["xpath=//a[contains(text(),'10')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '#')]", "xpath:href"],
+        ["xpath=//span/ul/li/a", "xpath:position"],
+        ["xpath=//a[contains(.,'10')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "dfc4ed2c-91cc-4beb-b17e-1a3d8e1b334b",
+      "comment": "",
+      "command": "click",
+      "target": "css=.table:nth-child(1) th:nth-child(2) > .th-inner",
+      "targets": [
+        ["css=.table:nth-child(1) th:nth-child(2) > .th-inner", "css:finder"],
+        ["xpath=//th[2]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "a1223c7f-5b10-4ab4-b9fc-a0a339b64660",
+      "comment": "",
+      "command": "click",
+      "target": "css=.table:nth-child(1) .asc",
+      "targets": [
+        ["css=.table:nth-child(1) .asc", "css:finder"],
+        ["xpath=//th[2]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "d1228bbb-24be-4fb4-8ef7-e9c3646ef6ce",
+      "comment": "",
+      "command": "click",
+      "target": "css=.table:nth-child(1) th:nth-child(3) > .th-inner",
+      "targets": [
+        ["css=.table:nth-child(1) th:nth-child(3) > .th-inner", "css:finder"],
+        ["xpath=//th[3]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "afd9a288-e9f3-44d5-b5dc-c1d8141176ef",
+      "comment": "",
+      "command": "click",
+      "target": "css=.table:nth-child(1) .asc",
+      "targets": [
+        ["css=.table:nth-child(1) .asc", "css:finder"],
+        ["xpath=//th[3]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "3fe8a1bc-2620-4ed1-9c24-d57a9c1e07d9",
+      "comment": "",
+      "command": "click",
+      "target": "css=.table:nth-child(1) th:nth-child(2) > .th-inner",
+      "targets": [
+        ["css=.table:nth-child(1) th:nth-child(2) > .th-inner", "css:finder"],
+        ["xpath=//th[2]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "1dd76aa1-6dc2-43cd-9cfb-557db199cfaf",
+      "comment": "",
+      "command": "click",
+      "target": "id=edit",
+      "targets": [
+        ["id=edit", "id"],
+        ["css=tr:nth-child(1) #edit", "css:finder"],
+        ["xpath=//button[@id='edit']", "xpath:attributes"],
+        ["xpath=//table[@id='myTable']/tbody/tr/td[4]/button", "xpath:idRelative"],
+        ["xpath=//td[4]/button", "xpath:position"],
+        ["xpath=//button[contains(.,'查看')]", "xpath:innerText"]
+      ],
+      "value": "",
+      "opensWindow": true,
+      "windowHandleName": "win31",
+      "windowTimeout": 2000
+    }, {
+      "id": "3f5c98e3-c4dc-4cf8-ae04-ce7b89f5bf43",
+      "comment": "",
+      "command": "selectWindow",
+      "target": "handle=${win31}",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "8a38bf1b-355d-41a7-9372-ef569f94b6af",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=2",
+      "targets": [
+        ["linkText=2", "linkText"],
+        ["css=.page-item:nth-child(3) > .page-link", "css:finder"],
+        ["xpath=//a[contains(text(),'2')]", "xpath:link"],
+        ["xpath=(//a[contains(@href, 'javascript:void(0)')])[3]", "xpath:href"],
+        ["xpath=//div[2]/ul/li[3]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'2')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "29b4c934-c7d1-4dd1-9392-55290753caec",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=1",
+      "targets": [
+        ["linkText=1", "linkText"],
+        ["css=.page-item:nth-child(2) > .page-link", "css:finder"],
+        ["xpath=(//a[contains(text(),'1')])[3]", "xpath:link"],
+        ["xpath=(//a[contains(@href, 'javascript:void(0)')])[2]", "xpath:href"],
+        ["xpath=//div[2]/ul/li[2]/a", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "01249844-c774-488b-90b4-e5933718932d",
+      "comment": "",
+      "command": "click",
+      "target": "css=.btn",
+      "targets": [
+        ["css=.btn", "css:finder"],
+        ["xpath=//button[@type='button']", "xpath:attributes"],
+        ["xpath=//button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "efdd3827-91e0-4adf-aa29-3497b5e6fd89",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=15",
+      "targets": [
+        ["linkText=15", "linkText"],
+        ["css=.dropdown-menu > li:nth-child(2) > a", "css:finder"],
+        ["xpath=//a[contains(text(),'15')]", "xpath:link"],
+        ["xpath=(//a[contains(@href, '#')])[2]", "xpath:href"],
+        ["xpath=//span/ul/li[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'15')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "5ca1f658-fdf3-40bd-8f9f-37c11edeabe5",
+      "comment": "",
+      "command": "click",
+      "target": "css=.page-size",
+      "targets": [
+        ["css=.page-size", "css:finder"],
+        ["xpath=//button/span", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "a5332efb-1aa3-46d5-8258-d1fafab523b0",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=10",
+      "targets": [
+        ["linkText=10", "linkText"],
+        ["css=.dropdown-menu > li:nth-child(1) > a", "css:finder"],
+        ["xpath=//a[contains(text(),'10')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '#')]", "xpath:href"],
+        ["xpath=//span/ul/li/a", "xpath:position"],
+        ["xpath=//a[contains(.,'10')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "c57c464a-4898-4600-b0ca-7a8ceefc9d1e",
+      "comment": "",
+      "command": "click",
+      "target": "css=.table:nth-child(1) th:nth-child(1) > .th-inner",
+      "targets": [
+        ["css=.table:nth-child(1) th:nth-child(1) > .th-inner", "css:finder"],
+        ["xpath=//th/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "3f1bc3da-bf94-46ff-8918-4dcce1af0c19",
+      "comment": "",
+      "command": "click",
+      "target": "css=.table:nth-child(1) .asc",
+      "targets": [
+        ["css=.table:nth-child(1) .asc", "css:finder"],
+        ["xpath=//th/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "d674c858-aceb-4bc2-9f9b-74797d39688e",
+      "comment": "",
+      "command": "click",
+      "target": "css=.table:nth-child(1) th:nth-child(2) > .th-inner",
+      "targets": [
+        ["css=.table:nth-child(1) th:nth-child(2) > .th-inner", "css:finder"],
+        ["xpath=//th[2]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "2a8c4f29-dd85-40ff-9919-4629d16fac12",
+      "comment": "",
+      "command": "click",
+      "target": "css=.table:nth-child(1) .asc",
+      "targets": [
+        ["css=.table:nth-child(1) .asc", "css:finder"],
+        ["xpath=//th[2]/div", "xpath:position"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "e780eb08-e715-4ade-ac5d-94bfb0561f09",
+    "name": "成绩查询",
+    "commands": [{
+      "id": "b69e371c-0906-4cbe-8e3f-4ca5d0d019a0",
+      "comment": "",
+      "command": "open",
+      "target": "http://1.15.129.32:8888/assigement/scoreinquiry.html",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "c2cdbab2-c643-4f05-bdd6-c2d65da25c4a",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1550x838",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "0ab1ed8f-dbf6-42bb-a1e2-d5bc6213c074",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=2",
+      "targets": [
+        ["linkText=2", "linkText"],
+        ["css=.page-item:nth-child(3) > .page-link", "css:finder"],
+        ["xpath=//a[contains(text(),'2')]", "xpath:link"],
+        ["xpath=//div[@id='table_show']/div/div[3]/div[2]/ul/li[3]/a", "xpath:idRelative"],
+        ["xpath=(//a[contains(@href, 'javascript:void(0)')])[3]", "xpath:href"],
+        ["xpath=//div[2]/ul/li[3]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'2')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "fd016e31-1da2-48b1-bd55-eff8149c02c4",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=1",
+      "targets": [
+        ["linkText=1", "linkText"],
+        ["css=.page-item:nth-child(2) > .page-link", "css:finder"],
+        ["xpath=(//a[contains(text(),'1')])[3]", "xpath:link"],
+        ["xpath=//div[@id='table_show']/div/div[3]/div[2]/ul/li[2]/a", "xpath:idRelative"],
+        ["xpath=(//a[contains(@href, 'javascript:void(0)')])[2]", "xpath:href"],
+        ["xpath=//div[2]/ul/li[2]/a", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "b6c669c0-800f-495d-817b-627b053e7295",
+      "comment": "",
+      "command": "click",
+      "target": "css=.dropdown > .btn",
+      "targets": [
+        ["css=.dropdown > .btn", "css:finder"],
+        ["xpath=(//button[@type='button'])[3]", "xpath:attributes"],
+        ["xpath=//div[@id='table_show']/div/div[3]/div/span[2]/span/button", "xpath:idRelative"],
+        ["xpath=//span[2]/span/button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "08a36556-e87a-4c8e-9f47-b73f5059b5b0",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=15",
+      "targets": [
+        ["linkText=15", "linkText"],
+        ["css=.dropdown-menu > li:nth-child(2) > a", "css:finder"],
+        ["xpath=//a[contains(text(),'15')]", "xpath:link"],
+        ["xpath=//div[@id='table_show']/div/div[3]/div/span[2]/span/ul/li[2]/a", "xpath:idRelative"],
+        ["xpath=(//a[contains(@href, '#')])[2]", "xpath:href"],
+        ["xpath=//span/ul/li[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'15')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "a5a5cdd9-0a1b-4a3c-83f5-169c51bc1f49",
+      "comment": "",
+      "command": "click",
+      "target": "css=.dropdown > .btn",
+      "targets": [
+        ["css=.dropdown > .btn", "css:finder"],
+        ["xpath=(//button[@type='button'])[3]", "xpath:attributes"],
+        ["xpath=//div[@id='table_show']/div/div[3]/div/span[2]/span/button", "xpath:idRelative"],
+        ["xpath=//span[2]/span/button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "33c99b68-743e-4f9e-8bb4-1033b0d33cda",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=10",
+      "targets": [
+        ["linkText=10", "linkText"],
+        ["css=.dropdown-menu > li:nth-child(1) > a", "css:finder"],
+        ["xpath=//a[contains(text(),'10')]", "xpath:link"],
+        ["xpath=//div[@id='table_show']/div/div[3]/div/span[2]/span/ul/li/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '#')]", "xpath:href"],
+        ["xpath=//span/ul/li/a", "xpath:position"],
+        ["xpath=//a[contains(.,'10')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "a4b22163-33af-4a6a-8ea0-2ae0d6e69cf0",
+      "comment": "",
+      "command": "click",
+      "target": "css=.table:nth-child(1) th:nth-child(2) > .th-inner",
+      "targets": [
+        ["css=.table:nth-child(1) th:nth-child(2) > .th-inner", "css:finder"],
+        ["xpath=//div[@id='table_show']/div/div[2]/div/table/thead/tr/th[2]/div", "xpath:idRelative"],
+        ["xpath=//th[2]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "66245089-2d04-4af6-9647-6179b17f9df8",
+      "comment": "",
+      "command": "click",
+      "target": "css=.table:nth-child(1) .asc",
+      "targets": [
+        ["css=.table:nth-child(1) .asc", "css:finder"],
+        ["xpath=//div[@id='table_show']/div/div[2]/div/table/thead/tr/th[2]/div", "xpath:idRelative"],
+        ["xpath=//th[2]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "7db97ae0-b9de-4e05-8d5d-3e9428e605f8",
+      "comment": "",
+      "command": "click",
+      "target": "css=.table:nth-child(1) th:nth-child(3) > .th-inner",
+      "targets": [
+        ["css=.table:nth-child(1) th:nth-child(3) > .th-inner", "css:finder"],
+        ["xpath=//div[@id='table_show']/div/div[2]/div/table/thead/tr/th[3]/div", "xpath:idRelative"],
+        ["xpath=//th[3]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "ce5eced0-d2c9-45ab-abf9-397417e96841",
+      "comment": "",
+      "command": "click",
+      "target": "css=.table:nth-child(1) .asc",
+      "targets": [
+        ["css=.table:nth-child(1) .asc", "css:finder"],
+        ["xpath=//div[@id='table_show']/div/div[2]/div/table/thead/tr/th[3]/div", "xpath:idRelative"],
+        ["xpath=//th[3]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "64a67430-6b2a-4d0b-96a4-a48a90a61371",
+      "comment": "",
+      "command": "click",
+      "target": "css=.table:nth-child(1) th:nth-child(5) > .th-inner",
+      "targets": [
+        ["css=.table:nth-child(1) th:nth-child(5) > .th-inner", "css:finder"],
+        ["xpath=//div[@id='table_show']/div/div[2]/div/table/thead/tr/th[5]/div", "xpath:idRelative"],
+        ["xpath=//th[5]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "06ca98a1-7360-47ae-ad73-a2f489be2d2f",
+      "comment": "",
+      "command": "click",
+      "target": "css=.table:nth-child(1) .asc",
+      "targets": [
+        ["css=.table:nth-child(1) .asc", "css:finder"],
+        ["xpath=//div[@id='table_show']/div/div[2]/div/table/thead/tr/th[5]/div", "xpath:idRelative"],
+        ["xpath=//th[5]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "7140c3f3-ba6f-4cd7-9c76-761815829f52",
+      "comment": "",
+      "command": "click",
+      "target": "id=work_type",
+      "targets": [
+        ["id=work_type", "id"],
+        ["name=work_type", "name"],
+        ["css=#work_type", "css:finder"],
+        ["xpath=//select[@id='work_type']", "xpath:attributes"],
+        ["xpath=//select", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "18c2744d-a019-4b60-936c-5dff8100c0a1",
+      "comment": "",
+      "command": "select",
+      "target": "id=work_type",
+      "targets": [],
+      "value": "label=个人作业"
+    }, {
+      "id": "65093590-306b-4df2-8821-30cfb2228112",
+      "comment": "",
+      "command": "click",
+      "target": "css=#work_type > option:nth-child(2)",
+      "targets": [
+        ["css=#work_type > option:nth-child(2)", "css:finder"],
+        ["xpath=//option[@value='1']", "xpath:attributes"],
+        ["xpath=//select[@id='work_type']/option[2]", "xpath:idRelative"],
+        ["xpath=//option[2]", "xpath:position"],
+        ["xpath=//option[contains(.,'个人作业')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "a9786bf9-0aac-4147-9a9d-feb6f02a401b",
+      "comment": "",
+      "command": "click",
+      "target": "id=work_item",
+      "targets": [
+        ["id=work_item", "id"],
+        ["name=work_item", "name"],
+        ["css=#work_item", "css:finder"],
+        ["xpath=//select[@id='work_item']", "xpath:attributes"],
+        ["xpath=//select[2]", "xpath:position"],
+        ["xpath=//select[contains(.,'请选择作业')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "5e8ec3ff-49cf-4bf0-b278-83192145a6e8",
+      "comment": "",
+      "command": "select",
+      "target": "id=work_item",
+      "targets": [],
+      "value": "label=个人作业一——站立式会议+alpha冲刺"
+    }, {
+      "id": "5c9c53de-3ea2-498f-8242-700999db00d1",
+      "comment": "",
+      "command": "click",
+      "target": "css=#work_item > option:nth-child(2)",
+      "targets": [
+        ["css=#work_item > option:nth-child(2)", "css:finder"],
+        ["xpath=//option[@value='10']", "xpath:attributes"],
+        ["xpath=//select[@id='work_item']/option[2]", "xpath:idRelative"],
+        ["xpath=//select[2]/option[2]", "xpath:position"],
+        ["xpath=//option[contains(.,'个人作业一——站立式会议+alpha冲刺')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "e3eb55d3-3e76-48e2-a3bd-c4bb2564ebfc",
+      "comment": "",
+      "command": "runScript",
+      "target": "window.scrollTo(0,0)",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "0ffbf620-bd5c-431a-9184-1b6a23903098",
+      "comment": "",
+      "command": "click",
+      "target": "id=work_type",
+      "targets": [
+        ["id=work_type", "id"],
+        ["name=work_type", "name"],
+        ["css=#work_type", "css:finder"],
+        ["xpath=//select[@id='work_type']", "xpath:attributes"],
+        ["xpath=//select", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "9b9041d7-b5f8-4017-b3d2-d364d1a46ed0",
+      "comment": "",
+      "command": "select",
+      "target": "id=work_type",
+      "targets": [],
+      "value": "label=团队作业"
+    }, {
+      "id": "09cc33ac-990d-408d-8c14-d197918aca04",
+      "comment": "",
+      "command": "click",
+      "target": "css=#work_type > option:nth-child(4)",
+      "targets": [
+        ["css=#work_type > option:nth-child(4)", "css:finder"],
+        ["xpath=//option[@value='3']", "xpath:attributes"],
+        ["xpath=//select[@id='work_type']/option[4]", "xpath:idRelative"],
+        ["xpath=//option[4]", "xpath:position"],
+        ["xpath=//option[contains(.,'团队作业')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "ae94ebeb-f709-4b54-af31-ce16352ba0a7",
+      "comment": "",
+      "command": "click",
+      "target": "id=work_item",
+      "targets": [
+        ["id=work_item", "id"],
+        ["name=work_item", "name"],
+        ["css=#work_item", "css:finder"],
+        ["xpath=//select[@id='work_item']", "xpath:attributes"],
+        ["xpath=//select[2]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "bc7c30a3-45f8-4539-a8d9-b4c36405eb02",
+      "comment": "",
+      "command": "select",
+      "target": "id=work_item",
+      "targets": [],
+      "value": "label=团队作业五——站立式会议+alpha冲刺"
+    }, {
+      "id": "671c7e1c-a49e-4427-803a-fe0e1aeb1caa",
+      "comment": "",
+      "command": "click",
+      "target": "css=#work_item > option:nth-child(2)",
+      "targets": [
+        ["css=#work_item > option:nth-child(2)", "css:finder"],
+        ["xpath=(//option[@value='1'])[2]", "xpath:attributes"],
+        ["xpath=//select[@id='work_item']/option[2]", "xpath:idRelative"],
+        ["xpath=//select[2]/option[2]", "xpath:position"],
+        ["xpath=//option[contains(.,'团队作业五——站立式会议+alpha冲刺')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "08553218-37dd-4034-82d2-04695bd0ca97",
+      "comment": "",
+      "command": "runScript",
+      "target": "window.scrollTo(0,0)",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "e2c3e71f-89af-4aa5-8e0e-de2511bd7cad",
+      "comment": "",
+      "command": "click",
+      "target": "id=edit",
+      "targets": [
+        ["id=edit", "id"],
+        ["css=tr:nth-child(1) #edit", "css:finder"],
+        ["xpath=//button[@id='edit']", "xpath:attributes"],
+        ["xpath=//table[@id='myTable']/tbody/tr/td[6]/button", "xpath:idRelative"],
+        ["xpath=//td[6]/button", "xpath:position"],
+        ["xpath=//button[contains(.,'查看详情')]", "xpath:innerText"]
+      ],
+      "value": "",
+      "opensWindow": true,
+      "windowHandleName": "win236",
+      "windowTimeout": 2000
+    }, {
+      "id": "1e93711d-5aaa-4802-b225-6162ec46eb50",
+      "comment": "",
+      "command": "selectWindow",
+      "target": "handle=${win236}",
+      "targets": [],
+      "value": ""
+    }]
+  }, {
+    "id": "53560809-d916-4c4f-a248-a6cdbc0f8acb",
+    "name": "细则查询",
+    "commands": [{
+      "id": "941a3b49-89f2-4a75-b10a-599dfe0a2b9f",
+      "comment": "",
+      "command": "open",
+      "target": "http://1.15.129.32:8888/assigement/scoreinquiry.html",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "480f9254-43b0-42d3-8a08-c08b863f445a",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1550x838",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "06ef4cac-7e82-42f9-ad41-d9098f83c121",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=评分细则管理",
+      "targets": [
+        ["linkText=评分细则管理", "linkText"],
+        ["css=#content-manage > .layui-nav-item:nth-child(1) > a", "css:finder"],
+        ["xpath=//a[contains(text(),'评分细则管理')]", "xpath:link"],
+        ["xpath=//ul[@id='content-manage']/li/a", "xpath:idRelative"],
+        ["xpath=(//a[contains(@href, 'javascript:;')])[3]", "xpath:href"],
+        ["xpath=//div/div/div/ul/li/a", "xpath:position"],
+        ["xpath=//a[contains(.,'评分细则管理')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "64680a67-0fce-4a6f-82bd-2c3ba6f808a0",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=所有细则",
+      "targets": [
+        ["linkText=所有细则", "linkText"],
+        ["css=#content-manage > .layui-nav-itemed dd:nth-child(1) > a", "css:finder"],
+        ["xpath=//a[contains(text(),'所有细则')]", "xpath:link"],
+        ["xpath=//ul[@id='content-manage']/li/dl/dd/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, 'detailList.html')]", "xpath:href"],
+        ["xpath=//div/div/div/ul/li/dl/dd/a", "xpath:position"],
+        ["xpath=//a[contains(.,'所有细则')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "62eefa05-ad6a-491d-8b8a-26f3df5131ad",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=2",
+      "targets": [
+        ["linkText=2", "linkText"],
+        ["css=.page-item:nth-child(3) > .page-link", "css:finder"],
+        ["xpath=//a[contains(text(),'2')]", "xpath:link"],
+        ["xpath=(//a[contains(@href, 'javascript:void(0)')])[3]", "xpath:href"],
+        ["xpath=//div[2]/ul/li[3]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'2')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "b54dfb91-0afa-436f-affb-90df033ee888",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=3",
+      "targets": [
+        ["linkText=3", "linkText"],
+        ["css=.page-item:nth-child(4) > .page-link", "css:finder"],
+        ["xpath=//a[contains(text(),'3')]", "xpath:link"],
+        ["xpath=(//a[contains(@href, 'javascript:void(0)')])[4]", "xpath:href"],
+        ["xpath=//div[2]/ul/li[4]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'3')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "775381e6-4434-42e9-aaed-deb8c0641577",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=1",
+      "targets": [
+        ["linkText=1", "linkText"],
+        ["css=.page-item:nth-child(2) > .page-link", "css:finder"],
+        ["xpath=(//a[contains(text(),'1')])[3]", "xpath:link"],
+        ["xpath=(//a[contains(@href, 'javascript:void(0)')])[2]", "xpath:href"],
+        ["xpath=//div[2]/ul/li[2]/a", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "35eb02e9-7a72-424c-ab51-8d1475b7c3a4",
+      "comment": "",
+      "command": "click",
+      "target": "css=.page-size",
+      "targets": [
+        ["css=.page-size", "css:finder"],
+        ["xpath=//span/button/span", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "0573d213-451a-4d42-96dc-4d8d9f349f55",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=15",
+      "targets": [
+        ["linkText=15", "linkText"],
+        ["css=.dropdown-menu > li:nth-child(2) > a", "css:finder"],
+        ["xpath=//a[contains(text(),'15')]", "xpath:link"],
+        ["xpath=(//a[contains(@href, '#')])[2]", "xpath:href"],
+        ["xpath=//span/ul/li[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'15')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "27135cbb-0ce3-4099-b1e4-80ddbaa365de",
+      "comment": "",
+      "command": "click",
+      "target": "css=.dropdown > .btn",
+      "targets": [
+        ["css=.dropdown > .btn", "css:finder"],
+        ["xpath=(//button[@type='button'])[3]", "xpath:attributes"],
+        ["xpath=//span[2]/span/button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "6cb3fd49-b9c3-42dc-ba75-4e9f31fddc55",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=10",
+      "targets": [
+        ["linkText=10", "linkText"],
+        ["css=.dropdown-menu > li:nth-child(1) > a", "css:finder"],
+        ["xpath=//a[contains(text(),'10')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '#')]", "xpath:href"],
+        ["xpath=//span/ul/li/a", "xpath:position"],
+        ["xpath=//a[contains(.,'10')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "1a373217-100d-4034-b16d-d53d83066882",
+      "comment": "",
+      "command": "click",
+      "target": "css=.table:nth-child(1) th:nth-child(2) > .th-inner",
+      "targets": [
+        ["css=.table:nth-child(1) th:nth-child(2) > .th-inner", "css:finder"],
+        ["xpath=//th[2]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "6bcccb74-32e1-4ea5-a3ab-3e69aaf0913e",
+      "comment": "",
+      "command": "click",
+      "target": "css=.table:nth-child(1) .asc",
+      "targets": [
+        ["css=.table:nth-child(1) .asc", "css:finder"],
+        ["xpath=//th[2]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "fd30e70a-f5d7-4837-95e2-7349cb427fb0",
+      "comment": "",
+      "command": "click",
+      "target": "css=.table:nth-child(1) th:nth-child(3) > .th-inner",
+      "targets": [
+        ["css=.table:nth-child(1) th:nth-child(3) > .th-inner", "css:finder"],
+        ["xpath=//th[3]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "e821df85-1674-4fda-94f3-84e90e5adf0c",
+      "comment": "",
+      "command": "click",
+      "target": "css=.table:nth-child(1) .asc",
+      "targets": [
+        ["css=.table:nth-child(1) .asc", "css:finder"],
+        ["xpath=//th[3]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "46719782-49cb-4d29-9553-308728ee9df4",
+      "comment": "",
+      "command": "click",
+      "target": "css=.table:nth-child(1) th:nth-child(4) > .th-inner",
+      "targets": [
+        ["css=.table:nth-child(1) th:nth-child(4) > .th-inner", "css:finder"],
+        ["xpath=//th[4]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "5833b9e5-43a4-4517-83d8-37df643adae4",
+      "comment": "",
+      "command": "click",
+      "target": "css=.table:nth-child(1) .asc",
+      "targets": [
+        ["css=.table:nth-child(1) .asc", "css:finder"],
+        ["xpath=//th[4]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "4ba6dbd0-2d03-4806-9535-ad2947ffff69",
+      "comment": "",
+      "command": "click",
+      "target": "css=.table:nth-child(1) th:nth-child(5) > .th-inner",
+      "targets": [
+        ["css=.table:nth-child(1) th:nth-child(5) > .th-inner", "css:finder"],
+        ["xpath=//th[5]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "89c9bc24-8fc1-4d47-b5b1-651250a171cb",
+      "comment": "",
+      "command": "click",
+      "target": "css=.table:nth-child(1) .asc",
+      "targets": [
+        ["css=.table:nth-child(1) .asc", "css:finder"],
+        ["xpath=//th[5]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "ce50252f-75a9-479e-867a-f383d6b4af03",
+      "comment": "",
+      "command": "click",
+      "target": "css=.table:nth-child(1) th:nth-child(6) > .th-inner",
+      "targets": [
+        ["css=.table:nth-child(1) th:nth-child(6) > .th-inner", "css:finder"],
+        ["xpath=//th[6]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "316b5331-11da-47d6-933c-e109d90d0957",
+      "comment": "",
+      "command": "click",
+      "target": "css=.table:nth-child(1) .asc",
+      "targets": [
+        ["css=.table:nth-child(1) .asc", "css:finder"],
+        ["xpath=//th[6]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "9a50ab02-d273-47f6-ae6b-bfe2acbcff04",
+      "comment": "",
+      "command": "click",
+      "target": "id=edit",
+      "targets": [
+        ["id=edit", "id"],
+        ["css=tr:nth-child(1) #edit", "css:finder"],
+        ["xpath=//button[@id='edit']", "xpath:attributes"],
+        ["xpath=//table[@id='myTable']/tbody/tr/td[7]/button", "xpath:idRelative"],
+        ["xpath=//td[7]/button", "xpath:position"],
+        ["xpath=//button[contains(.,'查看')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "dc4c6c80-0cb1-4b21-90e9-b672fe0756d9",
+      "comment": "",
+      "command": "click",
+      "target": "id=down_load_excel",
+      "targets": [
+        ["id=down_load_excel", "id"],
+        ["css=#down_load_excel", "css:finder"],
+        ["xpath=//button[@id='down_load_excel']", "xpath:attributes"],
+        ["xpath=//div[@id='message_form']/div/div[4]/div[2]/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'查看评分项')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "2a7f838e-96d8-4587-be0f-f7b45b846b3f",
+      "comment": "",
+      "command": "click",
+      "target": "id=close",
+      "targets": [
+        ["id=close", "id"],
+        ["css=#close", "css:finder"],
+        ["xpath=//strong[@id='close']", "xpath:attributes"],
+        ["xpath=//div[@id='box']/strong", "xpath:idRelative"],
+        ["xpath=//strong", "xpath:position"],
+        ["xpath=//strong[contains(.,'关闭')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "0ac593ab-9e45-4031-aada-088552c4f24e",
+    "name": "博客列表查询",
+    "commands": [{
+      "id": "fc102c7a-240f-484e-ad64-53952d593643",
+      "comment": "",
+      "command": "open",
+      "target": "http://1.15.129.32:8888/assigement/scoreinquiry.html",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "ca6b5de2-576b-41c5-ba53-4563b5f4e554",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1550x838",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "507a852c-1c5c-421a-b1ab-50750e405899",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=博客列表",
+      "targets": [
+        ["linkText=博客列表", "linkText"],
+        ["css=#content-manage > .layui-nav-itemed dd:nth-child(2) > a", "css:finder"],
+        ["xpath=//a[contains(text(),'博客列表')]", "xpath:link"],
+        ["xpath=//ul[@id='content-manage']/li[2]/dl/dd[2]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, 'blogList.html')]", "xpath:href"],
+        ["xpath=//li[2]/dl/dd[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'博客列表')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "6136a642-9765-4ac8-b5a7-509c09384bb9",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=2",
+      "targets": [
+        ["linkText=2", "linkText"],
+        ["css=.page-item:nth-child(3) > .page-link", "css:finder"],
+        ["xpath=//a[contains(text(),'2')]", "xpath:link"],
+        ["xpath=//div[@id='table_show']/div/div[3]/div[2]/ul/li[3]/a", "xpath:idRelative"],
+        ["xpath=(//a[contains(@href, 'javascript:void(0)')])[3]", "xpath:href"],
+        ["xpath=//div[2]/ul/li[3]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'2')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "ab97714d-b79f-40e2-bbb1-7cac65240760",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=上一页",
+      "targets": [
+        ["linkText=上一页", "linkText"],
+        ["css=.page-pre > .page-link", "css:finder"],
+        ["xpath=//a[contains(text(),'上一页')]", "xpath:link"],
+        ["xpath=//div[@id='table_show']/div/div[3]/div[2]/ul/li/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, 'javascript:void(0)')]", "xpath:href"],
+        ["xpath=//div[2]/ul/li/a", "xpath:position"],
+        ["xpath=//a[contains(.,'上一页')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "5fbfa204-8127-4151-b7a2-c20f189ae1f3",
+      "comment": "",
+      "command": "mouseOver",
+      "target": "css=.dropdown > .btn",
+      "targets": [
+        ["css=.dropdown > .btn", "css:finder"],
+        ["xpath=(//button[@type='button'])[3]", "xpath:attributes"],
+        ["xpath=//div[@id='table_show']/div/div[3]/div/span[2]/span/button", "xpath:idRelative"],
+        ["xpath=//span[2]/span/button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "8e0c7471-7549-4928-a888-f7b58842ecaa",
+      "comment": "",
+      "command": "click",
+      "target": "css=.dropdown > .btn",
+      "targets": [
+        ["css=.dropdown > .btn", "css:finder"],
+        ["xpath=(//button[@type='button'])[3]", "xpath:attributes"],
+        ["xpath=//div[@id='table_show']/div/div[3]/div/span[2]/span/button", "xpath:idRelative"],
+        ["xpath=//span[2]/span/button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "bbb48adb-42e1-4258-978d-781a55912aa4",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=15",
+      "targets": [
+        ["linkText=15", "linkText"],
+        ["css=.dropdown-menu > li:nth-child(2) > a", "css:finder"],
+        ["xpath=//a[contains(text(),'15')]", "xpath:link"],
+        ["xpath=//div[@id='table_show']/div/div[3]/div/span[2]/span/ul/li[2]/a", "xpath:idRelative"],
+        ["xpath=(//a[contains(@href, '#')])[2]", "xpath:href"],
+        ["xpath=//span/ul/li[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'15')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "d0bdd266-df29-479f-824b-ec890ee96134",
+      "comment": "",
+      "command": "click",
+      "target": "css=.dropdown > .btn",
+      "targets": [
+        ["css=.dropdown > .btn", "css:finder"],
+        ["xpath=(//button[@type='button'])[3]", "xpath:attributes"],
+        ["xpath=//div[@id='table_show']/div/div[3]/div/span[2]/span/button", "xpath:idRelative"],
+        ["xpath=//span[2]/span/button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "bc31895e-e324-4c96-91e3-87996327351e",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=10",
+      "targets": [
+        ["linkText=10", "linkText"],
+        ["css=.dropdown-menu > li:nth-child(1) > a", "css:finder"],
+        ["xpath=//a[contains(text(),'10')]", "xpath:link"],
+        ["xpath=//div[@id='table_show']/div/div[3]/div/span[2]/span/ul/li/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '#')]", "xpath:href"],
+        ["xpath=//span/ul/li/a", "xpath:position"],
+        ["xpath=//a[contains(.,'10')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "0cecbf6a-e26f-41cb-8f55-49a8eaade033",
+      "comment": "",
+      "command": "click",
+      "target": "css=.table:nth-child(1) th:nth-child(2) > .th-inner",
+      "targets": [
+        ["css=.table:nth-child(1) th:nth-child(2) > .th-inner", "css:finder"],
+        ["xpath=//div[@id='table_show']/div/div[2]/div/table/thead/tr/th[2]/div", "xpath:idRelative"],
+        ["xpath=//th[2]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "8f3b3e59-8294-49f3-b73b-34fc3e1657af",
+      "comment": "",
+      "command": "click",
+      "target": "css=.table:nth-child(1) .asc",
+      "targets": [
+        ["css=.table:nth-child(1) .asc", "css:finder"],
+        ["xpath=//div[@id='table_show']/div/div[2]/div/table/thead/tr/th[2]/div", "xpath:idRelative"],
+        ["xpath=//th[2]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "ad620a69-8007-43bb-bcf7-39995b3e2c46",
+      "comment": "",
+      "command": "click",
+      "target": "css=.table:nth-child(1) th:nth-child(4) > .th-inner",
+      "targets": [
+        ["css=.table:nth-child(1) th:nth-child(4) > .th-inner", "css:finder"],
+        ["xpath=//div[@id='table_show']/div/div[2]/div/table/thead/tr/th[4]/div", "xpath:idRelative"],
+        ["xpath=//th[4]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "4401a87c-8a75-4891-b8f0-883682ccc296",
+      "comment": "",
+      "command": "click",
+      "target": "css=.table:nth-child(1) .asc",
+      "targets": [
+        ["css=.table:nth-child(1) .asc", "css:finder"],
+        ["xpath=//div[@id='table_show']/div/div[2]/div/table/thead/tr/th[4]/div", "xpath:idRelative"],
+        ["xpath=//th[4]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "e309a7c4-3cdd-4c68-880e-d7d0253ae723",
+      "comment": "",
+      "command": "click",
+      "target": "id=work_item",
+      "targets": [
+        ["id=work_item", "id"],
+        ["name=work_item", "name"],
+        ["css=#work_item", "css:finder"],
+        ["xpath=//select[@id='work_item']", "xpath:attributes"],
+        ["xpath=//select", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "09c412eb-dabd-4571-8d40-80f1fb5cea37",
+      "comment": "",
+      "command": "select",
+      "target": "id=work_item",
+      "targets": [],
+      "value": "label=团队作业五——站立式会议+alpha冲刺"
+    }, {
+      "id": "f3e5b5ff-99f7-4bad-9ebc-8fe00be501fc",
+      "comment": "",
+      "command": "click",
+      "target": "css=#work_item > option:nth-child(2)",
+      "targets": [
+        ["css=#work_item > option:nth-child(2)", "css:finder"],
+        ["xpath=//option[@value='1']", "xpath:attributes"],
+        ["xpath=//select[@id='work_item']/option[2]", "xpath:idRelative"],
+        ["xpath=//option[2]", "xpath:position"],
+        ["xpath=//option[contains(.,'团队作业五——站立式会议+alpha冲刺')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "d87065b6-5286-47c8-8eac-4772d6f2d5f0",
+      "comment": "",
+      "command": "runScript",
+      "target": "window.scrollTo(0,0)",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "297d0cac-c089-466a-b11a-191a1b8214cb",
+      "comment": "",
+      "command": "click",
+      "target": "id=classes",
+      "targets": [
+        ["id=classes", "id"],
+        ["name=classes", "name"],
+        ["css=#classes", "css:finder"],
+        ["xpath=//select[@id='classes']", "xpath:attributes"],
+        ["xpath=//div[2]/select", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "66917db3-01e1-4a23-90ce-2cbfde54a7e6",
+      "comment": "",
+      "command": "select",
+      "target": "id=classes",
+      "targets": [],
+      "value": "label=2021春软件工程实践|S班"
+    }, {
+      "id": "66e38a60-f874-441a-a0ef-9a0f6ea57d3c",
+      "comment": "",
+      "command": "click",
+      "target": "css=#classes > option:nth-child(2)",
+      "targets": [
+        ["css=#classes > option:nth-child(2)", "css:finder"],
+        ["xpath=(//option[@value='1'])[2]", "xpath:attributes"],
+        ["xpath=//select[@id='classes']/option[2]", "xpath:idRelative"],
+        ["xpath=//div[2]/select/option[2]", "xpath:position"],
+        ["xpath=//option[contains(.,'2021春软件工程实践|S班')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "6055e05a-de74-4230-96ee-52569f28d0e3",
+      "comment": "",
+      "command": "runScript",
+      "target": "window.scrollTo(0,0)",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "980975bc-7ab2-4720-8d47-0b284f034cb9",
+      "comment": "",
+      "command": "click",
+      "target": "id=work_item",
+      "targets": [
+        ["id=work_item", "id"],
+        ["name=work_item", "name"],
+        ["css=#work_item", "css:finder"],
+        ["xpath=//select[@id='work_item']", "xpath:attributes"],
+        ["xpath=//select", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "d7666ee4-22ec-451f-8fdb-f30cc7c23930",
+      "comment": "",
+      "command": "select",
+      "target": "id=work_item",
+      "targets": [],
+      "value": "label=个人作业一——站立式会议+alpha冲刺"
+    }, {
+      "id": "4d68d7dc-98c7-476e-b2b3-2ac3cdc264b4",
+      "comment": "",
+      "command": "click",
+      "target": "css=option:nth-child(5)",
+      "targets": [
+        ["css=option:nth-child(5)", "css:finder"],
+        ["xpath=//option[@value='10']", "xpath:attributes"],
+        ["xpath=//select[@id='work_item']/option[5]", "xpath:idRelative"],
+        ["xpath=//option[5]", "xpath:position"],
+        ["xpath=//option[contains(.,'个人作业一——站立式会议+alpha冲刺')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "f00be623-7518-4e0a-9494-9a786b5f1da4",
+      "comment": "",
+      "command": "runScript",
+      "target": "window.scrollTo(0,0)",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "c9dea850-820b-414d-b4e9-54035a5fb05b",
+      "comment": "",
+      "command": "click",
+      "target": "id=work_item",
+      "targets": [
+        ["id=work_item", "id"],
+        ["name=work_item", "name"],
+        ["css=#work_item", "css:finder"],
+        ["xpath=//select[@id='work_item']", "xpath:attributes"],
+        ["xpath=//select", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "50e164c9-7890-4f86-86c0-2dfd605908c9",
+      "comment": "",
+      "command": "select",
+      "target": "id=work_item",
+      "targets": [],
+      "value": "label=个人作业-测试作业一"
+    }, {
+      "id": "7ff871ae-d78d-4cfa-a2bb-0c50b2ed4b48",
+      "comment": "",
+      "command": "click",
+      "target": "css=option:nth-child(17)",
+      "targets": [
+        ["css=option:nth-child(17)", "css:finder"],
+        ["xpath=//option[@value='33']", "xpath:attributes"],
+        ["xpath=//select[@id='work_item']/option[17]", "xpath:idRelative"],
+        ["xpath=//option[17]", "xpath:position"],
+        ["xpath=//option[contains(.,'个人作业-测试作业一')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "e49f0472-ce73-47ea-b55d-cb412f1feab7",
+      "comment": "",
+      "command": "runScript",
+      "target": "window.scrollTo(0,0)",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "f9a5cf61-d46b-4559-971e-ec88b901fa03",
+      "comment": "",
+      "command": "click",
+      "target": "css=.keep-open .caret",
+      "targets": [
+        ["css=.keep-open .caret", "css:finder"],
+        ["xpath=//div[@id='table_show']/div/div/div/div/button/span", "xpath:idRelative"],
+        ["xpath=//button/span", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "142911a6-2ab4-4e26-808d-053930586751",
+      "comment": "",
+      "command": "click",
+      "target": "css=li:nth-child(2) > label > span",
+      "targets": [
+        ["css=li:nth-child(2) > label > span", "css:finder"],
+        ["xpath=//div[@id='table_show']/div/div/div/div/ul/li[2]/label/span", "xpath:idRelative"],
+        ["xpath=//li[2]/label/span", "xpath:position"],
+        ["xpath=//span[contains(.,'博客链接')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "5422236c-eb46-4795-8f64-617f4f2b20ad",
+      "comment": "",
+      "command": "click",
+      "target": "css=li:nth-child(3) > label",
+      "targets": [
+        ["css=li:nth-child(3) > label", "css:finder"],
+        ["xpath=//div[@id='table_show']/div/div/div/div/ul/li[3]/label", "xpath:idRelative"],
+        ["xpath=//li[3]/label", "xpath:position"],
+        ["xpath=//label[contains(.,' 博客名')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "ece75ec1-a263-4f33-9deb-f101b935a3ff",
+      "comment": "",
+      "command": "click",
+      "target": "css=li:nth-child(4) input",
+      "targets": [
+        ["css=li:nth-child(4) input", "css:finder"],
+        ["xpath=//input[@value='4']", "xpath:attributes"],
+        ["xpath=//div[@id='table_show']/div/div/div/div/ul/li[4]/label/input", "xpath:idRelative"],
+        ["xpath=//li[4]/label/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "4cffc7e2-704d-492c-b667-bb8057217c62",
+      "comment": "",
+      "command": "click",
+      "target": "css=li:nth-child(5) input",
+      "targets": [
+        ["css=li:nth-child(5) input", "css:finder"],
+        ["xpath=//input[@value='5']", "xpath:attributes"],
+        ["xpath=//div[@id='table_show']/div/div/div/div/ul/li[5]/label/input", "xpath:idRelative"],
+        ["xpath=//li[5]/label/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "e025bb04-b528-4d40-b97e-0208135eac01",
+      "comment": "",
+      "command": "click",
+      "target": "css=li:nth-child(5) input",
+      "targets": [
+        ["css=li:nth-child(5) input", "css:finder"],
+        ["xpath=//input[@value='5']", "xpath:attributes"],
+        ["xpath=//div[@id='table_show']/div/div/div/div/ul/li[5]/label/input", "xpath:idRelative"],
+        ["xpath=//li[5]/label/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "c4a0187a-7fb0-4566-a06d-7db158e01f16",
+      "comment": "",
+      "command": "click",
+      "target": "css=li:nth-child(4) > label > span",
+      "targets": [
+        ["css=li:nth-child(4) > label > span", "css:finder"],
+        ["xpath=//div[@id='table_show']/div/div/div/div/ul/li[4]/label/span", "xpath:idRelative"],
+        ["xpath=//li[4]/label/span", "xpath:position"],
+        ["xpath=//span[contains(.,'博客状态')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "be29028b-6046-4289-b7c3-79000da16c54",
+      "comment": "",
+      "command": "click",
+      "target": "css=li:nth-child(3) > label > span",
+      "targets": [
+        ["css=li:nth-child(3) > label > span", "css:finder"],
+        ["xpath=//div[@id='table_show']/div/div/div/div/ul/li[3]/label/span", "xpath:idRelative"],
+        ["xpath=//li[3]/label/span", "xpath:position"],
+        ["xpath=//span[contains(.,'博客名')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "e03eeda1-7621-4698-b011-cb5e40e9ad7d",
+      "comment": "",
+      "command": "click",
+      "target": "css=li:nth-child(2) > label > span",
+      "targets": [
+        ["css=li:nth-child(2) > label > span", "css:finder"],
+        ["xpath=//div[@id='table_show']/div/div/div/div/ul/li[2]/label/span", "xpath:idRelative"],
+        ["xpath=//li[2]/label/span", "xpath:position"],
+        ["xpath=//span[contains(.,'博客链接')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "c1f8faa1-539d-414a-b5c3-c69c444725ef",
+      "comment": "",
+      "command": "click",
+      "target": "css=li:nth-child(1) input",
+      "targets": [
+        ["css=li:nth-child(1) input", "css:finder"],
+        ["xpath=//input[@value='1']", "xpath:attributes"],
+        ["xpath=//div[@id='table_show']/div/div/div/div/ul/li/label/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "12dfacf1-2c7d-4b62-a777-111ca0de3d2c",
+      "comment": "",
+      "command": "click",
+      "target": "css=li:nth-child(1) input",
+      "targets": [
+        ["css=li:nth-child(1) input", "css:finder"],
+        ["xpath=//input[@value='1']", "xpath:attributes"],
+        ["xpath=//div[@id='table_show']/div/div/div/div/ul/li/label/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "b11de54f-28b1-4b38-8b74-000d868895d2",
+      "comment": "",
+      "command": "click",
+      "target": "css=.keep-open > .btn",
+      "targets": [
+        ["css=.keep-open > .btn", "css:finder"],
+        ["xpath=//button[@type='button']", "xpath:attributes"],
+        ["xpath=//div[@id='table_show']/div/div/div/div/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,' ')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "0fb6f262-52dd-46a1-99d6-09b6b71b4343",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": []
+  }],
+  "urls": ["http://1.15.129.32:8888/", "http://1.15.129.32:8888/assigement/scoreinquiry.html"],
+  "plugins": []
+}
