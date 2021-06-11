@@ -27,3 +27,10 @@ function clearAll() {
 // beforeSend: function (XMLHttpRequest) {
 //     XMLHttpRequest.setRequestHeader("token", localStorage.token);
 // },
+
+var id = getToken("id");
+var user_account = getToken("account");
+var  user_role = getToken("role");
+var user_class = getToken("class");
+var user_token = getToken("token");
+var user_group = getToken("group");

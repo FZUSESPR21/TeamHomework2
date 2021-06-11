@@ -28,8 +28,8 @@ function loadList(url) {
         queryParams: function queryParams(params) { //设置查询参数
             var options = $("#work_item option:selected").val();
             var classId = $("#classes option:selected").val();
-            if (classId == ""){
-                classId = classRoomId;
+            if (classId == null || classId === ""){
+                classId = getToken("class");
             }
             var param = {
                 pageNum: params.pageNumber,
@@ -123,6 +123,10 @@ function loadList(url) {
         ]
     });
 }
+
+$(document).ready(function () {
+    loadList("http://1.15.129.32:8888/score/blogwork/all/showlist");
+});
 
 //下拉选项改变时
 document.getElementById('classes').onchange=function(){

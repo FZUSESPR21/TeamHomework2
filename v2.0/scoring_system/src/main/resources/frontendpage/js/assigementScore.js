@@ -5,6 +5,8 @@ function getUrlParam(name) {
 }
 var id = getUrlParam('id');
 var i = 1;
+
+//加载评分项
 $(function() {
     $.ajax({
         url: 'http://1.15.129.32:8888/score/blogwork/details?id='+id,
@@ -46,9 +48,8 @@ $(function() {
     });
 });
 
-
+//提交按钮点击事件
 function submitOnClick() {
-
     var t = 0;
     var itemsScore = new Array();
     for (var m=1; m<i; m++){
@@ -93,11 +94,11 @@ function submitOnClick() {
     });
 }
 
+//下一篇博客点击
 function nextOnClick() {
     var blog_id = $("#blog_id").val();
     var task_id = $("#task_id").val();
     var classRoom = getToken("class");
-
     $.ajax({
         type: 'post',
         url: "http://1.15.129.32:8888/score/blogwork/details/next?id="+task_id+"&classRoomId="+classRoom+"&blogWorkId="+blog_id,
@@ -107,7 +108,11 @@ function nextOnClick() {
         },
         success: function(data){
             if (data.code == '200') {
-                window.location.href='assignmentScore.html?id='+ data.data.id;
+                if (data.data != null){
+                    window.location.href='assignmentScore.html?id='+ data.data.id;
+                }else {
+                    layer.msg("已经是最后一篇博客了~");
+                }
             }else {
                 layer.msg(data.message);
             }
@@ -115,6 +120,7 @@ function nextOnClick() {
     });
 }
 
+//上一篇博客点击
 function lastOnClick() {
     var blog_id = $("#blog_id").val();
     var task_id = $("#task_id").val();
@@ -129,7 +135,11 @@ function lastOnClick() {
         },
         success: function(data){
             if (data.code == '200') {
-                window.location.href='assignmentScore.html?id='+ data.data.id;
+                if (data.data != null){
+                    window.location.href='assignmentScore.html?id='+ data.data.id;
+                }else {
+                    layer.msg("已经是第一篇博客了~");
+                }
             }else {
                 alert(data.message);
             }

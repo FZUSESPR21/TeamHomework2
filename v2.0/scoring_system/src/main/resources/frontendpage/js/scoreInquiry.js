@@ -94,7 +94,6 @@ document.getElementById('work_item').onchange=function(){
         $("#table_show").append("<table id=\"myTable\" class=\"table table-hover text-nowrap\"></table>");
         $('#myTable').bootstrapTable({
             method: 'post',
-            //url: "http://1.15.129.32:8080/score/task_class_blogwork_score/list?id=1&classRoomId=1", // 请求路径
             url: "http://1.15.129.32:8888/score/task_class_blogwork_score/list",
             striped: true, // 是否显示行间隔色
             pageNumber: 1, // 初始化加载第一页
@@ -107,10 +106,7 @@ document.getElementById('work_item').onchange=function(){
             pageSize: 10, // 单页记录数
             pageList: [10, 15, 20],
             //sidePagination: "client",
-
             sidePagination: "server", //表示服务端请求
-            //设置为undefined可以获取pageNumber，pageSize，searchText，sortName，sortOrder
-            //设置为limit可以获取limit, offset, search, sort, order
             contentType: "application/x-www-form-urlencoded",//必须要有！！！！
             queryParamsType : "undefined",
 
@@ -259,10 +255,6 @@ function personal_score() {
         pageSize: 10, // 单页记录数
         pageList: [10, 15, 20],
         sidePagination: "client",
-
-        //sidePagination: "server", //表示服务端请求
-        //设置为undefined可以获取pageNumber，pageSize，searchText，sortName，sortOrder
-        //设置为limit可以获取limit, offset, search, sort, order
         contentType: "application/x-www-form-urlencoded",//必须要有！！！！
         queryParamsType : "undefined",
 
@@ -331,47 +323,19 @@ function personal_score() {
             sort: true,
             sortable: true,
             searchable:true,
-            // formatter: function (value, row, index) {
-            //     if (value.account == null || value.account == undefined) {
-            //         return "";
-            //     } else {
-            //         return value.account;
-            //     }
-            // },
         }, {
             title: '姓名',
             field: 'username',
             sortable: true,
             searchable:true,
-            // formatter: function (value, row, index) {
-            //     if (value.userName == null || value.userName == undefined) {
-            //         return "";
-            //     } else {
-            //         return value.userName;
-            //     }
-            // },
         }, {
             title: '班级',
             field: 'classId',
             sortable: true,
-            // formatter: function (value, row, index) {
-            //     if (value.classRoom.className == null || value.classRoom.className == undefined) {
-            //         return "";
-            //     } else {
-            //         return value.classRoom.className;
-            //     }
-            // },
         }, {
             title: '分数',
             sortable: true,
             field: 'score',
-            // formatter: function (value, row, index) {
-            //     if (value.score == null || value.score == undefined) {
-            //         return "";
-            //     } else {
-            //         return value.score;
-            //     }
-            // },
         }, {
             field: 'operate',
             title: '操作',
@@ -408,10 +372,6 @@ function team_score() {
         pageSize: 10, // 单页记录数
         pageList: [10, 15, 20],
         sidePagination: "client",
-
-        //sidePagination: "server", //表示服务端请求
-        //设置为undefined可以获取pageNumber，pageSize，searchText，sortName，sortOrder
-        //设置为limit可以获取limit, offset, search, sort, order
         contentType: "application/x-www-form-urlencoded",//必须要有！！！！
         queryParamsType : "undefined",
 
@@ -467,8 +427,6 @@ function team_score() {
             }
 
         },
-
-
         paginationLoop: true,
         paginationHAlign: 'left',
         paginationDetailHAlign: 'right',
@@ -482,36 +440,15 @@ function team_score() {
             sort: true,
             sortable: true,
             searchable:true,
-            // formatter: function (value, row, index) {
-            //     if (value.id == null || value.id == undefined) {
-            //         return "";
-            //     } else {
-            //         return value.id;
-            //     }
-            // },
         }, {
             title: '组名',
             field: 'teamName',
             sortable: true,
             searchable:true,
-            // formatter: function (value, row, index) {
-            //     if (value.sysTeamName == null || value.sysTeamName == undefined) {
-            //         return "";
-            //     } else {
-            //         return value.sysTeamName;
-            //     }
-            // },
         }, {
             title: '班级',
             field: 'className',
             sortable: true,
-            // formatter: function (value, row, index) {
-            //     if (value.classRoom.className == null || value.classRoom.className == undefined) {
-            //         return "";
-            //     } else {
-            //         return value.classRoom.className;
-            //     }
-            // },
         }, {
             title: '分数',
             sortable: true,
@@ -559,17 +496,11 @@ function sum_of_score(classRoomId) {
         pageSize: 10, // 单页记录数
         pageList: [10, 15, 20],
         sidePagination: "client",
-
-        //sidePagination: "server", //表示服务端请求
-        //设置为undefined可以获取pageNumber，pageSize，searchText，sortName，sortOrder
-        //设置为limit可以获取limit, offset, search, sort, order
         contentType: "application/x-www-form-urlencoded",//必须要有！！！！
         queryParamsType : "undefined",
-
         ajaxOptions:{
             headers: {"Token":getToken("token")}
         },
-
         queryParams: function queryParams(params) { //设置查询参数
             var id = $("#work_item").find("option:selected").val();
             var param = {
@@ -587,8 +518,6 @@ function sum_of_score(classRoomId) {
             layer.msg("加载数据失败", {time : 1500, icon : 2});
         },
         responseHandler:function(res){
-            //在ajax获取到数据，渲染表格之前，修改数据源
-            //该项返回的为数据源内的二级列表data
             if (res.code == "200"){
                 return res.data;
             }else {
