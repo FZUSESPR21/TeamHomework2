@@ -43,17 +43,15 @@ function getPage(e) {
 //     document.onmousemove = null;
 // }
 
-
-
 function loadWork(type){
     var classRoomId = getToken("class");
     //加载下拉列表的内容
     $.ajax({
         type: 'post',
-        //url: 'http://1.15.129.32:8080/score/task/show?classRoomId=1',
         url: 'http://1.15.129.32:8888/score/task/show?classRoomId='+classRoomId,
         dataType: 'json',
         success: function(data){
+            document.getElementById("work").innerHTML="";
             $.each(data.data,function (index,item) {
                 if (data.data[index].taskType == type){
                     $("#work").append("<option value='"+data.data[index].id+"'>"+data.data[index].taskName+"</option>");
@@ -69,22 +67,13 @@ $(document).ready(function () {
     $.ajax({
         type: 'post',
         url: 'http://1.15.129.32:8888/score/teamUser/show?id='+teamId,
-        //url: 'http://1.15.129.32:8080/score/teamUser/show?id=1',
         //url: 'test.json',
         dataType: 'json',
         beforeSend: function (XMLHttpRequest) {
             XMLHttpRequest.setRequestHeader("Token", localStorage.token);
         },
         success: function(data){
-            //$("#work option").remove();
-
             $.each(data.data,function (index,item) {
-                // if (data[index].work_id){
-                //     $("#work").append("<option value='"+data[index].work_id+"'>"+data[index].work_name+"</option>");
-                // }
-                // if (data.data[index].id){
-                //
-                // }
                 $("#box").append("<span>" +data.data[index].account+": "+ "<input id='"+i+"' name='"+data.data[index].account+"' class=\"input\" type=\"text\" placeholder=\"输入分数\"\n" +
                     "onkeyup=\"if(isNaN(value))execCommand('undo')\" onafterpaste=\"if(isNaN(value))execCommand('undo')\">\n" +
                     "</span>");
@@ -98,35 +87,23 @@ $(document).ready(function () {
 //下拉选项改变时
 document.getElementById('work_type').onchange=function(){
     var userId = getToken("id");
-
     var work_type_id = $("#work_type").find("option:selected").val();
     if (work_type_id == 1){
-        document.getElementById("work").innerHTML="";
         loadWork("个人作业");
-        console.log(1);
         document.getElementById('team').style.display = 'none';
         document.getElementById('pair_member').style.display = 'none';
         document.getElementById('personal_id').style.display = 'block';
     }else if (work_type_id == 2){
-        document.getElementById("work").innerHTML="";
         loadWork("结对作业");
-        console.log(2);
         document.getElementById('team').style.display = 'none';
         document.getElementById('pair_member').style.display = 'block';
         document.getElementById('personal_id').style.display = 'none';
     }else {
-        document.getElementById("work").innerHTML="";
         loadWork("团队作业");
-        console.log(3);
         document.getElementById('pair_member').style.display = 'none';
-        //document.getElementById('team').style.display = 'block';
         document.getElementById('personal_id').style.display = 'none';
-        //$("#team").display = true;
     }
 };
-
-
-
 
 function submitOnClicked() {
 
@@ -146,9 +123,8 @@ function submitOnClicked() {
         alert('输入正确的链接');
         return false;
     }
-    // var team_id = $("#team").find("option:selected").val();
+
     if (work_type_id == 1){
-        console.log(1);
         var data1={
             taskId: work_id,
             blogWorkContent: blog_content,
@@ -177,7 +153,6 @@ function submitOnClicked() {
             }
         });
     }else if (work_type_id == 2){
-        console.log(2);
         var data1={
             taskId: work_id,
             blogWorkContent: blog_content,
@@ -210,9 +185,8 @@ function submitOnClicked() {
             }
         });
     }else {
-        console.log(3);
         box.style.display = 'flex';
-        // hidden.style.display = 'block';
+         hidden.style.display = 'flex';
     }
 }
 function submitTeam() {
