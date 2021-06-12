@@ -114,6 +114,8 @@ public class StudentServiceImpl implements StudentService {
         }
         return size;
     }
+   
+
 
     @Override
     public ResponseData isRightStuData(User user) {
