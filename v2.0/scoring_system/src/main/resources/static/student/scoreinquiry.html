@@ -124,7 +124,8 @@
         $.ajax({
             type: 'post',
             //url: 'http://1.15.129.32:8080/score/task/show?classRoomId=1',
-            url: 'http://1.15.129.32:8888/score/task/show?classRoomId='+classRoomId,
+            // url: 'http://1.15.129.32:8888/score/task/show?classRoomId='+classRoomId,
+            url: '/score/task/show?classRoomId='+classRoomId,
             dataType: 'json',
             beforeSend: function (XMLHttpRequest) {
                 XMLHttpRequest.setRequestHeader("Token", localStorage.token);
@@ -213,7 +214,8 @@
             $('#myTable').bootstrapTable({
                 method: 'post',
                 //url: "http://1.15.129.32:8080/score/task_class_blogwork_score/list?id=1&classRoomId=1", // 请求路径
-                url: "http://1.15.129.32:8888/score/task_class_blogwork_score/list",
+                // url: "http://1.15.129.32:8888/score/task_class_blogwork_score/list",
+                url: "/score/task_class_blogwork_score/list",
                 striped: true, // 是否显示行间隔色
                 pageNumber: 1, // 初始化加载第一页
                 pagination: true, // 是否分页
@@ -361,7 +363,8 @@
         $('#myTable').bootstrapTable({
             method: 'post',
             //url: "http://1.15.129.32:8080/score/task_class_blogwork_score/list?id=1&classRoomId=1", // 请求路径
-            url: "http://1.15.129.32:8888/score/task_class_blogwork_score/list",
+            // url: "http://1.15.129.32:8888/score/task_class_blogwork_score/list",
+            url: "/score/task_class_blogwork_score/list",
             striped: true, // 是否显示行间隔色
             pageNumber: 1, // 初始化加载第一页
             pagination: true, // 是否分页
@@ -510,7 +513,9 @@
         $('#myTable').bootstrapTable({
             method: 'post',
             //url: "http://1.15.129.32:8080/score/task_class_blogwork_score/list?id=1&classRoomId=1", // 请求路径
-            url: "http://1.15.129.32:8888/score/task_class_blogwork_score/list",
+            // url: "http://1.15.129.32:8888/score/task_class_blogwork_score/list",
+            url: "/score/task_class_blogwork_score/list",
+
             striped: true, // 是否显示行间隔色
             pageNumber: 1, // 初始化加载第一页
             pagination: true, // 是否分页
@@ -661,7 +666,8 @@
         $('#myTable').bootstrapTable({
             method: 'post',
             //url: "http://1.15.129.32:8080/score/task_class_blogwork_score/list?id=1&classRoomId=1", // 请求路径
-            url: "http://1.15.129.32:8888/user/show/class?classId="+classRoomId,
+            // url: "http://1.15.129.32:8888/user/show/class?classId="+classRoomId,
+            url: "/user/show/class?classId="+classRoomId,
             striped: true, // 是否显示行间隔色
             pageNumber: 1, // 初始化加载第一页
             pagination: true, // 是否分页
