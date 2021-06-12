@@ -214,7 +214,8 @@
         $.ajax({
             type: 'post',
             //url: 'http://1.15.129.32:8080/score/task/show?classRoomId=1',
-            url: 'http://1.15.129.32:8888/score/task/show?classRoomId='+classRoomId,
+            // url: 'http://1.15.129.32:8888/score/task/show?classRoomId='+classRoomId,
+            url: '/score/task/show?classRoomId='+classRoomId,
             dataType: 'json',
             success: function(data){
                 $.each(data.data,function (index,item) {
@@ -231,7 +232,7 @@
         var teamId = getToken("group");
         $.ajax({
             type: 'post',
-            url: 'http://1.15.129.32:8888/score/teamUser/show?id='+teamId,
+            url: '/score/teamUser/show?id='+teamId,
             //url: 'http://1.15.129.32:8080/score/teamUser/show?id=1',
             //url: 'test.json',
             dataType: 'json',
@@ -328,7 +329,7 @@
             var data =JSON.stringify(data1);
             $.ajax({
                 type: 'post',
-                url: 'http://1.15.129.32:8888/score/blogwork/submit',
+                url: '/score/blogwork/submit',
                 dataType: 'json',
                 beforeSend: function (XMLHttpRequest) {
                     XMLHttpRequest.setRequestHeader("Token", localStorage.token);
@@ -361,7 +362,7 @@
             var data=JSON.stringify(data1);
             $.ajax({
                 type: 'post',
-                url: 'http://1.15.129.32:8888/score/blogwork/submit',
+                url: '/score/blogwork/submit',
                 dataType: 'json',
                 beforeSend: function (XMLHttpRequest) {
                     XMLHttpRequest.setRequestHeader("Token", localStorage.token);
@@ -423,7 +424,7 @@
         $.ajax({
             type: 'post',
             contentType: "application/json",
-            url: 'http://1.15.129.32:8888/score/blogwork/submit',
+            url: '/score/blogwork/submit',
             dataType: 'json',
             beforeSend: function (XMLHttpRequest) {
                 XMLHttpRequest.setRequestHeader("Token", localStorage.token);

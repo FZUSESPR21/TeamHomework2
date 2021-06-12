@@ -16,7 +16,7 @@ mybatis:
   mapper-locations: classpath:mybatis/mapper/*.xml
 logging:
   level:
-    root: debug
+    root: info
 pagehelper:
   helperDialect: mysql
   reasonable: true

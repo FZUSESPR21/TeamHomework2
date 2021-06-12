@@ -121,7 +121,7 @@ public class JwtAuthFilter extends AuthenticatingFilter {
 
     protected String getAuthzHeader(ServletRequest request) {
         HttpServletRequest httpRequest = WebUtils.toHttp(request);
-        String header = httpRequest.getHeader("x-auth-token");
+        String header = httpRequest.getHeader("Token");
         return StringUtils.removeStart(header, "Bearer ");
     }
 

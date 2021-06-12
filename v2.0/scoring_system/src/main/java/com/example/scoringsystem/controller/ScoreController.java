@@ -5,6 +5,7 @@ import com.example.scoringsystem.service.ScoreService;
 import com.example.scoringsystem.service.UserService;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -48,7 +49,6 @@ public class ScoreController {
         } else {
             responseData = new ResponseData("查询成功", "200", "[]");
         }
-
         return responseData;
     }
 

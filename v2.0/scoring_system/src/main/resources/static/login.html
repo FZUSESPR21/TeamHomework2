@@ -99,7 +99,7 @@
 <script>
     var timestamp = Date.parse(new Date());
     function changeCode(){
-        document.getElementById("log_image").src="http://1.15.129.32:8888/captcha?rnd="+timestamp;
+        document.getElementById("log_image").src="/captcha?rnd="+timestamp;
     }
     function setToken(type, value) {
         localStorage.setItem(type, value);
@@ -111,7 +111,7 @@
 
         console.log(id +":" + password +":" +verify_code +":" + timestamp);
         $.ajax({
-            url: 'http://1.15.129.32:8888/login',
+            url: '/login',
             type: 'post',
             dataType: 'json',
             // xhrFields: {

@@ -172,7 +172,10 @@ public class LoginController {
             user = userService.getUserByAccountWithoutPrivacy(user);
             log.info("返回的user:" + user.toString());
             String newToken = userService.generateJwtToken(user);
+            log.info("登录返回的token"+newToken);
             response.setHeader("x-auth-token", newToken);
+            //适应前端取值
+            user.setTokenSalt(newToken);
             responseData.setMessage("登录成功!");
             responseData.setCode("200");
             responseData.setData(user);
