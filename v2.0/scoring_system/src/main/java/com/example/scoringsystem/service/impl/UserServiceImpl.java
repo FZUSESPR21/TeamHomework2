@@ -78,6 +78,11 @@ public class UserServiceImpl implements UserService {
         return tmpList;
     }
 
+    /** 
+    * @Description: 保存结对队友
+    * @Author: 曹鑫
+    * @Date: 2021/6/11 
+    */
     @Override
     @Transactional
     public Boolean savePair(List<Pair> pairList,String classRoomId) {
@@ -86,15 +91,24 @@ public class UserServiceImpl implements UserService {
             Pair pair=pairList.get(i);
             if (pair.getAccount1()!=null&&pair.getAccount2()!=null)
             {
-                String teamName=pair.getAccount1()+"&&&@@@"+pair.getAccount2();
-                Team team=new Team();
-                team.setSysTeamName(teamName);
-                team.setClassRoomId(classRoomId);
-                userMapper.insPairTeam(team);
-                log.info("测试数据库返回的值:"+team);
+            String teamName=pair.getAccount1()+"&&&@@@"+pair.getAccount2();
+            Team team=new Team();
+            team.setSysTeamName(teamName);
+            team.setClassRoomId(classRoomId);
+            List<Team> teams=userMapper.selTeamByTeamName(teamName);
+            if (teams!=null&&teams.size()>1)
+            {
+                team.setId(teams.get(0).getId());
             }
+            else
+            {
+                userMapper.insPairTeam(team);
+            }
+            userMapper.updUserPairTeamIdByAccount("s"+pair.getAccount1(),team.getId());
+            userMapper.updUserPairTeamIdByAccount("s"+pair.getAccount2(),team.getId());
         }
-        return null;
+        }
+        return true;
     }
 
     /**

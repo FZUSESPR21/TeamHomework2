@@ -141,6 +141,10 @@ public class ScoreServiceImpl implements ScoreService {
         }
         Team team = new Team();
         team.setId(user.getTeamId());
+        if (task.getTaskType().equals("结对作业"))
+        {
+            team.setId(user.getPairTeamId());
+        }
         if ((team = scoreMapper.selTeamById(team)) == null) {
             log.info("找不到团队");
         }
@@ -150,10 +154,12 @@ public class ScoreServiceImpl implements ScoreService {
         }
         blogWork.setBlogWorkType(task.getTaskType());
         List<BlogWork> blogWorklist;
-        if ((task.getTaskType().equals("团队作业") || task.getTaskType().equals("结对作业")))
-             blogWorklist = scoreMapper.selBlogWorkByTaskIdAndTeamId(blogWork.getTeamId(), task.getId());
-        else
+        if ((task.getTaskType().equals("团队作业") || task.getTaskType().equals("结对作业"))) {
+            blogWorklist = scoreMapper.selBlogWorkByTaskIdAndTeamId(blogWork.getTeamId(), task.getId());
+        }
+        else {
             blogWorklist = scoreMapper.selBlogWorkByTaskIdAndUserId(task.getId(), user.getId());
+        }
         if (blogWorklist.size() > 0) {
             responseData.setMessage("作业已提交,请勿重复提交");
             responseData.setCode("1063");
@@ -412,6 +418,7 @@ public class ScoreServiceImpl implements ScoreService {
         return ans.toString();
     }
 
+    @Override
     public List<Task> getTaskListByClassIdOrType(Task task) {
         if (task.getTaskType() == null) {
             ClassRoom classRoom = new ClassRoom();
@@ -422,6 +429,7 @@ public class ScoreServiceImpl implements ScoreService {
         }
     }
 
+    @Override
     public List<ClassRoom> getAllClassRoom() {
         return scoreMapper.selAllClass();
     }

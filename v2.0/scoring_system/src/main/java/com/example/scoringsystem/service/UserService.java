@@ -25,6 +25,4 @@ public interface UserService {
     UserVO getUserAndClassRoomByUserId(User user);
 
     ResponseData insClassRomm(ClassRoom classRoom);
-
-
 }

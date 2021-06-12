@@ -141,10 +141,35 @@ public class ShiroConfig {
         map.put("/logout", "logout");
         //对所有用户认证
 //        map.put("/**", "anon");
-//        map.put("/**", "authc");
+        map.put("/**", "authc");
         //不需要验证
         //需要perms[user:add]权限
         map.put("/user/add", "perms[user:add]");
+        //登录页面放行
+        map.put("/login.html","anon");
+//        map.put("/student/scoreinquiry.html","anon");
+        map.put("/student/*","anon");
+        map.put("/teacher/*", "anon");
+        map.put("/student-page/*", "anon");
+        map.put("/performanceManagement/*","anon");
+        map.put("/assigement/*","anon");
+        map.put("/jobManagemant/*","anon");
+        //静态资源放行
+//        map.put("*.css", "anon");
+//        map.put("/*.html","anon");
+        map.put("*.js","anon");
+        map.put("/bootstrap-4.6.0-dist/**", "anon");
+//        map.put("/bootstrap-table/**", "anon");
+        map.put("/bootstrap-table/dist/*","anon");
+        map.put("/css/**", "anon");
+        map.put("/editor.md-master/**", "anon");
+        map.put("/editormd/**", "anon");
+        map.put("/jquery/**", "anon");
+        map.put("/js/**", "anon");
+        map.put("/layui/**", "anon");
+
+        //验证码放行
+        map.put("/captcha","anon");
         //登录
         shiroFilterFactoryBean.setLoginUrl("/login");
         //首页

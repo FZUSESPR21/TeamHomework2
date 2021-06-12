@@ -10,6 +10,7 @@ spring:
     host: 1.15.129.32
     port: 6379
     database: 0
+    password: 123456
 mybatis:
   type-aliases-package: com.example.scoringsystem.bean
   mapper-locations: classpath:mybatis/mapper/*.xml
