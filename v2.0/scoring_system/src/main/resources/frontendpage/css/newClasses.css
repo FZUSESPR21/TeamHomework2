@@ -1,0 +1,21 @@
+.input-group{
+    float: none;
+}
+
+.message_text{
+    width: 75px;
+}
+
+.form-control{
+    width: 300px;
+}
+
+#message_form{
+    text-align:center;
+    margin:10% auto;
+    width: 400px;
+}
+
+#jquery_post{
+    margin-left: 0;
+}

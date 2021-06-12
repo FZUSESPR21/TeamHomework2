@@ -1,0 +1,15 @@
+#box #close{
+    margin-left: 40px;
+    width: 100px;
+    height: 30px;
+    display: inline;
+    position: static;
+}
+
+#box #submit{
+    width: 100px;
+}
+
+.button_box{
+    margin-top: 20px;
+}
