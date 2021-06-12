@@ -43,6 +43,7 @@ function getPage(e) {
 //     document.onmousemove = null;
 // }
 
+//在获取数据后再清空重新加载下拉列表，防止线程并发导致显示问题
 function loadWork(type){
     var classRoomId = getToken("class");
     //加载下拉列表的内容
