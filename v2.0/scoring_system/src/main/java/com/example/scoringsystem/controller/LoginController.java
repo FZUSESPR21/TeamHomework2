@@ -366,6 +366,7 @@ public class LoginController {
         return responseData;
     }
 
+    @RequiresRoles("teacher")
     @RequestMapping("/studentimport")
     public String toImportStudent() {
         return "showlist";
@@ -377,6 +378,7 @@ public class LoginController {
      * @return: java.lang.String
      * @Date: 2021/4/27
      */
+    @RequiresRoles("teacher")
     @RequestMapping("/student/import")
     @ResponseBody
     public ResponseData importStudent(MultipartFile excel, User user, Model model) {

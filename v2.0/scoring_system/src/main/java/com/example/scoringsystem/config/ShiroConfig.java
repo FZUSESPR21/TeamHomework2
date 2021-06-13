@@ -136,12 +136,10 @@ public class ShiroConfig {
     public ShiroFilterFactoryBean shiroFilterFactoryBean(DefaultWebSecurityManager securityManager) {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);
-        Map<String, String> map = new HashMap<>();
+        Map<String, String> map = new LinkedHashMap<>();
         //登出
         map.put("/logout", "logout");
-        //对所有用户认证
-//        map.put("/**", "anon");
-        map.put("/**", "authc");
+
         //不需要验证
         //需要perms[user:add]权限
         map.put("/user/add", "perms[user:add]");
@@ -170,6 +168,9 @@ public class ShiroConfig {
 
         //验证码放行
         map.put("/captcha","anon");
+        //对所有用户认证
+//        map.put("/**", "anon");
+        map.put("/**", "authc");
         //登录
         shiroFilterFactoryBean.setLoginUrl("/login");
         //首页
