@@ -39,7 +39,7 @@ function onClicked() {
         alert("请选择Execl文件!");
         return false;
     }
-    3
+
     //判断文件大小
     var size1 = $("input[name='file_upload']")[0].files[0].size;
     if (size1>104857600) {

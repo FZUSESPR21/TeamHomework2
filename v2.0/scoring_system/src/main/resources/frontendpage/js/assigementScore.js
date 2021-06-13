@@ -53,14 +53,7 @@ function submitOnClick() {
     var t = 0;
     var itemsScore = new Array();
     for (var m=1; m<i; m++){
-        //该项得分
         var k = document.getElementById(m.toString()).value;
-        // if (k == ""){
-        //     alert("评分项不能为空");
-        //     return false;
-        // }
-        // var maxScore = document.getElementById(m.toString()).;
-        //博客id
         var j = document.getElementById(m.toString()).name;
         var data2={
             score: k,

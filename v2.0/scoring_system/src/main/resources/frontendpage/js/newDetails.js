@@ -55,8 +55,6 @@ function onClicked() {
     var mytime= new Date(create_time);
     console.log(mytime);
 
-    //alert(create_time);
-    //console.log(create_year + create_month +create_day);
 
     if (proportion == ""){
         alert("占比不能为空");
