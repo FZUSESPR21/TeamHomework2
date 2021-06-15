@@ -51,7 +51,11 @@ public class TeamServiceImpl implements TeamService {
     @Override
     public boolean delTeam(Team team) {
         Integer result = teamMapper.delTeam(team);
-        return result == 1;
+        if (result == 1){
+            teamMapper.updStuTeam(team);
+            return true;
+        }
+        return false;
     }
 
     @Override

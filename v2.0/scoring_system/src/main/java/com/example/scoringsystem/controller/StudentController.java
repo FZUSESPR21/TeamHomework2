@@ -183,7 +183,14 @@ public class StudentController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return new ResponseData("成功插入学生数据"+String.valueOf(size)+"条","200","[]");
-    }
+        if (size == 0)
+            return new ResponseData("插入的表内没有数据","1002","[]");
+        else if (size < 0){
+            size = -size;
+            return new ResponseData("学生列表文件中的第"+String.valueOf(size)+"学生数据有误，插入失败","1003","[]");
+        }
+        else {
+            return new ResponseData("成功插入学生数据"+String.valueOf(size)+"条","200","[]");
+        }}
 
 }
