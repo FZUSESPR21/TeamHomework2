@@ -10,7 +10,6 @@ function updateOnClick(){
     $.ajax({
         type: 'post',
         url: 'http://1.15.129.32:8888/score/blogwork/details?id='+id,
-        //url: 'http://1.15.129.32:8080/score/blogwork/details?id=8',
         dataType: 'json',
         beforeSend: function (XMLHttpRequest) {
             XMLHttpRequest.setRequestHeader("Token", localStorage.token);
@@ -94,8 +93,6 @@ function updateOnClick(){
 $('#myTable').bootstrapTable({
     method: 'post',
     url: "http://1.15.129.32:8888/score/blogwork/details?id="+id, // 请求路径
-    //url: "http://1.15.129.32:8080//score/blogwork/details?id=12",
-    //url: "test.json",
     striped: true, // 是否显示行间隔色
     pageNumber: 1, // 初始化加载第一页
     pagination: true, // 是否分页

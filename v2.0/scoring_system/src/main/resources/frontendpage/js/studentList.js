@@ -204,15 +204,14 @@ function updateInfo(id,account,userName,perms,classId,totalScore){
         classId: classId,
         totalScore: totalScore,
     };
-
+    var data = JSON.stringify(data1);
     $.ajax({
         url:"http://1.15.129.32:8888/student/updStudent1",
         type:'post',
         beforeSend: function (XMLHttpRequest) {
             XMLHttpRequest.setRequestHeader("Token", localStorage.token);
         },
-        //contentType:"application/json; charset=utf-8",
-        data: data1,
+        data: data,
         success:function(data){
             if(data.code == '200'){
                 alert("重置成功！");
