@@ -1,0 +1,16 @@
+.input-group{
+    float: none;
+}
+
+.message_text{
+    display: inline;
+    margin-top: 8px;
+}
+
+#jquery_post{
+    float: none;
+}
+
+#down_load_model{
+    margin-left: 105px;
+}
