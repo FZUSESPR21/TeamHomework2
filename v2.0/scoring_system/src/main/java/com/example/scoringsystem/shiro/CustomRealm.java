@@ -55,6 +55,7 @@ public class CustomRealm extends AuthorizingRealm {
             System.out.println("获取的primaryprincipal为空");
         } else {
             User user = loginService.selRolesByUserName(subjectUser.getUserName());
+            log.info("当前用户的角色"+user);
             //加入角色
             if (!CollectionUtils.isEmpty(user.getRoles())) {
                 for (Role role : user.getRoles()) {
@@ -66,6 +67,7 @@ public class CustomRealm extends AuthorizingRealm {
                     }
                 }
             }
+            log.info("当前验证信息"+info.getRoles()+info.getStringPermissions());
             return info;
         }
         return null;
@@ -91,7 +93,7 @@ public class CustomRealm extends AuthorizingRealm {
             return null;
         }
         //验证密码是否正确
-        SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(user.getAccount(), user.getPassword(),
+        SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(user, user.getPassword(),
                 ByteSource.Util.bytes(user.getSalt()), this.getName());
         return simpleAuthenticationInfo;
     }
