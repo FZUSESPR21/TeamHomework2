@@ -1324,6 +1324,416 @@
       "targets": [],
       "value": ""
     }]
+  }, {
+    "id": "cc74030c-1078-4d23-b729-e2a1416f9dc1",
+    "name": "学生列表查询",
+    "commands": [{
+      "id": "a462f818-60b2-49ac-bd04-aca770663058",
+      "comment": "",
+      "command": "open",
+      "target": "http://1.15.129.32:8888/teacher/scoreinquiry.html",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "4984a2fe-9b4c-433c-823d-30741a126fd4",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1550x838",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "4673da74-a388-4c07-99c7-f0804e6d42a6",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=用户管理",
+      "targets": [
+        ["linkText=用户管理", "linkText"],
+        ["css=.clear > .layui-nav > .layui-nav-item:nth-child(2) > a", "css:finder"],
+        ["xpath=//a[contains(text(),'用户管理')]", "xpath:link"],
+        ["xpath=//a[@onclick='userClicked()']", "xpath:attributes"],
+        ["xpath=//li[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'用户管理')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "d591e884-f343-432c-ae7a-1257405b52a6",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=学生列表",
+      "targets": [
+        ["linkText=学生列表", "linkText"],
+        ["css=#user-manage dd:nth-child(1) > a", "css:finder"],
+        ["xpath=//a[contains(text(),'学生列表')]", "xpath:link"],
+        ["xpath=//ul[@id='user-manage']/li/dl/dd/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, 'studentList2.html')]", "xpath:href"],
+        ["xpath=//ul[2]/li/dl/dd/a", "xpath:position"],
+        ["xpath=//a[contains(.,'学生列表')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "5e6167bd-420e-4d48-8243-4c1ad20e3c7a",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=下一页",
+      "targets": [
+        ["linkText=下一页", "linkText"],
+        ["css=.page-next > .page-link", "css:finder"],
+        ["xpath=//a[contains(text(),'下一页')]", "xpath:link"],
+        ["xpath=(//a[contains(@href, 'javascript:void(0)')])[6]", "xpath:href"],
+        ["xpath=//li[6]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'下一页')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "5627c1ea-e4cf-43c0-90c3-8214f89e8112",
+      "comment": "",
+      "command": "mouseOver",
+      "target": "linkText=下一页",
+      "targets": [
+        ["linkText=下一页", "linkText"],
+        ["css=.page-next > .page-link", "css:finder"],
+        ["xpath=//a[contains(text(),'下一页')]", "xpath:link"],
+        ["xpath=(//a[contains(@href, 'javascript:void(0)')])[6]", "xpath:href"],
+        ["xpath=//li[6]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'下一页')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "af0eb587-c96f-45ac-9014-91c90709d692",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=下一页",
+      "targets": [
+        ["linkText=下一页", "linkText"],
+        ["css=.page-next > .page-link", "css:finder"],
+        ["xpath=//a[contains(text(),'下一页')]", "xpath:link"],
+        ["xpath=(//a[contains(@href, 'javascript:void(0)')])[6]", "xpath:href"],
+        ["xpath=//li[6]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'下一页')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "e939a3e7-776f-482f-adc6-27554f66f8bf",
+      "comment": "",
+      "command": "mouseOver",
+      "target": "linkText=下一页",
+      "targets": [
+        ["linkText=下一页", "linkText"],
+        ["css=.page-next > .page-link", "css:finder"],
+        ["xpath=//a[contains(text(),'下一页')]", "xpath:link"],
+        ["xpath=(//a[contains(@href, 'javascript:void(0)')])[6]", "xpath:href"],
+        ["xpath=//li[6]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'下一页')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "b9254771-8212-4d70-b2c1-710f06989996",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=上一页",
+      "targets": [
+        ["linkText=上一页", "linkText"],
+        ["css=.page-pre > .page-link", "css:finder"],
+        ["xpath=//a[contains(text(),'上一页')]", "xpath:link"],
+        ["xpath=//a[contains(@href, 'javascript:void(0)')]", "xpath:href"],
+        ["xpath=//div[2]/ul/li/a", "xpath:position"],
+        ["xpath=//a[contains(.,'上一页')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "d9d1ac74-5458-4c2a-8f30-3f68de532088",
+      "comment": "",
+      "command": "mouseOver",
+      "target": "linkText=上一页",
+      "targets": [
+        ["linkText=上一页", "linkText"],
+        ["css=.page-pre > .page-link", "css:finder"],
+        ["xpath=//a[contains(text(),'上一页')]", "xpath:link"],
+        ["xpath=//a[contains(@href, 'javascript:void(0)')]", "xpath:href"],
+        ["xpath=//div[2]/ul/li/a", "xpath:position"],
+        ["xpath=//a[contains(.,'上一页')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "d866844b-cfbd-4290-bb7a-bddd24e2c5b0",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=上一页",
+      "targets": [
+        ["linkText=上一页", "linkText"],
+        ["css=.page-pre > .page-link", "css:finder"],
+        ["xpath=//a[contains(text(),'上一页')]", "xpath:link"],
+        ["xpath=//a[contains(@href, 'javascript:void(0)')]", "xpath:href"],
+        ["xpath=//div[2]/ul/li/a", "xpath:position"],
+        ["xpath=//a[contains(.,'上一页')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "8ff32cb9-0390-45f4-84ef-0a3ade4ad199",
+      "comment": "",
+      "command": "mouseOver",
+      "target": "linkText=上一页",
+      "targets": [
+        ["linkText=上一页", "linkText"],
+        ["css=.page-pre > .page-link", "css:finder"],
+        ["xpath=//a[contains(text(),'上一页')]", "xpath:link"],
+        ["xpath=//a[contains(@href, 'javascript:void(0)')]", "xpath:href"],
+        ["xpath=//div[2]/ul/li/a", "xpath:position"],
+        ["xpath=//a[contains(.,'上一页')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "000e1055-fc29-45a5-863a-87873e91d3db",
+      "comment": "",
+      "command": "click",
+      "target": "css=.dropdown > .btn",
+      "targets": [
+        ["css=.dropdown > .btn", "css:finder"],
+        ["xpath=(//button[@type='button'])[3]", "xpath:attributes"],
+        ["xpath=//span[2]/span/button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "a5f8ac13-ef97-45e0-9eb4-64612bb7776d",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=15",
+      "targets": [
+        ["linkText=15", "linkText"],
+        ["css=.dropdown-menu > li:nth-child(2) > a", "css:finder"],
+        ["xpath=//a[contains(text(),'15')]", "xpath:link"],
+        ["xpath=(//a[contains(@href, '#')])[2]", "xpath:href"],
+        ["xpath=//span/ul/li[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'15')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "59704888-6078-40f0-afa4-f42017cfc5fb",
+      "comment": "",
+      "command": "click",
+      "target": "css=.dropdown > .btn",
+      "targets": [
+        ["css=.dropdown > .btn", "css:finder"],
+        ["xpath=(//button[@type='button'])[3]", "xpath:attributes"],
+        ["xpath=//span[2]/span/button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "19ebdb83-e879-4f2f-ae5c-98741d77e5fe",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=10",
+      "targets": [
+        ["linkText=10", "linkText"],
+        ["css=.dropdown-menu > li:nth-child(1) > a", "css:finder"],
+        ["xpath=//a[contains(text(),'10')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '#')]", "xpath:href"],
+        ["xpath=//span/ul/li/a", "xpath:position"],
+        ["xpath=//a[contains(.,'10')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "2964c4e3-04b7-498a-aad3-391e88ec1a87",
+      "comment": "",
+      "command": "click",
+      "target": "css=.table:nth-child(1) th:nth-child(2) > .th-inner",
+      "targets": [
+        ["css=.table:nth-child(1) th:nth-child(2) > .th-inner", "css:finder"],
+        ["xpath=//th[2]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "7b541815-0804-4233-9515-8517ebb0bf35",
+      "comment": "",
+      "command": "click",
+      "target": "css=.table:nth-child(1) .asc",
+      "targets": [
+        ["css=.table:nth-child(1) .asc", "css:finder"],
+        ["xpath=//th[2]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "69a215c8-7ee7-41d0-880f-30cd9a14dab7",
+      "comment": "",
+      "command": "click",
+      "target": "css=.table:nth-child(1) th:nth-child(3) > .th-inner",
+      "targets": [
+        ["css=.table:nth-child(1) th:nth-child(3) > .th-inner", "css:finder"],
+        ["xpath=//th[3]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "1245a51a-2993-45e4-944a-2d9610407e84",
+      "comment": "",
+      "command": "click",
+      "target": "css=.table:nth-child(1) .asc",
+      "targets": [
+        ["css=.table:nth-child(1) .asc", "css:finder"],
+        ["xpath=//th[3]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "83a78ed2-0363-41fc-aa50-78babe1720f5",
+      "comment": "",
+      "command": "click",
+      "target": "css=.table:nth-child(1) th:nth-child(4) > .th-inner",
+      "targets": [
+        ["css=.table:nth-child(1) th:nth-child(4) > .th-inner", "css:finder"],
+        ["xpath=//th[4]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "bb3e3dfb-a48f-4341-b890-bedcc1d478ac",
+      "comment": "",
+      "command": "click",
+      "target": "css=.table:nth-child(1) .asc",
+      "targets": [
+        ["css=.table:nth-child(1) .asc", "css:finder"],
+        ["xpath=//th[4]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "191639d9-a7be-4fb6-9083-cb227fe9ac49",
+      "comment": "",
+      "command": "click",
+      "target": "css=.keep-open .caret",
+      "targets": [
+        ["css=.keep-open .caret", "css:finder"],
+        ["xpath=//button/span", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "bd3285f6-8d11-4bf1-b0f4-ac4ee02b85bc",
+      "comment": "",
+      "command": "click",
+      "target": "css=li:nth-child(2) > label",
+      "targets": [
+        ["css=li:nth-child(2) > label", "css:finder"],
+        ["xpath=//li[2]/label", "xpath:position"],
+        ["xpath=//label[contains(.,' 姓名')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "27e31c16-dad7-4990-9152-6b70251d8791",
+      "comment": "",
+      "command": "click",
+      "target": "css=li:nth-child(3) > label > span",
+      "targets": [
+        ["css=li:nth-child(3) > label > span", "css:finder"],
+        ["xpath=//li[3]/label/span", "xpath:position"],
+        ["xpath=//span[contains(.,'班级')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "26e55138-7ef7-47c2-85fb-eafb573ae2c2",
+      "comment": "",
+      "command": "click",
+      "target": "css=li:nth-child(4) > label > span",
+      "targets": [
+        ["css=li:nth-child(4) > label > span", "css:finder"],
+        ["xpath=//li[4]/label/span", "xpath:position"],
+        ["xpath=//span[contains(.,'操作')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "7b96ff57-6446-4c2d-a6af-39cb11d92ec2",
+      "comment": "",
+      "command": "click",
+      "target": "css=li:nth-child(4) > label > span",
+      "targets": [
+        ["css=li:nth-child(4) > label > span", "css:finder"],
+        ["xpath=//li[4]/label/span", "xpath:position"],
+        ["xpath=//span[contains(.,'操作')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "377b2928-0d55-41fb-809a-b3abc5cc2d89",
+      "comment": "",
+      "command": "click",
+      "target": "css=li:nth-child(3) > label > span",
+      "targets": [
+        ["css=li:nth-child(3) > label > span", "css:finder"],
+        ["xpath=//li[3]/label/span", "xpath:position"],
+        ["xpath=//span[contains(.,'班级')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "556eb4f9-69a9-4f1a-98f0-28aac8750c8f",
+      "comment": "",
+      "command": "click",
+      "target": "css=li:nth-child(2) > label > span",
+      "targets": [
+        ["css=li:nth-child(2) > label > span", "css:finder"],
+        ["xpath=//li[2]/label/span", "xpath:position"],
+        ["xpath=//span[contains(.,'姓名')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "7a62f121-b7a1-48b0-a5eb-4cad03f26987",
+      "comment": "",
+      "command": "click",
+      "target": "css=.glyphicon-th",
+      "targets": [
+        ["css=.glyphicon-th", "css:finder"],
+        ["xpath=//i", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "3563c8e2-6efc-42de-ada1-86993c8a8119",
+      "comment": "",
+      "command": "click",
+      "target": "id=edit",
+      "targets": [
+        ["id=edit", "id"],
+        ["css=tr:nth-child(1) #edit", "css:finder"],
+        ["xpath=//button[@id='edit']", "xpath:attributes"],
+        ["xpath=//table[@id='myTable']/tbody/tr/td[5]/button", "xpath:idRelative"],
+        ["xpath=//td[5]/button", "xpath:position"],
+        ["xpath=//button[contains(.,'查看')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "5236fe81-108e-4f38-864b-82b654461f57",
+      "comment": "",
+      "command": "click",
+      "target": "id=work_type",
+      "targets": [
+        ["id=work_type", "id"],
+        ["name=work_type", "name"],
+        ["css=#work_type", "css:finder"],
+        ["xpath=//select[@id='work_type']", "xpath:attributes"],
+        ["xpath=//div[@id='edit_link_div']/select", "xpath:idRelative"],
+        ["xpath=//select", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "debb44ef-25b1-47f1-86f4-54a8266f8843",
+      "comment": "",
+      "command": "select",
+      "target": "id=work_type",
+      "targets": [],
+      "value": "label=团队作业"
+    }, {
+      "id": "580ae394-ab50-4f39-8837-0f3a237d201a",
+      "comment": "",
+      "command": "click",
+      "target": "css=option:nth-child(3)",
+      "targets": [
+        ["css=option:nth-child(3)", "css:finder"],
+        ["xpath=//option[@value='3']", "xpath:attributes"],
+        ["xpath=//select[@id='work_type']/option[3]", "xpath:idRelative"],
+        ["xpath=//option[3]", "xpath:position"],
+        ["xpath=//option[contains(.,'团队作业')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "6b5aa557-6b03-497d-80dd-cbf19e6bf51d",
+      "comment": "",
+      "command": "runScript",
+      "target": "window.scrollTo(0,0)",
+      "targets": [],
+      "value": ""
+    }]
   }],
   "suites": [{
     "id": "0e4ca69d-29dd-4dfb-b9fc-510c7da7a4b5",
