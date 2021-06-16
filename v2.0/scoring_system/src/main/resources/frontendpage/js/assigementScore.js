@@ -9,7 +9,7 @@ var i = 1;
 //加载评分项
 $(function() {
     $.ajax({
-        url: 'http://1.15.129.32:8888/score/blogwork/details?id='+id,
+        url: serviceIp + '/score/blogwork/details?id=' + id,
         type: 'post',
         dataType: 'json',
         beforeSend: function (XMLHttpRequest) {
@@ -74,7 +74,7 @@ function submitOnClick() {
 
     $.ajax({
         type: 'post',
-        url: 'http://1.15.129.32:8888/score/blogwork/scoring',
+        url: serviceIp + '/score/blogwork/scoring',
         dataType: 'json',
         beforeSend: function (XMLHttpRequest) {
             XMLHttpRequest.setRequestHeader("Token", localStorage.token);
@@ -94,7 +94,7 @@ function nextOnClick() {
     var classRoom = getToken("class");
     $.ajax({
         type: 'post',
-        url: "http://1.15.129.32:8888/score/blogwork/details/next?id="+task_id+"&classRoomId="+classRoom+"&blogWorkId="+blog_id,
+        url: serviceIp + "/score/blogwork/details/next?id="+task_id+"&classRoomId="+classRoom+"&blogWorkId="+blog_id,
         dataType: 'json',
         beforeSend: function (XMLHttpRequest) {
             XMLHttpRequest.setRequestHeader("Token", localStorage.token);
@@ -121,7 +121,7 @@ function lastOnClick() {
 
     $.ajax({
         type: 'post',
-        url: "http://1.15.129.32:8888/score/blogwork/details/previous?id="+task_id+"&classRoomId="+classRoom+"&blogWorkId="+blog_id,
+        url: serviceIp + "/score/blogwork/details/previous?id="+task_id+"&classRoomId="+classRoom+"&blogWorkId="+blog_id,
         dataType: 'json',
         beforeSend: function (XMLHttpRequest) {
             XMLHttpRequest.setRequestHeader("Token", localStorage.token);

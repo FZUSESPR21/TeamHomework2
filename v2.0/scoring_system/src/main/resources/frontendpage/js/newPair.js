@@ -1,5 +1,5 @@
 function downLoadModel() {
-    window.open('http://1.15.129.32:8888/team/export/formwork');
+    window.open( serviceIp + '/team/export/formwork');
 }
 
 function onClicked() {
@@ -31,7 +31,7 @@ function onClicked() {
     form.append("excel",$("#file_upload")[0].files[0]);
     form.append("classRoomId",user_class);
     $.ajax({
-        url:'http://1.15.129.32:8888/pair/import',
+        url: serviceIp + '/pair/import',
         type:"POST",
         beforeSend: function (XMLHttpRequest) {
             XMLHttpRequest.setRequestHeader("Token", localStorage.token);

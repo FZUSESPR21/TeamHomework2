@@ -6,7 +6,7 @@ var classRoom = getToken("class");
 
 $('#myTable').bootstrapTable({
     method: 'post',
-    url: "http://1.15.129.32:8888/student/selByPage",
+    url: serviceIp + "/student/selByPage",
     striped: true, // 是否显示行间隔色
     pageNumber: 1, // 初始化加载第一页
     pagination: true, // 是否分页
@@ -19,17 +19,13 @@ $('#myTable').bootstrapTable({
     showSearchClearButton: true, //显示搜索清除按钮
     pageSize: 10, // 单页记录数
     pageList: [10, 15],
-
     sidePagination: "server", //表示服务端请求
-    //设置为undefined可以获取pageNumber，pageSize，searchText，sortName，sortOrder
-    //设置为limit可以获取limit, offset, search, sort, order
     contentType: "application/x-www-form-urlencoded",//必须要有！！！！
     queryParamsType : "undefined",
 
     ajaxOptions:{
         headers: {"Token":getToken("token")}
     },
-
     queryParams: function queryParams(params) { //设置查询参数
         var param = {
             pageNum: params.pageNumber,
@@ -38,15 +34,10 @@ $('#myTable').bootstrapTable({
         };
         return param;
     },
-    // onLoadSuccess: function(){ //加载成功时执行
-    //     layer.msg("加载成功");
-    // },
     onLoadError: function(){ //加载失败时执行
         layer.msg("加载数据失败", {time : 1500, icon : 2});
     },
     responseHandler:function(res){
-        //在ajax获取到数据，渲染表格之前，修改数据源
-        //该项返回的为数据源内的二级列表data
         if (res.code == "200"){
             return res.data;
         }else {
@@ -85,7 +76,6 @@ $('#myTable').bootstrapTable({
             valign: 'middle',
             events: {
                 'click #edit': function (e, value, row, index) {
-                    //window.open('personalDetail.html?id='+row.id);
                     window.location.href="personalDetail.html?id="+row.id;
                 },
                 'click #update': function (e, value, row, index) {
@@ -117,7 +107,7 @@ function editInfo(id) {
 
     $.ajax({
         type: 'post',
-        url: 'http://1.15.129.32:8888/student/selSingleStudent/id',
+        url: serviceIp + '/student/selSingleStudent/id',
         beforeSend: function (XMLHttpRequest) {
             XMLHttpRequest.setRequestHeader("Token", localStorage.token);
         },
@@ -125,7 +115,6 @@ function editInfo(id) {
         success: function (data) {
             if (data.code == '200') {
                 window.location.href="itemDetails.html?id="+id;
-                //window.open('itemDetails.html?id='+row.id);
             }
             else if(data.code="1002") {
                 alert('没有这个权限');
@@ -139,7 +128,7 @@ function editInfo(id) {
 function deleteInfo(id) {
     $.ajax({
         type: 'post',
-        url: 'http://1.15.129.32:8888/student/delStuById/'+id,
+        url: serviceIp + '/student/delStuById/'+id,
         beforeSend: function (XMLHttpRequest) {
             XMLHttpRequest.setRequestHeader("Token", localStorage.token);
         },
@@ -178,7 +167,7 @@ function onClicked() {
     }
     var fileObj = document.getElementById("file_upload").files[0]; // 获取文件对象
     var classId = document.getElementById("classId");
-    var FileController = "http://1.15.129.32:8888/student/import"; // 接收上传文件的后台地址
+    var FileController = serviceIp + "/student/import"; // 接收上传文件的后台地址
     // FormData 对象
     var form = new FormData();
 
@@ -206,7 +195,7 @@ function updateInfo(id,account,userName,perms,classId,totalScore){
     };
     var data = JSON.stringify(data1);
     $.ajax({
-        url:"http://1.15.129.32:8888/student/updStudent1",
+        url: serviceIp + "/student/updStudent1",
         type:'post',
         beforeSend: function (XMLHttpRequest) {
             XMLHttpRequest.setRequestHeader("Token", localStorage.token);

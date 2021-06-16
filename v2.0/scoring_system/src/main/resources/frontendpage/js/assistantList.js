@@ -1,7 +1,7 @@
 var classRoom = getToken("class");
 $('#myTable').bootstrapTable({
     method: 'post',
-    url: 'http://1.15.129.32:8888/teacher/assistant/show',
+    url: serviceIp + '/teacher/assistant/show',
     striped: true, // 是否显示行间隔色
     pageNumber: 1, // 初始化加载第一页
     pagination: true, // 是否分页
@@ -14,10 +14,6 @@ $('#myTable').bootstrapTable({
     showSearchClearButton: true, //显示搜索清除按钮
     pageSize: 10, // 单页记录数
     pageList: [10, 15],
-
-    //sidePagination: "server", //表示服务端请求
-    //设置为undefined可以获取pageNumber，pageSize，searchText，sortName，sortOrder
-    //设置为limit可以获取limit, offset, search, sort, order
     contentType: "application/x-www-form-urlencoded",//必须要有！！！！
     queryParamsType : "undefined",
     queryParams: function queryParams(params) { //设置查询参数
@@ -26,13 +22,10 @@ $('#myTable').bootstrapTable({
         };
         return param;
     },
-
     onLoadError: function(){ //加载失败时执行
         layer.msg("加载数据失败", {time : 1500, icon : 2});
     },
     responseHandler:function(res){
-        //在ajax获取到数据，渲染表格之前，修改数据源
-        //该项返回的为数据源内的二级列表data
         return res.data;
     },
 
@@ -54,13 +47,7 @@ $('#myTable').bootstrapTable({
         sort: true,
         sortable: true,
         searchable:true,
-    },
-        //     {
-        //     title: '密码',
-        //     field: 'password',
-        //     sortable: true,
-        // },
-        {
+    }, {
             field: 'operate',
             title: '操作',
             align: 'center',

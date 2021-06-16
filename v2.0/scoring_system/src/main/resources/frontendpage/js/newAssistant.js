@@ -37,7 +37,7 @@ function submitOnClick() {
     };
 
     $.ajax({
-        url:"http://1.15.129.32:8888//teacher/assistant/add",
+        url: serviceIp + "/teacher/assistant/add",
         type:'post',
         dataType: 'json',
         beforeSend: function (XMLHttpRequest) {

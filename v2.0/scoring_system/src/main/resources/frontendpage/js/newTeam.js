@@ -1,5 +1,5 @@
 function downLoadModel() {
-    window.open('http://1.15.129.32:8888/team/export/formwork');
+    window.open(serviceIp + '/team/export/formwork');
 }
 
 function onClicked() {
@@ -32,7 +32,7 @@ function onClicked() {
     form.append("excel",$("#file_upload")[0].files[0]);
     form.append("teamId",teamId);
     $.ajax({
-        url:'http://1.15.129.32/:8888/team/import',
+        url: serviceIp + '/team/import',
         type:"POST",
         beforeSend: function (XMLHttpRequest) {
             XMLHttpRequest.setRequestHeader("Token", localStorage.token);
@@ -76,7 +76,7 @@ function UpladFile() {
     }
     var fileObj = document.getElementById("file_upload").files[0]; // 获取文件对象
     var teamId = document.getElementById("teamId");
-    var FileController = ""; // 接收上传文件的后台地址
+    var FileController = serviceIp + "/team/import"; // 接收上传文件的后台地址
     // FormData 对象
     var form = new FormData();
     form.append("teamId", teamId.Value); // 可以增加表单数据

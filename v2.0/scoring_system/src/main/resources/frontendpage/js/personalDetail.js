@@ -18,9 +18,7 @@ document.getElementById('work_type').onchange=function(){
 function personalWork() {
     $('#myTable').bootstrapTable({
         method: 'post',
-        //url: "test1.json", // 请求路径
-        //url: "http://1.15.129.32:8080//score/userblogwork/list?id=44",
-        url: "http://1.15.129.32:8888/score/userblogwork/list?id="+user_id, // 请求路径
+        url: serviceIp + "/score/userblogwork/list?id="+user_id, // 请求路径
         striped: true, // 是否显示行间隔色
         pageNumber: 1, // 初始化加载第一页
         pagination: true, // 是否分页
@@ -92,9 +90,7 @@ function personalWork() {
 function teamWork() {
     $('#myTable').bootstrapTable({
         method: 'post',
-        //url: "test.json", // 请求路径
-        //url: "http://1.15.129.32:8080//score/teamblogwork/list?id=44",
-        url: "http://1.15.129.32:8888//score/teamblogwork/list?id="+user_id, // 请求路径
+        url: serviceIp + "/score/teamblogwork/list?id="+user_id, // 请求路径
         striped: true, // 是否显示行间隔色
         pageNumber: 1, // 初始化加载第一页
         pagination: true, // 是否分页
@@ -104,17 +100,14 @@ function teamWork() {
         pageSize: 10, // 单页记录数
         pageList: [10, 15],
         dataField: "data",
-
         paginationLoop: true,
         paginationHAlign: 'left',
         paginationDetailHAlign: 'right',
         paginationPreText: '上一页',
         paginationNextText: '下一页',
-
         onLoadError: function(){ //加载失败时执行
             layer.msg("加载数据失败", {time : 1500, icon : 2});
         },
-
         responseHandler: function(res){
             if (res.code == "200"){
                 return res;

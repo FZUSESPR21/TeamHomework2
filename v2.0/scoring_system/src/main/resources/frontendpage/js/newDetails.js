@@ -1,6 +1,6 @@
 
 function downLoadModel() {
-    window.open('http://1.15.129.32:8888/details/export/formwork');
+    window.open( serviceIp + '/details/export/formwork');
 }
 
 function judgeExcelFile() {
@@ -93,7 +93,7 @@ function onClicked() {
     data2.append("begineTime",create_time);
     console.log(data2);
     $.ajax({
-        url:"http://1.15.129.32:8888/details/import",
+        url: serviceIp + "/details/import",
         type:"post",
         dataType:"JSON",
         data: data2,

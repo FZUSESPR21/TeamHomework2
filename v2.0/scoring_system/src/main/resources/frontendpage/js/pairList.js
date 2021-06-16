@@ -2,7 +2,7 @@ var classRoom = getToken("class");
 
 $('#myTable').bootstrapTable({
     method: 'post',
-    url: 'http://1.15.129.32:8888//team/selTeamByPage',
+    url: serviceIp + '/team/selTeamByPage',
     striped: true, // 是否显示行间隔色
     pageNumber: 1, // 初始化加载第一页
     pagination: true, // 是否分页

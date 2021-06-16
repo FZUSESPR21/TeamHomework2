@@ -16,7 +16,7 @@ function onClicked() {
     }
 
     $.ajax({
-        url:"http://1.15.129.32/:8888/class/insert",
+        url: serviceIp + "/class/insert",
         type:"POST",
         beforeSend: function (XMLHttpRequest) {
             XMLHttpRequest.setRequestHeader("Token", localStorage.token);

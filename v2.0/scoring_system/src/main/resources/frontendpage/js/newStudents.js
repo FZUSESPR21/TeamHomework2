@@ -1,12 +1,12 @@
 function downLoadModel() {
-    window.open('http://1.15.129.32:8888/student/export/formwork');
+    window.open( serviceIp + '/student/export/formwork');
 }
 
 $(document).ready(function () {
     //加载下拉列表的内容
     $.ajax({
         type: 'post',
-        url: 'http://1.15.129.32:8888/score/class/showlist',
+        url: serviceIp + '/score/class/showlist',
         dataType: 'json',
         beforeSend: function (XMLHttpRequest) {
             XMLHttpRequest.setRequestHeader("Token", localStorage.token);
@@ -52,7 +52,7 @@ function onClicked() {
     form.append("excel",$("#file_upload")[0].files[0]);
     form.append("classId",classId);
     $.ajax({
-        url:"http://1.15.129.32:8888/student/import",
+        url: serviceIp + "/student/import",
         type:"POST",
         beforeSend: function (XMLHttpRequest) {
             XMLHttpRequest.setRequestHeader("Token", localStorage.token);

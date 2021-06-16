@@ -9,7 +9,7 @@ var id = getUrlParam('id');
 //加载表
 $('#myTable').bootstrapTable({
     method: 'get',
-    url: "http://1.15.129.32:8888/score/teamUser/show?id="+id, // 请求路径
+    url: serviceIp + "/score/teamUser/show?id="+id, // 请求路径
     striped: true, // 是否显示行间隔色
     pageNumber: 1, // 初始化加载第一页
     pagination: true, // 是否分页
@@ -18,17 +18,14 @@ $('#myTable').bootstrapTable({
     sortable: true,
     pageSize: 10, // 单页记录数
     pageList: [10, 15],
-
     paginationLoop: true,
     paginationHAlign: 'left',
     paginationDetailHAlign: 'right',
     paginationPreText: '上一页',
     paginationNextText: '下一页',
-
     ajaxOptions:{
         headers: {"Token":getToken("token")}
     },
-
     responseHandler:function(res){
         if (res.code == "200"){
             return res.data;
@@ -36,7 +33,6 @@ $('#myTable').bootstrapTable({
             layer.msg(res.message);
             return false;
         }
-
     },
     columns: [{
         field: 'account',

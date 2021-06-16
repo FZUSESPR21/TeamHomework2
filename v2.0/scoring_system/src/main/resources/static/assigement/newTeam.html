@@ -173,7 +173,7 @@
         form.append("excel",$("#file_upload")[0].files[0]);
         form.append("teamId",teamId);
         $.ajax({
-            url:'http://1.15.129.32/:8888/team/import',
+            url:'http://1.15.129.32:8888/team/import',
             type:"POST",
             beforeSend: function (XMLHttpRequest) {
                 XMLHttpRequest.setRequestHeader("Token", localStorage.token);

@@ -2,9 +2,7 @@ var classRoom = getToken("class");
 
 $('#myTable').bootstrapTable({
     method: 'post',
-    url: "http://1.15.129.32:8888/score/task/show?classRoomId=" + classRoom,
-    //url: "http://1.15.129.32:8080/score/task/show?classRoomId=1",
-    //url: "test.json",
+    url: serviceIp + "/score/task/show?classRoomId=" + classRoom,
     striped: true, // 是否显示行间隔色
     pageNumber: 1, // 初始化加载第一页
     pagination: true, // 是否分页
@@ -82,7 +80,7 @@ $('#myTable').bootstrapTable({
 
 $('#assistantTable').bootstrapTable({
     method: 'post',
-    url: "http://1.15.129.32:8888/score/task/show?classRoomId=" + classRoom,
+    url: serviceIp + "/score/task/show?classRoomId=" + classRoom,
     striped: true, // 是否显示行间隔色
     pageNumber: 1, // 初始化加载第一页
     pagination: true, // 是否分页
@@ -164,7 +162,7 @@ $('#assistantTable').bootstrapTable({
 //查看信息
 function editInfo(id) {
     $.ajax({
-        url: "http://1.15.129.32:8888/score/task/details?id="+id,
+        url: serviceIp + "/score/task/details?id="+id,
         type:"post",
         dataType:"JSON",
         beforeSend: function (XMLHttpRequest) {
