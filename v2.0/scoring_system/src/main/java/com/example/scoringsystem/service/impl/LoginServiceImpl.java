@@ -23,6 +23,7 @@ public class LoginServiceImpl implements LoginService {
         return getMapByName(getMapbyName);
     }
 
+    @Override
     public User getUserByAccount(String account) {
         User user = new User();
         user.setAccount(account);
@@ -66,6 +67,7 @@ public class LoginServiceImpl implements LoginService {
      * @return: void
      * @Date: 2021/4/16
      */
+    @Override
     public void testMapper() {
         User user = userMapper.selRolesByUserName("root");
         System.out.println(user.getUserName());
@@ -74,6 +76,7 @@ public class LoginServiceImpl implements LoginService {
         }
     }
 
+    @Override
     public User selRolesByUserName(String username) {
         return userMapper.selRolesByUserName(username);
     }
