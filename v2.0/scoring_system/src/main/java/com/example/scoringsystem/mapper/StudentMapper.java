@@ -1,6 +1,7 @@
 package com.example.scoringsystem.mapper;
 
 import com.example.scoringsystem.bean.User;
+import com.example.scoringsystem.bean.UserWithTaskAndScore;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
@@ -58,4 +59,7 @@ public interface StudentMapper {
 
     @Select("select team_change_history from user where id = #{id}")
     public String selTeamChangeHistory(String id);
+
+
+    public List<UserWithTaskAndScore> getchart();
 }

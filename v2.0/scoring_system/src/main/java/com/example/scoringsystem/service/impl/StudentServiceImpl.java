@@ -4,6 +4,7 @@ package com.example.scoringsystem.service.impl;
 import com.example.scoringsystem.bean.PageRequest;
 import com.example.scoringsystem.bean.ResponseData;
 import com.example.scoringsystem.bean.User;
+import com.example.scoringsystem.bean.UserWithTaskAndScore;
 import com.example.scoringsystem.mapper.StudentMapper;
 import com.example.scoringsystem.service.StudentService;
 import com.example.scoringsystem.utils.SaltUtils;
@@ -206,5 +207,13 @@ public class StudentServiceImpl implements StudentService {
         if (result == 1)
             return true;
         return false;
+    }
+
+    @Override
+    public List<UserWithTaskAndScore> chart() {
+        List<UserWithTaskAndScore> chartData = studentMapper.getchart();
+        for (UserWithTaskAndScore temp : chartData)
+            temp.calculate();
+        return chartData;
     }
 }

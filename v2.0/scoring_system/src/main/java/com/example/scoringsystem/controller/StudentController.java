@@ -5,6 +5,7 @@ import cn.afterturn.easypoi.excel.entity.ImportParams;
 import com.example.scoringsystem.bean.PageRequest;
 import com.example.scoringsystem.bean.ResponseData;
 import com.example.scoringsystem.bean.User;
+import com.example.scoringsystem.bean.UserWithTaskAndScore;
 import com.example.scoringsystem.mapper.StudentMapper;
 import com.example.scoringsystem.service.StudentService;
 import com.github.pagehelper.PageInfo;
@@ -191,6 +192,14 @@ public class StudentController {
         }
         else {
             return new ResponseData("成功插入学生数据"+String.valueOf(size)+"条","200","[]");
-        }}
+        }
+    }
+
+    @ResponseBody
+    @RequestMapping("/chart")
+    public ResponseData chart(){
+        List<UserWithTaskAndScore> chartDate = studentMapper.getchart();
+        return new ResponseData("成功返回千帆图数据","200",chartDate);
+    }
 
 }
