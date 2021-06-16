@@ -4,7 +4,7 @@
     <resultMap id="data" type="com.example.scoringsystem.bean.UserWithTaskAndScore">
         <result property="stuAccount" column="account"/>
         <result property="stuName" column="userName"/>
-        <collection property="taskList" ofType="TaskResult">
+        <collection property="taskList" ofType="com.example.scoringsystem.bean.TaskResult">
            <result property="taskName" column="taskName"/>
            <result property="score" column="score"/>
         </collection>

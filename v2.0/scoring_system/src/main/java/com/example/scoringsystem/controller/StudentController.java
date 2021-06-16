@@ -198,7 +198,7 @@ public class StudentController {
     @ResponseBody
     @RequestMapping("/chart")
     public ResponseData chart(){
-        List<UserWithTaskAndScore> chartDate = studentMapper.getchart();
+        List<UserWithTaskAndScore> chartDate = studentService.chart();
         return new ResponseData("成功返回千帆图数据","200",chartDate);
     }
 
