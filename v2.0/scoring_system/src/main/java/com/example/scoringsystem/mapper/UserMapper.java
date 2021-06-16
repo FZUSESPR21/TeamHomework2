@@ -33,6 +33,9 @@ public interface UserMapper {
             "            NULL,#{salt},NULL,NULL,NULL,#{class_id},NULL)")
     Integer insUser(User user);
 
+    @Insert("INSERT INTO user_role(id,userId,roleid) SELECT NULL,user.id,1 FROM USER WHERE account=#{account}")
+    Integer insStudentRole(User user);
+
     Integer insUserBatch(List<User> userList);
 
     User selRolesByUserName(String username);
