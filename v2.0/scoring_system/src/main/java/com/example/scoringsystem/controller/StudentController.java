@@ -5,6 +5,7 @@ import cn.afterturn.easypoi.excel.entity.ImportParams;
 import com.example.scoringsystem.bean.PageRequest;
 import com.example.scoringsystem.bean.ResponseData;
 import com.example.scoringsystem.bean.User;
+import com.example.scoringsystem.bean.UserWithTaskAndScore;
 import com.example.scoringsystem.mapper.StudentMapper;
 import com.example.scoringsystem.service.StudentService;
 import com.github.pagehelper.PageInfo;
@@ -183,7 +184,22 @@ public class StudentController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return new ResponseData("成功插入学生数据"+String.valueOf(size)+"条","200","[]");
+        if (size == 0)
+            return new ResponseData("插入的表内没有数据","1002","[]");
+        else if (size < 0){
+            size = -size;
+            return new ResponseData("学生列表文件中的第"+String.valueOf(size)+"学生数据有误，插入失败","1003","[]");
+        }
+        else {
+            return new ResponseData("成功插入学生数据"+String.valueOf(size)+"条","200","[]");
+        }
+    }
+
+    @ResponseBody
+    @RequestMapping("/chart")
+    public ResponseData chart(){
+        List<UserWithTaskAndScore> chartDate = studentService.chart();
+        return new ResponseData("成功返回千帆图数据","200",chartDate);
     }
 
 }

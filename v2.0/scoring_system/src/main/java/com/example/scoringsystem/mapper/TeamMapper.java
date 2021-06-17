@@ -35,4 +35,6 @@ public interface TeamMapper {
     @Update("update team set sys_team_name = #{sysTeamName}, sys_team_slogan = #{sysTeamSlogan}, class_id = #{classRoomId} where sys_id = #{id}")
     Integer updTeam(Team team);
 
+    @Update("update user set team_id = null where team_id = #{id}")
+    public Integer updStuTeam(Team team);
 }

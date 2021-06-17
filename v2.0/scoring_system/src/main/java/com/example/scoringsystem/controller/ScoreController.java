@@ -6,6 +6,7 @@ import com.example.scoringsystem.service.UserService;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -117,6 +118,7 @@ public class ScoreController {
      * @return: com.example.scoring_system.bean.ResponseData
      * @Date: 2021/5/7
      */
+    @RequiresRoles("admin")
     @RequestMapping("/score/blogwork/showlist")
     @ResponseBody
     public ResponseData showWorkBlogByTaskIdAndClassRoomId(PageRequest pageRequest, Task task) {

@@ -3,6 +3,7 @@ package com.example.scoringsystem.service;
 import com.example.scoringsystem.bean.PageRequest;
 import com.example.scoringsystem.bean.ResponseData;
 import com.example.scoringsystem.bean.User;
+import com.example.scoringsystem.bean.UserWithTaskAndScore;
 import com.github.pagehelper.PageInfo;
 
 import java.util.List;
@@ -20,4 +21,5 @@ public interface StudentService {
     public boolean updStudent3(User user);  //修改密码
 
     public ResponseData isRightStuData(User user);
+    public List<UserWithTaskAndScore> chart();
 }

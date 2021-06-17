@@ -1,6 +1,7 @@
 package com.example.scoringsystem.mapper;
 
 import com.example.scoringsystem.bean.User;
+import com.example.scoringsystem.bean.UserWithTaskAndScore;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
@@ -9,6 +10,9 @@ import java.util.List;
 @Repository
 @Mapper
 public interface StudentMapper {
+
+    @Delete("delete from user where account = #{account}")
+    public Integer delStudentByAccount(String account);
 
     @Select("SELECT id,account,user_name as userName,PASSWORD,perms,salt,total_score as totalScore,team_id as teamId,class_id as classId FROM user WHERE id=#{id} and account like 'S%'")
     public User selSingleStudent(String id);
@@ -55,4 +59,7 @@ public interface StudentMapper {
 
     @Select("select team_change_history from user where id = #{id}")
     public String selTeamChangeHistory(String id);
+
+
+    public List<UserWithTaskAndScore> getchart();
 }

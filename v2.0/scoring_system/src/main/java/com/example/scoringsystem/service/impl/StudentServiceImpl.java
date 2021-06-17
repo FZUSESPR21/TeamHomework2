@@ -4,6 +4,7 @@ package com.example.scoringsystem.service.impl;
 import com.example.scoringsystem.bean.PageRequest;
 import com.example.scoringsystem.bean.ResponseData;
 import com.example.scoringsystem.bean.User;
+import com.example.scoringsystem.bean.UserWithTaskAndScore;
 import com.example.scoringsystem.mapper.StudentMapper;
 import com.example.scoringsystem.service.StudentService;
 import com.example.scoringsystem.utils.SaltUtils;
@@ -14,6 +15,7 @@ import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -94,6 +96,7 @@ public class StudentServiceImpl implements StudentService {
         int size = 0;
         ResponseData responseData;
         User user;
+        List<String> accountList = new ArrayList<>();
         for (int i=0;i<userList.size();i++){
             user = userList.get(i);
             responseData = this.isRightStuData(user);
@@ -110,6 +113,14 @@ public class StudentServiceImpl implements StudentService {
                 if (result ==1){
                     size ++;
                 }
+                accountList.add(user.getAccount());
+            }
+            else{
+                for (String account : accountList){
+                    studentMapper.delStudentByAccount(account);
+                }
+                size = -size;
+                break;
             }
         }
         return size;
@@ -196,5 +207,15 @@ public class StudentServiceImpl implements StudentService {
         if (result == 1)
             return true;
         return false;
+    }
+
+    @Override
+    public List<UserWithTaskAndScore> chart() {
+        List<UserWithTaskAndScore> chartData = studentMapper.getchart();
+        for (UserWithTaskAndScore temp : chartData){
+            temp.calculate();
+            log.info(String.valueOf(temp));
+        }
+        return chartData;
     }
 }

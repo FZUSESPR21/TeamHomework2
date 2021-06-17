@@ -37,6 +37,7 @@ public class TeamServiceImpl implements TeamService {
         return new PageInfo<Team>(teamList);
     }
 
+    
     @Override
     public List<User> selAllTeamMember(Team team) {
         List<User> studentList = teamMapper.selAllTeamMember(team);
@@ -51,7 +52,11 @@ public class TeamServiceImpl implements TeamService {
     @Override
     public boolean delTeam(Team team) {
         Integer result = teamMapper.delTeam(team);
-        return result == 1;
+        if (result == 1){
+            teamMapper.updStuTeam(team);
+            return true;
+        }
+        return false;
     }
 
     @Override

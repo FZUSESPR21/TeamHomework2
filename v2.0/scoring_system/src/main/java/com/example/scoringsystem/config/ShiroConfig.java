@@ -140,6 +140,13 @@ public class ShiroConfig {
         //登出
         map.put("/logout", "logout");
 
+        //特殊权限
+        map.put("/score/blogwork/showlist","roles[admin]");
+        map.put("/pair/import","roles[admin]");
+        map.put("/student/export","roles[admin]");
+        map.put("/details/import","roles[admin]");
+        map.put("/student/import","roles[teacher]");
+
         //不需要验证
         //需要perms[user:add]权限
         map.put("/user/add", "perms[user:add]");
