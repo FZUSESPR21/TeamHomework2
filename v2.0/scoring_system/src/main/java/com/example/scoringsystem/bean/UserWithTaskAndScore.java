@@ -31,6 +31,7 @@ public class UserWithTaskAndScore {
             else
                 all += 0;
         }
+        taskScores.add(all);
     }
 
     public String toString(){
