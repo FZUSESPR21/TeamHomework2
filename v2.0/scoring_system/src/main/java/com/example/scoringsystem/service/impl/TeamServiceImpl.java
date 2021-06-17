@@ -37,6 +37,7 @@ public class TeamServiceImpl implements TeamService {
         return new PageInfo<Team>(teamList);
     }
 
+    
     @Override
     public List<User> selAllTeamMember(Team team) {
         List<User> studentList = teamMapper.selAllTeamMember(team);

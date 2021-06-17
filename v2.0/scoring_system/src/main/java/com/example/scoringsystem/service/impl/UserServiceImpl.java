@@ -74,8 +74,17 @@ public class UserServiceImpl implements UserService {
         if (tmpList.size() == 0) {
             //大批量插入
             userMapper.insUserBatch(userList);
+            attachRole(userList);
         }
         return tmpList;
+    }
+
+    private void attachRole(List<User> userList)
+    {
+        for (int i=0;i<userList.size();i++)
+        {
+            userMapper.insStudentRole(userList.get(i));
+        }
     }
 
     /** 
