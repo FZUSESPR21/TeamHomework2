@@ -233,15 +233,12 @@ function pair_score() {
         showSearchClearButton: true, //显示搜索清除按钮
         pageSize: 10, // 单页记录数
         pageList: [10, 15, 20],
-        //sidePagination: "client",
         sidePagination: "server", //表示服务端请求
         contentType: "application/x-www-form-urlencoded",//必须要有！！！！
         queryParamsType : "undefined",
-
         ajaxOptions:{
             headers: {"Token":getToken("token")}
         },
-
         queryParams: function queryParams(params) { //设置查询参数
             var id = $("#work_item").find("option:selected").val();
             var param = {

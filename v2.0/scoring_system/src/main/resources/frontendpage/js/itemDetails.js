@@ -25,70 +25,6 @@ function updateOnClick(){
     });
 }
 
-// $(document).ready(function () {
-//     //加载下拉列表的内容
-//     $.ajax({
-//         type: 'get',
-//         url: 'test1.json',
-//         dataType: 'json',
-//         success: function(data){
-//             $.each(data,function (index,item) {
-//                 if (data[index].id){
-//                     $("#student").append("<option value='"+data[index].id+"'>"+data[index].id+data[index].name+"</option>");
-//                 }
-//                 if (data[index].work_id){
-//                     $("#work").append("<option value='"+data[index].work_id+"'>"+data[index].work_name+"</option>");
-//                 }
-//             });
-//         }
-//     });
-// });
-//
-// //下拉选项改变时
-// document.getElementById('student').onchange=function(){
-//     var student_id = $("#student").find("option:selected").val();
-//     var work_id = $("#work").find("option:selected").val();
-//     $.ajax({
-//         type: 'post',
-//         url: 'test2.json',
-//         dataType: 'json',
-//         data: {
-//             student_id: student_id,
-//             work_id: work_id,
-//         },
-//         success: function(data){
-//             if (data == 'Yes') {
-//                 $('#myTable').bootstrapTable('refresh');
-//             }
-//             else {
-//                 alert('查询不到该学生！');
-//             }
-//         }
-//     });
-// };
-//
-// document.getElementById('work').onchange=function(){
-//     var student_id = $("#student").find("option:selected").val();
-//     var work_id = $("#work").find("option:selected").val();
-//     $.ajax({
-//         type: 'post',
-//         url: 'test2.json',
-//         dataType: 'json',
-//         data: {
-//             student_id: student_id,
-//             work_id: work_id,
-//         },
-//         success: function(data){
-//             if (data == 'Yes') {
-//                 $('#myTable').bootstrapTable('refresh');
-//             }
-//             else {
-//                 alert('查询不到该学生！');
-//             }
-//         }
-//     });
-// };
-
 //加载表根据博客id
 $('#myTable').bootstrapTable({
     method: 'post',
@@ -103,8 +39,8 @@ $('#myTable').bootstrapTable({
     onLoadSuccess: function(){ //加载成功时执行
         layer.msg("加载成功");
     },
-    beforeSend: function (XMLHttpRequest) {
-        XMLHttpRequest.setRequestHeader("Token", localStorage.token);
+    ajaxOptions:{
+        headers: {"Token":getToken("token")}
     },
     onLoadError: function(){ //加载失败时执行
         layer.msg("加载数据失败", {time : 1500, icon : 2});
