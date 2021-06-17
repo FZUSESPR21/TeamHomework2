@@ -16,8 +16,6 @@ $(function() {
             XMLHttpRequest.setRequestHeader("Token", localStorage.token);
         },
         success: function(data){
-            // alert(data.data.id);
-            // alert(data.data.blogWorkContent);
             $("#blog_id").val(data.data.id);
             $("#task_id").val(data.data.task.id);
             $("#blog_content").text(data.data.blogWorkContent);
@@ -25,9 +23,6 @@ $(function() {
             var testView = editormd.markdownToHTML("test-markdown-view", {
             });
             $.each(data.data.score.detailsDataList,function (index,item) {
-                //oninput="if(value>10)value=10" 最大值
-                //placeholder 提示文字
-                //value='"+data[index].score+"' 设置初始分数
                 if (data.data.score.detailsDataList[index].id){
                     $("#scoring_item").append("<label class='item_label'>"+data.data.score.detailsDataList[index].detailsName+"</label>");
                     $("#scoring_item").append("</br>");

@@ -205,8 +205,6 @@
     function teamWork() {
         $('#myTable').bootstrapTable({
             method: 'post',
-            //url: "test.json", // 请求路径
-            //url: "http://1.15.129.32:8080//score/teamblogwork/list?id=44",
             url: "http://1.15.129.32:8888//score/teamblogwork/list?id="+user_id, // 请求路径
             striped: true, // 是否显示行间隔色
             pageNumber: 1, // 初始化加载第一页
@@ -231,13 +229,6 @@
             columns: [{
                 title: '博客ID',
                 field: 'id',
-                // formatter: function (value, row, index) {
-                //     if (value.id == null || value.id == undefined) {
-                //         return "0";
-                //     } else {
-                //         return value.id;
-                //     }
-                // },
                 sortable: true,
             },{
                 title: '作业名称',
