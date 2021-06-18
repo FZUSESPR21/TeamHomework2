@@ -1,6 +1,6 @@
 
 function downLoadModel() {
-    window.open('http://1.15.129.32:8888/details/export/formwork');
+    window.open( serviceIp + '/details/export/formwork');
 }
 
 function judgeExcelFile() {
@@ -55,8 +55,6 @@ function onClicked() {
     var mytime= new Date(create_time);
     console.log(mytime);
 
-    //alert(create_time);
-    //console.log(create_year + create_month +create_day);
 
     if (proportion == ""){
         alert("占比不能为空");
@@ -95,13 +93,13 @@ function onClicked() {
     data2.append("begineTime",create_time);
     console.log(data2);
     $.ajax({
-        url:"http://1.15.129.32:8888/details/import",
+        url: serviceIp + "/details/import",
         type:"post",
         dataType:"JSON",
+        data: data2,
         beforeSend: function (XMLHttpRequest) {
             XMLHttpRequest.setRequestHeader("Token", localStorage.token);
         },
-        data: data2,
         contentType: false,
         processData: false,
         success:function(data){

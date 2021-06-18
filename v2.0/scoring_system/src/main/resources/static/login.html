@@ -4,72 +4,9 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="layui/css/layui.css">
     <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
-    <style type="text/css">
-        body{
-            background: url("css/wallpaper.jpg") ;
-            background-size : cover;
-        }
-        .container{
-            width: 420px;
-            height: 320px;
-            min-height: 320px;
-            max-height: 320px;
-            position: absolute;
-            top: 0;
-            left: 0;
-            bottom: 0;
-            right: 0;
-            margin: auto;
-            padding: 20px;
-            z-index: 130;
-            border-radius: 8px;
-            background-color: #ffffff;
-            box-shadow: 0 3px 18px rgba(100, 0, 0, .5);
-            font-size: 16px;
-        }
-        .close{
-            background-color: #ffffff;
-            border: none;
-            font-size: 18px;
-            margin-left: 410px;
-            margin-top: -10px;
-        }
-
-        .layui-input{
-            border-radius: 5px;
-            width: 300px;
-            height: 40px;
-            font-size: 15px;
-        }
-        .layui-form-item{
-            margin-left: -20px;
-        }
-        #logoid{
-            margin-top: -16px;
-            padding-left:165px;
-            padding-bottom: 15px;
-        }
-        .layui-btn{
-            margin-left: 35px;
-            border-radius: 5px;
-            width: 350px;
-            height: 40px;
-            font-size: 15px;
-        }
-        .verity{
-            width: 120px;
-        }
-        .font-set{
-            font-size: 13px;
-            text-decoration: none;
-            margin-left: 120px;
-        }
-        a:hover{
-            text-decoration: underline;
-        }
-
-    </style>
-    <title></title>
+    <script type="text/javascript" src="js/configurationFile.js"></script>
+    <link rel="stylesheet" href="css/login.css">
+    <title>登录</title>
 </head>
 <body>
     <div class="container">
@@ -91,65 +28,11 @@
             <label class="layui-form-label">验证码</label>
             <div class="layui-input-block">
                 <input type="text" id="verify_code" style="width: 150px;display: inline" name="title" required  lay-verify="required" placeholder="请输入验证码" autocomplete="off" class="layui-input">
-                <img id="log_image" src="http://1.15.129.32:8888/captcha?rnd=1619849291865" onclick="changeCode()" height="40px" width="120px" style="margin-left: 25px;display: inline">
+                <img id="log_image" src="" onclick="changeCode()" height="40px" width="120px" style="margin-left: 25px;display: inline">
             </div>
         </div>
         <button class="layui-btn" onclick="loging()">登陆</button>
     </div>
-<script>
-    var timestamp = Date.parse(new Date());
-    function changeCode(){
-        document.getElementById("log_image").src="/captcha?rnd="+timestamp;
-    }
-    function setToken(type, value) {
-        localStorage.setItem(type, value);
-    }
-    function loging() {
-        var id = document.getElementById("user_id").value;
-        var password = document.getElementById("password").value;
-        var verify_code = document.getElementById("verify_code").value;
-
-        console.log(id +":" + password +":" +verify_code +":" + timestamp);
-        $.ajax({
-            url: '/login',
-            type: 'post',
-            dataType: 'json',
-            // xhrFields: {
-            //     withCredentials: true
-            // },
-            data: {
-                account: id,
-                password: password,
-                verifyCode: verify_code,
-                rnd: timestamp,
-            },
-            success: function(data){
-                if (data.code == 200){
-                    setToken("id", data.data.id);
-                    setToken("token", data.data.tokenSalt);
-                    setToken("class", data.data.classId);
-                    setToken("group", data.data.teamId);
-                    setToken("account",data.data.account);
-                    setToken("role",data.data.roles[0].roleName);
-                    //跳转到页面
-                    if (data.data.roles[0].roleName =="student"){
-                        window.location.href="student/scoreinquiry.html";
-                    }else if (data.data.roles[0].roleName =="teacher") {
-                        window.location.href="teacher/scoreinquiry.html";
-                    }else if (data.data.roles[0].roleName =="admin"){
-                        window.location.href="assigement/scoreinquiry.html";
-                    }else {
-                        alert("身份错误");
-                    }
-                }else {
-                    alert(data.message);
-                }
-
-            }
-        });
-
-    }
-
-</script>
+<script src="js/login.js"></script>
 </body>
 </html>

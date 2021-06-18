@@ -17,6 +17,9 @@
     <script src="https://cdn.bootcss.com/bootstrap-table/1.15.4/bootstrap-table.min.js"></script>
     <script src="https://cdn.bootcss.com/bootstrap-table/1.15.4/locale/bootstrap-table-zh-CN.min.js"></script>
     <link rel="stylesheet" href="../css/snstyle.css">
+    <link rel="stylesheet" href="../css/popup.css">
+    <link rel="stylesheet" href="../css/studentList.css">
+    <script type="text/javascript" src="../js/configurationFile.js"></script>
     <script src="../js/token-operation.js"></script>
 </head>
 <body>
@@ -62,26 +65,31 @@
 
                 <ul class="layui-nav layui-nav-tree" lay-filter="test" lay-shrink="all" id="user-manage" style="height: 100vh">
                     <!-- 侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> -->
-                    <!--                <li class="layui-nav-item">-->
-                    <!--                    <a href="javascript:;">团队管理</a>-->
-                    <!--                    <dl class="layui-nav-child">-->
-                    <!--                        <dd><a href="">所有团队</a></dd>-->
-                    <!--                        <dd><a href="javascript:;">增加团队</a></dd>-->
-                    <!--                    </dl>-->
-                    <!--                </li>-->
-                    <!--                <li class="layui-nav-item">-->
-                    <!--                    <a href="javascript:;">结对管理</a>-->
-                    <!--                    <dl class="layui-nav-child">-->
-                    <!--                        <dd><a href="javascript:;">结对信息</a></dd>-->
-                    <!--                        <dd><a href="">增加结对</a></dd>-->
-                    <!--                    </dl>-->
-                    <!--                </li>-->
+                    <li class="layui-nav-item">
+                        <a href="javascript:;">团队管理</a>
+                        <dl class="layui-nav-child">
+                            <dd><a href="teamList.html">所有团队</a></dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="javascript:;">结对管理</a>
+                        <dl class="layui-nav-child">
+                            <dd><a href="pairList.html">结对信息</a></dd>
+                        </dl>
+                    </li>
                     <li class="layui-nav-item layui-nav-itemed">
                         <a href="javascript:;">学生管理</a>
                         <dl class="layui-nav-child">
                             <dd><a href="studentList2.html" class="layui-this">学生列表</a></dd>
                             <dd><a href="newstudents.html">增加学生</a></dd>
                             <dd><a href="newClasses.html">新建班级</a></dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="javascript:;">助教管理</a>
+                        <dl class="layui-nav-child">
+                            <dd><a href="assistantList.html">助教列表</a></dd>
+                            <dd><a href="newAssistant.html">增加助教</a></dd>
                         </dl>
                     </li>
                 </ul>
@@ -99,299 +107,20 @@
         </div>
         <div class="page-wrapper">
             <table id="myTable" class="table table-hover text-nowrap"></table>
-<!--            <div class="input-group">-->
-<!--                <span class="input-group-addon" id="basic-addon2">学生列表上传：</span>-->
-<!--                <input id="file_upload" type="file" name="file_upload">-->
-<!--            </div>-->
-
-<!--            <button id="jquery_post" class="layui-btn" onclick="onClicked()">提交</button>-->
+        </div>
+        <div id="container">
+            <div id="hidden"></div>
+            <div id="box">
+                <span>是否删除用户:<i id="student_id"></i><i id="delete_id" style="display: none"></i></span>
+                <div class="button_box">
+                    <input type="button" value="确定" id="submit">
+                    <input type="button" value="取消" id="close">
+                </div>
+            </div>
         </div>
     </div>
-    <script>
-        document.getElementById("content-manage").style.display="none";
-        document.getElementById("user-manage").style.display="block";
-        document.getElementById("statistical-analysis").style.display="none";
-        // var open = document.getElementById('open');
-        // var box = document.getElementById('box');
-        // var hidden = document.getElementById('hidden');
-        // var close = document.getElementById('close');
-        var classRoom = getToken("class");
-
-        $('#myTable').bootstrapTable({
-            method: 'post',
-            url: "http://1.15.129.32:8888/student/selByPage",
-            striped: true, // 是否显示行间隔色
-            pageNumber: 1, // 初始化加载第一页
-            pagination: true, // 是否分页
-            dataField: "list",
-            //sidePagination: 'client', // server:服务器端分页|client：前端分页
-            height:600,
-            sortable: true,
-            search: true,
-            showColumns: true, //筛选要显示的列
-            showSearchClearButton: true, //显示搜索清除按钮
-            pageSize: 10, // 单页记录数
-            pageList: [10, 15],
-
-            sidePagination: "server", //表示服务端请求
-            //设置为undefined可以获取pageNumber，pageSize，searchText，sortName，sortOrder
-            //设置为limit可以获取limit, offset, search, sort, order
-            contentType: "application/json",//必须要有！！！！
-            queryParamsType : "undefined",
-
-            ajaxOptions:{
-                headers: {"Token":getToken("token")}
-            },
-
-            queryParams: function queryParams(params) { //设置查询参数
-                var param = {
-                    pageNum: params.pageNumber,
-                    pageSize: params.pageSize,
-                    classRoomId: getToken("class"),
-                };
-                return param;
-            },
-            onLoadSuccess: function(data){ //加载成功时执行
-                layer.msg("加载成功");
-            },
-            onLoadError: function(){ //加载失败时执行
-                layer.msg("加载数据失败", {time : 1500, icon : 2});
-            },
-            responseHandler:function(res){
-                //在ajax获取到数据，渲染表格之前，修改数据源
-                //该项返回的为数据源内的二级列表data
-                return res.data;
-            },
-
-            paginationLoop: true,
-            paginationHAlign: 'left',
-            paginationDetailHAlign: 'right',
-            paginationPreText: '上一页',
-            paginationNextText: '下一页',
-            columns: [{
-                checkbox: true
-            }, {
-                title: '学号',
-                field: 'account',
-                sort: true,
-                sortable: true,
-            }, {
-                title: '姓名',
-                field: 'userName',
-                sort: true,
-                sortable: true,
-                searchable:true,
-            },
-                //     {
-                //     title: '密码',
-                //     field: 'password',
-                //     sort: true,
-                //     sortable: true,
-                //     searchable:true,
-                // },
-                {
-                    title: '班级',
-                    field: 'classId',
-                    sortable: true,
-                }, {
-                    field: 'operate',
-                    title: '操作',
-                    align: 'center',
-                    valign: 'middle',
-                    events: {
-                        'click #edit': function (e, value, row, index) {
-                            //window.open('personalDetail.html?id='+row.id);
-                            window.location.href="personalDetail.html?id="+row.id;
-                        },
-                        'click #update': function (e, value, row, index) {
-                            updateInfo(row.id,row.account,row.userName,row.perms,row.classId,row.totalScore);
-                        },
-                        'click #delete': function (e, value, row, index) {
-                            deleteInfo(row.id);
-                        }
-                    },
-                    formatter: function (value, row, index) {
-                        var result = "";
-                        result += '<button id="edit" class="btn btn-info" data-toggle="modal" data-target="#editModal">查看</button>';
-                        result += '<button id="delete" class="btn btn-info" style="margin-left:1%;">删除</button>';
-                        result += '<button id="update"  class="btn btn-info" style="margin-left:1%;">重置密码</button>';
-                        return result;
-                    }
-                }
-            ]
-        });
-
-        //查看信息
-        function editInfo(id) {
-
-            $.ajax({
-                type: 'post',
-                url: 'http://1.15.129.32:8888/student/selSingleStudent/id',
-                beforeSend: function (XMLHttpRequest) {
-                    XMLHttpRequest.setRequestHeader("Token", localStorage.token);
-                },
-                data: id,
-                success: function (data) {
-                    if (data.code == '200') {
-                        window.location.href="itemDetails.html?id="+id;
-                        //window.open('itemDetails.html?id='+row.id);
-                    }
-                    else if(data.code="1002") {
-                        alert('没有这个权限');
-                    }
-                }
-            });
-        }
-
-
-        // 删除信息
-        function deleteInfo(id) {
-            $.ajax({
-                type: 'post',
-                url: 'http://1.15.129.32:8888/student/delStuById/'+id,
-                beforeSend: function (XMLHttpRequest) {
-                    XMLHttpRequest.setRequestHeader("Token", localStorage.token);
-                },
-                success: function (data) {
-                    if (data.code == "200") {
-                        $('#table').bootstrapTable('refresh');
-                        alert('删除成功');
-                    }
-                    else if(data.code="1002") {
-                        alert('没有这个权限');
-                    }
-                }
-            })
-        }
-
-        //文件上传
-        function onClicked() {
-            //判断作业名是否为空
-            var $file1 = $("input[name='file_upload']").val();//用户文件内容(文件)
-            // 判断文件是否为空
-            if ($file1 == "") {
-                alert("请选择上传的学生列表文件! （excel）");
-                return false;
-            }
-            //判断文件类型,我这里根据业务需求判断的是Excel文件
-            var fileName1 = $file1.substring($file1.lastIndexOf(".") + 1).toLowerCase();
-            if(fileName1 != "xls" && fileName1 !="xlsx"){
-                alert("请选择Execl文件!");
-                return false;
-            }
-            //判断文件大小
-            var size1 = $("input[name='file_upload']")[0].files[0].size;
-            if (size1>104857600) {
-                alert("上传文件不能大于100M!");
-                return false;
-            }
-            var fileObj = document.getElementById("file_upload").files[0]; // 获取文件对象
-            var classId = document.getElementById("classId");
-            var FileController = "http://1.15.129.32:8888/student/import"; // 接收上传文件的后台地址
-            // FormData 对象
-            var form = new FormData();
-
-            form.append("classId", classId); // 可以增加表单数据
-            form.append("excel", fileObj);  // 文件对象
-            // XMLHttpRequest 对象
-            var xhr = new XMLHttpRequest();
-            xhr.open("post", FileController, true);
-            xhr.onload = function () {
-                alert("上传完成!");
-            };
-            xhr.send(form);
-        }
-
-        //重置密码
-        function updateInfo(id,account,userName,perms,classId,totalScore){
-            var data1={
-                id:id,
-                account:account,
-                userName:userName,
-                perms: perms,
-                classId: classId,
-                totalScore: totalScore,
-            };
-
-            $.ajax({
-                url:"http://1.15.129.32:8888/student/updStudent1",
-                type:'post',
-                beforeSend: function (XMLHttpRequest) {
-                    XMLHttpRequest.setRequestHeader("Token", localStorage.token);
-                },
-                //contentType:"application/json; charset=utf-8",
-                data: data1,
-                success:function(data){
-                    if(data.code == '200'){
-                        alert("重置成功！");
-                    }
-                    else if(data.code=='1002'){
-                        alert("没有这个学生用户");
-                    }
-                }
-            });
-        }
-
-        // //关闭
-        // close.onclick = function () {
-        //     box.style.display = 'none';
-        //     hidden.style.display = 'none';
-        //     // 关闭后恢复box到原来的默认位置
-        //     box.style.top = '200px';
-        //     box.style.marginRight = '100%';
-        // }
-        //
-        // function getPage(e) {
-        //     var pageX = e.pageX || e.clientX + getScroll().scrollLeft;
-        //     var pageY = e.pageY || e.clientY + getScroll().scrollTop;
-        //     return {
-        //         pageX: pageX,
-        //         pageY: pageY
-        //     }
-        // }
-        //
-        // box.onmousedown = function (e) {
-        //     e = e || window.event;
-        //     // 盒子的位置
-        //     var x = getPage(e).pageX - box.offsetLeft;
-        //     var y = getPage(e).pageY - box.offsetTop;
-        //     document.onmousemove = function (e) {
-        //         e = e || window.event;
-        //         box.style.left = getPage(e).pageX - x + 'px';
-        //         box.style.top = getPage(e).pageY - y + 'px';
-        //     }
-        // }
-        //
-        // document.onmouseup = function () {
-        //     document.onmousemove = null;
-        // }
-        //
-        // // 重置密码
-        // function updateInfo(id,account) {
-        //     $.ajax({
-        //         type: 'post',
-        //         url: 'http://1.15.129.32:8080/student/updStudent1',
-        //         dataType: 'json',
-        //         contentType: "application/json",//必须要有！！！！
-        //         data: {
-        //             id: id,
-        //             account: account,
-        //             password:"123456"
-        //
-        //         },
-        //         success: function (data) {
-        //             if (data.code == '200') {
-        //                 $('#myTable').bootstrapTable('refresh');
-        //                 alert("密码重置成功");
-        //             }
-        //             else if(data.code=='1002') {
-        //                 alert('没有这个学生用户');
-        //             }
-        //         }
-        //     });
-        //     close.click();
-        // }
-    </script>
+    <script src="../js/userManage.js"></script>
+    <script src="../js/studentList.js"></script>
 
 </body>
 </html>

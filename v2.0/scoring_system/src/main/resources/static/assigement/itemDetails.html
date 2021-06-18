@@ -17,6 +17,7 @@
     <script src="https://cdn.bootcss.com/bootstrap-table/1.15.4/locale/bootstrap-table-zh-CN.min.js"></script>
     <link rel="stylesheet" href="../css/snstyle.css">
     <link rel="stylesheet" href="../css/itemDetails.css">
+    <script type="text/javascript" src="../js/configurationFile.js"></script>
     <script src="../js/token-operation.js" type="text/javascript" charset="utf-8"></script>
 </head>
 <body>
@@ -69,13 +70,13 @@
                         <dd><a href="newTeam.html">增加团队</a></dd>
                     </dl>
                 </li>
-                <!--                <li class="layui-nav-item">-->
-                <!--                    <a href="javascript:;">结对管理</a>-->
-                <!--                    <dl class="layui-nav-child">-->
-                <!--                        <dd><a href="javascript:;">结对信息</a></dd>-->
-                <!--                        <dd><a href="">增加结对</a></dd>-->
-                <!--                    </dl>-->
-                <!--                </li>-->
+                <li class="layui-nav-item">
+                    <a href="javascript:;">结对管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="pairList.html">结对信息</a></dd>
+                        <dd><a href="newPair.html">增加结对</a></dd>
+                    </dl>
+                </li>
                 <li class="layui-nav-item layui-nav-itemed">
                     <a href="javascript:;">学生管理</a>
                     <dl class="layui-nav-child">
@@ -97,111 +98,12 @@
         </div>
     </div>
     <div class="page-wrapper">
-<!--        <div id="edit_link_div">-->
-<!--            <select id="student" name="student" class="layui-select">-->
-<!--            </select>-->
-
-<!--            <select id="work" name="work" class="layui-select">-->
-<!--            </select>-->
-<!--        </div>-->
-
         <table id="myTable" class="table table-hover text-nowrap"></table>
-
         <button onclick="updateOnClick()" id="update_button" class="btn btn-info">修改成绩</button>
     </div>
 </div>
 
-
-<script>
-    //获取url中的参数
-    function getUrlParam(name) {
-        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
-        var r = window.location.search.substr(1).match(reg);  //匹配目标参数
-        if (r != null) return unescape(r[2]); return null; //返回参数值
-    }
-    var id = getUrlParam('id');
-
-    function updateOnClick(){
-        $.ajax({
-            type: 'post',
-            url: 'http://1.15.129.32:8888/score/blogwork/details?id='+id,
-            //url: 'http://1.15.129.32:8080/score/blogwork/details?id=8',
-            dataType: 'json',
-            beforeSend: function (XMLHttpRequest) {
-                XMLHttpRequest.setRequestHeader("Token", localStorage.token);
-            },
-            success: function(data){
-                if (data.code == "200") {
-                    window.location.href="assignmentScore.html?id="+id;
-                }
-                else {
-                    alert('您没有该权限！');
-                }
-            }
-        });
-    }
-
-
-    //加载表根据博客id
-    $('#myTable').bootstrapTable({
-        method: 'post',
-        url: "http://1.15.129.32:8888/score/blogwork/details?id="+id, // 请求路径
-        //url: "http://1.15.129.32:8080//score/blogwork/details?id=12",
-        //url: "test.json",
-        striped: true, // 是否显示行间隔色
-        pageNumber: 1, // 初始化加载第一页
-        pagination: true, // 是否分页
-        sidePagination: 'client', // server:服务器端分页|client：前端分页
-        height:600,
-        dataField: "detailsDataList",
-        pageSize: 10, // 单页记录数
-
-        ajaxOptions:{
-            headers: {"Token":getToken("token")}
-        },
-
-        onLoadSuccess: function(){ //加载成功时执行
-            layer.msg("加载成功");
-        },
-        onLoadError: function(){ //加载失败时执行
-            layer.msg("加载数据失败", {time : 1500, icon : 2});
-        },
-        responseHandler:function(res){
-            //在ajax获取到数据，渲染表格之前，修改数据源
-            //该项返回的为数据源内的二级列表data
-            if (res.code == "200"){
-                return res.data.score;
-            }else {
-                layer.msg(res.message,{time : 1000, icon : 2})
-            }
-
-        },
-
-        paginationLoop: true,
-        paginationHAlign: 'left',
-        paginationDetailHAlign: 'right',
-        paginationPreText: '上一页',
-        paginationNextText: '下一页',
-        columns: [
-            {
-            title: '分数项',
-            field: 'detailsName'
-        },{
-            title: '得分',
-            field: 'score',
-                formatter: function (value, row, index) {
-                    if (value == null || value == undefined) {
-                        return "0";
-                    } else {
-                        return value;
-                    }
-                },
-        }
-        ]
-    });
-
-</script>
-
+<script src="../js/itemDetails.js"></script>
 
 </body>
 </html>
