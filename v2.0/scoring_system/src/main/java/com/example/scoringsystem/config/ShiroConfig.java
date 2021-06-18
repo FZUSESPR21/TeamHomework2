@@ -176,8 +176,8 @@ public class ShiroConfig {
         //验证码放行
         map.put("/captcha","anon");
         //对所有用户认证
-//        map.put("/**", "anon");
-        map.put("/**", "authc");
+        map.put("/**", "anon");
+//        map.put("/**", "authc");
         //登录
         shiroFilterFactoryBean.setLoginUrl("/login");
         //首页

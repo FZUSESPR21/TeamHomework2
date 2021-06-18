@@ -16,6 +16,7 @@
     <script src="https://cdn.bootcss.com/bootstrap-table/1.15.4/bootstrap-table.min.js"></script>
     <script src="https://cdn.bootcss.com/bootstrap-table/1.15.4/locale/bootstrap-table-zh-CN.min.js"></script>
     <link rel="stylesheet" href="../css/snstyle.css">
+    <script type="text/javascript" src="../js/configurationFile.js"></script>
     <script src="../js/token-operation.js" type="text/javascript" charset="utf-8"></script>
     <link rel="stylesheet" href="../css/teamDetail.css">
 </head>
@@ -69,13 +70,13 @@
                         <dd><a href="newTeam.html">增加团队</a></dd>
                     </dl>
                 </li>
-                <!--                <li class="layui-nav-item">-->
-                <!--                    <a href="javascript:;">结对管理</a>-->
-                <!--                    <dl class="layui-nav-child">-->
-                <!--                        <dd><a href="javascript:;">结对信息</a></dd>-->
-                <!--                        <dd><a href="">增加结对</a></dd>-->
-                <!--                    </dl>-->
-                <!--                </li>-->
+                <li class="layui-nav-item">
+                    <a href="javascript:;">结对管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="pairList.html">结对信息</a></dd>
+                        <dd><a href="newPair.html">增加结对</a></dd>
+                    </dl>
+                </li>
                 <li class="layui-nav-item">
                     <a href="javascript:;">学生管理</a>
                     <dl class="layui-nav-child">
@@ -107,66 +108,8 @@
 
 </div>
 
-
-<script>
-    document.getElementById("content-manage").style.display="none";
-    document.getElementById("user-manage").style.display="block";
-    document.getElementById("statistical-analysis").style.display="none";
-    //获取url中的参数
-    function getUrlParam(name) {
-        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
-        var r = window.location.search.substr(1).match(reg);  //匹配目标参数
-        if (r != null) return unescape(r[2]); return null; //返回参数值
-    }
-    var id = getUrlParam('id');
-
-    //加载表
-    $('#myTable').bootstrapTable({
-        method: 'get',
-        url: "http://1.15.129.32:8888/score/teamUser/show?id="+id, // 请求路径
-        striped: true, // 是否显示行间隔色
-        pageNumber: 1, // 初始化加载第一页
-        pagination: true, // 是否分页
-        sidePagination: 'client', // server:服务器端分页|client：前端分页
-        height:600,
-        sortable: true,
-        pageSize: 10, // 单页记录数
-        pageList: [10, 15],
-
-        paginationLoop: true,
-        paginationHAlign: 'left',
-        paginationDetailHAlign: 'right',
-        paginationPreText: '上一页',
-        paginationNextText: '下一页',
-
-        ajaxOptions:{
-            headers: {"Token":getToken("token")}
-        },
-
-        responseHandler:function(res){
-            if (res.code == "200"){
-                return res.data;
-            }else {
-                layer.msg(res.message);
-                return false;
-            }
-
-        },
-        columns: [{
-            field: 'account',
-            title: '成员学号',
-            sortable: true,
-
-        }, {
-            title: '成员姓名',
-            field: 'userName',
-            sortable: true,
-        }
-
-        ]
-    });
-</script>
-
+<script src="../js/userManage.js"></script>
+<script src="../js/teamDetail.js"></script>
 
 </body>
 </html>

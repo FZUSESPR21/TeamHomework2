@@ -17,6 +17,7 @@
     <script src="https://cdn.bootcss.com/bootstrap-table/1.15.4/bootstrap-table.min.js"></script>
     <script src="https://cdn.bootcss.com/bootstrap-table/1.15.4/locale/bootstrap-table-zh-CN.min.js"></script>
     <link rel="stylesheet" href="../css/snstyle.css">
+    <script type="text/javascript" src="../js/configurationFile.js"></script>
     <script src="../js/token-operation.js" type="text/javascript" charset="utf-8"></script>
 
 </head>
@@ -63,25 +64,31 @@
 
             <ul class="layui-nav layui-nav-tree" lay-filter="test" lay-shrink="all" id="user-manage" style="height: 100vh">
                 <!-- 侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> -->
-                <!--                <li class="layui-nav-item">-->
-                <!--                    <a href="javascript:;">团队管理</a>-->
-                <!--                    <dl class="layui-nav-child">-->
-                <!--                        <dd><a href="">所有团队</a></dd>-->
-                <!--                        <dd><a href="javascript:;">增加团队</a></dd>-->
-                <!--                    </dl>-->
-                <!--                </li>-->
-                <!--                <li class="layui-nav-item">-->
-                <!--                    <a href="javascript:;">结对管理</a>-->
-                <!--                    <dl class="layui-nav-child">-->
-                <!--                        <dd><a href="javascript:;">结对信息</a></dd>-->
-                <!--                        <dd><a href="">增加结对</a></dd>-->
-                <!--                    </dl>-->
-                <!--                </li>-->
+                <li class="layui-nav-item">
+                    <a href="javascript:;">团队管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="teamList.html">所有团队</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">结对管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="pairList.html">结对信息</a></dd>
+                    </dl>
+                </li>
                 <li class="layui-nav-item layui-nav-itemed">
                     <a href="javascript:;">学生管理</a>
                     <dl class="layui-nav-child">
                         <dd><a href="studentList2.html">学生列表</a></dd>
                         <dd><a href="newstudents.html">增加学生</a></dd>
+                        <dd><a href="newClasses.html">新建班级</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">助教管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="assistantList.html">助教列表</a></dd>
+                        <dd><a href="newAssistant.html">增加助教</a></dd>
                     </dl>
                 </li>
             </ul>
@@ -116,190 +123,192 @@
     </div>
 </div>
 
+<script src="../js/loadDropList.js"></script>
+<script src="../js/blogListOfTeacher.js"></script>
 
-<script>
+<!--<script>-->
 
-    var classRoomId = getToken("class");
+<!--    var classRoomId = getToken("class");-->
 
-    $(document).ready(function () {
-        loadList("http://1.15.129.32:8888/score/blogwork/all/showlist");
-        var classRoomId = getToken("class");
-        $.ajax({
-            type: 'post',
-            url: 'http://1.15.129.32:8888/score/task/show?classRoomId='+classRoomId,
-            dataType: 'json',
-            beforeSend: function (XMLHttpRequest) {
-                XMLHttpRequest.setRequestHeader("Token", localStorage.token);
-            },
-            success: function (data) {
-                $.each(data.data, function (index, item) {
-                    $("#work_item").append("<option value='" + data.data[index].id + "'>" + data.data[index].taskName + "</option>");
-                });
-            }
-        });
-        //加载下拉列表的内容
-        $.ajax({
-            type: 'post',
-            url: 'http://1.15.129.32:8888/score/class/showlist',
-            dataType: 'json',
-            beforeSend: function (XMLHttpRequest) {
-                XMLHttpRequest.setRequestHeader("Token", localStorage.token);
-            },
-            success: function(data){
-                $.each(data.data,function (index,item) {
-                    $("#classes").append("<option value='"+data.data[index].id+"'>"+data.data[index].className+"</option>");
-                });
-            }
-        });
-    });
+<!--    $(document).ready(function () {-->
+<!--        loadList("http://1.15.129.32:8888/score/blogwork/all/showlist");-->
+<!--        var classRoomId = getToken("class");-->
+<!--        $.ajax({-->
+<!--            type: 'post',-->
+<!--            url: 'http://1.15.129.32:8888/score/task/show?classRoomId='+classRoomId,-->
+<!--            dataType: 'json',-->
+<!--            beforeSend: function (XMLHttpRequest) {-->
+<!--                XMLHttpRequest.setRequestHeader("Token", localStorage.token);-->
+<!--            },-->
+<!--            success: function (data) {-->
+<!--                $.each(data.data, function (index, item) {-->
+<!--                    $("#work_item").append("<option value='" + data.data[index].id + "'>" + data.data[index].taskName + "</option>");-->
+<!--                });-->
+<!--            }-->
+<!--        });-->
+<!--        //加载下拉列表的内容-->
+<!--        $.ajax({-->
+<!--            type: 'post',-->
+<!--            url: 'http://1.15.129.32:8888/score/class/showlist',-->
+<!--            dataType: 'json',-->
+<!--            beforeSend: function (XMLHttpRequest) {-->
+<!--                XMLHttpRequest.setRequestHeader("Token", localStorage.token);-->
+<!--            },-->
+<!--            success: function(data){-->
+<!--                $.each(data.data,function (index,item) {-->
+<!--                    $("#classes").append("<option value='"+data.data[index].id+"'>"+data.data[index].className+"</option>");-->
+<!--                });-->
+<!--            }-->
+<!--        });-->
+<!--    });-->
 
-    function loadList(url) {
-        $('#myTable').bootstrapTable({
-            method: 'post',
-            // url: "http://1.15.129.32:8888/score/blogwork/showlist",
-            url: url,
-            striped: true, // 是否显示行间隔色
-            pageNumber: 1, // 初始化加载第一页
-            pagination: true, // 是否分页
-            dataField: "list",
-            height:600,
-            sortable: true,
-            search: true,
-            showColumns: true, //筛选要显示的列
-            showSearchClearButton: true, //显示搜索清除按钮
-            pageSize: 10, // 单页记录数
-            pageList: [10, 15, 20],
+<!--    function loadList(url) {-->
+<!--        $('#myTable').bootstrapTable({-->
+<!--            method: 'post',-->
+<!--            // url: "http://1.15.129.32:8888/score/blogwork/showlist",-->
+<!--            url: url,-->
+<!--            striped: true, // 是否显示行间隔色-->
+<!--            pageNumber: 1, // 初始化加载第一页-->
+<!--            pagination: true, // 是否分页-->
+<!--            dataField: "list",-->
+<!--            height:600,-->
+<!--            sortable: true,-->
+<!--            search: true,-->
+<!--            showColumns: true, //筛选要显示的列-->
+<!--            showSearchClearButton: true, //显示搜索清除按钮-->
+<!--            pageSize: 10, // 单页记录数-->
+<!--            pageList: [10, 15, 20],-->
 
-            sidePagination: "server", //表示服务端请求
-            //设置为undefined可以获取pageNumber，pageSize，searchText，sortName，sortOrder
-            //设置为limit可以获取limit, offset, search, sort, order
-            contentType: "application/x-www-form-urlencoded",//必须要有！！！！
-            queryParamsType : "undefined",
+<!--            sidePagination: "server", //表示服务端请求-->
+<!--            //设置为undefined可以获取pageNumber，pageSize，searchText，sortName，sortOrder-->
+<!--            //设置为limit可以获取limit, offset, search, sort, order-->
+<!--            contentType: "application/x-www-form-urlencoded",//必须要有！！！！-->
+<!--            queryParamsType : "undefined",-->
 
-            ajaxOptions:{
-                headers: {"Token":getToken("token")}
-            },
+<!--            ajaxOptions:{-->
+<!--                headers: {"Token":getToken("token")}-->
+<!--            },-->
 
-            queryParams: function queryParams(params) { //设置查询参数
-                var options = $("#work_item option:selected").val();
-                var classId = $("#classes option:selected").val();
-                if (classId == ""){
-                    classId = classRoomId;
-                }
-                var param = {
-                    pageNum: params.pageNumber,
-                    pageSize: params.pageSize,
-                    id: options,
-                    classRoomId: classId,
-                };
-                return param;
-            },
-            onLoadSuccess: function(){ //加载成功时执行
-                layer.msg("加载成功");
-            },
-            onLoadError: function(){ //加载失败时执行
-                layer.msg("加载数据失败", {time : 1500, icon : 2});
-            },
-            responseHandler:function(res){
-                //在ajax获取到数据，渲染表格之前，修改数据源
-                //该项返回的为数据源内的二级列表data
-                return res.data;
-            },
+<!--            queryParams: function queryParams(params) { //设置查询参数-->
+<!--                var options = $("#work_item option:selected").val();-->
+<!--                var classId = $("#classes option:selected").val();-->
+<!--                if (classId == ""){-->
+<!--                    classId = classRoomId;-->
+<!--                }-->
+<!--                var param = {-->
+<!--                    pageNum: params.pageNumber,-->
+<!--                    pageSize: params.pageSize,-->
+<!--                    id: options,-->
+<!--                    classRoomId: classId,-->
+<!--                };-->
+<!--                return param;-->
+<!--            },-->
+<!--            onLoadSuccess: function(){ //加载成功时执行-->
+<!--                layer.msg("加载成功");-->
+<!--            },-->
+<!--            onLoadError: function(){ //加载失败时执行-->
+<!--                layer.msg("加载数据失败", {time : 1500, icon : 2});-->
+<!--            },-->
+<!--            responseHandler:function(res){-->
+<!--                //在ajax获取到数据，渲染表格之前，修改数据源-->
+<!--                //该项返回的为数据源内的二级列表data-->
+<!--                return res.data;-->
+<!--            },-->
 
-            paginationLoop: true,
-            paginationHAlign: 'left',
-            paginationDetailHAlign: 'right',
-            paginationPreText: '上一页',
-            paginationNextText: '下一页',
-            columns: [{
-                checkbox: true
-            }, {
-                title: '博客ID',
-                field: 'id',
-                sort: true,
-                align: 'center',
-                sortable: true,
-                searchable:true,
-            },{
-                title: '博客链接',
-                field: 'blogUrl',
-                formatter: function (value, row, index) {
-                    var result = "";
-                    result += '<a style="color: #0a53be" href="'+value+'">原文链接</a>';
-                    return result;
-                },
-                align: 'center',
-            }, {
-                title: '博客名',
-                field: 'blogWorkName',
-                sort: true,
-                align: 'center',
-                sortable: true,
-                searchable:true,
-            },  {
-                title: '博客状态',
-                field: 'isMark',
-                align: 'center',
-                formatter: function (value, row, index) {
-                    if (value == 0) {
-                        var a = '<p style="color: #9c3328;font-size: 15px"> 未评分</p>';
-                        return a;
-                    } else {
-                        var a = '<p style="color: #0f5132;font-size: 15px"> 已评分</p>';
-                        return a;
-                    }
-                }
-            }, {
-                field: 'operate',
-                title: '操作',
-                align: 'center',
-                valign: 'middle',
-                events: {
-                    'click #edit': function (e, value, row, index) {
-                        //editInfo(row.id);
-                        window.open('assignmentScore.html?id='+row.id);
-                    },
-                },
-                formatter: function (value, row, index) {
-                    var result = "";
-                    result += '<button id="edit" class="btn btn-info" data-toggle="modal" data-target="#editModal">查看博客</button>';
-                    return result;
-                }
-            }
-            ]
-        });
-    }
+<!--            paginationLoop: true,-->
+<!--            paginationHAlign: 'left',-->
+<!--            paginationDetailHAlign: 'right',-->
+<!--            paginationPreText: '上一页',-->
+<!--            paginationNextText: '下一页',-->
+<!--            columns: [{-->
+<!--                checkbox: true-->
+<!--            }, {-->
+<!--                title: '博客ID',-->
+<!--                field: 'id',-->
+<!--                sort: true,-->
+<!--                align: 'center',-->
+<!--                sortable: true,-->
+<!--                searchable:true,-->
+<!--            },{-->
+<!--                title: '博客链接',-->
+<!--                field: 'blogUrl',-->
+<!--                formatter: function (value, row, index) {-->
+<!--                    var result = "";-->
+<!--                    result += '<a style="color: #0a53be" href="'+value+'">原文链接</a>';-->
+<!--                    return result;-->
+<!--                },-->
+<!--                align: 'center',-->
+<!--            }, {-->
+<!--                title: '博客名',-->
+<!--                field: 'blogWorkName',-->
+<!--                sort: true,-->
+<!--                align: 'center',-->
+<!--                sortable: true,-->
+<!--                searchable:true,-->
+<!--            },  {-->
+<!--                title: '博客状态',-->
+<!--                field: 'isMark',-->
+<!--                align: 'center',-->
+<!--                formatter: function (value, row, index) {-->
+<!--                    if (value == 0) {-->
+<!--                        var a = '<p style="color: #9c3328;font-size: 15px"> 未评分</p>';-->
+<!--                        return a;-->
+<!--                    } else {-->
+<!--                        var a = '<p style="color: #0f5132;font-size: 15px"> 已评分</p>';-->
+<!--                        return a;-->
+<!--                    }-->
+<!--                }-->
+<!--            }, {-->
+<!--                field: 'operate',-->
+<!--                title: '操作',-->
+<!--                align: 'center',-->
+<!--                valign: 'middle',-->
+<!--                events: {-->
+<!--                    'click #edit': function (e, value, row, index) {-->
+<!--                        //editInfo(row.id);-->
+<!--                        window.open('assignmentScore.html?id='+row.id);-->
+<!--                    },-->
+<!--                },-->
+<!--                formatter: function (value, row, index) {-->
+<!--                    var result = "";-->
+<!--                    result += '<button id="edit" class="btn btn-info" data-toggle="modal" data-target="#editModal">查看博客</button>';-->
+<!--                    return result;-->
+<!--                }-->
+<!--            }-->
+<!--            ]-->
+<!--        });-->
+<!--    }-->
 
-    //下拉选项改变时
-    document.getElementById('classes').onchange=function(){
-        var options = $("#work_item option:selected").val();
-        var classId = $("#classes option:selected").val();
-        if (options != "" && classId != ""){
-            document.getElementById("table_show").innerHTML="";
-            $("#table_show").append("<table id=\"myTable\" class=\"table table-hover text-nowrap\"></table>");
-            loadList("http://1.15.129.32:8888/score/blogwork/showlist");
-        }else {
-            document.getElementById("table_show").innerHTML="";
-            $("#table_show").append("<table id=\"myTable\" class=\"table table-hover text-nowrap\"></table>");
-            loadList("http://1.15.129.32:8888/score/blogwork/all/showlist");
-        }
-    };
+<!--    //下拉选项改变时-->
+<!--    document.getElementById('classes').onchange=function(){-->
+<!--        var options = $("#work_item option:selected").val();-->
+<!--        var classId = $("#classes option:selected").val();-->
+<!--        if (options != "" && classId != ""){-->
+<!--            document.getElementById("table_show").innerHTML="";-->
+<!--            $("#table_show").append("<table id=\"myTable\" class=\"table table-hover text-nowrap\"></table>");-->
+<!--            loadList("http://1.15.129.32:8888/score/blogwork/showlist");-->
+<!--        }else {-->
+<!--            document.getElementById("table_show").innerHTML="";-->
+<!--            $("#table_show").append("<table id=\"myTable\" class=\"table table-hover text-nowrap\"></table>");-->
+<!--            loadList("http://1.15.129.32:8888/score/blogwork/all/showlist");-->
+<!--        }-->
+<!--    };-->
 
-    //下拉选项改变时
-    document.getElementById('work_item').onchange=function(){
-        var options = $("#work_item option:selected").val();
-        var classId = $("#classes option:selected").val();
-        if (options != "" && classId != ""){
-            document.getElementById("table_show").innerHTML="";
-            $("#table_show").append("<table id=\"myTable\" class=\"table table-hover text-nowrap\"></table>");
-            loadList("http://1.15.129.32:8888/score/blogwork/showlist");
-        }else {
-            document.getElementById("table_show").innerHTML="";
-            $("#table_show").append("<table id=\"myTable\" class=\"table table-hover text-nowrap\"></table>");
-            loadList("http://1.15.129.32:8888/score/blogwork/all/showlist");
-        }
-    };
-</script>
+<!--    //下拉选项改变时-->
+<!--    document.getElementById('work_item').onchange=function(){-->
+<!--        var options = $("#work_item option:selected").val();-->
+<!--        var classId = $("#classes option:selected").val();-->
+<!--        if (options != "" && classId != ""){-->
+<!--            document.getElementById("table_show").innerHTML="";-->
+<!--            $("#table_show").append("<table id=\"myTable\" class=\"table table-hover text-nowrap\"></table>");-->
+<!--            loadList("http://1.15.129.32:8888/score/blogwork/showlist");-->
+<!--        }else {-->
+<!--            document.getElementById("table_show").innerHTML="";-->
+<!--            $("#table_show").append("<table id=\"myTable\" class=\"table table-hover text-nowrap\"></table>");-->
+<!--            loadList("http://1.15.129.32:8888/score/blogwork/all/showlist");-->
+<!--        }-->
+<!--    };-->
+<!--</script>-->
 
 
 </body>

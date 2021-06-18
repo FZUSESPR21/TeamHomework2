@@ -169,7 +169,7 @@ public class ScoreServiceImpl implements ScoreService {
         }
         log.info("存储入数据库博客作业：" + blogWork.toString());
         log.info(task.toString());
-        log.info(team.toString());
+//        log.info(team.toString());
         if ((task.getTaskType().equals("团队作业") || task.getTaskType().equals("结对作业")) && task.getId() != null && team.getId() != null) {
             blogWork = checkContributions(blogWork);
             if (blogWork == null) {

@@ -83,7 +83,8 @@ public class UserServiceImpl implements UserService {
     {
         for (int i=0;i<userList.size();i++)
         {
-            userMapper.insStudentRole(userList.get(i));
+            log.info(userList.get(i).toString());
+            log.info("插入结果"+userMapper.insStudentRole(userList.get(i)));
         }
     }
 

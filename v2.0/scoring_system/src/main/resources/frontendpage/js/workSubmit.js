@@ -49,7 +49,7 @@ function loadWork(type){
     //加载下拉列表的内容
     $.ajax({
         type: 'post',
-        url: 'http://1.15.129.32:8888/score/task/show?classRoomId='+classRoomId,
+        url: serviceIp + '/score/task/show?classRoomId='+classRoomId,
         dataType: 'json',
         success: function(data){
             document.getElementById("work").innerHTML="";
@@ -67,7 +67,7 @@ $(document).ready(function () {
     var teamId = getToken("group");
     $.ajax({
         type: 'post',
-        url: 'http://1.15.129.32:8888/score/teamUser/show?id='+teamId,
+        url: serviceIp + '/score/teamUser/show?id='+teamId,
         //url: 'test.json',
         dataType: 'json',
         beforeSend: function (XMLHttpRequest) {
@@ -142,7 +142,7 @@ function submitOnClicked() {
         var data =JSON.stringify(data1);
         $.ajax({
             type: 'post',
-            url: 'http://1.15.129.32:8888/score/blogwork/submit',
+            url: serviceIp + '/score/blogwork/submit',
             dataType: 'json',
             beforeSend: function (XMLHttpRequest) {
                 XMLHttpRequest.setRequestHeader("Token", localStorage.token);
@@ -154,7 +154,7 @@ function submitOnClicked() {
             }
         });
     }else if (work_type_id == 2){
-        var data1={
+        var data1 = {
             taskId: work_id,
             blogWorkContent: blog_content,
             blogurl: blog_link,
@@ -171,10 +171,10 @@ function submitOnClicked() {
                 }
             ]
         };
-        var data=JSON.stringify(data1);
+        var data = JSON.stringify(data1);
         $.ajax({
             type: 'post',
-            url: 'http://1.15.129.32:8888/score/blogwork/submit',
+            url: serviceIp + '/score/blogwork/submit',
             dataType: 'json',
             beforeSend: function (XMLHttpRequest) {
                 XMLHttpRequest.setRequestHeader("Token", localStorage.token);
@@ -235,7 +235,7 @@ function submitTeam() {
     $.ajax({
         type: 'post',
         contentType: "application/json",
-        url: 'http://1.15.129.32:8888/score/blogwork/submit',
+        url: serviceIp + '/score/blogwork/submit',
         dataType: 'json',
         beforeSend: function (XMLHttpRequest) {
             XMLHttpRequest.setRequestHeader("Token", localStorage.token);
