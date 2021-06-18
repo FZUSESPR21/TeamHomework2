@@ -1,7 +1,6 @@
 function loadList(url) {
     $('#myTable').bootstrapTable({
         method: 'post',
-        // url: "http://1.15.129.32:8888/score/blogwork/showlist",
         url: url,
         striped: true, // 是否显示行间隔色
         pageNumber: 1, // 初始化加载第一页
@@ -14,10 +13,7 @@ function loadList(url) {
         showSearchClearButton: true, //显示搜索清除按钮
         pageSize: 10, // 单页记录数
         pageList: [10, 15, 20],
-
         sidePagination: "server", //表示服务端请求
-        //设置为undefined可以获取pageNumber，pageSize，searchText，sortName，sortOrder
-        //设置为limit可以获取limit, offset, search, sort, order
         contentType: "application/x-www-form-urlencoded",//必须要有！！！！
         queryParamsType : "undefined",
 
@@ -46,8 +42,6 @@ function loadList(url) {
             layer.msg("加载数据失败", {time : 1500, icon : 2});
         },
         responseHandler:function(res){
-            //在ajax获取到数据，渲染表格之前，修改数据源
-            //该项返回的为数据源内的二级列表data
             if (res.code == "200"){
                 return res.data;
             }else {
@@ -72,11 +66,6 @@ function loadList(url) {
         },{
             title: '博客链接',
             field: 'blogUrl',
-            // events: {
-            //     'click #link': function (e, value, row, index) {
-            //         window.location.href=row.blogUrl;
-            //     },
-            // },
             formatter: function (value, row, index) {
                 var result = "";
                 result += '<a style="color: #0a53be" href="'+value+'">原文链接</a>';
@@ -125,7 +114,7 @@ function loadList(url) {
 }
 
 $(document).ready(function () {
-    loadList("http://1.15.129.32:8888/score/blogwork/all/showlist");
+    loadList(serviceIp + "/score/blogwork/all/showlist");
 });
 
 //下拉选项改变时
@@ -135,11 +124,11 @@ document.getElementById('classes').onchange=function(){
     if (options != "" && classId != ""){
         document.getElementById("table_show").innerHTML="";
         $("#table_show").append("<table id=\"myTable\" class=\"table table-hover text-nowrap\"></table>");
-        loadList("http://1.15.129.32:8888/score/blogwork/showlist");
+        loadList(serviceIp + "/score/blogwork/showlist");
     }else {
         document.getElementById("table_show").innerHTML="";
         $("#table_show").append("<table id=\"myTable\" class=\"table table-hover text-nowrap\"></table>");
-        loadList("http://1.15.129.32:8888/score/blogwork/all/showlist");
+        loadList(serviceIp + "/score/blogwork/all/showlist");
     }
 };
 
@@ -150,10 +139,10 @@ document.getElementById('work_item').onchange=function(){
     if (options != "" && classId != ""){
         document.getElementById("table_show").innerHTML="";
         $("#table_show").append("<table id=\"myTable\" class=\"table table-hover text-nowrap\"></table>");
-        loadList("http://1.15.129.32:8888/score/blogwork/showlist");
+        loadList(serviceIp + "/score/blogwork/showlist");
     }else {
         document.getElementById("table_show").innerHTML="";
         $("#table_show").append("<table id=\"myTable\" class=\"table table-hover text-nowrap\"></table>");
-        loadList("http://1.15.129.32:8888/score/blogwork/all/showlist");
+        loadList(serviceIp + "/score/blogwork/all/showlist");
     }
 };

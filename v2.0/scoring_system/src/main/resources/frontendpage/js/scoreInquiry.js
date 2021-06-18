@@ -5,8 +5,7 @@ function loadWork(type){
     //加载下拉列表的内容
     $.ajax({
         type: 'post',
-        //url: 'http://1.15.129.32:8080/score/task/show?classRoomId=1',
-        url: 'http://1.15.129.32:8888/score/task/show?classRoomId='+classRoomId,
+        url: serviceIp + '/score/task/show?classRoomId='+classRoomId,
         dataType: 'json',
         beforeSend: function (XMLHttpRequest) {
             XMLHttpRequest.setRequestHeader("Token", localStorage.token);
@@ -24,7 +23,7 @@ function loadWork(type){
 $(document).ready(function () {
     $.ajax({
         type: 'post',
-        url: 'http://1.15.129.32:8888/score/class/showlist',
+        url: serviceIp + '/score/class/showlist',
         dataType: 'json',
         beforeSend: function (XMLHttpRequest) {
             XMLHttpRequest.setRequestHeader("Token", localStorage.token);
@@ -107,8 +106,7 @@ document.getElementById('class_room').onchange =function () {
 function personal_score() {
     $('#myTable').bootstrapTable({
         method: 'post',
-        //url: "http://1.15.129.32:8080/score/task_class_blogwork_score/list?id=1&classRoomId=1", // 请求路径
-        url: "http://1.15.129.32:8888/score/task_class_blogwork_score/list",
+        url: serviceIp + "/score/task_class_blogwork_score/list",
         striped: true, // 是否显示行间隔色
         pageNumber: 1, // 初始化加载第一页
         pagination: true, // 是否分页
@@ -144,8 +142,6 @@ function personal_score() {
             layer.msg("加载数据失败", {time : 1500, icon : 2});
         },
         responseHandler:function(res){
-            //在ajax获取到数据，渲染表格之前，修改数据源
-            //该项返回的为数据源内的二级列表data
             if (res.code == "200"){
                 var userInfo = res.data;
                 var NewData = [];
@@ -226,7 +222,7 @@ function personal_score() {
 function pair_score() {
     $('#myTable').bootstrapTable({
         method: 'post',
-        url: "http://1.15.129.32:8888/score/task_class_blogwork_score/list",
+        url: serviceIp + "/score/task_class_blogwork_score/list",
         striped: true, // 是否显示行间隔色
         pageNumber: 1, // 初始化加载第一页
         pagination: true, // 是否分页
@@ -237,15 +233,12 @@ function pair_score() {
         showSearchClearButton: true, //显示搜索清除按钮
         pageSize: 10, // 单页记录数
         pageList: [10, 15, 20],
-        //sidePagination: "client",
         sidePagination: "server", //表示服务端请求
         contentType: "application/x-www-form-urlencoded",//必须要有！！！！
         queryParamsType : "undefined",
-
         ajaxOptions:{
             headers: {"Token":getToken("token")}
         },
-
         queryParams: function queryParams(params) { //设置查询参数
             var id = $("#work_item").find("option:selected").val();
             var param = {
@@ -263,15 +256,12 @@ function pair_score() {
             layer.msg("加载数据失败", {time : 1500, icon : 2});
         },
         responseHandler:function(res){
-            //在ajax获取到数据，渲染表格之前，修改数据源
-            //该项返回的为数据源内的二级列表
             if (res.code == "200"){
                 return res.data;
             }else {
                 layer.msg(res.message, {time : 1500, icon : 2});
             }
         },
-
 
         paginationLoop: true,
         paginationHAlign: 'left',
@@ -352,7 +342,7 @@ function pair_score() {
 function team_score() {
     $('#myTable').bootstrapTable({
         method: 'post',
-        url: "http://1.15.129.32:8888/score/task_class_blogwork_score/list",
+        url: serviceIp + "/score/task_class_blogwork_score/list",
         striped: true, // 是否显示行间隔色
         pageNumber: 1, // 初始化加载第一页
         pagination: true, // 是否分页
@@ -366,11 +356,9 @@ function team_score() {
         sidePagination: "client",
         contentType: "application/x-www-form-urlencoded",//必须要有！！！！
         queryParamsType : "undefined",
-
         ajaxOptions:{
             headers: {"Token":getToken("token")}
         },
-
         queryParams: function queryParams(params) { //设置查询参数
             var id = $("#work_item").find("option:selected").val();
             var param = {
@@ -475,8 +463,7 @@ function team_score() {
 function sum_of_score(classRoomId) {
     $('#myTable').bootstrapTable({
         method: 'post',
-        //url: "http://1.15.129.32:8080/score/task_class_blogwork_score/list?id=1&classRoomId=1", // 请求路径
-        url: "http://1.15.129.32:8888/user/show/class?classId="+classRoomId,
+        url: serviceIp + "/user/show/class?classId="+classRoomId,
         striped: true, // 是否显示行间隔色
         pageNumber: 1, // 初始化加载第一页
         pagination: true, // 是否分页

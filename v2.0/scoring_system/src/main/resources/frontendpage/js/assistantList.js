@@ -1,8 +1,7 @@
 var classRoom = getToken("class");
-
 $('#myTable').bootstrapTable({
     method: 'post',
-    url: serviceIp + '/team/selTeamByPage',
+    url: serviceIp + '/teacher/assistant/show',
     striped: true, // 是否显示行间隔色
     pageNumber: 1, // 初始化加载第一页
     pagination: true, // 是否分页
@@ -15,34 +14,19 @@ $('#myTable').bootstrapTable({
     showSearchClearButton: true, //显示搜索清除按钮
     pageSize: 10, // 单页记录数
     pageList: [10, 15],
-    contentType: "application/x-www-form-urlencoded",
+    contentType: "application/x-www-form-urlencoded",//必须要有！！！！
     queryParamsType : "undefined",
-
-    ajaxOptions:{
-        headers: {"Token":getToken("token")}
-    },
-
     queryParams: function queryParams(params) { //设置查询参数
         var param = {
-            pageNum: params.pageNumber,
-            pageSize: params.pageSize,
             classRoomId: getToken("class"),
         };
         return param;
-    },
-    onLoadSuccess: function(){ //加载成功时执行
-        layer.msg("加载成功");
     },
     onLoadError: function(){ //加载失败时执行
         layer.msg("加载数据失败", {time : 1500, icon : 2});
     },
     responseHandler:function(res){
-        if (res.code == "200"){
-            return res.data;
-        }else {
-            layer.msg(res.message, {time : 1500, icon : 2});
-            return false;
-        }
+        return res.data;
     },
 
     paginationLoop: true,
@@ -53,13 +37,13 @@ $('#myTable').bootstrapTable({
     columns: [{
         checkbox: true
     }, {
-        title: '队员1',
-        field: 'id',
+        title: '账号',
+        field: 'account',
         sort: true,
         sortable: true,
     }, {
-        title: '队员2',
-        field: 'sysTeamName',
+        title: '姓名',
+        field: 'userName',
         sort: true,
         sortable: true,
         searchable:true,
@@ -70,42 +54,18 @@ $('#myTable').bootstrapTable({
             valign: 'middle',
             events: {
                 'click #edit': function (e, value, row, index) {
-                    window.open('teamDetail.html?id='+row.id);
+                    editInfo(row.id);
                 },
                 'click #delete': function (e, value, row, index) {
-                    deleteInfo(row.Id);
+                    deleteInfo(row.id);
                 }
             },
             formatter: function (value, row, index) {
                 var result = "";
-                result += '<button id="edit" class="btn btn-info" data-toggle="modal" data-target="#editModal">查看</button>';
-                result += '<button id="delete" class="btn btn-info" style="margin-left:1%;">删除</button>';
+                // result += '<button id="edit" class="btn btn-info" data-toggle="modal" data-target="#editModal">查看</button>';
+                //result += '<button id="delete" class="btn btn-info" style="margin-left:1%;">删除</button>';
                 return result;
             }
         }
     ]
 });
-
-
-// 删除信息
-function deleteInfo(id) {
-    $.ajax({
-        type: 'post',
-        url: 'test2.json',
-        dataType: 'json',
-        beforeSend: function (XMLHttpRequest) {
-            XMLHttpRequest.setRequestHeader("Token", localStorage.token);
-        },
-        data: {
-            id: id
-        },
-        success: function (data) {
-            if (data == 'Yes') {
-                $('#table').bootstrapTable('refresh');
-            }
-            else {
-                alert('删除失败');
-            }
-        }
-    })
-}

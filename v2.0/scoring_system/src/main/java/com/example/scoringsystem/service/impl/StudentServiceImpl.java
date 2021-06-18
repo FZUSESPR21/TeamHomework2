@@ -212,8 +212,10 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public List<UserWithTaskAndScore> chart() {
         List<UserWithTaskAndScore> chartData = studentMapper.getchart();
-        for (UserWithTaskAndScore temp : chartData)
+        for (UserWithTaskAndScore temp : chartData){
             temp.calculate();
+            log.info(String.valueOf(temp));
+        }
         return chartData;
     }
 }

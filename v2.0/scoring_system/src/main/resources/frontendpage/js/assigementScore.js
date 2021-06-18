@@ -9,15 +9,13 @@ var i = 1;
 //加载评分项
 $(function() {
     $.ajax({
-        url: 'http://1.15.129.32:8888/score/blogwork/details?id='+id,
+        url: serviceIp + '/score/blogwork/details?id=' + id,
         type: 'post',
         dataType: 'json',
         beforeSend: function (XMLHttpRequest) {
             XMLHttpRequest.setRequestHeader("Token", localStorage.token);
         },
         success: function(data){
-            // alert(data.data.id);
-            // alert(data.data.blogWorkContent);
             $("#blog_id").val(data.data.id);
             $("#task_id").val(data.data.task.id);
             $("#blog_content").text(data.data.blogWorkContent);
@@ -25,9 +23,6 @@ $(function() {
             var testView = editormd.markdownToHTML("test-markdown-view", {
             });
             $.each(data.data.score.detailsDataList,function (index,item) {
-                //oninput="if(value>10)value=10" 最大值
-                //placeholder 提示文字
-                //value='"+data[index].score+"' 设置初始分数
                 if (data.data.score.detailsDataList[index].id){
                     $("#scoring_item").append("<label class='item_label'>"+data.data.score.detailsDataList[index].detailsName+"</label>");
                     $("#scoring_item").append("</br>");
@@ -53,14 +48,7 @@ function submitOnClick() {
     var t = 0;
     var itemsScore = new Array();
     for (var m=1; m<i; m++){
-        //该项得分
         var k = document.getElementById(m.toString()).value;
-        // if (k == ""){
-        //     alert("评分项不能为空");
-        //     return false;
-        // }
-        // var maxScore = document.getElementById(m.toString()).;
-        //博客id
         var j = document.getElementById(m.toString()).name;
         var data2={
             score: k,
@@ -81,7 +69,7 @@ function submitOnClick() {
 
     $.ajax({
         type: 'post',
-        url: 'http://1.15.129.32:8888/score/blogwork/scoring',
+        url: serviceIp + '/score/blogwork/scoring',
         dataType: 'json',
         beforeSend: function (XMLHttpRequest) {
             XMLHttpRequest.setRequestHeader("Token", localStorage.token);
@@ -101,7 +89,7 @@ function nextOnClick() {
     var classRoom = getToken("class");
     $.ajax({
         type: 'post',
-        url: "http://1.15.129.32:8888/score/blogwork/details/next?id="+task_id+"&classRoomId="+classRoom+"&blogWorkId="+blog_id,
+        url: serviceIp + "/score/blogwork/details/next?id="+task_id+"&classRoomId="+classRoom+"&blogWorkId="+blog_id,
         dataType: 'json',
         beforeSend: function (XMLHttpRequest) {
             XMLHttpRequest.setRequestHeader("Token", localStorage.token);
@@ -128,7 +116,7 @@ function lastOnClick() {
 
     $.ajax({
         type: 'post',
-        url: "http://1.15.129.32:8888/score/blogwork/details/previous?id="+task_id+"&classRoomId="+classRoom+"&blogWorkId="+blog_id,
+        url: serviceIp + "/score/blogwork/details/previous?id="+task_id+"&classRoomId="+classRoom+"&blogWorkId="+blog_id,
         dataType: 'json',
         beforeSend: function (XMLHttpRequest) {
             XMLHttpRequest.setRequestHeader("Token", localStorage.token);

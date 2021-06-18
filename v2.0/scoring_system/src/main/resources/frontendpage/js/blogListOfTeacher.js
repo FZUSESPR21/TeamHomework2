@@ -14,17 +14,12 @@ function loadList(url) {
         showSearchClearButton: true, //显示搜索清除按钮
         pageSize: 10, // 单页记录数
         pageList: [10, 15, 20],
-
         sidePagination: "server", //表示服务端请求
-        //设置为undefined可以获取pageNumber，pageSize，searchText，sortName，sortOrder
-        //设置为limit可以获取limit, offset, search, sort, order
         contentType: "application/x-www-form-urlencoded",//必须要有！！！！
         queryParamsType : "undefined",
-
         ajaxOptions:{
             headers: {"Token":getToken("token")}
         },
-
         queryParams: function queryParams(params) { //设置查询参数
             var options = $("#work_item option:selected").val();
             var classId = $("#classes option:selected").val();
@@ -114,7 +109,7 @@ function loadList(url) {
 }
 
 $(document).ready(function () {
-    loadList("http://1.15.129.32:8888/score/blogwork/all/showlist");
+    loadList(serviceIp + "/score/blogwork/all/showlist");
 });
 
 //下拉选项改变时
@@ -124,11 +119,11 @@ document.getElementById('classes').onchange=function(){
     if (options != "" && classId != ""){
         document.getElementById("table_show").innerHTML="";
         $("#table_show").append("<table id=\"myTable\" class=\"table table-hover text-nowrap\"></table>");
-        loadList("http://1.15.129.32:8888/score/blogwork/showlist");
+        loadList(serviceIp + "/score/blogwork/showlist");
     }else {
         document.getElementById("table_show").innerHTML="";
         $("#table_show").append("<table id=\"myTable\" class=\"table table-hover text-nowrap\"></table>");
-        loadList("http://1.15.129.32:8888/score/blogwork/all/showlist");
+        loadList(serviceIp + "/score/blogwork/all/showlist");
     }
 };
 
@@ -139,10 +134,10 @@ document.getElementById('work_item').onchange=function(){
     if (options != "" && classId != ""){
         document.getElementById("table_show").innerHTML="";
         $("#table_show").append("<table id=\"myTable\" class=\"table table-hover text-nowrap\"></table>");
-        loadList("http://1.15.129.32:8888/score/blogwork/showlist");
+        loadList(serviceIp + "/score/blogwork/showlist");
     }else {
         document.getElementById("table_show").innerHTML="";
         $("#table_show").append("<table id=\"myTable\" class=\"table table-hover text-nowrap\"></table>");
-        loadList("http://1.15.129.32:8888/score/blogwork/all/showlist");
+        loadList(serviceIp + "/score/blogwork/all/showlist");
     }
 };

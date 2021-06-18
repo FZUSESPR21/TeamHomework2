@@ -13,8 +13,7 @@ function getUrlParam(name) {
 var id = getUrlParam('id');
 
 $.ajax({
-    // url:"/assistant/task/add",
-    url: "http://1.15.129.32:8888/score/task/details?id="+id,
+    url: serviceIp + "/score/task/details?id="+id,
     type:"post",
     dataType:"JSON",
     beforeSend: function (XMLHttpRequest) {

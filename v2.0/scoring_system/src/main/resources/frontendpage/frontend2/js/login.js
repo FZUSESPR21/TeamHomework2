@@ -1,9 +1,9 @@
 var timestamp = Date.parse(new Date());
 $(document).ready(function () {
-    document.getElementById("log_image").src = serviceIp + "/captcha?rnd=" + timestamp;
+    document.getElementById("log_image").src="http://1.15.129.32:8888/captcha?rnd="+timestamp;
 });
 function changeCode(){
-    document.getElementById("log_image").src = serviceIp + "/captcha?rnd=" + timestamp;
+    document.getElementById("log_image").src="http://1.15.129.32:8888/captcha?rnd="+timestamp;
 }
 function setToken(type, value) {
     localStorage.setItem(type, value);
@@ -12,8 +12,10 @@ function loging() {
     var id = document.getElementById("user_id").value;
     var password = document.getElementById("password").value;
     var verify_code = document.getElementById("verify_code").value;
+
+    console.log(id +":" + password +":" +verify_code +":" + timestamp);
     $.ajax({
-        url: serviceIp + '/login',
+        url: 'http://1.15.129.32:8888/login',
         type: 'post',
         dataType: 'json',
         data: {
