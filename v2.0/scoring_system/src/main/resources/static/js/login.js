@@ -38,7 +38,7 @@ function loging() {
                 }else if (data.data.roles[0].roleName =="admin"){
                     window.location.href="assigement/scoreinquiry.html";
                 }else {
-                    alert("身份错误");
+                    //alert("身份错误");
                 }
             }else {
                 alert(data.message);

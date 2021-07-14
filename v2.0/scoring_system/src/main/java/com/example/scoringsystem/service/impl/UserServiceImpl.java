@@ -99,23 +99,23 @@ public class UserServiceImpl implements UserService {
         for (int i=0;i<pairList.size();i++)
         {
             Pair pair=pairList.get(i);
-            if (pair.getAccount1()!=null&&pair.getAccount2()!=null)
-            {
-            String teamName=pair.getAccount1()+"&&&@@@"+pair.getAccount2();
-            Team team=new Team();
-            team.setSysTeamName(teamName);
-            team.setClassRoomId(classRoomId);
-            List<Team> teams=userMapper.selTeamByTeamName(teamName);
-            if (teams!=null&&teams.size()>1)
-            {
-                team.setId(teams.get(0).getId());
-            }
-            else
-            {
-                userMapper.insPairTeam(team);
-            }
-            userMapper.updUserPairTeamIdByAccount("s"+pair.getAccount1(),team.getId());
-            userMapper.updUserPairTeamIdByAccount("s"+pair.getAccount2(),team.getId());
+            log.info(pair+"%%%%");
+            if (pair.getAccount1()!=null&&pair.getAccount2()!=null) {
+                String teamName=pair.getAccount1()+"&&&@@@"+pair.getAccount2();
+                Team team=new Team();
+                team.setSysTeamName(teamName);
+                team.setClassRoomId(classRoomId);
+                List<Team> teams=userMapper.selTeamByTeamName(teamName);
+                if (teams!=null&&teams.size()>1)
+                {
+                    team.setId(teams.get(0).getId());
+                }
+                else
+                {
+                    userMapper.insPairTeam(team);
+                }
+                userMapper.updUserPairTeamIdByAccount("s"+pair.getAccount1(),team.getId());
+                userMapper.updUserPairTeamIdByAccount("s"+pair.getAccount2(),team.getId());
         }
         }
         return true;
@@ -205,6 +205,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResponseData insClassRomm(ClassRoom classRoom) {
+        log.info("插入的班级"+classRoom.toString());
         if (userMapper.selClassRoomByClassName(classRoom.getClassName()).size()>0) {
             return new ResponseData("插入失败，班级名已经存在","1052","[]");
         }

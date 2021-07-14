@@ -30,13 +30,6 @@ import java.util.Map;
 @Configuration
 public class ShiroConfig {
 
-//    @Bean
-//    @ConditionalOnMissingBean
-//    public DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator() {
-//        DefaultAdvisorAutoProxyCreator defaultAAP = new DefaultAdvisorAutoProxyCreator();
-//        defaultAAP.setProxyTargetClass(true);
-//        return defaultAAP;
-//    }
 
     /**
      * 注册shiro的Filter，拦截请求
@@ -146,6 +139,7 @@ public class ShiroConfig {
         map.put("/student/export","roles[admin]");
         map.put("/details/import","roles[admin]");
         map.put("/student/import","roles[teacher]");
+        map.put("/student/import","roles[teacher]");
 
         //不需要验证
         //需要perms[user:add]权限
@@ -160,13 +154,14 @@ public class ShiroConfig {
         map.put("/assigement/*","anon");
         map.put("/jobManagemant/*","anon");
         //静态资源放行
-//        map.put("*.css", "anon");
+        map.put("/css/*", "anon");
 //        map.put("/*.html","anon");
         map.put("*.js","anon");
         map.put("/bootstrap-4.6.0-dist/**", "anon");
 //        map.put("/bootstrap-table/**", "anon");
+        //flag
         map.put("/bootstrap-table/dist/*","anon");
-        map.put("/css/**", "anon");
+//        map.put("/css/**", "anon");
         map.put("/editor.md-master/**", "anon");
         map.put("/editormd/**", "anon");
         map.put("/jquery/**", "anon");
@@ -176,8 +171,8 @@ public class ShiroConfig {
         //验证码放行
         map.put("/captcha","anon");
         //对所有用户认证
-        map.put("/**", "anon");
-//        map.put("/**", "authc");
+//        map.put("/**", "anon");
+        map.put("/**", "authc");
         //登录
         shiroFilterFactoryBean.setLoginUrl("/login");
         //首页

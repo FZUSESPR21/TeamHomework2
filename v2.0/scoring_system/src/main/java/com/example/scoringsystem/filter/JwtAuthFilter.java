@@ -19,15 +19,18 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.Enumeration;
 
 @Data
 @Slf4j
 public class JwtAuthFilter extends AuthenticatingFilter {
 
-    private static final int tokenRefreshInterval = 300;
+    private static final int tokenRefreshInterval = 3600;
     @Autowired
     private UserService userService;
 
@@ -119,9 +122,32 @@ public class JwtAuthFilter extends AuthenticatingFilter {
         return super.onLoginFailure(token, e, request, response);
     }
 
-    protected String getAuthzHeader(ServletRequest request) {
+    protected String getAuthzHeader(ServletRequest request) throws IOException {
         HttpServletRequest httpRequest = WebUtils.toHttp(request);
         String header = httpRequest.getHeader("Token");
+//        if (header.equals("")) {
+//            header = httpRequest.getAttribute("Token").toString();
+//        }
+//        //请求头打印
+//        Enumeration<String> headerNames = httpRequest.getHeaderNames();
+//        //2.遍历
+//        while (headerNames.hasMoreElements()) {
+//            //请求头名称
+//            String element = headerNames.nextElement();
+//            //根据名称获取请求头的值
+//            String value = httpRequest.getHeader(element);
+//            log.error("获取的请求头*****"+element + " :  " + value);
+//        }
+//        //请求体打印
+//        //获取请求消息体
+//        //1. 获取字符流
+//        BufferedReader br = httpRequest.getReader();
+//        //2.读取数据
+//        String line = null;
+//        while ((line = br.readLine())!= null){
+//            log.error("请求体********"+line);
+//        }
+        log.error("收到的Token"+header);
         return StringUtils.removeStart(header, "Bearer ");
     }
 

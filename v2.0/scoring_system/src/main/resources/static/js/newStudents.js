@@ -22,7 +22,7 @@ $(document).ready(function () {
 function onClicked() {
     //判断作业名是否为空
     if ($("#classId").val() == ""){
-        alert("作业名不能为空！ ");
+        alert("班级不能为空！ ");
         return false;
     }
 
@@ -67,5 +67,5 @@ function onClicked() {
                 alert(data.message);
             }
         }
-    })
+    });
 }

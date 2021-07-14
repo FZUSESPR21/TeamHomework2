@@ -33,7 +33,7 @@
         <li class="layui-nav-item" id="my-message">
             <a href=""><img src="//t.cn/RCzsdCq" class="layui-nav-img">我</a>
             <dl class="layui-nav-child">
-                <dd><a href="javascript:;">修改信息</a></dd>
+                <dd><a href="javascript:;" onclick="changePassword()">修改信息</a></dd>
                 <dd><a href="javascript:;" onclick="unLoadOnClick()">退出</a></dd>
             </dl>
         </li>
@@ -147,20 +147,20 @@
                     </div>
 
 
-                    <div id="pair_member">
-                        <div class="input_student_id">
-                            <span class="input-group-addon">你的学号：</span>
-                            <label>
-                                <input id="student1" name="student1" type="text" class="form-control" placeholder="请输入你的学号" aria-describedby="basic-addon1">
-                            </label>
-                        </div>
-                        <div class="input_student_id">
-                            <span class="input-group-addon">队友学号：</span>
-                            <label>
-                                <input id="student2" name="student2" type="text" class="form-control" placeholder="请输入队友学号" aria-describedby="basic-addon1">
-                            </label>
-                        </div>
-                    </div>
+<!--                    <div id="pair_member">-->
+<!--                        <div class="input_student_id">-->
+<!--                            <span class="input-group-addon">你的学号：</span>-->
+<!--                            <label>-->
+<!--                                <input id="student1" name="student1" type="text" class="form-control" placeholder="请输入你的学号" aria-describedby="basic-addon1">-->
+<!--                            </label>-->
+<!--                        </div>-->
+<!--                        <div class="input_student_id">-->
+<!--                            <span class="input-group-addon">队友学号：</span>-->
+<!--                            <label>-->
+<!--                                <input id="student2" name="student2" type="text" class="form-control" placeholder="请输入队友学号" aria-describedby="basic-addon1">-->
+<!--                            </label>-->
+<!--                        </div>-->
+<!--                    </div>-->
                 </div>
 
                 <button id="submit_button" class="layui-btn" onclick="submitOnClicked()">提交</button>

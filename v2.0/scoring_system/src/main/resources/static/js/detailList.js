@@ -2,7 +2,9 @@ var classRoom = getToken("class");
 
 $('#myTable').bootstrapTable({
     method: 'post',
-    url: serviceIp + "/score/task/show?classRoomId=" + classRoom,
+    url: "http://1.15.129.32:8888/score/task/show?classRoomId=" + classRoom,
+    //url: "http://1.15.129.32:8080/score/task/show?classRoomId=1",
+    //url: "test.json",
     striped: true, // 是否显示行间隔色
     pageNumber: 1, // 初始化加载第一页
     pagination: true, // 是否分页
@@ -25,6 +27,8 @@ $('#myTable').bootstrapTable({
         layer.msg("加载数据失败", {time : 1500, icon : 2});
     },
     responseHandler:function(res){
+        //在ajax获取到数据，渲染表格之前，修改数据源
+        //该项返回的为数据源内的二级列表data
         return res;
     },
 
@@ -80,7 +84,9 @@ $('#myTable').bootstrapTable({
 
 $('#assistantTable').bootstrapTable({
     method: 'post',
-    url: serviceIp + "/score/task/show?classRoomId=" + classRoom,
+    url: serviceIp+"/score/task/show?classRoomId=" + classRoom,
+    //url: "http://1.15.129.32:8080/score/task/show?classRoomId=1",
+    //url: "test.json",
     striped: true, // 是否显示行间隔色
     pageNumber: 1, // 初始化加载第一页
     pagination: true, // 是否分页
@@ -162,7 +168,8 @@ $('#assistantTable').bootstrapTable({
 //查看信息
 function editInfo(id) {
     $.ajax({
-        url: serviceIp + "/score/task/details?id="+id,
+        // url:"/assistant/task/add",
+        url: "http://1.15.129.32:8888/score/task/details?id="+id,
         type:"post",
         dataType:"JSON",
         beforeSend: function (XMLHttpRequest) {

@@ -187,6 +187,12 @@ public interface ScoreMapper {
             "            WHERE  details_id=#{detailsId} AND r.`team_id`!=#{teamId}")
     List<TeamReplyReviewForm> selReplyReviewFormByDetailsId(TeamReplyReviewForm teamReplyReviewForm);
 
+    @Select("SELECT r.sys_id id,review_items replyReviewForm,task_id taskId,team_id teamId,details_id detailsId,`finnish_count` finnishCount,t.sys_team_name teamName\n" +
+            "            FROM reply_review_form  r\n" +
+            "            LEFT JOIN team t ON r.`team_id`=t.`sys_id`\n" +
+            "            WHERE  details_id=#{detailsId}")
+    List<TeamReplyReviewForm> selReplyReviewFormByDetailsIdWithTeamIdCondition(TeamReplyReviewForm teamReplyReviewForm);
+
     @Select("SELECT sys_id id FROM team_score WHERE team_id=#{teamId}\n" +
             "AND task_id IN(SELECT task_id FROM details WHERE sys_id=#{detailsId})")
     List<String> selTeamScoreIdByTeamIdAndDetailsId(TeamReplyReviewForm teamReplyReviewForm);
@@ -198,6 +204,13 @@ public interface ScoreMapper {
     @Select("SELECT sys_id id,review_items replyReviewForm,task_id taskId,team_id teamId,details_id detailsId \n" +
             "FROM reply_review_form WHERE  details_id=#{detailsId} AND team_id=#{teamId}")
     TeamReplyReviewForm selReplyReviewFormByDetailsIdAndTeamId(TeamReplyReviewForm teamReplyReviewForm);
+
+    @Select("  SELECT t.sys_id id,t.team_id teamId,t.reply_review_form  replyReviewFormScore,t.user_id userId,t.score,t.advice,t.details_id detailsId,r.`review_items` replyReviewForm,r.`finnish_count` finnishCount\n" +
+            "            FROM team_reply_review_form t \n" +
+            "            LEFT JOIN reply_review_form r ON r.`details_id`=t.`details_id` AND r.`team_id`=t.`team_id`\n" +
+            "            LEFT JOIN `user` u ON u.id=t.user_id\n" +
+            "            WHERE t.team_id=#{teamId} AND t.details_id=#{detailsId} AND u.team_id=#{thatTeamId}")
+    List<TeamReplyReviewForm> selReplyReviewFormByDetailsIdAndTeamIdAndThatTeamId(TeamReplyReviewForm teamReplyReviewForm);
 
     @Update("UPDATE reply_review_form SET finnish_count=#{finnishCount} WHERE team_id=#{teamId} AND details_id=#{detailsId}")
     Integer updReplyReviewFormFinnishCountByDetailsIdAndTeamId(TeamReplyReviewForm teamReplyReviewForm);

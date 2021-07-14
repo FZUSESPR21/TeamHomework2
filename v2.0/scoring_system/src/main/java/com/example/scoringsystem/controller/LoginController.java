@@ -435,9 +435,6 @@ public class LoginController {
     }
 
 
-
-
-
     /**
      * @Description: 学生导出（excel）
      * @Param: [response, request]
@@ -566,6 +563,56 @@ public class LoginController {
 //        String path = System.getProperty("user.dir");
         //待下载文件名
         String fileName = "team.xls";
+        //设置为png格式的文件
+        response.setHeader("content-type", "image/png");
+        response.setContentType("application/octet-stream");
+        response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
+        byte[] buff = new byte[1024];
+        //创建缓冲输入流
+        BufferedInputStream bis = null;
+        OutputStream outputStream = null;
+        String path = "E:\\其他\\三下\\软件工程\\t2\\git\\meeting-system-8\\v2.0\\scoring_system\\src\\main\\resources\\static\\excel\\";
+        path="/usr/java/rescource/";
+        try {
+            outputStream = response.getOutputStream();
+
+            //这个路径为待下载文件的路径
+            bis = new BufferedInputStream(new FileInputStream(new File(path + fileName)));
+            int read = bis.read(buff);
+
+            //通过while循环写入到指定了的文件夹中
+            while (read != -1) {
+                outputStream.write(buff, 0, buff.length);
+                outputStream.flush();
+                read = bis.read(buff);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            //出现异常返回给页面失败的信息
+        } finally {
+            if (bis != null) {
+                try {
+                    bis.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (outputStream != null) {
+                try {
+                    outputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    @RequestMapping("/pair/export/formwork")
+    public void exportPairFormworkExcel(HttpServletResponse response, HttpServletRequest request) throws IOException {
+        List<User> userList = loginService.selAllStudentUser();
+//        String path = System.getProperty("user.dir");
+        //待下载文件名
+        String fileName = "pair.xls";
         //设置为png格式的文件
         response.setHeader("content-type", "image/png");
         response.setContentType("application/octet-stream");

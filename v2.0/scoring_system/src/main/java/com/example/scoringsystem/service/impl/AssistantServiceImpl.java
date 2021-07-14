@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -43,8 +44,10 @@ public class AssistantServiceImpl implements AssistantService {
      * @Date: 2021/5/2
      */
     @Override
+    @Transactional
     public void addAssistant(User user) {
         User tempuser = user;
+        tempuser.setAccount("A" + user.getAccount());
         if (assistantMapper.selUserByAccount(user) != null) {
             log.info("账户已经存在:" + user.toString());
             //账户名已经存在
@@ -53,8 +56,8 @@ public class AssistantServiceImpl implements AssistantService {
             //生成随机盐并保存
             String salt = SaltUtils.getSalt(SALT_SIZE);
             tempuser.setSalt(salt);
-            //为账户添加标识符A
-            tempuser.setAccount("A" + user.getAccount());
+//            //为账户添加标识符A
+//            tempuser.setAccount("A" + user.getAccount());
             //设置密码为默认密码
             tempuser.setPassword(user.getPassword());
             //对明文密码进行md5+salt+hash散列
@@ -63,6 +66,12 @@ public class AssistantServiceImpl implements AssistantService {
         }
         log.info(tempuser.toString());
         assistantMapper.addAssistant(tempuser);
+        attachAssistantRole(user);
+    }
+
+    private void attachAssistantRole(User user)
+    {
+        log.info("插入结果"+assistantMapper.insAssistantRole(user));
     }
 
     @Override

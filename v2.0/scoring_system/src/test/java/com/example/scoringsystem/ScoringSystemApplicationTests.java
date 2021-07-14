@@ -3,6 +3,7 @@ package com.example.scoringsystem;
 import com.example.scoringsystem.bean.*;
 import com.example.scoringsystem.mapper.ScoreMapper;
 import com.example.scoringsystem.mapper.UserMapper;
+import com.example.scoringsystem.service.AssistantService;
 import com.example.scoringsystem.service.ScoreService;
 import com.example.scoringsystem.service.UserService;
 import org.junit.jupiter.api.Test;
@@ -27,6 +28,9 @@ class ScoringSystemApplicationTests {
     ScoreService scoreService;
     @Autowired
     ScoreMapper scoreMapper;
+
+    @Autowired
+    AssistantService assistantService;
 //    @Test
     void selRolesByUserName() {
         BlogWork blogWork=new BlogWork();
@@ -40,9 +44,13 @@ class ScoringSystemApplicationTests {
     @Test
     public void testRedis()
     {
-        redisTemplate.opsForValue().set("java","测试java");
-        String str=(String)redisTemplate.opsForValue().get("java");
-        System.out.println(str);
+        int i=3;
+        System.out.println(1.0/i);
+//        User user=new User();
+//        user.setAccount("A000002");
+//        user.setPassword("123456xm");
+//        user.setUserName("GreyZeng");
+//        assistantService.addAssistant(user);
     }
 
     void contextLoads() {

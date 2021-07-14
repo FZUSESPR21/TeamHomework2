@@ -11,6 +11,8 @@ public interface LoginService {
 
     void testMapper();
 
+    User selRolesByAccount(String account);
+
     User selRolesByUserName(String username);
 
     List<User> selAllStudentUser();

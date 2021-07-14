@@ -3,7 +3,22 @@ var box = document.getElementById('box');
 var hidden = document.getElementById('hidden');
 var close = document.getElementById('close');
 var i = 1;
+var userId = getToken("id");
+var student_id1;
+var student_id2;
+var userAccount = getToken("account");
 
+
+$(function(){
+    $("input").on("keyup",function(e){
+        if(e.keyCode===13){
+            // 获取下一个input节点
+            $(this).parent().next().children().focus();
+        }
+    });
+});
+
+//markdown格式转换
 $(function() {
     var editor = editormd("editor", {
         width: "100%",
@@ -85,6 +100,28 @@ $(document).ready(function () {
             $("#box").append("<input type=\"button\" value=\"提交\" id=\"submit\" onclick=\"submitTeam()\">");
         }
     });
+
+    $.ajax({
+        type: 'get',
+        url: serviceIp + '/team/selAllPairTeamMember?userId='+userId,
+        dataType: 'json',
+        beforeSend: function (XMLHttpRequest) {
+            XMLHttpRequest.setRequestHeader("Token", localStorage.token);
+        },
+        contentType: "application/json",
+        success: function(data){
+            if (data.code == 200){
+                if ( data.data[0] != null){
+                    student_id1 = data.data[0].account;
+                    student_id2 = data.data[1].account;
+                }else {
+                    layer.msg("");
+                }
+            }else{
+                layer.msg(data.message);
+            }
+        }
+    });
 });
 
 //下拉选项改变时
@@ -116,10 +153,8 @@ function submitOnClicked() {
     var blog_content = $("#blog_content").val();
     var blog_link = $("#blog_link").val();
     var student_id = $("#student").val();
-    var student_id1 = $("#student1").val();
-    var student_id2 = $("#student2").val();
-    var userId = getToken("id");
-    var userAccount = getToken("account");
+    // var student_id1 = $("#student1").val();
+    // var student_id2 = $("#student2").val();
 
     var reg=/^http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w- ./?%&=]*)?$/;
     if(!reg.test(blog_link)){
@@ -155,21 +190,22 @@ function submitOnClicked() {
                 layer.msg(data.message);
             }
         });
-    }else if (work_type_id == 2){
+    }
+    else if (work_type_id == 2){
         var data1 = {
-            taskId: work_id,
-            blogWorkContent: blog_content,
-            blogurl: blog_link,
-            userId: userId,
-            blogWorkName: work_name,
-            contributionList: [
+            "userId": userId,
+            "taskId": work_id,
+            "blogWorkContent": blog_content,
+            "blogurl": blog_link,
+            "blogWorkName": work_name,
+            "contributionList": [
                 {
                     account: "s"+student_id1,
-                    ratio: 100,
+                    ratio: 50,
                 },
                 {
                     account: "s"+student_id2,
-                    ratio: 100,
+                    ratio: 50,
                 }
             ]
         };
@@ -242,6 +278,8 @@ function submitTeam() {
         data: data,
         success: function(data){
             if(data.code == 200){
+                layer.msg(data.message);
+            }else {
                 layer.msg(data.message);
             }
         }

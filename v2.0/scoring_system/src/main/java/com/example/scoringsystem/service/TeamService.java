@@ -10,6 +10,8 @@ public interface TeamService {
 
     List<User> selAllTeamMember(Team team);
 
+    List<User> selAllPairTeamMember(String userId);
+
     boolean delTeam(Team team);
 
     boolean addSingleTeam(TeamForImport team);

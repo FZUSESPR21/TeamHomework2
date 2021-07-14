@@ -77,6 +77,11 @@ public class LoginServiceImpl implements LoginService {
     }
 
     @Override
+    public User selRolesByAccount(String account) {
+        return userMapper.selRoleByUserAccount(account);
+    }
+
+    @Override
     public User selRolesByUserName(String username) {
         return userMapper.selRolesByUserName(username);
     }

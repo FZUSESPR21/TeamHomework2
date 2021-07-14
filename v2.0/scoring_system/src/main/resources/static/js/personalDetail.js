@@ -9,7 +9,7 @@ document.getElementById('work_type').onchange=function(){
     else if (work_type_id == 2){
         document.getElementById("personal_table").innerHTML="";
         $("#personal_table").append("<table id=\"myTable\" class=\"table table-hover text-nowrap\"></table>");
-        pairWork();
+        teamWork();
     }else {
         document.getElementById("personal_table").innerHTML="";
         $("#personal_table").append("<table id=\"myTable\" class=\"table table-hover text-nowrap\"></table>");

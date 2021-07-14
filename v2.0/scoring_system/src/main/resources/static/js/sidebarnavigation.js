@@ -13,6 +13,7 @@ function analysisClicked() {
     document.getElementById("user-manage").style.display="none";
     document.getElementById("statistical-analysis").style.display="block";
 }
+
 function unLoadOnClick() {
     localStorage.setItem("class", null);
     localStorage.setItem("role", null);
@@ -21,4 +22,8 @@ function unLoadOnClick() {
     localStorage.setItem("account", null);
     localStorage.setItem("group", null);
     window.location.href="../login.html";
+}
+
+function changePassword() {
+    window.location.href="changeMessage.html";
 }

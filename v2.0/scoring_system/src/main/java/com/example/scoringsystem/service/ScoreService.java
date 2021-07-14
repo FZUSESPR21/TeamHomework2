@@ -38,6 +38,8 @@ public interface ScoreService {
 
     List<TeamReplyReviewForm> getTeamReplyReviewForm(TeamReplyReviewForm teamReplyReviewForm);
 
+    List<TeamReplyReviewForm> getTeamReplyReviewForm2(TeamReplyReviewForm teamReplyReviewForm);
+
     List<TeamReplyReviewForm> getTeamReplyReviewFormByDetailsIdExceptTeamId(TeamReplyReviewForm teamReplyReviewForm);
 
     List<TeamReplyReviewFormSimple> getTeamWithIsterminted(TeamReplyReviewForm teamReplyReviewForm);

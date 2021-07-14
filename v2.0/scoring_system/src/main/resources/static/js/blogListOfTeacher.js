@@ -1,7 +1,6 @@
 function loadList(url) {
     $('#myTable').bootstrapTable({
         method: 'post',
-        // url: "http://1.15.129.32:8888/score/blogwork/showlist",
         url: url,
         striped: true, // 是否显示行间隔色
         pageNumber: 1, // 初始化加载第一页
@@ -9,7 +8,10 @@ function loadList(url) {
         dataField: "list",
         height:600,
         sortable: true,
-        search: true,
+        //search: true,
+        dataType: 'json',
+        paginationShowPageGo: true,
+        showJumpto: true,
         showColumns: true, //筛选要显示的列
         showSearchClearButton: true, //显示搜索清除按钮
         pageSize: 10, // 单页记录数

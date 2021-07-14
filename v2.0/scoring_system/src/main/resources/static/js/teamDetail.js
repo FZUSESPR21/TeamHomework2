@@ -15,6 +15,7 @@ $('#myTable').bootstrapTable({
     pagination: true, // 是否分页
     sidePagination: 'client', // server:服务器端分页|client：前端分页
     height:600,
+    width:800,
     sortable: true,
     pageSize: 10, // 单页记录数
     pageList: [10, 15],

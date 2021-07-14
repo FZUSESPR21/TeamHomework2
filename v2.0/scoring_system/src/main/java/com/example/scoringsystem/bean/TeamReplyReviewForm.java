@@ -15,6 +15,8 @@ public class TeamReplyReviewForm {
     String detailsId;
     String taskId;
     String reviewPeopleNum;
+    //用于逻辑上，查询别的团队给自己团队的评分
+    String thatTeamId;
     //0未评分 1 已评分
     Integer finnishCount;
 }

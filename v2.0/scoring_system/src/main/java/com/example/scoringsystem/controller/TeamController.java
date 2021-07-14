@@ -19,7 +19,7 @@ import java.util.List;
 @Slf4j
 @CrossOrigin
 @Controller
-@RequestMapping("//team")
+@RequestMapping("/team")
 public class TeamController {
     @Autowired
     TeamService teamService;
@@ -29,6 +29,16 @@ public class TeamController {
     public ResponseData selTeam(PageRequest pageRequest) {
         PageInfo<Team> pageInfo = teamService.selTeamByPage(pageRequest);
         return new ResponseData("返回的团队列表", "200", pageInfo);
+    }
+
+    @RequestMapping("/selAllPairTeamMember")
+    @ResponseBody
+    public ResponseData selAllTeamMember(String userId) {
+        List<User> studentList = teamService.selAllPairTeamMember(userId);
+        if (studentList != null) {
+            return new ResponseData("成功返回该组的所有学生信息", "200", studentList);
+        }
+        return new ResponseData("没有该组相关信息", "1001", "[]");
     }
 
     @RequestMapping("/selAllTeamMember")

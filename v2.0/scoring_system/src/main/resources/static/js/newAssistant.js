@@ -1,3 +1,22 @@
+
+$(document).ready(function () {
+    $.ajax({
+        type: 'post',
+        url: serviceIp + '/score/class/showlist',
+        dataType: 'json',
+        beforeSend: function (XMLHttpRequest) {
+            XMLHttpRequest.setRequestHeader("Token", localStorage.token);
+        },
+        success: function(data){
+            $.each(data.data,function (index,item) {
+                $("#class_room").append("<option value='"+data.data[index].id+"'>"+data.data[index].className+"</option>");
+            });
+        }
+    });
+});
+
+
+
 function submitOnClick() {
     //判断助教姓名是否为空
     if ($("#userName").val() == ""){
@@ -18,7 +37,7 @@ function submitOnClick() {
     if(!zhengze.test(va)){
         alert("密码由6-16位数字和字母组成");
     }else if(!repPass1.test(va) || !repPass2.test(va)){
-        alert("请输入符合规则的密码~!");
+        alert("密码由6-16位数字和字母组成!");
     }
     else if(va.length<6||va.length>16)
     {
@@ -27,13 +46,14 @@ function submitOnClick() {
     var account= document.getElementById("account").value;
     var userName = document.getElementById("userName").value;
     var password = document.getElementById("password").value;
+    var classId = $("#class_room").find("option:selected").val();
     var data1={
         account:account,
         password:password,
         userName:userName,
         perms:null,
         roles:null,
-        class_id:"1"
+        classId: classId,
     };
 
     $.ajax({

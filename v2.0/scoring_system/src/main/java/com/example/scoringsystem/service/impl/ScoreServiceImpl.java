@@ -327,6 +327,12 @@ public class ScoreServiceImpl implements ScoreService {
         }
     }
 
+    /**
+    * @Description: 处理团队作业，并存储分数，累计至学生个人处
+    * @Param: [blogWork, blogWork1, detailsDataList]
+    * @return: com.example.scoringsystem.bean.BlogWork
+    * @Date: 2021/7/10
+    */
     private BlogWork dealTeamAndPairBlogWork(BlogWork blogWork, BlogWork blogWork1, List<DetailsData> detailsDataList) {
         log.info("需要处理的数据：" + blogWork + blogWork1 + detailsDataList);
         blogWork1 = scoreMapper.selTeamBlogWorkById(blogWork);
@@ -365,8 +371,9 @@ public class ScoreServiceImpl implements ScoreService {
                 log.info(blogWork1.getTask().toString());
                 log.info("学生原来的成绩:" + Double.parseDouble(user.getTotalScore()) + "ratio:" + Double.parseDouble(blogWork1.getTask().getRatio()) + "本次作业得分:" +
                         Double.parseDouble(score.getScore()));
+                //评分公式: 个人成绩 = 团队成绩 * [1 + (个人贡献度 - 1/n )]//n指团队成员个数
                 Double totalScore = Double.parseDouble(user.getTotalScore()) +
-                        Double.parseDouble(score.getScore()) * Double.parseDouble(blogWork1.getTask().getRatio()) * Double.parseDouble(accountAndRatio[1]);
+                        Double.parseDouble(score.getScore()) * Double.parseDouble(blogWork1.getTask().getRatio()) *( 1.0+Double.parseDouble(accountAndRatio[1])/100-1.0/strings.length);
                 user.setTotalScore(totalScore.toString());
                 log.info("更新totalScore时的user：" + user);
                 scoreMapper.updUserTotalScore(user);
@@ -458,16 +465,27 @@ public class ScoreServiceImpl implements ScoreService {
     @Override
     public List<TeamReplyReviewForm> getTeamReplyReviewForm(TeamReplyReviewForm teamReplyReviewForm) {
         List<TeamReplyReviewForm> list = null;
+        log.info("查询的"+teamReplyReviewForm);
         if (teamReplyReviewForm.getUserId() != null) {
             list = scoreMapper.selTeamReplyReviewFormDetailsByTeamIdAndDetailsIdAndUserId(teamReplyReviewForm);
         }
+        log.info("查询评分表");
         if (list == null || list.size() < 1) {
+            log.info("其他人查询");
             TeamReplyReviewForm teamReplyReviewForm1 = scoreMapper.selReplyReviewFormByDetailsIdAndTeamId(teamReplyReviewForm);
             if (teamReplyReviewForm1 != null) {
                 list = new ArrayList<>();
                 list.add(teamReplyReviewForm1);
             }
         }
+        log.info("查询得到的list"+list);
+        return list;
+    }
+
+    @Override
+    public List<TeamReplyReviewForm> getTeamReplyReviewForm2(TeamReplyReviewForm teamReplyReviewForm) {
+        List<TeamReplyReviewForm> list = scoreMapper.selReplyReviewFormByDetailsIdAndTeamIdAndThatTeamId(teamReplyReviewForm);
+        log.info("查询得到的list"+list);
         return list;
     }
 
@@ -486,7 +504,8 @@ public class ScoreServiceImpl implements ScoreService {
             if (teamReplyReviewForm1.getFinnishCount() != null && teamReplyReviewForm1.getFinnishCount() > 0) {
                 for (int j = 0; j < teamReplyReviewFormSimpleList.size(); j++) {
                     log.info(teamReplyReviewFormSimpleList.get(j).getTeamId() + "   " + teamReplyReviewForm1.getTeamId());
-                    if (teamReplyReviewFormSimpleList.get(j).getTeamId().equals(teamReplyReviewForm1.getTeamId())) {
+                    //适应teamId为空时不区分team，传给客户端所有team的信息
+                    if (teamReplyReviewForm1.getTeamId()==null||teamReplyReviewFormSimpleList.get(j).getTeamId().equals(teamReplyReviewForm1.getTeamId())) {
                         teamReplyReviewFormSimpleList.set(j, new TeamReplyReviewFormSimple(teamReplyReviewForm1.getTeamId(),
                                 teamReplyReviewForm1.getTeamName(), true));
                     }

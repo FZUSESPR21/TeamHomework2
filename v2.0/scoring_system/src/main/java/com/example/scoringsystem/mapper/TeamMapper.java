@@ -20,6 +20,10 @@ public interface TeamMapper {
     @Select("SELECT id,account,user_name as userName,PASSWORD,perms,salt,total_score totalScore,team_id teamId,team_change_history,class_id classId FROM user where team_id = #{id} and account like 's%'")
     List<User> selAllTeamMember(Team team);
 
+    @Select(" SELECT id,account,user_name AS userName,PASSWORD,perms,salt,total_score totalScore,team_id teamId,team_change_history,class_id classId \n" +
+            " FROM `user` WHERE pair_team_id = (SELECT pair_team_id FROM `user` WHERE id=#{userId}) AND account LIKE 's%'")
+    List<User> selAllPairTeamMember(String userId);
+
     @Delete("delete from team where sys_id = #{id}")
     Integer delTeam(Team team);
 

@@ -50,6 +50,16 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
+    public List<User> selAllPairTeamMember(String userId) {
+        List<User> studentList = teamMapper.selAllPairTeamMember(userId);
+        for (User student : studentList) {
+            String newAccount = student.getAccount().substring(1);
+            student.setAccount(newAccount);
+        }
+        return studentList;
+    }
+
+    @Override
     public boolean delTeam(Team team) {
         Integer result = teamMapper.delTeam(team);
         if (result == 1){
@@ -91,12 +101,14 @@ public class TeamServiceImpl implements TeamService {
             result = teamMapper.addSingleTeam(team);
             if (result == 1) count++;
             List<String> idList=dealTeamList(teamList,i);
-            for (int j=0;j<idList.size();j++)
-            {
-                teamMapper.updStuTeamId(team.getId(),"s" +idList.get(j));
-            }
             String teamId = teamMapper.selectLastInsertId();
             log.error("最近插入的team的id是" + teamId);
+            for (int j=0;j<idList.size();j++)
+            {
+                if (idList.get(j)!=null&&!idList.get(j).isEmpty()) {
+                    teamMapper.updStuTeamId(teamId,"s" +idList.get(j));
+                }
+            }
         }
         return new ResponseData("新增成功：","200","");
     }
@@ -107,6 +119,7 @@ public class TeamServiceImpl implements TeamService {
         idList.add(teamList.get(i).getStudent1());
         idList.add(teamList.get(i).getStudent2());
         idList.add(teamList.get(i).getStudent3());
+        idList.add(teamList.get(i).getStudent4());
         idList.add(teamList.get(i).getStudent5());
         idList.add(teamList.get(i).getStudent6());
         idList.add(teamList.get(i).getStudent7());

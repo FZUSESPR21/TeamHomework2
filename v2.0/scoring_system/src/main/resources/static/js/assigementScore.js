@@ -28,11 +28,11 @@ $(function() {
                     $("#scoring_item").append("</br>");
                     if(data.data.score.detailsDataList[index].score != null){
                         $("#scoring_item").append(" <input class='score_input' id='"+i+"' type=\"number\" value='"+data.data.score.detailsDataList[index].score+"' name='"+data.data.score.detailsDataList[index].id+"'" +
-                            " placeholder='"+"总分"+100+"分"+"' " + "oninput=\"if(value>" +100 +")value="+100+"\""+
+                            " placeholder='"+"总分"+100+"分"+"' " + "oninput=\"if(value>" +100 + "||value<-100" +")value="+100+"\""+
                             "onkeyup=\"if(isNaN(value))execCommand('undo')\" onafterpaste=\"if(isNaN(value))execCommand('undo')\">");
                     }else{
                         $("#scoring_item").append(" <input class='score_input' id='"+i+"' type=\"number\" value='' name='"+data.data.score.detailsDataList[index].id+"'" +
-                            " placeholder='"+"总分"+100+"分"+"' " + "oninput=\"if(value>" + 100 +")value="+100+"\""+
+                            " placeholder='"+"总分"+100+"分"+"' " + "oninput=\"if(value>" + 100 + "||value<-100" +")value="+100+"\""+
                             "onkeyup=\"if(isNaN(value))execCommand('undo')\" onafterpaste=\"if(isNaN(value))execCommand('undo')\">");
                     }
                     $("#scoring_item").append("</br>");

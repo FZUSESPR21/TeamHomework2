@@ -54,7 +54,7 @@ public class CustomRealm extends AuthorizingRealm {
         if (subjectUser == null || subjectUser.getUserName() == null) {
             System.out.println("获取的primaryprincipal为空");
         } else {
-            User user = loginService.selRolesByUserName(subjectUser.getUserName());
+            User user = loginService.selRolesByAccount(subjectUser.getAccount());
             log.info("当前用户的角色"+user);
             //加入角色
             if (!CollectionUtils.isEmpty(user.getRoles())) {

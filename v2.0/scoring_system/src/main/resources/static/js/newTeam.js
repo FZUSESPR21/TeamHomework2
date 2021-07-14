@@ -47,7 +47,7 @@ function onClicked() {
                 layer.msg(data.message, {time : 1500, icon : 2});
             }
         }
-    })
+    });
 }
 function UpladFile() {
     //判断团队名是否为空

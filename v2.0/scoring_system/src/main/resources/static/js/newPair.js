@@ -1,14 +1,8 @@
 function downLoadModel() {
-    window.open( serviceIp + '/team/export/formwork');
+    window.open( serviceIp + '/pair/export/formwork');
 }
 
 function onClicked() {
-    //判断团队名是否为空
-    if ($("#teamId").val() == ""){
-        alert("团队名称不能为空！ ");
-        return false;
-    }
-
     var $file1 = $("input[name='file_upload']").val();//用户文件内容(文件)
     // 判断文件是否为空
     if ($file1 == "") {

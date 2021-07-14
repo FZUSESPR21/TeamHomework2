@@ -14,6 +14,15 @@
         </collection>
     </resultMap>
 
+<!--    <select id="selRoleByUserAccount" resultMap="userMap"  parameterType="java.lang.String" >-->
+<!--        select u.id uid,u.user_name,r.id rid,r.rolename rname,p.id pid,p.permsname pname from user u-->
+<!--        left join user_role ur on u.id=ur.userid-->
+<!--        left join role r on ur.roleid=r.id-->
+<!--        LEFT JOIN role_perms rp ON r.id=rp.roleid-->
+<!--        LEFT JOIN perms p ON rp.permsid=p.id-->
+<!--        where u.account=#{account}-->
+<!--    </select>-->
+
     <select id="selRolesByUserName" resultMap="userMap"  parameterType="java.lang.String" >
         select u.id uid,u.user_name,r.id rid,r.rolename rname,p.id pid,p.permsname pname from user u
         left join user_role ur on u.id=ur.userid

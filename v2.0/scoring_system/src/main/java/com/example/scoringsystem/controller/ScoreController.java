@@ -436,6 +436,24 @@ public class ScoreController {
         return new ResponseData("查询成功", "200", teamReplyReviewFormList.get(0).getReplyReviewFormScore());
     }
 
+    /**
+    * @Description:  查询参数不同：所在（被评分）小组id teamid,评分小组id,答辩id
+    * @Param: [teamReplyReviewForm]
+    * @return: com.example.scoringsystem.bean.ResponseData
+    * @Date: 2021/7/11
+    */
+    @RequestMapping("/score/teamReplyReview/details/score2")
+    @ResponseBody
+    public ResponseData showReplyReviewFormDetailsScore2(TeamReplyReviewForm teamReplyReviewForm) {
+        List<TeamReplyReviewForm> teamReplyReviewFormList = scoreService.getTeamReplyReviewForm2(teamReplyReviewForm);
+
+        if (teamReplyReviewFormList == null || teamReplyReviewFormList.size() <= 0) {
+            return new ResponseData("查询失败", "1141", "[]");
+        }
+        return new ResponseData("查询成功", "200", teamReplyReviewFormList.get(0).getReplyReviewFormScore());
+    }
+
+
     @RequestMapping("/score/teamReplyReview/change")
     @ResponseBody
     public ResponseData changeReplyReviewFormDetails(TeamReplyReviewForm teamReplyReviewForm) {
@@ -473,6 +491,11 @@ public class ScoreController {
     @ResponseBody
     public ResponseData showTeamReplyFormByDetailsIdExceptTeamId(TeamReplyReviewForm teamReplyReviewForm) {
         log.info("查找的细则号:" + teamReplyReviewForm.toString());
+        //适应教师助教登录
+        if (teamReplyReviewForm.getTeamId()==null)
+        {
+            teamReplyReviewForm.setTeamId("-1");
+        }
         List<TeamReplyReviewFormSimple> teamReplyReviewFormSimpleList = scoreService.getTeamWithIsterminted(teamReplyReviewForm);
         return new ResponseData("查询成功", "200", teamReplyReviewFormSimpleList);
     }
@@ -494,6 +517,7 @@ public class ScoreController {
         classRoom.setClassName(className);
         classRoom.setGrade(grade);
         classRoom.setTeacherId(teacherId);
+        log.info("获取的班级"+classRoom);
         return userService.insClassRomm(classRoom);
     }
 }

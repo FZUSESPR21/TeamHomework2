@@ -11,7 +11,7 @@ $('#myTable').bootstrapTable({
     pageNumber: 1, // 初始化加载第一页
     pagination: true, // 是否分页
     dataField: "list",
-    //sidePagination: 'client', // server:服务器端分页|client：前端分页
+    sidePagination: 'client', // server:服务器端分页|client：前端分页
     height:600,
     sortable: true,
     search: true,
@@ -19,7 +19,6 @@ $('#myTable').bootstrapTable({
     showSearchClearButton: true, //显示搜索清除按钮
     pageSize: 10, // 单页记录数
     pageList: [10, 15],
-    sidePagination: "server", //表示服务端请求
     contentType: "application/x-www-form-urlencoded",//必须要有！！！！
     queryParamsType : "undefined",
 
@@ -83,10 +82,8 @@ $('#myTable').bootstrapTable({
 
                 },
                 'click #delete': function (e, value, row, index) {
-                    // deleteInfo(row.id);
                     $('#student_id').text(row.account);
                     $('#delete_id').text(row.id);
-                    console.log(row.account);
                     box.style.display = 'flex';
                     hidden.style.display = 'block';
                 }
@@ -123,7 +120,6 @@ function editInfo(id) {
     });
 }
 
-
 // 删除信息
 function deleteInfo(id) {
     $.ajax({
@@ -141,46 +137,7 @@ function deleteInfo(id) {
                 alert('没有这个权限');
             }
         }
-    })
-}
-
-//文件上传
-function onClicked() {
-    //判断作业名是否为空
-    var $file1 = $("input[name='file_upload']").val();//用户文件内容(文件)
-    // 判断文件是否为空
-    if ($file1 == "") {
-        alert("请选择上传的学生列表文件! （excel）");
-        return false;
-    }
-    //判断文件类型,我这里根据业务需求判断的是Excel文件
-    var fileName1 = $file1.substring($file1.lastIndexOf(".") + 1).toLowerCase();
-    if(fileName1 != "xls" && fileName1 !="xlsx"){
-        alert("请选择Execl文件!");
-        return false;
-    }
-    //判断文件大小
-    var size1 = $("input[name='file_upload']")[0].files[0].size;
-    if (size1>104857600) {
-        alert("上传文件不能大于100M!");
-        return false;
-    }
-    var fileObj = document.getElementById("file_upload").files[0]; // 获取文件对象
-    var classId = document.getElementById("classId");
-    var FileController = serviceIp + "/student/import"; // 接收上传文件的后台地址
-    // FormData 对象
-    var form = new FormData();
-
-    form.append("classId", classId); // 可以增加表单数据
-    form.append("excel", fileObj);  // 文件对象
-    // XMLHttpRequest 对象
-    var xhr = new XMLHttpRequest();
-    xhr.open("post", FileController, true);
-    xhr.setRequestHeader("Token",localStorage.token);
-    xhr.onload = function () {
-        alert("上传完成!");
-    };
-    xhr.send(form);
+    });
 }
 
 //重置密码
@@ -193,10 +150,13 @@ function updateInfo(id,account,userName,perms,classId,totalScore){
         classId: classId,
         totalScore: totalScore,
     };
+
     var data = JSON.stringify(data1);
+
     $.ajax({
         url: serviceIp + "/student/updStudent1",
         type:'post',
+        contentType: "application/json",
         beforeSend: function (XMLHttpRequest) {
             XMLHttpRequest.setRequestHeader("Token", localStorage.token);
         },

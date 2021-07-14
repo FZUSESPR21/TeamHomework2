@@ -8,7 +8,7 @@ function loadList(url) {
         dataField: "list",
         height:600,
         sortable: true,
-        search: true,
+        //search: true,
         showColumns: true, //筛选要显示的列
         showSearchClearButton: true, //显示搜索清除按钮
         pageSize: 10, // 单页记录数

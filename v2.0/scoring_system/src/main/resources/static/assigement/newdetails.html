@@ -28,7 +28,7 @@
         <li class="layui-nav-item" id="my-message">
             <a href=""><img src="//t.cn/RCzsdCq" class="layui-nav-img">我</a>
             <dl class="layui-nav-child">
-                <dd><a href="javascript:;">修改信息</a></dd>
+                <dd><a href="javascript:;" onclick="changePassword()">修改信息</a></dd>
                 <dd><a href="javascript:;" onclick="unLoadOnClick()">退出</a></dd>
             </dl>
         </li>
@@ -116,7 +116,7 @@
                 <div class="input-group">
                     <span class="input-group-addon">作业占比：</span>
                     <label>
-                        <input id="proportion" name="proportion" type="number" oninput = "if(value>100)value=100"
+                        <input id="proportion" name="proportion" type="number" oninput = "if(value > 100 || value < 0) value = 100"
                                class="form-control"  placeholder="请输入作业占比(分)" aria-describedby="basic-addon1">
                     </label>
                 </div>

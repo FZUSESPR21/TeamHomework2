@@ -35,7 +35,7 @@
                 <li class="layui-nav-item" id="my-message">
                     <a href=""><img src="//t.cn/RCzsdCq" class="layui-nav-img">我</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="javascript:;">修改信息</a></dd>
+                        <dd><a href="javascript:;" onclick="changePassword()">修改信息</a></dd>
                         <dd><a href="javascript:;" onclick="unLoadOnClick()">退出</a></dd>
                     </dl>
                 </li>
@@ -126,10 +126,18 @@
                 </div>
                 <label style="display: inline">
                     <input id="password" name="password" type="password" class="form-control"
-                           placeholder="请输入助教登录密码" aria-describedby="basic-addon1">
+                           placeholder="密码由6-16位数字和字母组成" aria-describedby="basic-addon1">
                 </label>
             </div>
-
+            <div class="input-group">
+                <div style="display: inline" class="message_text">
+                    <span class="input-group-addon" >选择班级：</span>
+                </div>
+                <label style="display: inline">
+                    <select id="class_room" name="class_room" class="layui-select">
+                    </select>
+                </label>
+            </div>
             <button id="jquery_post" class="layui-btn" onclick="submitOnClick()">确定</button>
         </div>
     </div>

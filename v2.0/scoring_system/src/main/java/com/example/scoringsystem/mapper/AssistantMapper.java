@@ -32,11 +32,12 @@ public interface AssistantMapper {
     @Insert("INSERT INTO user" +
             "(id,account,user_name,password,perms,salt,total_score,team_id,team_change_history,class_id,token_salt,pair_team_id)" +
             " VALUES(DEFAULT,#{account},#{userName},#{password}," +
-            "NULL,#{salt},NULL,NULL,NULL,#{class_id},NULL,NULL)")
+            "NULL,#{salt},NULL,NULL,NULL,#{classId},NULL,NULL)")
     void addAssistant(User user);
 
     @Insert("INSERT INTO user_role VALUES(DEFAULT,#{userid},#{roleid}")
     void addAssistantRole(User user);
 
-
+    @Insert("INSERT INTO user_role(id,userId,roleid) SELECT NULL,user.id,1 FROM user WHERE account=#{account}")
+    Integer insAssistantRole(User user);
 }
