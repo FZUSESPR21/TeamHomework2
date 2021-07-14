@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+<head>
+    <meta charset="utf-8">
+    <title>千帆竞发图</title>
+
+    <!--引入echart.js-->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+    <!-- 引入jquery.js -->
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+
+</head>
+<body style="height: 100%; margin: 0">
+<div id="container" style="height: 100%"></div>
+<script type="text/javascript">
+
+    var dom = document.getElementById("container");
+    var myChart = echarts.init(dom);
+    var app = {
+
+    };
+    myChart.showLoading();
+    var stuAccount = [];
+    var taskScores = [];
+    var legend = [];
+
+
+    var pccname = [];
+
+    var pccserics = [];
+    var sccoutname = [];
+
+    function readyDate() {
+        var option = {
+            title: {
+                text: '千帆竟发图'
+            },
+            tooltip: {
+                trigger: 'axis',
+                formatter: function (a, b, c) {
+                    console.log(a)
+                    // console.log(b)
+                    // console.log(c)
+                    const dataindex = a[0].dataIndex
+                    console.log(dataindex)
+                    console.log(pccserics)
+                    // console.log(pccserics[a[0].dataIndex].account[dataindex])
+                    return a[0].axisValue + '</br>' +pccserics[0].account[dataindex]+ '   ' + a[0].data;
+                    // return ''
+                }
+            },
+            legend: {
+                data: sccoutname,
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '15%',
+                containLabel: true
+            },
+            toolbox: {
+                feature: {
+                    restore:{},
+                    saveAsImage: {}
+                }
+            },
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: pccname
+            },
+            yAxis: {
+                name: '分数',
+                type: 'value',
+                min:0,
+                max:100,
+                splitNumber:9
+            },
+            series: pccserics
+        };
+        if (option && typeof option === 'object') {
+            myChart.setOption(option);
+        }
+
+    }
+    $.ajax({
+        type: "post",
+        async: true,
+        url: "http://1.15.129.32:8888/student/chart",
+        data: {},
+        dataType: "json",
+        success: function (result){
+            if (result.code == 200) {
+                var json  = {
+                    name: '分数',
+                    type: 'line',
+                    data: [],
+                    account: [],
+                }
+                for (var i = 0; i < result.data.length; i++) {
+                    // sccoutname.push(result.data[i].stuAccount)
+                    for (let j = 0; j < result.data[i].taskList.length; j++) {
+                        sccoutname.push(result.data[i].stuAccount)
+                        pccname.push(result.data[i].taskList[j].taskName)
+                        json.data.push(result.data[i].taskList[j].score);
+                        json.account.push(result.data[i].stuAccount);
+                    }
+                }
+                pccserics.push(json);
+            }
+            myChart.hideLoading();
+            readyDate();
+            return
+
+            if (result){
+                for(var i =result.length-1;i>=0;i--){
+                    stuAccounts.push(result[i].data.stuAccount);
+                    taskScores.push(result[i].taskList.score);
+                }
+                myChart.hideLoading();
+                myChart.setOption({
+                    legend: {
+                        name: '学号',
+                        data: stuAccount
+                    },
+                    xAxis: {
+
+                    },
+                    series: [{
+                        name: '分数',
+                        data: taskScores
+                    }]
+                });
+            }
+        },
+        error : function(errorMsg) {
+            //请求失败时执行该函数
+            alert("图表请求数据失败!");
+            myChart.hideLoading();
+        }
+
+
+    })
+
+    // var data =  [
+    //     {
+    //         'stuAccount': ['22123','22124','22125','22126']
+    //         "作业1": [100,100,100,100,100]
+    //         "作业2": [3,4,5,6,7]
+    //     },
+    //     {
+    //         '初始': '0',
+    //         "积累1": 95,
+    //         "积累2":  4,
+    //     },
+    //     {
+    //         '初始': '0',
+    //         "积累1": 97,
+    //         "积累2":  7,
+    //
+    //     },
+    //     {
+    //         '初始': '0',
+    //         "积累1": 92,
+    //         "积累2":  7,
+    //     },
+    //
+    // ]
+
+</script>
+</body>
+</html>
