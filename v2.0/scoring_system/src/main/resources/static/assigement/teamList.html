@@ -5,20 +5,10 @@
     <title>团队列表(助教)</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../layui/css/layui.css">
-    <script src="../layui/layui.js" type="text/javascript" charset="utf-8"></script>
-    <script src="../js/select.js" type="text/javascript" charset="utf-8"></script>
-    <script src="../js/option.js" type="text/javascript" charset="utf-8"></script>
-    <script src="../js/sidebarnavigation.js" type="text/javascript" charset="utf-8"></script>
-    <script src="../js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="../bootstrap-table/dist/bootstrap-table.min.css">
     <link rel="stylesheet" href="../css/table.css">
-    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
-    <script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-    <script src="https://cdn.bootcss.com/bootstrap-table/1.15.4/bootstrap-table.min.js"></script>
-    <script src="https://cdn.bootcss.com/bootstrap-table/1.15.4/locale/bootstrap-table-zh-CN.min.js"></script>
     <link rel="stylesheet" href="../css/snstyle.css">
-    <script type="text/javascript" src="../js/configurationFile.js"></script>
-    <script src="../js/token-operation.js"></script>
+
 </head>
 <div>
     <div class="clear">
@@ -96,11 +86,32 @@
             </ul>
         </div>
     </div>
+
     <!--将各个部分代码填在以下div内-->
     <div class="page-wrapper">
-        <table id="myTable" class="table table-hover text-nowrap"></table>
+        <div class="edit_link_div">
+            <select id="class_room" name="class_room" class="layui-select">
+            <option value="0">当前班级</option>
+            </select>
+        </div>
+
+        <div id="table_show">
+            <table id="myTable" class="table table-hover text-nowrap"></table>
+        </div>
     </div>
 </div>
+
+<script src="../layui/layui.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/select.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/option.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/sidebarnavigation.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap-table/1.15.4/bootstrap-table.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap-table/1.15.4/locale/bootstrap-table-zh-CN.min.js"></script>
+<script type="text/javascript" src="../js/configurationFile.js"></script>
+<script src="../js/token-operation.js"></script>
 <script src="../js/userManage.js"></script>
 <script src="../js/teamList.js"></script>
 

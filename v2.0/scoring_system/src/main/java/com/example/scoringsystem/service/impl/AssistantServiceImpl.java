@@ -1,8 +1,10 @@
 package com.example.scoringsystem.service.impl;
 
 
+import com.example.scoringsystem.bean.Team;
 import com.example.scoringsystem.bean.User;
 import com.example.scoringsystem.mapper.AssistantMapper;
+import com.example.scoringsystem.mapper.TeamMapper;
 import com.example.scoringsystem.service.AssistantService;
 import com.example.scoringsystem.utils.SaltUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +25,9 @@ public class AssistantServiceImpl implements AssistantService {
 
     @Autowired
     AssistantMapper assistantMapper;
+
+    @Autowired
+    TeamMapper teamMapper;
 
 
     /**
@@ -64,6 +69,11 @@ public class AssistantServiceImpl implements AssistantService {
             Md5Hash md5Hash = new Md5Hash(user.getPassword(), salt, 1024);
             tempuser.setPassword(md5Hash.toHex());
         }
+        Team tmpTeam=new Team();
+        tmpTeam.setSysTeamName("助教团队"+user.getAccount());
+        tmpTeam.setClassRoomId(user.getClassId());
+        teamMapper.addSingleTeam(tmpTeam);
+        tempuser.setTeamId(teamMapper.selectLastInsertId());
         log.info(tempuser.toString());
         assistantMapper.addAssistant(tempuser);
         attachAssistantRole(user);

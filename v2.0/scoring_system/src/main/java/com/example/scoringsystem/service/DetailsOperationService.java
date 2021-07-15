@@ -20,7 +20,7 @@ public interface DetailsOperationService {
 
     void delDetails(Task task);
 
-    void delTask(Task task);
+    ResponseData delTask(Task task);
 
     Task getTaskInfo(Task task);
 }

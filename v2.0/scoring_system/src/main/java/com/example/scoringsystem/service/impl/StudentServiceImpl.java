@@ -39,6 +39,19 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    public PageInfo<User> selByPageAndClassRoomId(PageRequest pageRequest, String classRoomId) {
+        List<User> studentList = studentMapper.selUserByClassRoomId(classRoomId);
+        if (studentList != null){
+            for (User user : studentList){
+                String newAccount = user.getAccount().substring(1,user.getAccount().length());
+                user.setAccount(newAccount);
+            }
+        }
+        PageHelper.startPage(pageRequest.getPageNum(),pageRequest.getPageSize());
+        return new PageInfo<User>(studentList);
+    }
+
+    @Override
     public User selSingleStudent(String id) {
         User user = studentMapper.selSingleStudent(id);
         if (user != null){
@@ -206,6 +219,20 @@ public class StudentServiceImpl implements StudentService {
         Integer result = studentMapper.updStudent3(user);
         if (result == 1)
             return true;
+        return false;
+    }
+
+    @Override
+    public boolean verifyPassword(User user, String oldPwd) {
+        User tmp=this.selSingleStudent(user.getId());
+        if (tmp!=null)
+        {
+            Md5Hash md5Hash = new Md5Hash(oldPwd, tmp.getSalt(), 1024);
+            if (md5Hash.toHex().equals(tmp.getPassword()))
+            {
+                return updStudent3(user);
+            }
+        }
         return false;
     }
 

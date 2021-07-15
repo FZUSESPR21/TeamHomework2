@@ -28,6 +28,8 @@ public interface ScoreService {
 
     List<BlogWork> getTeamBlogWorkListByUserId(User user);
 
+    List<BlogWork> getPairTeamBlogWorkListByUserId(User user);
+
     List<BlogWork> getBlogWorkListByClassIdAndTaskId(Task task);
 
     List<Task> getTaskListByClassIdOrType(Task task);

@@ -17,8 +17,19 @@ public interface TeamMapper {
     @Select("select sys_id as id,sys_team_name as sysTeamName,sys_team_slogan as sysTeamSlogan,class_id as classRoomId from team")
     List<Team> selAllTeam();
 
+    @Select(" SELECT sys_id AS id,sys_team_name AS sysTeamName,sys_team_slogan AS sysTeamSlogan,class_id AS classRoomId\n" +
+            " FROM team WHERE class_id=#{classRoomId} AND sys_team_name NOT LIKE '%&&&@@@%'")
+    List<Team> selTeamByClassRoomId(String classRoomId);
+
+    @Select(" SELECT sys_id AS id,sys_team_name AS sysTeamName,sys_team_slogan AS sysTeamSlogan,class_id AS classRoomId\n" +
+            " FROM team WHERE class_id=#{classRoomId} AND sys_team_name LIKE '%&&&@@@%'")
+    List<Team> selPairTeamByClassRoomId(String classRoomId);
+
     @Select("SELECT id,account,user_name as userName,PASSWORD,perms,salt,total_score totalScore,team_id teamId,team_change_history,class_id classId FROM user where team_id = #{id} and account like 's%'")
     List<User> selAllTeamMember(Team team);
+
+    @Select("SELECT id,account,user_name as userName,PASSWORD,perms,salt,total_score totalScore,team_id teamId,team_change_history,class_id classId FROM user where pair_team_id = #{pairId}")
+    List<User> selAllPairTeamMemberByPairId(String pairId);
 
     @Select(" SELECT id,account,user_name AS userName,PASSWORD,perms,salt,total_score totalScore,team_id teamId,team_change_history,class_id classId \n" +
             " FROM `user` WHERE pair_team_id = (SELECT pair_team_id FROM `user` WHERE id=#{userId}) AND account LIKE 's%'")

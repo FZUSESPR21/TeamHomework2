@@ -44,6 +44,21 @@ $('#myTable').bootstrapTable({
         title: '成员姓名',
         field: 'userName',
         sortable: true,
+    },{
+        title:'操作',
+        field:"operation",
+        align: 'center',
+        valign: 'middle',
+        events: {
+            'click #edit': function (e, value, row, index) {
+                window.open('personalDetail.html?id='+row.id);
+            },
+        },
+        formatter: function (value, row, index) {
+            var result = "";
+            result += '<button id="edit" class="btn btn-info" data-toggle="modal" data-target="#editModal">查看</button>';
+            return result;
+        }
     }
 
     ]

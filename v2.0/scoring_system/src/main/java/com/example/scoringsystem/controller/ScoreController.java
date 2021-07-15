@@ -332,6 +332,17 @@ public class ScoreController {
         return new ResponseData("查询失败", "1101", "[]");
     }
 
+    @RequestMapping("/score/pairTeamblogwork/list")
+    @ResponseBody
+    public ResponseData showPairTeamBlogWorkList(User user) {
+        log.info("查询的用户:" + user);
+        List<BlogWork> blogWorkList = scoreService.getPairTeamBlogWorkListByUserId(user);
+        if (blogWorkList != null && blogWorkList.size() > 0) {
+            return new ResponseData("查询成功", "200", blogWorkList);
+        }
+        return new ResponseData("查询失败", "1101", "[]");
+    }
+
     @RequestMapping("/score/android/teamblogwork/list")
     @ResponseBody
     public ResponseData showTeamBlogWorkListForAndroid(User user) {

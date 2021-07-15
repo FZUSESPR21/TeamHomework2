@@ -115,7 +115,6 @@ $(document).ready(function () {
                     student_id1 = data.data[0].account;
                     student_id2 = data.data[1].account;
                 }else {
-                    layer.msg("");
                 }
             }else{
                 layer.msg(data.message);
@@ -166,7 +165,7 @@ function submitOnClicked() {
         var data1={
             taskId: work_id,
             blogWorkContent: blog_content,
-            blogurl: blog_link,
+            blogUrl: blog_link,
             userId: userId,
             blogWorkName: work_name,
             contributionList: [
@@ -196,7 +195,7 @@ function submitOnClicked() {
             "userId": userId,
             "taskId": work_id,
             "blogWorkContent": blog_content,
-            "blogurl": blog_link,
+            "blogUrl": blog_link,
             "blogWorkName": work_name,
             "contributionList": [
                 {
@@ -252,7 +251,6 @@ function submitTeam() {
         };
         contributionList[t++] = data2;
     }
-    console.log("sum:" + sum);
     if (sum != 100.0){
         alert("评分和必须为100");
         return false;
@@ -262,7 +260,7 @@ function submitTeam() {
         "taskId": work_id,
         "blogWorkName": work_name,
         "blogWorkContent": blog_content,
-        "blogurl": blog_link,
+        "blogUrl": blog_link,
         "contributionList": contributionList,
     };
 

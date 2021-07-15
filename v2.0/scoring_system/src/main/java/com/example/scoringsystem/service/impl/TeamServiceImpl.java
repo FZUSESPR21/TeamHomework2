@@ -37,7 +37,29 @@ public class TeamServiceImpl implements TeamService {
         return new PageInfo<Team>(teamList);
     }
 
-    
+    @Override
+    public PageInfo<Team> selTeamByPageAndClassRoomId(PageRequest pageRequest, String ClassRoomId) {
+        int pageNum = pageRequest.getPageNum();
+        int pageSize = pageRequest.getPageSize();
+        log.error(String.valueOf(pageNum));
+        log.error(String.valueOf(pageSize));
+        PageHelper.startPage(pageNum, pageSize);
+        List<Team> teamList = teamMapper.selTeamByClassRoomId(ClassRoomId);
+        return new PageInfo<Team>(teamList);
+    }
+
+    @Override
+    public PageInfo<Team> selPairTeamByPageAndClassRoomId(PageRequest pageRequest, String ClassRoomId) {
+        int pageNum = pageRequest.getPageNum();
+        int pageSize = pageRequest.getPageSize();
+        log.error(String.valueOf(pageNum));
+        log.error(String.valueOf(pageSize));
+        PageHelper.startPage(pageNum, pageSize);
+        List<Team> teamList = teamMapper.selPairTeamByClassRoomId(ClassRoomId);
+        return new PageInfo<Team>(teamList);
+    }
+
+
     @Override
     public List<User> selAllTeamMember(Team team) {
         List<User> studentList = teamMapper.selAllTeamMember(team);
@@ -56,6 +78,17 @@ public class TeamServiceImpl implements TeamService {
             String newAccount = student.getAccount().substring(1);
             student.setAccount(newAccount);
         }
+        return studentList;
+    }
+
+    @Override
+    public List<User> selAllPairTeamMemberByPairId(String pairId) {
+        List<User> studentList = teamMapper.selAllPairTeamMemberByPairId(pairId);
+        for (User student : studentList) {
+            String newAccount = student.getAccount().substring(1);
+            student.setAccount(newAccount);
+        }
+
         return studentList;
     }
 

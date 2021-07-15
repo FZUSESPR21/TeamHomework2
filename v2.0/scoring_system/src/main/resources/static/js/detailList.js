@@ -2,9 +2,7 @@ var classRoom = getToken("class");
 
 $('#myTable').bootstrapTable({
     method: 'post',
-    url: "http://1.15.129.32:8888/score/task/show?classRoomId=" + classRoom,
-    //url: "http://1.15.129.32:8080/score/task/show?classRoomId=1",
-    //url: "test.json",
+    url: serviceIp + "/score/task/show?classRoomId=" + classRoom,
     striped: true, // 是否显示行间隔色
     pageNumber: 1, // 初始化加载第一页
     pagination: true, // 是否分页
@@ -20,15 +18,13 @@ $('#myTable').bootstrapTable({
     onLoadSuccess: function(){ //加载成功时执行
         layer.msg("加载成功");
     },
-    beforeSend: function (XMLHttpRequest) {
-        XMLHttpRequest.setRequestHeader("Token", localStorage.token);
+    ajaxOptions:{
+        headers: {"Token":getToken("token")}
     },
     onLoadError: function(){ //加载失败时执行
         layer.msg("加载数据失败", {time : 1500, icon : 2});
     },
     responseHandler:function(res){
-        //在ajax获取到数据，渲染表格之前，修改数据源
-        //该项返回的为数据源内的二级列表data
         return res;
     },
 
@@ -84,9 +80,7 @@ $('#myTable').bootstrapTable({
 
 $('#assistantTable').bootstrapTable({
     method: 'post',
-    url: serviceIp+"/score/task/show?classRoomId=" + classRoom,
-    //url: "http://1.15.129.32:8080/score/task/show?classRoomId=1",
-    //url: "test.json",
+    url: serviceIp + "/score/task/show?classRoomId=" + classRoom,
     striped: true, // 是否显示行间隔色
     pageNumber: 1, // 初始化加载第一页
     pagination: true, // 是否分页
@@ -102,8 +96,8 @@ $('#assistantTable').bootstrapTable({
     onLoadSuccess: function(){ //加载成功时执行
         layer.msg("加载成功");
     },
-    beforeSend: function (XMLHttpRequest) {
-        XMLHttpRequest.setRequestHeader("Token", localStorage.token);
+    ajaxOptions:{
+        headers: {"Token":getToken("token")}
     },
     onLoadError: function(){ //加载失败时执行
         layer.msg("加载数据失败", {time : 1500, icon : 2});
@@ -152,7 +146,7 @@ $('#assistantTable').bootstrapTable({
                 editInfo(row.id);
             },
             'click #delete': function (e, value, row, index) {
-                deleteInfo(row.Id);
+                deleteInfo(row.id);
             }
         },
         formatter: function (value, row, index) {
@@ -168,8 +162,7 @@ $('#assistantTable').bootstrapTable({
 //查看信息
 function editInfo(id) {
     $.ajax({
-        // url:"/assistant/task/add",
-        url: "http://1.15.129.32:8888/score/task/details?id="+id,
+        url: serviceIp + "/score/task/details?id="+id,
         type:"post",
         dataType:"JSON",
         beforeSend: function (XMLHttpRequest) {
@@ -187,20 +180,21 @@ function editInfo(id) {
 
 // 删除信息
 function deleteInfo(id) {
-    // $.ajax({
-    //     type: 'post',
-    //     url: 'test2.json',
-    //     dataType: 'json',
-    //     data: {
-    //         id: id
-    //     },
-    //     success: function (data) {
-    //         if (data == 'Yes') {
-    //             $('#table').bootstrapTable('refresh');
-    //         }
-    //         else {
-    //             alert('删除失败');
-    //         }
-    //     }
-    // });
+    $.ajax({
+        url: serviceIp + "/detials/deleteTask?id="+id,
+        type:"post",
+        dataType:"JSON",
+        beforeSend: function (XMLHttpRequest) {
+            XMLHttpRequest.setRequestHeader("Token", localStorage.token);
+        },
+        success:function(data){
+            if (data.code == "200"){
+                layer.msg(data.message);
+                $('#table').bootstrapTable('refresh');
+            }else {
+                alert(data.message);
+            }
+        }
+    });
 }
+

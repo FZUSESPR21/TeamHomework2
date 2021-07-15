@@ -1,5 +1,5 @@
-personalWork();
-document.getElementById('work_type').onchange=function(){
+
+function loadList() {
     var work_type_id = $("#work_type").find("option:selected").val();
     if (work_type_id == 1){
         document.getElementById("personal_table").innerHTML="";
@@ -9,12 +9,24 @@ document.getElementById('work_type').onchange=function(){
     else if (work_type_id == 2){
         document.getElementById("personal_table").innerHTML="";
         $("#personal_table").append("<table id=\"myTable\" class=\"table table-hover text-nowrap\"></table>");
-        teamWork();
+        pairWork();
     }else {
         document.getElementById("personal_table").innerHTML="";
         $("#personal_table").append("<table id=\"myTable\" class=\"table table-hover text-nowrap\"></table>");
         teamWork();
     }
+}
+
+// $("#edit_link_div").append("<select id=\"work_type\" name=\"work_type\" class=\"layui-select\">\n" +
+//     "                <option value=\"1\">个人作业</option>\n" +
+//     "                <option value=\"2\">结对作业</option>\n" +
+//     "                <option value=\"3\">团队作业</option>\n" +
+//     "            </select>");
+
+loadList();
+
+document.getElementById('work_type').onchange=function(){
+    loadList();
 };
 
 //加载表根据用户id
@@ -40,7 +52,20 @@ function personalWork() {
         ajaxOptions:{
             headers: {"Token":getToken("token")}
         },
-
+        onLoadSuccess: function(){ //加载成功时执行
+            layer.msg("加载成功");
+        },
+        onLoadError: function(){ //加载失败时执行
+            layer.msg("加载数据失败", {time : 1500, icon : 2});
+        },
+        responseHandler: function(res){
+            if (res.code == 200){
+                return res;
+            }else {
+                layer.msg("加载数据失败", {time : 1500, icon : 2});
+                return false;
+            }
+        },
         columns: [{
             title: '博客ID',
             field: 'id',
@@ -93,7 +118,7 @@ function personalWork() {
 function pairWork() {
     $('#myTable').bootstrapTable({
         method: 'post',
-        url: serviceIp + "/score/pairblogwork/list?id="+user_id, // 请求路径
+        url: serviceIp + "/score/pairTeamblogwork/list?id="+user_id, // 请求路径
         striped: true, // 是否显示行间隔色
         pageNumber: 1, // 初始化加载第一页
         pagination: true, // 是否分页
@@ -195,6 +220,7 @@ function teamWork() {
                 return res;
             }else {
                 layer.msg(res.message, {time : 1500, icon : 2});
+                return false;
             }
         },
 

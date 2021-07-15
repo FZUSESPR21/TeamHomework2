@@ -31,10 +31,49 @@ public class TeamController {
         return new ResponseData("返回的团队列表", "200", pageInfo);
     }
 
+    /**
+    * @Description:  查询团队
+    * @Param: [pageRequest, classRoomId]
+    * @return: com.example.scoringsystem.bean.ResponseData
+    * @Date: 2021/7/15
+    */
+    @RequestMapping("/selTeamByClassRoomId")
+    @ResponseBody
+    public ResponseData selTeamByClassRoomId(PageRequest pageRequest,String classRoomId)
+    {
+        PageInfo<Team> pageInfo = teamService.selTeamByPageAndClassRoomId(pageRequest,classRoomId);
+        return new ResponseData("返回的团队列表", "200", pageInfo);
+    }
+
+    /**
+    * @Description: 查询结对团队
+    * @Param: [pageRequest, classRoomId]
+    * @return: com.example.scoringsystem.bean.ResponseData
+    * @Date: 2021/7/15
+    */
+    @RequestMapping("/selPairTeamByClassRoomId")
+    @ResponseBody
+    public ResponseData selPairTeamByClassRoomId(PageRequest pageRequest,String classRoomId)
+    {
+        PageInfo<Team> pageInfo = teamService.selPairTeamByPageAndClassRoomId(pageRequest,classRoomId);
+        return new ResponseData("返回的团队列表", "200", pageInfo);
+    }
+
+
     @RequestMapping("/selAllPairTeamMember")
     @ResponseBody
     public ResponseData selAllTeamMember(String userId) {
         List<User> studentList = teamService.selAllPairTeamMember(userId);
+        if (studentList != null) {
+            return new ResponseData("成功返回该组的所有学生信息", "200", studentList);
+        }
+        return new ResponseData("没有该组相关信息", "1001", "[]");
+    }
+
+    @RequestMapping("/selAllPairTeamMemberByPairId")
+    @ResponseBody
+    public ResponseData selAllPairTeamMemberByPairId(String pairId) {
+        List<User> studentList = teamService.selAllPairTeamMemberByPairId(pairId);
         if (studentList != null) {
             return new ResponseData("成功返回该组的所有学生信息", "200", studentList);
         }

@@ -46,6 +46,12 @@ public interface DetailsOperationMapper {
             "WHERE sys_id=#{id}")
     Task getTaskInfo(Task task);
 
-    @Delete("DELETE FROM task where task_id=#{id}")
+    @Delete("DELETE FROM task where sys_id=#{id}")
     void delTaks(Task task);
+
+    @Select(" SELECT COUNT(*) FROM blog_work WHERE task_id=#{taskId}")
+    Integer selBlogWorkNumsByTaskId(String taskId);
+
+    @Delete("DELETE FROM details WHERE task_id=#{taskId}")
+    Integer delDetailsByTaskId(String taskId);
 }

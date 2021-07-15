@@ -94,6 +94,8 @@ public interface ScoreMapper {
 
     List<BlogWork> selTeamBlogWorkListByUserId(User user);
 
+    List<BlogWork> selPairTeamBlogWorkListByUserId(User user);
+
     @Select("SELECT sys_id id,blog_work_name blogWorkName,blog_work_content blogWorkContent,user_id userId,team_id teamId,task_id taskId,blog_work_type blogWorkType,blog_url blogUrl" +
             " FROM blog_work WHERE  task_id=#{taskId} AND (team_id=#{teamId})")
     List<BlogWork> selBlogWorkByTaskIdAndTeamId(String teamId, String taskId);

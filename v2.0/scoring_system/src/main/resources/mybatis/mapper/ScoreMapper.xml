@@ -217,9 +217,22 @@
         LEFT JOIN task ta ON b.task_id=ta.sys_id
         LEFT JOIN team_score ts ON ts.team_id=b.team_id AND ts.`task_id`=b.`task_id`
         LEFT JOIN class c ON te.class_id=c.sys_id
-        WHERE b.user_id=#{id} AND (ta.task_type='团队作业' OR ta.task_type='结对作业')
+        WHERE b.user_id=#{id} AND (ta.task_type='团队作业' )
     </select>
+<!--OR ta.task_type='结对作业'-->
 
+    <select id="selPairTeamBlogWorkListByUserId" parameterType="com.example.scoringsystem.bean.BlogWork" resultMap="teamBlogWorkMap">
+        SELECT b.sys_id b_id,b.blog_work_name blog_work_name,b.blog_work_content blog_work_content,blog_work_type,blog_url,
+        te.sys_id te_id,te.sys_team_name te_team_name,te.sys_team_slogan te_team_slogan,te.class_id te_class_id,c.class_name c_class_name,
+        ta.sys_id ta_id,ta.task_name task_name, ta.create_user_id ta_create_user_id,ta.create_time ta_create_time,ta.begine_time ta_begine_time,ta.deadline ta_deadline,ta.make_up_time ta_make_up_time,
+        ts.sys_id ts_id,ts.sys_score ts_score,ts.contributions ts_contributions
+        FROM blog_work b
+        LEFT JOIN team te ON b.team_id=te.sys_id
+        LEFT JOIN task ta ON b.task_id=ta.sys_id
+        LEFT JOIN team_score ts ON ts.team_id=b.team_id AND ts.`task_id`=b.`task_id`
+        LEFT JOIN class c ON te.class_id=c.sys_id
+        WHERE b.user_id=#{id} AND (ta.task_type='结对作业')
+    </select>
 
     <select id="selTeamBlogWorkListByClassIdAndTaskId" parameterType="com.example.scoringsystem.bean.BlogWork" resultMap="teamBlogWorkListMap">
         SELECT b.sys_id b_id,b.blog_work_name blog_work_name,b.blog_work_content blog_work_content,blog_work_type,blog_url,

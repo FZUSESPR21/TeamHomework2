@@ -26,6 +26,10 @@ public interface StudentMapper {
     @Select("SELECT id,account,user_name as userName,PASSWORD,perms,salt,total_score as totalScore,team_id as teamId,class_id as classId FROM user where account like 'S%'")
     public List<User> selAll();
 
+ @Select(" SELECT id,account,user_name AS userName,PASSWORD,perms,salt,total_score AS totalScore,team_id AS teamId,class_id AS classId FROM user \n" +
+         " WHERE account LIKE 'S%' AND class_id=#{classRoomId}")
+ public List<User> selUserByClassRoomId(String classRoomId);
+
     @Select("SELECT u.id,account,user_name as userName,PASSWORD,perms,salt,total_score as totalScore,team_id as teamId,class_id as classId FROM user u\n" +
             "        left join user_role ur on ur.userid = u.id\n" +
             "        where ur.roleid = 2 limit #{pageNo},#{pageSize}")

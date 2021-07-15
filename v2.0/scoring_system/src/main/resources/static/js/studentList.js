@@ -4,100 +4,134 @@ var hidden = document.getElementById('hidden');
 var close = document.getElementById('close');
 var classRoom = getToken("class");
 
-$('#myTable').bootstrapTable({
-    method: 'post',
-    url: serviceIp + "/student/selByPage",
-    striped: true, // 是否显示行间隔色
-    pageNumber: 1, // 初始化加载第一页
-    pagination: true, // 是否分页
-    dataField: "list",
-    sidePagination: 'client', // server:服务器端分页|client：前端分页
-    height:600,
-    sortable: true,
-    search: true,
-    showColumns: true, //筛选要显示的列
-    showSearchClearButton: true, //显示搜索清除按钮
-    pageSize: 10, // 单页记录数
-    pageList: [10, 15],
-    contentType: "application/x-www-form-urlencoded",//必须要有！！！！
-    queryParamsType : "undefined",
 
-    ajaxOptions:{
-        headers: {"Token":getToken("token")}
-    },
-    queryParams: function queryParams(params) { //设置查询参数
-        var param = {
-            pageNum: params.pageNumber,
-            pageSize: params.pageSize,
-            classRoomId: getToken("class"),
-        };
-        return param;
-    },
-    onLoadError: function(){ //加载失败时执行
-        layer.msg("加载数据失败", {time : 1500, icon : 2});
-    },
-    responseHandler:function(res){
-        if (res.code == "200"){
-            return res.data;
-        }else {
-            layer.msg(res.message, {time : 1500, icon : 2});
-            return false;
+$(document).ready(function () {
+    $.ajax({
+        type: 'post',
+        url: serviceIp + '/score/class/showlist',
+        dataType: 'json',
+        beforeSend: function (XMLHttpRequest) {
+            XMLHttpRequest.setRequestHeader("Token", localStorage.token);
+        },
+        success: function(data){
+            $.each(data.data,function (index,item) {
+                $("#class_room").append("<option value='"+data.data[index].id+"'>"+data.data[index].className+"</option>");
+            });
         }
-    },
+    });
+    showStudentList(classRoom);
+});
 
-    paginationLoop: true,
-    paginationHAlign: 'left',
-    paginationDetailHAlign: 'right',
-    paginationPreText: '上一页',
-    paginationNextText: '下一页',
-    columns: [{
-        checkbox: true
-    }, {
-        title: '学号',
-        field: 'account',
-        sort: true,
+document.getElementById('class_room').onchange =function () {
+    console.log(1);
+    var classId = $("#class_room").find("option:selected").val();
+    if (classId == 0){
+        document.getElementById("table_show").innerHTML="";
+        $("#table_show").append("<table id=\"myTable\" class=\"table table-hover text-nowrap\"></table>");
+        showStudentList(classRoom);
+    }else {
+        document.getElementById("table_show").innerHTML="";
+        $("#table_show").append("<table id=\"myTable\" class=\"table table-hover text-nowrap\"></table>");
+        showStudentList(classId);
+    }
+};
+function showStudentList(classroom){
+    $('#myTable').bootstrapTable({
+        method: 'post',
+        url: serviceIp + "/student/selStudentByPageAndClassRoomId",
+        striped: true, // 是否显示行间隔色
+        pageNumber: 1, // 初始化加载第一页
+        pagination: true, // 是否分页
+        dataField: "list",
+        sidePagination: 'client', // server:服务器端分页|client：前端分页
+        height:600,
         sortable: true,
-    }, {
-        title: '姓名',
-        field: 'userName',
-        sort: true,
-        sortable: true,
-        searchable:true,
-    },
-        {
-            title: '班级',
-            field: 'classId',
+        search: true,
+        showColumns: true, //筛选要显示的列
+        showSearchClearButton: true, //显示搜索清除按钮
+        pageSize: 10, // 单页记录数
+        pageList: [10, 15],
+        contentType: "application/x-www-form-urlencoded",//必须要有！！！！
+        queryParamsType : "undefined",
+
+        ajaxOptions:{
+            headers: {"Token":getToken("token")}
+        },
+        queryParams: function queryParams(params) { //设置查询参数
+            var param = {
+                pageNum: params.pageNumber,
+                pageSize: params.pageSize,
+                classRoomId: classroom,
+            };
+            return param;
+        },
+        onLoadError: function(){ //加载失败时执行
+            layer.msg("加载数据失败", {time : 1500, icon : 2});
+        },
+        responseHandler:function(res){
+            if (res.code == "200"){
+                return res.data;
+            }else {
+                layer.msg(res.message, {time : 1500, icon : 2});
+                return false;
+            }
+        },
+
+        paginationLoop: true,
+        paginationHAlign: 'left',
+        paginationDetailHAlign: 'right',
+        paginationPreText: '上一页',
+        paginationNextText: '下一页',
+        columns: [{
+            checkbox: true
+        }, {
+            title: '学号',
+            field: 'account',
+            sort: true,
             sortable: true,
         }, {
-            field: 'operate',
-            title: '操作',
-            align: 'center',
-            valign: 'middle',
-            events: {
-                'click #edit': function (e, value, row, index) {
-                    window.location.href="personalDetail.html?id="+row.id;
+            title: '姓名',
+            field: 'userName',
+            sort: true,
+            sortable: true,
+            searchable:true,
+        },
+            {
+                title: '班级',
+                field: 'classId',
+                sortable: true,
+            }, {
+                field: 'operate',
+                title: '操作',
+                align: 'center',
+                valign: 'middle',
+                events: {
+                    'click #edit': function (e, value, row, index) {
+                        window.location.href="personalDetail.html?id="+row.id;
+                    },
+                    'click #update': function (e, value, row, index) {
+                        updateInfo(row.id,row.account,row.userName,row.perms,row.classId,row.totalScore);
+                    },
+                    'click #delete': function (e, value, row, index) {
+                        $('#student_id').text(row.account);
+                        $('#delete_id').text(row.id);
+                        box.style.display = 'flex';
+                        hidden.style.display = 'block';
+                    }
                 },
-                'click #update': function (e, value, row, index) {
-                    updateInfo(row.id,row.account,row.userName,row.perms,row.classId,row.totalScore);
-
-                },
-                'click #delete': function (e, value, row, index) {
-                    $('#student_id').text(row.account);
-                    $('#delete_id').text(row.id);
-                    box.style.display = 'flex';
-                    hidden.style.display = 'block';
+                formatter: function (value, row, index) {
+                    var result = "";
+                    result += '<button id="edit" class="btn btn-info" data-toggle="modal" data-target="#editModal">查看</button>';
+                    result += '<button id="delete" class="btn btn-info" style="margin-left:1%;">删除</button>';
+                    result += '<button id="update"  class="btn btn-info" style="margin-left:1%;">重置密码</button>';
+                    return result;
                 }
-            },
-            formatter: function (value, row, index) {
-                var result = "";
-                result += '<button id="edit" class="btn btn-info" data-toggle="modal" data-target="#editModal">查看</button>';
-                result += '<button id="delete" class="btn btn-info" style="margin-left:1%;">删除</button>';
-                result += '<button id="update"  class="btn btn-info" style="margin-left:1%;">重置密码</button>';
-                return result;
             }
-        }
-    ]
-});
+        ]
+    });
+}
+
+
 
 //查看信息
 function editInfo(id) {

@@ -17,6 +17,7 @@
     <script src="https://cdn.bootcss.com/bootstrap-table/1.15.4/bootstrap-table.min.js"></script>
     <script src="https://cdn.bootcss.com/bootstrap-table/1.15.4/locale/bootstrap-table-zh-CN.min.js"></script>
     <link rel="stylesheet" href="../css/snstyle.css">
+    <link rel="stylesheet" href="../css/popup.css">
     <script type="text/javascript" src="../js/configurationFile.js"></script>
     <script src="../js/token-operation.js"></script>
 </head>
@@ -104,7 +105,24 @@
     </div>
     <!--将各个部分代码填在以下div内-->
     <div class="page-wrapper">
-        <table id="myTable" class="table table-hover text-nowrap"></table>
+        <div class="edit_link_div">
+            <select id="class_room" name="class_room" class="layui-select">
+                <option value="0">当前班级</option>
+            </select>
+        </div>
+        <div id="table_show">
+            <table id="myTable" class="table table-hover text-nowrap"></table>
+        </div>
+    </div>
+    <div id="container">
+        <div id="hidden"></div>
+        <div id="box">
+            <span><i id="student1_id"></i> : <i id="student1_name"></i></span>
+            <span id="std2"><i id="student2_id"></i> : <i id="student2_name"></i></span>
+            <div class="button_box">
+                <input type="button" value="确定" id="submit">
+            </div>
+        </div>
     </div>
 </div>
 <script src="../js/userManage.js"></script>

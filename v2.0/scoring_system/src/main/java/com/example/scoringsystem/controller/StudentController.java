@@ -22,7 +22,7 @@ import java.util.regex.Pattern;
 @Slf4j
 @CrossOrigin
 @Controller
-@RequestMapping("//student")
+@RequestMapping("/student")
 public class StudentController {
 
     @Autowired
@@ -65,6 +65,13 @@ public class StudentController {
     @ResponseBody
     public ResponseData selByPage(PageRequest pageRequest){
         PageInfo<User> pageInfo = studentService.selByPage(pageRequest);
+        return new ResponseData("返回的学生列表","200",pageInfo);
+    }
+
+    @RequestMapping("/selStudentByPageAndClassRoomId")
+    @ResponseBody
+    public ResponseData selStudentByPageAndClassRoomId(PageRequest pageRequest,String classRoomId){
+        PageInfo<User> pageInfo = studentService.selByPageAndClassRoomId(pageRequest,classRoomId);
         return new ResponseData("返回的学生列表","200",pageInfo);
     }
 
@@ -158,15 +165,26 @@ public class StudentController {
         if (user == null){
             return new ResponseData("没有要修改学生数据","1001","[]");
         }
-        if (user.getAccount() == null || user.getUserName() == null){
-            return new ResponseData("没有要修改学生账户信息","1002","[]");
-        }
 
         boolean result = studentService.updStudent3(user);
         if (result){
             return new ResponseData("修改成功","200","[]");
         }
         return new ResponseData("修改失败","1001","[]");
+    }
+
+    @RequestMapping("/updStudentPwd")
+    @ResponseBody
+    public ResponseData updStudentPwd(User user,String oldPwd){
+        if (user.getId() == null||user.getPassword() == null){
+            return new ResponseData("id或密码为空","1001","[]");
+        }
+
+        boolean result = studentService.verifyPassword(user,oldPwd);
+        if (result){
+            return new ResponseData("修改成功","200","[]");
+        }
+        return new ResponseData("修改失败,可能是原密码错误!","1001","[]");
     }
 
     @RequestMapping("/importAll")

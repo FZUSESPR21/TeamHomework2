@@ -275,6 +275,11 @@ public class ScoreServiceImpl implements ScoreService {
     }
 
     @Override
+    public List<BlogWork> getPairTeamBlogWorkListByUserId(User user) {
+        return scoreMapper.selPairTeamBlogWorkListByUserId(user);
+    }
+
+    @Override
     public List<BlogWork> getBlogWorkListByClassIdAndTaskId(Task task) {
         List<BlogWork> blogWorkList = new ArrayList<>();
         log.info("需要查询的task"+task.toString());

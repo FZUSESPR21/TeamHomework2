@@ -22,8 +22,8 @@ $('#myTable').bootstrapTable({
         };
         return param;
     },
-    beforeSend: function (XMLHttpRequest) {
-        XMLHttpRequest.setRequestHeader("Token", localStorage.token);
+    ajaxOptions:{
+        headers: {"Token":getToken("token")}
     },
     onLoadError: function(){ //加载失败时执行
         layer.msg("加载数据失败", {time : 1500, icon : 2});

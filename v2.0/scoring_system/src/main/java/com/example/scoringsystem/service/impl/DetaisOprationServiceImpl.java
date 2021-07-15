@@ -114,7 +114,15 @@ public class DetaisOprationServiceImpl implements DetailsOperationService {
     }
 
     @Override
-    public void delTask(Task task) {
+    @Transactional
+    public ResponseData delTask(Task task) {
+        log.info("进入删除作业");
+        if (detailsOperationMapper.selBlogWorkNumsByTaskId(task.getId())>0)
+        {
+            return  new ResponseData("改作业细则已经有对于提交的作业，不能删除","3001","[]");
+        }
+        detailsOperationMapper.delDetailsByTaskId(task.getId());
         detailsOperationMapper.delTaks(task);
+        return new ResponseData("删除成功","200","[]");
     }
 }

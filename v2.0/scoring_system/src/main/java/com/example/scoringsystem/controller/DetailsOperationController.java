@@ -77,12 +77,9 @@ public class DetailsOperationController {
 
     @RequestMapping("/detials/deleteTask")
     @ResponseBody
-    public ResponseData delTask(@RequestBody Task task) {
+    public ResponseData delTask(Task task) {
         ResponseData responseData = new ResponseData();
-        responseData.setMessage("成功删除该作业");
-        responseData.setCode("204");
-        detailsOperationService.delTask(task);
-        detailsOperationService.delDetails(task);
-        return responseData;
+        return detailsOperationService.delTask(task);
+
     }
 }

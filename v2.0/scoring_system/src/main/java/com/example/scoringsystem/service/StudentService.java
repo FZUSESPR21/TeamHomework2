@@ -10,16 +10,18 @@ import java.util.List;
 
 
 public interface StudentService {
-    public User selSingleStudent(String id);
-    public List<User> selAll();
-    public boolean addSingleStudent(User user);
-    public int insStudentBatch(List<User> userList);
-    public boolean delStudent(String id);
-    public boolean updStudent1(User user);  //修改非密码和teamId
-    public boolean updStudent2(User user);  //修改teamId
-    public PageInfo<User> selByPage(PageRequest pageRequest);
-    public boolean updStudent3(User user);  //修改密码
+     User selSingleStudent(String id);
+     List<User> selAll();
+     boolean addSingleStudent(User user);
+     int insStudentBatch(List<User> userList);
+     boolean delStudent(String id);
+     boolean updStudent1(User user);  //修改非密码和teamId
+     boolean updStudent2(User user);  //修改teamId
+     PageInfo<User> selByPage(PageRequest pageRequest);
+     PageInfo<User> selByPageAndClassRoomId(PageRequest pageRequest,String classRoomId);
+     boolean updStudent3(User user);  //修改密码
+     boolean verifyPassword(User user,String oldPwd);
 
-    public ResponseData isRightStuData(User user);
-    public List<UserWithTaskAndScore> chart();
+     ResponseData isRightStuData(User user);
+     List<UserWithTaskAndScore> chart();
 }
