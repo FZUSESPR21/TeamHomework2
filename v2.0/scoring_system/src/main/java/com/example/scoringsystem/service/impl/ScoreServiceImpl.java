@@ -42,6 +42,7 @@ public class ScoreServiceImpl implements ScoreService {
                 log.info("导入失败Excel中存在空字符串" + details.toString());
                 responseData.setCode("1022");
                 responseData.setMessage("导入excel填写不规范（存在未填写项）");
+                return responseData;
             }
 
             for (int j = 0; j < details.getScoreDetail().size(); j++) {
@@ -51,6 +52,7 @@ public class ScoreServiceImpl implements ScoreService {
                     //存在空字符串
                     responseData.setCode("1022");
                     responseData.setMessage("导入excel填写不规范（存在未填写项）");
+                    return responseData;
                 }
                 detailsData.setDetailsName(details.getScoreItem().getScoreItem() + "-" + scoreDetail.getScoreDetailName());
                 Double actualRatio = Double.parseDouble(details.getScoreRatio()) * Double.parseDouble(scoreDetail.getRatio()) / 10000;
@@ -401,6 +403,10 @@ public class ScoreServiceImpl implements ScoreService {
     private List<DetailsData> mergeDetailsData(List<DetailsData> list1, List<DetailsData> list2) {
         log.info("数据库中已经存在的数据：" + list1.toString() + "传入的数据：" + list2.toString());
         for (int i = 0; i < list2.size(); i++) {
+            if (list2.get(i).getScore()==null||list2.get(i).getScore().equals(""))
+            {
+                continue;
+            }
             Integer score = Integer.parseInt(list2.get(i).getScore());
             if (score < -100 || score > 100) {
                 return null;
@@ -449,8 +455,13 @@ public class ScoreServiceImpl implements ScoreService {
     @Override
     public List<DetailsDataWithTeamReplyReviewFormVO> getDetailsDataWithReplyReview(TeamReplyReviewForm teamReplyReviewForm) {
         List<DetailsDataWithTeamReplyReviewFormVO> detailsDataWithTeamReplyReviewFormVOList = new ArrayList<>();
-        List<DetailsData> detailsDataList = scoreMapper.selDetailsDataWithReplyReview();
-
+        List<DetailsData> detailsDataList=null;
+        if (teamReplyReviewForm.getClassId()!=null) {
+             detailsDataList=scoreMapper.selDetailsDataWithReplyReviewByClassId(teamReplyReviewForm.getClassId());
+        }
+        else{
+            detailsDataList = scoreMapper.selDetailsDataWithReplyReview();
+        }
         for (int i = 0; i < detailsDataList.size(); i++) {
             teamReplyReviewForm.setDetailsId(detailsDataList.get(i).getId());
             log.info("查询的" + teamReplyReviewForm);
@@ -503,7 +514,16 @@ public class ScoreServiceImpl implements ScoreService {
     @Override
     public List<TeamReplyReviewFormSimple> getTeamWithIsterminted(TeamReplyReviewForm teamReplyReviewForm) {
         List<TeamReplyReviewForm> teamReplyReviewFormList = getTeamReplyReviewFormByDetailsIdExceptTeamId(teamReplyReviewForm);
-        List<TeamReplyReviewFormSimple> teamReplyReviewFormSimpleList = scoreMapper.getTeamReplyReviewFormSimple(teamReplyReviewForm.getTeamId());
+        List<TeamReplyReviewFormSimple> teamReplyReviewFormSimpleList=null;
+        //判断是否为教师账号
+        if (teamReplyReviewForm.getClassId()==null||teamReplyReviewForm.getTeamId()==null||teamReplyReviewForm.getTeamId().equals("13"))
+        {
+            teamReplyReviewFormSimpleList = scoreMapper.getTeamReplyReviewFormSimple(teamReplyReviewForm.getTeamId());
+        }
+        else
+        {
+            teamReplyReviewFormSimpleList = scoreMapper.getTeamReplyReviewFormSimpleWithClassId(teamReplyReviewForm.getTeamId(),teamReplyReviewForm.getClassId());
+        }
         for (int i = 0; i < teamReplyReviewFormList.size(); i++) {
             TeamReplyReviewForm teamReplyReviewForm1 = teamReplyReviewFormList.get(i);
             if (teamReplyReviewForm1.getFinnishCount() != null && teamReplyReviewForm1.getFinnishCount() > 0) {

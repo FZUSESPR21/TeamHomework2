@@ -173,6 +173,12 @@ public class StudentController {
         return new ResponseData("修改失败","1001","[]");
     }
 
+    /**
+    * @Description: 更改用户密码
+    * @Param: [user, oldPwd]
+    * @return: com.example.scoringsystem.bean.ResponseData
+    * @Date: 2021/7/16
+    */
     @RequestMapping("/updStudentPwd")
     @ResponseBody
     public ResponseData updStudentPwd(User user,String oldPwd){

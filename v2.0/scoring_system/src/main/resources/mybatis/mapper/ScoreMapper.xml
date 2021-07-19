@@ -30,6 +30,7 @@
             <result column="ta_begine_time" property="begineTime"></result>
             <result column="ta_deadline" property="deadline"></result>
             <result column="ta_make_up_time" property="makeUpTime"></result>
+            <result column="ta_ratio" property="ratio"></result>
         </association>
         <association property="score" javaType="com.example.scoringsystem.bean.Score">
             <id column="ts_id" property="id"/>
@@ -47,7 +48,7 @@
     <select id="selTeamBlogWorkById" parameterType="com.example.scoringsystem.bean.BlogWork" resultMap="teamBlogWorkMap">
         SELECT b.sys_id b_id,b.blog_work_name blog_work_name,b.blog_work_content blog_work_content,blog_work_type,blog_url,
         te.sys_id te_id,te.sys_team_name te_team_name,te.sys_team_slogan te_team_slogan,te.class_id te_class_id,
-        ta.sys_id ta_id,ta.task_name task_name, ta.create_user_id ta_create_user_id,ta.create_time ta_create_time,ta.begine_time ta_begine_time,ta.deadline ta_deadline,ta.make_up_time ta_make_up_time,
+        ta.sys_id ta_id,ta.task_name task_name, ta.create_user_id ta_create_user_id,ta.create_time ta_create_time,ta.begine_time ta_begine_time,ta.deadline ta_deadline,ta.make_up_time ta_make_up_time,ta.ratio ta_ratio,
         ts.sys_id ts_id,ts.sys_score ts_score,ts.contributions ts_contributions,
         d.sys_id d_id,d.details_name d_details_name,d.score_ratio d_score_ratio,tsd.score tsd_score
         FROM blog_work b
@@ -193,6 +194,7 @@
         <!--        作业任务-->
         <association property="task" javaType="com.example.scoringsystem.bean.Task">
             <id column="ta_id" property="id"/>
+            <result column="ta_ratio" property="ratio"></result>
             <result column="ta_create_user_id" property="createUserId"></result>
             <result column="task_name" property="taskName"></result>
             <result column="ta_create_time" property="createTime"></result>
@@ -210,7 +212,7 @@
     <select id="selTeamBlogWorkListByUserId" parameterType="com.example.scoringsystem.bean.BlogWork" resultMap="teamBlogWorkMap">
         SELECT b.sys_id b_id,b.blog_work_name blog_work_name,b.blog_work_content blog_work_content,blog_work_type,blog_url,
         te.sys_id te_id,te.sys_team_name te_team_name,te.sys_team_slogan te_team_slogan,te.class_id te_class_id,c.class_name c_class_name,
-        ta.sys_id ta_id,ta.task_name task_name, ta.create_user_id ta_create_user_id,ta.create_time ta_create_time,ta.begine_time ta_begine_time,ta.deadline ta_deadline,ta.make_up_time ta_make_up_time,
+        ta.sys_id ta_id,ta.task_name task_name, ta.create_user_id ta_create_user_id,ta.create_time ta_create_time,ta.begine_time ta_begine_time,ta.deadline ta_deadline,ta.make_up_time ta_make_up_time,ta.ratio as ta_ratio,
         ts.sys_id ts_id,ts.sys_score ts_score,ts.contributions ts_contributions
         FROM blog_work b
         LEFT JOIN team te ON b.team_id=te.sys_id
@@ -224,7 +226,7 @@
     <select id="selPairTeamBlogWorkListByUserId" parameterType="com.example.scoringsystem.bean.BlogWork" resultMap="teamBlogWorkMap">
         SELECT b.sys_id b_id,b.blog_work_name blog_work_name,b.blog_work_content blog_work_content,blog_work_type,blog_url,
         te.sys_id te_id,te.sys_team_name te_team_name,te.sys_team_slogan te_team_slogan,te.class_id te_class_id,c.class_name c_class_name,
-        ta.sys_id ta_id,ta.task_name task_name, ta.create_user_id ta_create_user_id,ta.create_time ta_create_time,ta.begine_time ta_begine_time,ta.deadline ta_deadline,ta.make_up_time ta_make_up_time,
+        ta.sys_id ta_id,ta.task_name task_name, ta.create_user_id ta_create_user_id,ta.create_time ta_create_time,ta.begine_time ta_begine_time,ta.deadline ta_deadline,ta.make_up_time ta_make_up_time,ta.ratio ta_ratio,
         ts.sys_id ts_id,ts.sys_score ts_score,ts.contributions ts_contributions
         FROM blog_work b
         LEFT JOIN team te ON b.team_id=te.sys_id

@@ -8,6 +8,7 @@ import java.util.List;
 @Data
 public class Task {
     private String id;
+    private String ratio;
     private String taskName;
     private String taskContent;
     private String createUserId;
@@ -22,5 +23,4 @@ public class Task {
     private String creteUserId;
     private String taskType;
     private List<DetailsData> detailsData;
-    private String ratio;
 }

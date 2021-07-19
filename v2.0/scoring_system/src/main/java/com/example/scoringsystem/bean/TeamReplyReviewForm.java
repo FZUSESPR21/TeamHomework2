@@ -19,4 +19,6 @@ public class TeamReplyReviewForm {
     String thatTeamId;
     //0未评分 1 已评分
     Integer finnishCount;
+    //用于区分班级
+    String classId;
 }

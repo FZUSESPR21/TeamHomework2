@@ -158,6 +158,7 @@ public class ShiroConfig {
 //        map.put("/*.html","anon");
         map.put("*.js","anon");
         map.put("/bootstrap-4.6.0-dist/**", "anon");
+        map.put("/tableExport.jquery.plugin-master/**","anon");
 //        map.put("/bootstrap-table/**", "anon");
         //flag
         map.put("/bootstrap-table/dist/*","anon");

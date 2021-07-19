@@ -153,11 +153,17 @@ public interface ScoreMapper {
     @Update("UPDATE user SET total_score=#{totalScore} WHERE account=#{account}")
     Integer updUserTotalScore(User user);
 
-    @Select("SELECT d.sys_id id,d.details_name detailsName,task_name taskName,d.task_id taskId\n" +
+    @Select("SELECT d.sys_id id,d.details_name detailsName,task_name taskName,d.task_id taskId,d.create_time createTime\n" +
             "            FROM details d\n" +
             "            LEFT JOIN task t ON d.task_id=t.sys_id\n" +
             "            WHERE details_name LIKE '答辩%' AND task_name IS NOT NULL\n")
     List<DetailsData> selDetailsDataWithReplyReview();
+
+    @Select("SELECT d.sys_id id,d.details_name detailsName,task_name taskName,d.task_id taskId,d.create_time createTime\n" +
+            "            FROM details d\n" +
+            "            LEFT JOIN task t ON d.task_id=t.sys_id\n" +
+            "            WHERE details_name LIKE '答辩%' AND task_name IS NOT NULL AND class_id=#{classId}\n")
+    List<DetailsData> selDetailsDataWithReplyReviewByClassId(String classId);
 
     @Select("SELECT sys_id id,details_name detailsName,score_ratio totalScoreRatio,create_user_id createUserId,create_time createTime,task_id taskId FROM details WHERE task_id=#{id}")
     List<DetailsData> selDetailsDataByTaskId(Task task);
@@ -219,4 +225,7 @@ public interface ScoreMapper {
 
     @Select("SELECT sys_id teamId,sys_team_name teamName FROM team WHERE sys_id!=#{teamId}")
     List<TeamReplyReviewFormSimple> getTeamReplyReviewFormSimple(String teamId);
+
+    @Select("SELECT sys_id teamId,sys_team_name teamName FROM team WHERE sys_id!=#{teamId} and class_id=#{classId}")
+    List<TeamReplyReviewFormSimple> getTeamReplyReviewFormSimpleWithClassId(String teamId,String classId);
 }

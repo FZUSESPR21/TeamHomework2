@@ -348,6 +348,7 @@ public class ScoreController {
     public ResponseData showTeamBlogWorkListForAndroid(User user) {
         log.info("查询的用户:" + user);
         List<BlogWork> blogWorkList = scoreService.getTeamBlogWorkListByUserId(user);
+        log.info("查询到的信息"+blogWorkList);
         List<BlogWorkForAndroid> blogWorkForAndroidList = adaptBlogWork(blogWorkList);
         if (blogWorkList != null && blogWorkList.size() > 0) {
             return new ResponseData("查询成功", "200", blogWorkForAndroidList);

@@ -46,11 +46,13 @@ class ScoringSystemApplicationTests {
     {
         int i=3;
         System.out.println(1.0/i);
-//        User user=new User();
+        User user=new User();
 //        user.setAccount("A000002");
 //        user.setPassword("123456xm");
 //        user.setUserName("GreyZeng");
 //        assistantService.addAssistant(user);
+        user.setId("281");
+        System.out.println(scoreMapper.selTeamBlogWorkListByUserId(user));
     }
 
     void contextLoads() {

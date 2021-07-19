@@ -23,9 +23,6 @@
             <a onclick="manageClicked()">内容管理<span class="layui-nav-item"></span></a>
         </li>
         <li class="layui-nav-item">
-            <a onclick="userClicked()">用户管理<span class="layui-nav-item"></span></a>
-        </li>
-        <li class="layui-nav-item">
             <a onclick="analysisClicked()">统计分析<span class="layui-nav-item"></span></a>
         </li>
         <li class="layui-nav-item" id="my-message">
@@ -36,52 +33,47 @@
             </dl>
         </li>
     </ul>
+
     <div class="sidebar">
-        <ul class="layui-nav layui-nav-tree" lay-filter="test" lay-shrink="all" id="content-manage" style="height: 120vh">
+        <ul class="layui-nav layui-nav-tree" lay-filter="test" lay-shrink="all" id="content-manage" style="height: 100vh">
             <!-- 侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> -->
-            <li class="layui-nav-item">
-                <a href="javascript:;">评分细则管理</a>
-                <dl class="layui-nav-child">
-                    <dd><a href="detailList.html">所有细则</a></dd>
-                    <dd><a href="newdetails.html">增加细则</a></dd>
-                </dl>
-            </li>
+
             <li class="layui-nav-item layui-nav-itemed">
                 <a href="javascript:;">成绩管理</a>
                 <dl class="layui-nav-child">
                     <dd><a href="scoreinquiry.html">成绩查询</a></dd>
-                    <!--                    <dd><a href="assignmentScore.html">博客评分</a></dd>-->
-                    <dd><a href="blogList.html">博客列表</a></dd>
+                    <!--                    <dd><a href="">答辩评分</a></dd>-->
+                    <dd><a href="assignmentSubmit.html">作业提交</a></dd>
                 </dl>
             </li>
         </ul>
 
-        <ul class="layui-nav layui-nav-tree" lay-filter="test" lay-shrink="all" id="user-manage" style="height: 120vh">
+        <ul class="layui-nav layui-nav-tree" lay-filter="test" lay-shrink="all" id="user-manage" style="height: 100vh">
             <!-- 侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> -->
             <li class="layui-nav-item">
                 <a href="javascript:;">团队管理</a>
                 <dl class="layui-nav-child">
-                    <dd><a href="teamList.html">所有团队</a></dd>
-                    <dd><a href="newTeam.html">增加团队</a></dd>
+                    <dd><a href="">所有团队</a></dd>
+                    <dd><a href="javascript:;">增加团队</a></dd>
                 </dl>
             </li>
             <li class="layui-nav-item">
                 <a href="javascript:;">结对管理</a>
                 <dl class="layui-nav-child">
-                    <dd><a href="pairList.html">结对信息</a></dd>
-                    <dd><a href="newPair.html">增加结对</a></dd>
+                    <dd><a href="javascript:;">结对信息</a></dd>
+                    <dd><a href="">增加结对</a></dd>
                 </dl>
             </li>
             <li class="layui-nav-item layui-nav-itemed">
                 <a href="javascript:;">学生管理</a>
                 <dl class="layui-nav-child">
-                    <dd><a href="studentList.html">学生列表</a></dd>
-                    <dd><a href="newstudents.html">增加学生</a></dd>
+                    <dd><a href="javascript:;">学生列表</a></dd>
+                    <dd><a href="">增加学生</a></dd>
                 </dl>
             </li>
         </ul>
 
-        <ul class="layui-nav layui-nav-tree" lay-filter="test" lay-shrink="all" id="statistical-analysis" style="height: 120vh">
+        <ul class="layui-nav layui-nav-tree" lay-filter="test" lay-shrink="all" id="statistical-analysis" style="height: 100vh">
             <!-- 侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> -->
             <li class="layui-nav-item  layui-nav-itemed">
                 <a href="javascript:;">统计分析</a>
