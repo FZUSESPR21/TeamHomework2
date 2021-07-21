@@ -10,7 +10,7 @@
 
 # 项目运行
 
-1. clone项目至本地，使用idea打开v2.0\scoring_system项目。
+1. clone项目至本地，导入v2.0\数据库下scoring_syttem.sql 数据库至本地或服务器， 使用idea打开v2.0\scoring_system项目。
 2. jdk配置为15
    1. ![image-20210721180402202](C:\Users\cxm\AppData\Roaming\Typora\typora-user-images\image-20210721180402202.png)
    2. ![image-20210721180341880](C:\Users\cxm\AppData\Roaming\Typora\typora-user-images\image-20210721180341880.png)
