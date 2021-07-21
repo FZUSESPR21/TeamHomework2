@@ -1,8 +1,9 @@
 spring:
+#  数据库配置
   datasource:
-    url: jdbc:mysql://1.15.129.32:3306/test1?serverTimezone=Asia/Shanghai&useUnicode=true&zeroDateTimeBehavior=convertToNull&autoReconnect=true&characterEncoding=utf-8
-    username: test1
-    password: 1750340569!Xm
+#    url: jdbc:mysql://1.15.129.32:3306/test1?serverTimezone=Asia/Shanghai&useUnicode=true&zeroDateTimeBehavior=convertToNull&autoReconnect=true&characterEncoding=utf-8
+#    username: test1
+#    password: 1750340569!Xm
     driver-class-name: com.mysql.cj.jdbc.Driver
   thymeleaf:
     check-template-location: true
